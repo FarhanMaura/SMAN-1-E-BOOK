@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bab 3: Literasi dan Etika Kecerdasan Artifisial - E-Modul</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://unpkg.com/alpinejs@3/dist/cdn.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body { background-color: #0a0a0f; font-family: 'Plus Jakarta Sans', sans-serif; color: #e2e8f0; overflow: hidden; margin: 0; padding: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh;}
+    h1, h2, h3, .font-sora { font-family: 'Sora', sans-serif; }
+    
+    .flipbook { width: 900px; height: 600px; box-shadow: 0 0 50px rgba(244, 63, 94, 0.15); display: none; }
+    .flipbook.initialized { display: block; animation: bookFadeIn 1s ease-out forwards; }
+    
+    .page { background-color: #12121a; border: 1px solid rgba(244, 63, 94, 0.2); overflow: hidden; position: relative; }
+    .page-wrapper { width: 100%; height: 100%; padding: 2rem; display: flex; flex-direction: column; }
+    .page-content { flex-grow: 1; overflow-y: auto; padding-right: 5px; }
+    .page-content::-webkit-scrollbar { width: 3px; }
+    .page-content::-webkit-scrollbar-thumb { background: rgba(244, 63, 94, 0.5); border-radius: 4px; }
+    .page-footer { height: 25px; display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: #64748b; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; margin-top: 10px;}
+    .page.--hard { background: linear-gradient(135deg, #2a0a18, #12121a); border: 2px solid #fb7185; }
+    
+    .mascot { position: absolute; bottom: 45px; right: 25px; width: 60px; height: 60px; opacity: 0.95; z-index: 5; pointer-events: none; filter: drop-shadow(0 5px 15px rgba(244,63,94,0.3)); border-radius: 50%; border: 2px solid #fb7185; background-color: #ffe4e6; object-cover: contain; }
+    
+    .shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+    @keyframes shake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
+    @keyframes bookFadeIn { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+    
+    .bg-pattern { background-image: radial-gradient(rgba(244, 63, 94, 0.08) 1px, transparent 1px); background-size: 24px 24px; }
+    
+    .animate-content > * { opacity: 0; animation: fadeInUp 0.5s ease-out forwards; }
+    .animate-content > *:nth-child(1) { animation-delay: 0.1s; }
+    .animate-content > *:nth-child(2) { animation-delay: 0.2s; }
+    .animate-content > *:nth-child(3) { animation-delay: 0.3s; }
+    .animate-content > *:nth-child(4) { animation-delay: 0.4s; }
+    .animate-content > *:nth-child(5) { animation-delay: 0.5s; }
+    
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .code-block { background: #0f172a; padding: 10px; border-radius: 6px; font-family: monospace; font-size: 10px; color: #38bdf8; border: 1px solid #1e293b; }
+    
+    /* Option styling */
+    .quiz-opt { padding: 8px 12px; margin-bottom: 8px; border-radius: 8px; border: 1px solid #334155; cursor: pointer; transition: all 0.2s; font-size: 11px; background: #1e293b; color: #cbd5e1; display: flex; align-items: center; gap: 10px; }
+    .quiz-opt:hover { background: #334155; border-color: #475569; }
+    .quiz-opt.selected { background: rgba(244,63,94,0.1); border-color: #fb7185; color: #fff; }
+    .quiz-opt.correct { background: rgba(16,185,129,0.2); border-color: #10b981; color: #fff; }
+    .quiz-opt.wrong { background: rgba(239,68,68,0.2); border-color: #ef4444; color: #fff; }
+  </style>
+</head>
+<body x-data="quizApp()" class="bg-pattern relative">
+
+  <!-- Modal Detail Soal -->
+  <div x-show="showDetailModal" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md">
+     <div @click.away="showDetailModal = false" class="bg-[#1a1a2e] border border-rose-500/50 rounded-2xl w-[90%] max-w-[500px] max-h-[80vh] flex flex-col shadow-2xl">
+        <div class="p-4 border-b border-gray-700 flex justify-between items-center bg-rose-900/20 rounded-t-2xl">
+           <h3 class="font-bold text-rose-400">Detail Soal</h3>
+           <button @click="showDetailModal = false" class="text-gray-400 hover:text-white font-bold text-xl">&times;</button>
+        </div>
+        <div class="p-6 overflow-y-auto">
+           <template x-if="activeDetail">
+              <div>
+                 <p class="text-sm text-white mb-6 leading-relaxed" x-html="activeDetail.q"></p>
+                 <div class="space-y-3">
+                    <template x-for="(opt, idx) in activeDetail.opts">
+                       <button @click="jawabDariDetail(idx)" 
+                               :class="activeDetail.dijawab ? (idx === activeDetail.ans ? 'bg-rose-600 border-rose-400 text-white' : (idx === activeDetail.userAns ? 'bg-red-600 border-red-400 text-white' : 'opacity-50 border-gray-700')) : 'bg-gray-800 hover:bg-gray-700 border-gray-600'"
+                               class="w-full text-left p-4 rounded-xl border transition flex gap-3 items-start"
+                               :disabled="activeDetail.dijawab">
+                          <span class="font-bold text-rose-400 mt-0.5" x-text="['A','B','C','D','E'][idx] + '.'"></span>
+                          <span class="text-sm text-gray-200" x-text="opt"></span>
+                       </button>
+                    </template>
+                 </div>
+              </div>
+           </template>
+        </div>
+     </div>
+  </div>
+
+  <!-- Global Feedback Modal -->
+  <div x-show="showFeedback" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm pointer-events-none">
+     <div x-show="showFeedback" 
+          x-transition:enter="transition ease-out duration-300"
+          x-transition:enter-start="scale-50 opacity-0"
+          x-transition:enter-end="scale-100 opacity-100"
+          x-transition:leave="transition ease-in duration-200"
+          x-transition:leave-start="scale-100 opacity-100"
+          x-transition:leave-end="scale-50 opacity-0"
+          class="bg-[#1a1a2e] border-2 rounded-3xl p-8 text-center shadow-[0_0_60px_rgba(0,0,0,0.6)]"
+          :class="isFeedbackCorrect ? 'border-rose-400 shadow-rose-500/20' : 'border-red-400 shadow-red-500/20'">
+        
+        <template x-if="isFeedbackCorrect">
+           <div class="w-40 h-40 mx-auto mb-6 rounded-full border-4 border-rose-400 bg-cover bg-no-repeat" style="background-image: url('/assets/bab3_scene.png'); background-size: cover; background-position: center;"></div>
+        </template>
+        <template x-if="!isFeedbackCorrect">
+           <div class="w-40 h-40 mx-auto mb-6 rounded-full border-4 border-red-400 bg-cover bg-no-repeat grayscale opacity-80" style="background-image: url('/assets/bab3_scene.png'); background-size: cover; background-position: center;"></div>
+        </template>
+        
+        <h3 class="text-3xl font-sora font-black mb-2" :class="isFeedbackCorrect ? 'text-rose-400' : 'text-red-400'" x-text="isFeedbackCorrect ? 'BENAR SEKALI! 🎉' : 'YAH, SALAH! 😢'"></h3>
+        <p class="text-gray-300 text-lg" x-text="isFeedbackCorrect ? '+10 Poin ditambahkan!' : 'Ayo baca lagi materinya dengan teliti!'"></p>
+     </div>
+  </div>
+
+  <!-- Header/Controls -->
+  <div class="w-full max-w-[900px] flex justify-between items-center mb-6 px-4 z-10">
+     <a href="/" class="text-rose-400 hover:text-rose-300 transition font-semibold flex items-center gap-2 bg-rose-900/20 px-4 py-2 rounded-full border border-rose-500/30">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+       Kembali ke Beranda
+     </a>
+     <div class="flex gap-3">
+       <button id="btn-prev" class="px-6 py-2 rounded-full bg-[#12121a] border border-gray-600 hover:border-rose-400 hover:text-rose-400 text-white text-sm font-bold transition shadow-lg">← Prev</button>
+       <button id="btn-next" class="px-6 py-2 rounded-full bg-[#12121a] border border-gray-600 hover:border-purple-400 hover:text-purple-400 text-white text-sm font-bold transition shadow-lg">Next →</button>
+     </div>
+  </div>
+  
+  <!-- Container Flipbook -->
+  <div id="flipbook" class="flipbook">
+    
+    <!-- HALAMAN 1: Cover (Hard) -->
+    <div class="page --hard">
+      <div class="page-wrapper items-center justify-center text-center">
+        <div class="text-[10px] font-bold text-rose-400 mb-6 bg-rose-400/10 px-4 py-1.5 rounded-full border border-rose-400/20 tracking-widest">SMAN 1 PALEMBANG KELAS X</div>
+        <h1 class="text-6xl font-sora font-black text-transparent bg-clip-text bg-gradient-to-br from-rose-400 to-orange-400 mb-4 drop-shadow-lg">Bab 3</h1>
+        <h2 class="text-2xl font-sora font-bold text-gray-200 mb-8">Literasi & Etika Kecerdasan Artifisial</h2>
+        
+        <!-- Ilustrasi Cover -->
+        <div class="w-64 h-64 mx-auto drop-shadow-[0_10px_30px_rgba(255,255,255,0.1)] rounded-full border-4 border-[#12121a] bg-cover bg-center" style="background-image: url('/assets/bab3_scene.png'); background-size: cover; background-position: center;"></div>
+        
+        <p class="mt-8 text-xs font-semibold text-gray-500 animate-pulse">Geser / Klik Next untuk membuka</p>
+      </div>
+    </div>
+    
+    <!-- HALAMAN 2: Apersepsi & Tujuan -->
+    <div class="page">
+      <div class="page-wrapper">
+        <div class="page-content animate-content">
+          <h2 class="text-xl font-sora font-bold text-rose-400 mb-4 border-b border-gray-700 pb-2">Apersepsi</h2>
+          <p class="mb-4 text-xs text-gray-300 text-justify leading-relaxed">Pernahkah kamu menyadari bagaimana filter wajah di media sosial bisa mendeteksi letak mata dan hidungmu secara presisi? Atau bagaimana asisten virtual bisa memahami ucapanmu? Semua itu adalah hasil dari teknologi **Pengenalan Pola (Pattern Recognition)**.</p>
+          <p class="mb-4 text-xs text-gray-300 text-justify leading-relaxed">Kecerdasan Artifisial membawa dampak luar biasa bagi peradaban. Namun, seperti pisau bermata dua, AI yang tidak diatur dapat melanggar privasi, menciptakan bias diskriminatif, dan mengancam lapangan kerja. Di bab ini, kita akan mempelajari cara kerja AI secara visual, dampaknya, serta etika di baliknya.</p>
+          
+          <div class="bg-rose-900/20 border-l-4 border-rose-500 p-3 rounded-r mb-4">
+            <h3 class="font-bold text-rose-300 text-sm mb-1">Tujuan Pembelajaran</h3>
+            <ul class="text-[11px] text-gray-400 list-disc pl-4 space-y-1">
+               <li>Memahami cara AI mengenali citra dan suara.</li>
+               <li>Mengenal jenis profesi dan keterampilan di bidang AI.</li>
+               <li>Menganalisis dampak pemanfaatan AI dalam kehidupan.</li>
+               <li>Menerapkan prinsip etika dan regulasi AI yang berlaku.</li>
+            </ul>
+          </div>
+          
+          <div class="bg-gray-800/50 p-3 rounded border border-gray-700">
+             <h3 class="font-bold text-gray-200 text-[11px] mb-2">Kata Kunci:</h3>
+             <div class="flex flex-wrap gap-2">
+                <span class="text-[9px] bg-orange-900/50 text-orange-300 px-2 py-1 rounded">Computer Vision</span>
+                <span class="text-[9px] bg-orange-900/50 text-orange-300 px-2 py-1 rounded">Etika AI</span>
+                <span class="text-[9px] bg-orange-900/50 text-orange-300 px-2 py-1 rounded">Deepfake</span>
+                <span class="text-[9px] bg-orange-900/50 text-orange-300 px-2 py-1 rounded">Profesi IT</span>
+             </div>
+          </div>
+        </div>
+        <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>2</span></div>
+      </div>
+    </div>
+
+    <!-- HALAMAN 3: Pengenalan Pola Citra & Suara 1 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h2 class="text-lg font-sora font-bold text-rose-400 mb-4">A. Pengenalan Pola Citra & Suara</h2>
+             <p class="text-xs mb-3 text-justify text-gray-300">Bagaimana komputer yang hanya memahami angka (0 dan 1) dapat mengenali wajah manusia atau suara kucing? Jawabannya ada pada **Pengenalan Pola (Pattern Recognition)**.</p>
+             <p class="text-[11px] mb-3 text-justify text-gray-400">Pengenalan pola adalah cabang dari Machine Learning yang fokus pada ekstraksi fitur dan klasifikasi data untuk menemukan keteraturan. Otak manusia sangat mahir mengenali pola (misalnya mengenali wajah teman di keramaian), dan kita mencoba mengajarkan kemampuan tersebut kepada mesin.</p>
+             
+             <div class="mt-4 bg-[#1a1a2e] border-t-2 border-orange-500 p-3 rounded shadow-lg">
+                <h3 class="text-sm font-bold text-orange-400 mb-2">Tiga Tahap Utama:</h3>
+                <ol class="text-[10px] text-gray-300 list-decimal pl-4 space-y-2">
+                   <li><strong>Pre-processing:</strong> Membersihkan data (menghilangkan noise/blur pada gambar atau dengung pada audio).</li>
+                   <li><strong>Feature Extraction:</strong> Mengambil ciri khas terpenting. Pada wajah, cirinya adalah jarak antar mata atau bentuk rahang.</li>
+                   <li><strong>Classification:</strong> Mencocokkan ciri tersebut dengan database menggunakan algoritma ML untuk memberikan label hasil.</li>
+                </ol>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>3</span></div>
+          <div class="mascot bg-cover" style="background-image: url('/assets/bab3_scene.png'); background-size: cover; background-position: center;"></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 4: Pengenalan Citra (Computer Vision) -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-sm font-bold text-rose-400 mb-2">1. Pengenalan Citra (Computer Vision)</h3>
+             <p class="text-[11px] mb-3 text-gray-300 text-justify">Bagi komputer, gambar hanyalah sekumpulan matriks angka yang merepresentasikan warna setiap piksel. Agar AI dapat "melihat", teknologi Computer Vision menggunakan algoritma <strong>Convolutional Neural Network (CNN)</strong>.</p>
+             
+             <div class="bg-gray-800 p-3 rounded-xl border border-gray-700 text-center mb-4">
+                <p class="text-[10px] font-bold text-white mb-2">Cara AI Melihat Gambar 8x8 Piksel</p>
+                <div class="grid grid-cols-8 gap-0.5 w-32 h-32 mx-auto bg-gray-600 border border-gray-500 p-0.5">
+                   <!-- Simulating a digit '1' in a pixel grid -->
+                   <div class="bg-black"></div><div class="bg-black"></div><div class="bg-black"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-black"></div><div class="bg-black"></div><div class="bg-black"></div>
+                   <div class="bg-black"></div><div class="bg-black"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-black"></div><div class="bg-black"></div><div class="bg-black"></div>
+                   <div class="bg-black"></div><div class="bg-black"></div><div class="bg-black"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-black"></div><div class="bg-black"></div><div class="bg-black"></div>
+                   <div class="bg-black"></div><div class="bg-black"></div><div class="bg-black"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-black"></div><div class="bg-black"></div><div class="bg-black"></div>
+                   <div class="bg-black"></div><div class="bg-black"></div><div class="bg-black"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-black"></div><div class="bg-black"></div><div class="bg-black"></div>
+                   <div class="bg-black"></div><div class="bg-black"></div><div class="bg-black"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-black"></div><div class="bg-black"></div><div class="bg-black"></div>
+                   <div class="bg-black"></div><div class="bg-black"></div><div class="bg-black"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-black"></div><div class="bg-black"></div><div class="bg-black"></div>
+                   <div class="bg-white"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-white"></div>
+                </div>
+                <p class="text-[8px] text-gray-400 mt-2">Komputer membaca Hitam = 0, Putih = 255. Pola angka 255 yang tegak lurus dikenali sebagai angka "1".</p>
+             </div>
+             
+             <p class="text-[10px] text-gray-400">Algoritma CNN menggunakan "filter" untuk mendeteksi garis lurus, lengkungan, hingga akhirnya merangkai fitur tersebut menjadi wajah atau objek utuh.</p>
+          </div>
+          <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>4</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 5: Pengenalan Suara -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-sm font-bold text-orange-400 mb-2">2. Pengenalan Suara (Speech Recognition)</h3>
+             <p class="text-[11px] mb-3 text-gray-300 text-justify">Suara adalah gelombang analog. Untuk diproses oleh AI, gelombang ini harus diubah menjadi data digital menggunakan proses <strong>Sampling</strong> dan <strong>Spektrogram</strong> (representasi visual dari frekuensi suara seiring waktu).</p>
+             
+             <div class="bg-[#1a1a2e] border border-gray-700 rounded-lg p-3 mb-4">
+                <p class="text-[10px] font-bold text-white mb-2">Proses Speech to Text:</p>
+                <div class="flex items-center justify-between text-[9px] text-gray-400 text-center">
+                   <div class="w-16">🎤<br>Audio Input</div>
+                   <div>➔</div>
+                   <div class="w-16 bg-gray-800 p-1 rounded">Ekstraksi Fitur (MFCC)</div>
+                   <div>➔</div>
+                   <div class="w-16 bg-orange-900/50 p-1 rounded text-orange-200">Acoustic Model (AI)</div>
+                   <div>➔</div>
+                   <div class="w-16">📝<br>Teks</div>
+                </div>
+             </div>
+             
+             <p class="text-[10px] text-gray-300 text-justify mb-2">Selain mengenali kata (Speech-to-Text), AI bidang suara juga menangani <strong>NLP (Natural Language Processing)</strong> agar mesin memahami <em>makna</em> kalimat, seperti pada Siri atau Google Assistant.</p>
+          </div>
+          <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>5</span></div>
+          <div class="mascot bg-cover" style="background-image: url('/assets/bab3_scene.png'); background-size: 250%; background-position: center top;"></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 6: Contoh Penerapan -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-sm font-bold text-rose-400 mb-3">Contoh Penerapan di Kehidupan Sehari-hari</h3>
+             
+             <ul class="space-y-3">
+                <li class="bg-gray-800 p-3 rounded-lg border-l-4 border-rose-500">
+                   <h4 class="text-[11px] font-bold text-white">1. Face Unlock pada Smartphone</h4>
+                   <p class="text-[10px] text-gray-400">Sensor memetakan struktur 3D wajah (jarak mata, bentuk hidung). AI memastikan pengguna adalah pemilik asli, bukan foto 2D.</p>
+                </li>
+                <li class="bg-gray-800 p-3 rounded-lg border-l-4 border-orange-500">
+                   <h4 class="text-[11px] font-bold text-white">2. Kamera Tilang Elektronik (ETLE)</h4>
+                   <p class="text-[10px] text-gray-400">Computer vision di lampu merah mengenali pelat nomor kendaraan secara otomatis menggunakan teknologi OCR (Optical Character Recognition) dan mendeteksi apakah pengemudi tidak memakai sabuk pengaman.</p>
+                </li>
+                <li class="bg-gray-800 p-3 rounded-lg border-l-4 border-purple-500">
+                   <h4 class="text-[11px] font-bold text-white">3. Google Translate Speech</h4>
+                   <p class="text-[10px] text-gray-400">Mengenali suara ucapan manusia, mengubahnya menjadi teks, menganalisis struktur bahasa asal, dan merangkainya ulang ke dalam bahasa tujuan secara real-time.</p>
+                </li>
+             </ul>
+          </div>
+          <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>6</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 7: Profesi di Bidang KA 1 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h2 class="text-lg font-sora font-bold text-orange-400 mb-4">B. Profesi di Bidang KA</h2>
+             <p class="text-[11px] mb-4 text-gray-300 text-justify">Munculnya AI tidak sekadar menghilangkan pekerjaan, namun <strong>menciptakan lapangan kerja baru</strong> yang tidak pernah ada 10 tahun lalu. Industri teknologi membutuhkan ribuan ahli untuk membangun dan merawat sistem AI.</p>
+             
+             <div class="bg-[#1a1a2e] p-3 rounded-xl border border-gray-700 mb-4">
+                <h3 class="text-xs font-bold text-rose-400 mb-1">1. Data Scientist</h3>
+                <p class="text-[10px] text-gray-400 text-justify">Sang "Ilmuwan Data". Tugas utamanya adalah menganalisis kumpulan data mentah yang sangat besar (Big Data) untuk mencari pola tersembunyi guna memecahkan masalah bisnis. Mereka menggunakan matematika, statistik, dan pemrograman.</p>
+             </div>
+             
+             <div class="bg-[#1a1a2e] p-3 rounded-xl border border-gray-700">
+                <h3 class="text-xs font-bold text-orange-400 mb-1">2. Data Engineer</h3>
+                <p class="text-[10px] text-gray-400 text-justify">Insinyur yang bertugas membangun infrastruktur "pipa data". Tanpa data yang bersih dan mengalir teratur dari database, Data Scientist tidak bisa bekerja. Data Engineer merancang arsitektur database berskala besar.</p>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>7</span></div>
+          <div class="mascot bg-cover" style="background-image: url('/assets/bab3_scene.png'); background-size: 250%; background-position: center top;"></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 8: Profesi di Bidang KA 2 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-xs font-bold text-purple-400 mb-1">3. Machine Learning Engineer</h3>
+             <p class="text-[10px] text-gray-300 text-justify mb-4">Bertugas mengambil model algoritma yang dibuat oleh Data Scientist, lalu menulis kode program yang kuat dan efisien agar model tersebut bisa dijalankan di aplikasi secara nyata (Production) melayani jutaan pengguna.</p>
+             
+             <h3 class="text-xs font-bold text-teal-400 mb-1">4. AI Researcher</h3>
+             <p class="text-[10px] text-gray-300 text-justify mb-4">Ilmuwan murni yang bekerja di lab penelitian (seperti Google Brain atau OpenAI). Fokus mereka adalah menemukan algoritma baru yang lebih cerdas, bukan langsung membuat aplikasi komersial.</p>
+             
+             <div class="bg-purple-900/20 border-l-4 border-purple-500 p-3 rounded shadow">
+                <h3 class="text-[11px] font-bold text-purple-300 mb-1">Apakah Profesi ini Menjanjikan?</h3>
+                <p class="text-[10px] text-gray-400 text-justify">Sangat! Di era revolusi industri 4.0 dan Society 5.0, data disebut sebagai "The New Oil". Kebutuhan akan talenta AI di Indonesia maupun dunia sangat tinggi dan bergaji besar.</p>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>8</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 9: Profesi di Bidang KA 3 (Profesi Baru) -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h2 class="text-lg font-sora font-bold text-rose-400 mb-4">Profesi Baru Era Generative AI</h2>
+             <p class="text-[11px] mb-3 text-gray-300">Sejak kemunculan ChatGPT dan AI Generatif lainnya, lahir profesi-profesi yang sebelumnya tidak pernah terpikirkan:</p>
+             
+             <div class="grid gap-3">
+                <div class="bg-gray-800 p-3 rounded-lg border border-gray-600">
+                   <h4 class="text-[11px] font-bold text-white mb-1">5. Prompt Engineer</h4>
+                   <p class="text-[10px] text-gray-400">Ahli dalam menulis "kalimat perintah" (prompt) yang spesifik dan optimal kepada AI untuk mendapatkan output (teks, gambar, atau kode) yang paling akurat dan bernilai tinggi. Mereka adalah "pembisik AI".</p>
+                </div>
+                
+                <div class="bg-gray-800 p-3 rounded-lg border border-gray-600">
+                   <h4 class="text-[11px] font-bold text-white mb-1">6. AI Ethicist (Pakar Etika AI)</h4>
+                   <p class="text-[10px] text-gray-400">Pakar hukum dan filsafat yang mengaudit sistem AI perusahaan agar tidak melanggar hak asasi, tidak rasis/bias, dan mematuhi regulasi privasi global. Pekerjaan ini tidak membutuhkan keahlian coding tingkat tinggi.</p>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>9</span></div>
+          <div class="mascot bg-cover" style="background-image: url('/assets/bab3_scene.png'); background-size: 250%; background-position: center top;"></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 10: Keterampilan Karier 1 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h2 class="text-lg font-sora font-bold text-orange-400 mb-4">C. Keterampilan & Perspektif Karier</h2>
+             <p class="text-[11px] mb-4 text-gray-300 text-justify">Tertarik bekerja di bidang AI? Kamu harus mempersiapkan dua jenis keterampilan: <strong>Hard Skills</strong> (kemampuan teknis) dan <strong>Soft Skills</strong> (kemampuan non-teknis).</p>
+             
+             <div class="bg-[#1a1a2e] border-t-2 border-rose-500 p-3 rounded mb-4">
+                <h3 class="text-sm font-bold text-rose-400 mb-2">Hard Skills (Teknis)</h3>
+                <ul class="text-[10px] text-gray-400 list-disc pl-4 space-y-2">
+                   <li><strong>Matematika & Statistika:</strong> Pemahaman probabilitas, kalkulus, dan aljabar linear adalah bahasa dasar algoritma ML.</li>
+                   <li><strong>Pemrograman (Coding):</strong> Wajib menguasai bahasa Python. Bahasa lain seperti R, C++, atau Java juga sangat berguna.</li>
+                   <li><strong>Database & SQL:</strong> Mampu mengekstraksi dan mengolah Big Data menggunakan SQL dan alat analitik modern.</li>
+                </ul>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>10</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 11: Keterampilan Karier 2 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-sm font-bold text-teal-400 mb-2">Soft Skills (Non-Teknis)</h3>
+             <p class="text-[11px] mb-3 text-gray-300 text-justify">Di era di mana AI bisa menulis kode sendiri, Soft Skills menjadi pembeda utama yang tidak bisa digantikan oleh mesin.</p>
+             
+             <div class="grid gap-2">
+                <div class="bg-gray-800 p-2 rounded border border-gray-700">
+                   <strong class="text-[11px] text-white">1. Critical Thinking (Berpikir Kritis)</strong>
+                   <p class="text-[9px] text-gray-400 mt-1">Kemampuan menganalisis apakah hasil prediksi AI masuk akal dan membedakan informasi valid dengan halusinasi AI.</p>
+                </div>
+                <div class="bg-gray-800 p-2 rounded border border-gray-700">
+                   <strong class="text-[11px] text-white">2. Problem Solving (Pemecahan Masalah)</strong>
+                   <p class="text-[9px] text-gray-400 mt-1">AI hanyalah alat. Manusialah yang harus merumuskan akar masalah bisnis dan menerjemahkannya ke dalam bentuk matematis agar AI bisa mencari solusinya.</p>
+                </div>
+                <div class="bg-gray-800 p-2 rounded border border-gray-700">
+                   <strong class="text-[11px] text-white">3. Komunikasi Visual</strong>
+                   <p class="text-[9px] text-gray-400 mt-1">Mampu menceritakan temuan data rumit menjadi visualisasi atau grafik (Data Storytelling) agar dimengerti oleh bos dan klien awam.</p>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>11</span></div>
+          <div class="mascot bg-cover" style="background-image: url('/assets/bab3_scene.png'); background-size: 250%; background-position: center top;"></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 12: Perspektif Karier -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h2 class="text-lg font-sora font-bold text-purple-400 mb-4">Perspektif Karier di Masa Depan</h2>
+             
+             <div class="bg-purple-900/20 p-4 border border-purple-500/50 rounded-xl text-center shadow-lg mb-4">
+                <div class="text-3xl mb-2">🌐</div>
+                <h3 class="font-bold text-purple-300 text-sm mb-2">Society 5.0</h3>
+                <p class="text-[10px] text-gray-300 text-justify">Perspektif karier tidak lagi menempatkan manusia sebagai "operator mesin", melainkan kolaborator. Di era Society 5.0, ruang maya dan ruang fisik terintegrasi. Manusia berfokus pada kreativitas dan empati, sementara AI menangani pekerjaan repetitif dan kalkulasi berat.</p>
+             </div>
+             
+             <p class="text-[10px] text-gray-400 text-justify">Tips memulai: Saat masih di bangku SMA, mulailah dengan memperkuat logika matematika dasar, bermain dengan bahasa Python sederhana, dan ikuti kursus online gratis mengenai literasi data.</p>
+          </div>
+          <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>12</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 13: Dampak Pemanfaatan KA 1 (Positif) -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h2 class="text-lg font-sora font-bold text-rose-400 mb-4">D. Dampak Pemanfaatan KA</h2>
+             <p class="text-[11px] mb-3 text-gray-300 text-justify">Seperti teknologi besar lainnya, Kecerdasan Artifisial membawa disrupsi massif. Disrupsi ini menghasilkan dampak positif yang sangat mempermudah hidup, namun juga dampak negatif yang perlu diwaspadai.</p>
+             
+             <h3 class="text-sm font-bold text-teal-400 mb-2 mt-4">Dampak Positif</h3>
+             <ul class="text-[10px] text-gray-400 space-y-3">
+                <li class="bg-teal-900/20 p-2 rounded border-l-2 border-teal-500">
+                   <strong class="text-white block mb-1">1. Otomatisasi Pekerjaan Berbahaya</strong>
+                   Robot cerdas dapat diutus ke dalam reaktor nuklir, kedalaman laut, atau area bencana untuk menyelamatkan korban tanpa mempertaruhkan nyawa manusia.
+                </li>
+                <li class="bg-teal-900/20 p-2 rounded border-l-2 border-teal-500">
+                   <strong class="text-white block mb-1">2. Revolusi Bidang Kesehatan (Medis)</strong>
+                   Computer Vision mampu mendeteksi pola kanker dari foto X-Ray lebih awal dan lebih akurat daripada mata dokter spesialis, sehingga nyawa pasien lebih cepat diselamatkan.
+                </li>
+             </ul>
+          </div>
+          <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>13</span></div>
+          <div class="mascot bg-cover" style="background-image: url('/assets/bab3_scene.png'); background-size: 250%; background-position: center top;"></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 14: Dampak Pemanfaatan KA 2 (Positif) -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-sm font-bold text-teal-400 mb-2">Dampak Positif Lanjutan</h3>
+             
+             <ul class="text-[10px] text-gray-400 space-y-3">
+                <li class="bg-teal-900/20 p-2 rounded border-l-2 border-teal-500">
+                   <strong class="text-white block mb-1">3. Personalisasi Pendidikan</strong>
+                   Tutor AI dapat menganalisis kelemahan belajar seorang siswa SMA dan menyusun kurikulum/latihan soal khusus yang kecepatannya menyesuaikan daya tangkap siswa tersebut.
+                </li>
+                <li class="bg-teal-900/20 p-2 rounded border-l-2 border-teal-500">
+                   <strong class="text-white block mb-1">4. Efisiensi Industri & Pertanian</strong>
+                   Sistem AI pertanian memantau cuaca dan kondisi tanah secara real-time via satelit, memberi tahu petani kapan waktu yang tepat menabur benih untuk panen maksimal.
+                </li>
+                <li class="bg-teal-900/20 p-2 rounded border-l-2 border-teal-500">
+                   <strong class="text-white block mb-1">5. Aksesibilitas bagi Disabilitas</strong>
+                   Teknologi pembaca layar, pengenal objek untuk tunanetra, dan transkripsi suara real-time untuk tunarungu memberikan kesetaraan hidup bagi penyandang disabilitas.
+                </li>
+             </ul>
+          </div>
+          <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>14</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 15: Dampak Negatif KA 1 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-sm font-bold text-red-400 mb-3 mt-2">Dampak Negatif & Ancaman</h3>
+             <p class="text-[11px] mb-3 text-gray-300 text-justify">Kita tidak boleh menutup mata terhadap risiko fatal jika AI dibiarkan tanpa pengawasan.</p>
+             
+             <div class="bg-red-900/10 p-3 rounded border border-red-500/30 mb-3">
+                <h4 class="text-[11px] font-bold text-rose-300 mb-1">1. Kehilangan Pekerjaan Tradisional</h4>
+                <p class="text-[10px] text-gray-400 text-justify">Otomatisasi akan menggantikan pekerjaan repetitif seperti kasir, pekerja pabrik perakitan, petugas tol, hingga penulis artikel SEO dasar. Hal ini menimbulkan tantangan sosial berupa pengangguran struktural.</p>
+             </div>
+             
+             <div class="bg-red-900/10 p-3 rounded border border-red-500/30">
+                <h4 class="text-[11px] font-bold text-rose-300 mb-1">2. Bias dan Diskriminasi Algoritma</h4>
+                <p class="text-[10px] text-gray-400 text-justify">AI belajar dari data masa lalu buatan manusia. Jika data masa lalu tersebut rasis atau bias gender, AI akan meniru bias tersebut (Contoh: AI perekrut karyawan yang menolak lamaran wanita karena dilatih dengan data karyawan yang didominasi pria).</p>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>15</span></div>
+          <div class="mascot bg-cover" style="background-image: url('/assets/bab3_scene.png'); background-size: 250%; background-position: center top;"></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 16: Dampak Negatif KA 2 (Deepfake & Keamanan) -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <div class="bg-[#1a1a2e] border-l-4 border-red-500 p-3 mb-4 rounded-r shadow-lg">
+                <h4 class="text-[11px] font-bold text-white mb-2">3. Deepfake & Manipulasi Informasi (Hoaks)</h4>
+                <p class="text-[10px] text-gray-400 text-justify mb-2"><strong>Deepfake</strong> adalah teknologi AI yang mampu menukar wajah dan meniru suara seseorang dalam video secara sangat realistis.</p>
+                <p class="text-[10px] text-gray-400 text-justify">Teknologi ini sangat berbahaya jika digunakan untuk membuat video pidato palsu dari tokoh politik yang memicu kerusuhan, atau penipuan pencurian uang (scam) dengan memalsukan suara keluarga yang menangis minta tolong.</p>
+             </div>
+             
+             <div class="bg-red-900/10 p-3 rounded border border-red-500/30">
+                <h4 class="text-[11px] font-bold text-rose-300 mb-1">4. Pelanggaran Privasi & Pengawasan Masal</h4>
+                <p class="text-[10px] text-gray-400 text-justify">Kamera CCTV berbekal pengenalan wajah massal yang dapat melacak pergerakan warga negara 24 jam memicu isu hilangnya privasi. AI sangat bergantung pada data, dan seringkali data pribadi pengguna internet dikumpulkan tanpa izin yang eksplisit.</p>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>16</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 17: Etika dan Regulasi KA 1 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h2 class="text-lg font-sora font-bold text-orange-400 mb-4">E. Regulasi dan Etika KA</h2>
+             <p class="text-[11px] mb-3 text-gray-300 text-justify">Karena besarnya dampak AI, harus ada pagar pembatas moral dan hukum. <strong>Etika AI</strong> adalah panduan moral tentang bagaimana kita merancang dan menggunakan AI secara bertanggung jawab.</p>
+             
+             <h3 class="text-sm font-bold text-white mb-2 mt-4">Mengapa Butuh Etika?</h3>
+             <p class="text-[10px] text-gray-400 text-justify mb-3">Kasus nyata: Sebuah mobil otonom (Self-driving car) melaju kencang dan rem blong. Di depan ada pejalan kaki menyeberang sembarangan, di kiri ada tebing. Apa yang harus dilakukan AI mobil? Menabrak pejalan kaki atau membanting setir yang membunuh penumpangnya sendiri? (Dilema Trolley).</p>
+             <p class="text-[10px] text-gray-400 text-justify">Tanpa panduan etika yang disepakati secara global, pengembang AI bebas menanamkan keputusan subjektif yang berpotensi merugikan nyawa atau hak publik.</p>
+          </div>
+          <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>17</span></div>
+          <div class="mascot bg-cover" style="background-image: url('/assets/bab3_scene.png'); background-size: 250%; background-position: center top;"></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 18: Etika dan Regulasi KA 2 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-sm font-bold text-rose-400 mb-3">Prinsip Utama Etika AI</h3>
+             
+             <ul class="text-[10px] text-gray-300 space-y-3">
+                <li class="bg-gray-800 p-2 rounded">
+                   <strong class="text-orange-300 block mb-1">1. Transparansi (Explainability)</strong>
+                   AI tidak boleh menjadi "Black Box" gaib. Programmer harus bisa menjelaskan BAGAIMANA AI mengambil keputusan tertentu (misalnya, kenapa bank menolak pinjaman nasabah A).
+                </li>
+                <li class="bg-gray-800 p-2 rounded">
+                   <strong class="text-orange-300 block mb-1">2. Keadilan & Anti-Bias (Fairness)</strong>
+                   Sistem AI harus melayani semua ras, gender, dan status sosial dengan standar akurasi yang sama, tanpa diskriminasi.
+                </li>
+                <li class="bg-gray-800 p-2 rounded">
+                   <strong class="text-orange-300 block mb-1">3. Akuntabilitas (Accountability)</strong>
+                   Harus jelas SIAPA yang dihukum jika AI melakukan kejahatan atau kecelakaan fatal. Apakah pembuat AI, pemilik sistem, atau penggunanya?
+                </li>
+                <li class="bg-gray-800 p-2 rounded">
+                   <strong class="text-orange-300 block mb-1">4. Privasi & Keamanan</strong>
+                   AI tidak boleh membocorkan rahasia negara atau data privasi medis pasien.
+                </li>
+             </ul>
+          </div>
+          <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>18</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 19: Etika dan Regulasi KA 3 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-sm font-bold text-teal-400 mb-3">Regulasi Hukum Nasional & Global</h3>
+             <p class="text-[10px] text-gray-300 text-justify mb-3">Prinsip etika harus dilegalkan dalam bentuk hukum yang mengikat.</p>
+             
+             <div class="bg-[#1a1a2e] border-t-2 border-teal-500 p-3 rounded mb-3 shadow">
+                <h4 class="text-[11px] font-bold text-white mb-1">Di Indonesia</h4>
+                <p class="text-[10px] text-gray-400 text-justify">Saat ini diatur secara implisit melalui <strong>UU ITE</strong> (Informasi dan Transaksi Elektronik) terkait distribusi konten hoax/deepfake, serta <strong>UU Pelindungan Data Pribadi (PDP)</strong> untuk membatasi pengambilan data masyarakat untuk dilatih ke AI tanpa izin.</p>
+             </div>
+             
+             <div class="bg-gray-800 p-3 rounded border border-gray-700">
+                <h4 class="text-[11px] font-bold text-white mb-1">Di Dunia Internasional</h4>
+                <p class="text-[10px] text-gray-400 text-justify">Uni Eropa telah mengesahkan <strong>AI Act</strong>, kerangka hukum komprehensif pertama di dunia yang membagi AI berdasarkan tingkat bahayanya (Unacceptable risk dilarang total, High risk diatur sangat ketat).</p>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>19</span></div>
+          <div class="mascot bg-cover" style="background-image: url('/assets/bab3_scene.png'); background-size: 250%; background-position: center top;"></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 20: Rangkuman -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content flex flex-col justify-center">
+             <div class="bg-rose-900/20 border-2 border-rose-500 rounded-2xl p-5 text-center shadow-[0_0_30px_rgba(244,63,94,0.15)] relative overflow-hidden">
+                <div class="absolute -top-4 -right-4 w-20 h-20 bg-rose-500 rounded-full blur-xl opacity-20"></div>
+                
+                <h2 class="text-2xl font-sora font-black text-rose-400 mb-4">RANGKUMAN BAB 3</h2>
+                
+                <ul class="text-[11px] text-gray-300 text-left list-disc pl-5 space-y-2 relative z-10">
+                   <li><strong>Pengenalan Pola</strong> (Computer Vision & Speech Recognition) adalah cara utama mesin meniru indra penglihatan dan pendengaran manusia.</li>
+                   <li>Bidang AI membuka keran <strong>Profesi Baru</strong> (Data Scientist, ML Engineer, Prompt Engineer) dengan bayaran tinggi.</li>
+                   <li>Karier masa depan menuntut keseimbangan <strong>Hard Skills</strong> (koding/matematika) dan <strong>Soft Skills</strong> (berpikir kritis/etika).</li>
+                   <li>AI membawa efisiensi revolusioner, namun mengancam dengan <strong>Deepfake, Bias, dan Hilangnya Privasi</strong>.</li>
+                   <li>Penerapan AI harus mematuhi <strong>Prinsip Etika</strong> (Transparansi, Keadilan, Privasi) yang dibentengi oleh Hukum (UU ITE/PDP/AI Act).</li>
+                </ul>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>20</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 21: Formatif Awal 1/2 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content relative">
+             <div class="flex justify-between items-end mb-4 border-b border-gray-700 pb-2">
+                <h2 class="text-lg font-sora font-bold text-rose-400">Formatif Awal (1/2)</h2>
+                <div class="text-[10px] font-bold px-2 py-1 bg-rose-900/30 rounded border border-rose-500/50">Skor: <span x-text="latihanScore" class="text-rose-400"></span></div>
+             </div>
+             
+             <div class="space-y-3">
+                <template x-for="(soal, index) in latihan.slice(0, 5)">
+                   <div class="bg-gray-800/40 p-2.5 rounded-lg border border-gray-700/50 hover:border-rose-500/30 transition-colors">
+                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-rose-300 transition line-clamp-3" @click.stop="openDetail('latihan', index)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+1) + '. ' + soal.q"></p>
+                      <div class="grid grid-cols-1 gap-1.5">
+                         <template x-for="(opt, oidx) in soal.opts">
+                            <button @click="jawabLatihan(index, oidx)" 
+                                    :class="getBtnClass(index, oidx, 'latihan')"
+                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-rose-400 hover:bg-gray-700 transition whitespace-normal break-words"
+                                    :disabled="soal.dijawab">
+                               <span class="font-bold text-gray-400 mr-1" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
+                               <span x-text="opt"></span>
+                            </button>
+                         </template>
+                      </div>
+                   </div>
+                </template>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>21</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 21.5: Formatif Awal 2/2 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content relative">
+             <div class="flex justify-between items-end mb-4 border-b border-gray-700 pb-2">
+                <h2 class="text-lg font-sora font-bold text-rose-400">Formatif Awal (2/2)</h2>
+                <div class="text-[10px] font-bold px-2 py-1 bg-rose-900/30 rounded border border-rose-500/50">Skor: <span x-text="latihanScore" class="text-rose-400"></span></div>
+             </div>
+             
+             <div class="space-y-3">
+                <template x-for="(soal, index) in latihan.slice(5, 10)">
+                   <div class="bg-gray-800/40 p-2.5 rounded-lg border border-gray-700/50 hover:border-rose-500/30 transition-colors">
+                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-rose-300 transition line-clamp-3" @click.stop="openDetail('latihan', index + 5)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+6) + '. ' + soal.q"></p>
+                      <div class="grid grid-cols-1 gap-1.5">
+                         <template x-for="(opt, oidx) in soal.opts">
+                            <button @click="jawabLatihan(index + 5, oidx)" 
+                                    :class="getBtnClass(index + 5, oidx, 'latihan')"
+                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-rose-400 hover:bg-gray-700 transition whitespace-normal break-words"
+                                    :disabled="soal.dijawab">
+                               <span class="font-bold text-gray-400 mr-1" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
+                               <span x-text="opt"></span>
+                            </button>
+                         </template>
+                      </div>
+                   </div>
+                </template>
+             </div>
+             
+             <div x-show="latihanSelesai" x-transition class="absolute inset-0 bg-[#12121a]/95 backdrop-blur-sm flex flex-col items-center justify-center rounded-lg border-2 border-rose-500 z-20 shadow-2xl">
+                <div class="text-5xl mb-3">💯</div>
+                <h3 class="font-sora font-bold text-xl text-rose-400 mb-1">Formatif Selesai!</h3>
+                <p class="text-xs text-gray-300 mb-4">Nilai Formatif Kamu</p>
+                <div class="text-5xl font-black text-white mb-6" x-text="latihanScore"></div>
+                <p class="text-[10px] text-gray-400 animate-pulse">Geser ke halaman berikutnya</p>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>22</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 22: Ujian Intro -->
+    <div class="page">
+       <div class="page-wrapper items-center justify-center text-center">
+          <div class="page-content animate-content w-full flex flex-col items-center justify-center mt-12">
+             <div class="p-8 bg-gradient-to-b from-purple-900/40 to-transparent border-2 border-purple-500/50 rounded-2xl w-full max-w-[280px] shadow-[0_0_40px_rgba(167,139,250,0.15)] relative overflow-hidden">
+                <div class="absolute -right-6 -top-6 w-20 h-20 bg-teal-500/20 rounded-full blur-xl"></div>
+                <div class="absolute -left-6 -bottom-6 w-20 h-20 bg-purple-500/20 rounded-full blur-xl"></div>
+                
+                <div class="w-16 h-16 mx-auto mb-4 bg-purple-600 rounded-full flex items-center justify-center text-3xl shadow-lg border-4 border-[#12121a] relative z-10">⚖️</div>
+                <h2 class="text-2xl font-sora font-black text-white mb-2 relative z-10">Uji Kompetensi</h2>
+                <div class="h-1 w-12 bg-purple-400 mx-auto mb-4 rounded relative z-10"></div>
+                <p class="text-xs text-gray-300 mb-6 leading-relaxed relative z-10">Saatnya menguji pemahamanmu tentang literasi teknis dan etika AI yang berdampak luas di masyarakat.</p>
+                <p class="text-[9px] text-purple-300 font-bold uppercase tracking-widest animate-pulse relative z-10">Buka halaman untuk mulai</p>
+             </div>
+          </div>
+          <div class="page-footer mt-auto w-full"><span>Bab 3 Literasi & Etika AI</span><span>23</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 23: Ujian 1/2 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content relative">
+             <div class="flex justify-between items-end mb-4 border-b border-gray-700 pb-2">
+                <h2 class="text-lg font-sora font-bold text-purple-400">Ujian Kompetensi (1/2)</h2>
+                <div class="text-[10px] font-bold px-2 py-1 bg-purple-900/30 rounded border border-purple-500/50">Skor: <span x-text="ujianScore" class="text-purple-400"></span></div>
+             </div>
+             
+             <div class="space-y-3">
+                <template x-for="(soal, index) in ujian.slice(0, 5)">
+                   <div class="bg-gray-800/40 p-2.5 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-colors">
+                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-purple-300 transition line-clamp-3" @click.stop="openDetail('ujian', index)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+1) + '. ' + soal.q"></p>
+                      <div class="grid grid-cols-1 gap-1.5">
+                         <template x-for="(opt, oidx) in soal.opts">
+                            <button @click="jawabUjian(index, oidx)" 
+                                    :class="getBtnClass(index, oidx, 'ujian')"
+                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-purple-400 hover:bg-gray-700 transition whitespace-normal break-words"
+                                    :disabled="soal.dijawab">
+                               <span class="font-bold text-gray-400 mr-1" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
+                               <span x-text="opt"></span>
+                            </button>
+                         </template>
+                      </div>
+                   </div>
+                </template>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>24</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 23.5: Ujian 2/2 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content relative">
+             <div class="flex justify-between items-end mb-4 border-b border-gray-700 pb-2">
+                <h2 class="text-lg font-sora font-bold text-purple-400">Ujian Kompetensi (2/2)</h2>
+                <div class="text-[10px] font-bold px-2 py-1 bg-purple-900/30 rounded border border-purple-500/50">Skor: <span x-text="ujianScore" class="text-purple-400"></span></div>
+             </div>
+             
+             <div class="space-y-3">
+                <template x-for="(soal, index) in ujian.slice(5, 10)">
+                   <div class="bg-gray-800/40 p-2.5 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-colors">
+                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-purple-300 transition line-clamp-3" @click.stop="openDetail('ujian', index + 5)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+6) + '. ' + soal.q"></p>
+                      <div class="grid grid-cols-1 gap-1.5">
+                         <template x-for="(opt, oidx) in soal.opts">
+                            <button @click="jawabUjian(index + 5, oidx)" 
+                                    :class="getBtnClass(index + 5, oidx, 'ujian')"
+                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-purple-400 hover:bg-gray-700 transition whitespace-normal break-words"
+                                    :disabled="soal.dijawab">
+                               <span class="font-bold text-gray-400 mr-1" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
+                               <span x-text="opt"></span>
+                            </button>
+                         </template>
+                      </div>
+                   </div>
+                </template>
+             </div>
+             
+             <div x-show="ujianSelesai" x-transition class="absolute inset-0 bg-[#12121a]/95 backdrop-blur-sm flex flex-col items-center justify-center rounded-lg border-2 border-purple-500 z-20 shadow-2xl">
+                <div class="text-5xl mb-3">🏆</div>
+                <h3 class="font-sora font-bold text-xl text-purple-400 mb-1">Bab 3 Selesai!</h3>
+                <p class="text-xs text-gray-300 mb-4">Nilai Akhir Kompetensi Kamu</p>
+                <div class="text-5xl font-black text-white mb-6" x-text="ujianScore"></div>
+                <p class="text-[10px] text-gray-400 animate-pulse">Geser ke halaman penutup</p>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>25</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 24: Penutup -->
+    <div class="page --hard">
+       <div class="page-wrapper items-center justify-center text-center relative">
+          <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0icmdiYSg0NSwgMjEyLCAxOTEsIDAuMikiLz48L3N2Zz4=')] opacity-50"></div>
+          
+          <h1 class="text-3xl font-sora font-bold text-gray-300 mb-8 relative z-10">Tamat</h1>
+          
+          <svg viewBox="0 0 100 100" class="w-40 h-40 mx-auto mb-10 opacity-70 relative z-10 drop-shadow-[0_0_15px_rgba(244,63,94,0.4)]">
+             <path d="M 20 20 L 80 20 L 80 80 L 20 80 Z" fill="none" stroke="#fb7185" stroke-width="3"/>
+             <path d="M 40 40 L 60 40 M 40 50 L 60 50 M 40 60 L 50 60" stroke="#fb7185" stroke-width="3" stroke-linecap="round"/>
+             <circle cx="70" cy="70" r="15" fill="#a78bfa"/>
+             <path d="M 65 70 L 68 75 L 75 65" stroke="#12121a" stroke-width="3" fill="none" stroke-linecap="round"/>
+          </svg>
+          
+          <p class="text-sm text-gray-400 mb-4 relative z-10">Kamu berhasil menyelesaikan Bab 3.<br>Lanjutkan ke Bab selanjutnya!</p>
+          <p class="text-[10px] text-gray-500 mb-12 relative z-10">*Untuk Uji Kompetensi berupa Tugas Esai,<br>silakan lihat Buku Pegangan.</p>
+          
+          <div class="text-[10px] font-bold text-rose-400 bg-rose-900/20 px-4 py-2 rounded-full border border-rose-500/30 relative z-10">
+             Penerbit Kemendikbudristek 2025
+          </div>
+       </div>
+    </div>
+
+  </div> <!-- End Flipbook -->
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const fb = document.getElementById('flipbook');
+      const pageFlip = new St.PageFlip(fb, {
+        width: 450,
+        height: 600,
+        size: "fixed",
+        minWidth: 315,
+        maxWidth: 1000,
+        minHeight: 420,
+        maxHeight: 1350,
+        maxShadowOpacity: 0.5,
+        showCover: true,
+        mobileScrollSupport: false
+      });
+
+      pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+
+      // Reveal with animation
+      setTimeout(() => { fb.classList.add('initialized'); }, 100);
+
+      document.getElementById('btn-prev').addEventListener('click', () => { pageFlip.flipPrev(); });
+      document.getElementById('btn-next').addEventListener('click', () => { pageFlip.flipNext(); });
+    });
+
+    document.addEventListener('alpine:init', () => {
+      Alpine.data('quizApp', () => ({
+        showDetailModal: false,
+        activeDetail: null,
+        activeTipe: '',
+        activeIndex: 0,
+        openDetail(tipe, index) {
+            this.activeTipe = tipe;
+            this.activeIndex = index;
+            this.activeDetail = tipe === 'latihan' ? this.latihan[index] : this.ujian[index];
+            this.showDetailModal = true;
+        },
+        jawabDariDetail(optIdx) {
+            if(this.activeTipe === 'latihan') this.jawabLatihan(this.activeIndex, optIdx);
+            else this.jawabUjian(this.activeIndex, optIdx);
+            this.showDetailModal = false;
+        },
+        showFeedback: false,
+        isFeedbackCorrect: false,
+        latihanScore: 0,
+        latihanSelesai: false,
+        latihan: [
+          {
+            q: "Teknologi yang memungkinkan komputer untuk mengenali dan memahami citra visual dari dunia nyata disebut...", 
+            opts: ["Speech Recognition", "Computer Vision", "Natural Language Processing", "Robotics", "Data Mining"], 
+            ans: 1, dijawab: false, userAns: -1
+          },
+          {
+            q: "Proses ekstraksi fitur pada pengenalan wajah (Face Recognition) bertujuan untuk...", 
+            opts: ["Menghilangkan warna pada gambar", "Mengubah foto menjadi animasi 3D", "Mengambil ciri khas wajah seperti jarak antar mata", "Menyimpan foto ke dalam cloud", "Membuat wajah terlihat lebih muda"], 
+            ans: 2, dijawab: false, userAns: -1
+          },
+          {
+            q: "Algoritma yang paling sering digunakan dalam pengenalan citra (Computer Vision) adalah...", 
+            opts: ["Decision Tree", "Linear Regression", "Convolutional Neural Network (CNN)", "K-Means Clustering", "Bubble Sort"], 
+            ans: 2, dijawab: false, userAns: -1
+          },
+          {
+            q: "Teknologi AI yang mengubah suara ucapan manusia menjadi teks secara real-time disebut...", 
+            opts: ["Speech-to-Text", "Text-to-Speech", "Audio Translation", "Voice Generator", "Sound Visualizer"], 
+            ans: 0, dijawab: false, userAns: -1
+          },
+          {
+            q: "Di bawah ini yang merupakan contoh penerapan Computer Vision adalah...", 
+            opts: ["Kamera tilang elektronik (ETLE)", "Pemutar musik otomatis", "Aplikasi pengolah kata", "Termometer digital", "Sistem pendingin ruangan"], 
+            ans: 0, dijawab: false, userAns: -1
+          },
+          {
+            q: "Profesi yang tugas utamanya menulis perintah yang spesifik kepada AI generatif untuk mendapatkan output maksimal adalah...", 
+            opts: ["Data Scientist", "Machine Learning Engineer", "Prompt Engineer", "Software Tester", "Web Developer"], 
+            ans: 2, dijawab: false, userAns: -1
+          },
+          {
+            q: "Seorang Data Engineer bertanggung jawab untuk...", 
+            opts: ["Menulis algoritma kecerdasan buatan", "Membangun infrastruktur dan alur data berskala besar", "Mendesain antarmuka aplikasi", "Menganalisis tren pasar", "Memperbaiki komputer yang rusak"], 
+            ans: 1, dijawab: false, userAns: -1
+          },
+          {
+            q: "Salah satu dampak positif dari AI di bidang kesehatan adalah...", 
+            opts: ["Menggantikan dokter sepenuhnya", "Mendeteksi pola sel kanker lebih dini dan akurat", "Menyebabkan pasien malas berobat", "Membuat rumah sakit tidak memerlukan perawat", "Mendiagnosa penyakit tanpa perlu tes darah"], 
+            ans: 1, dijawab: false, userAns: -1
+          },
+          {
+            q: "Teknologi AI yang memanipulasi video dengan menukar wajah dan meniru suara seseorang secara realistis disebut...", 
+            opts: ["Virtual Reality", "Deepfake", "Augmented Reality", "CGI", "Photoshop"], 
+            ans: 1, dijawab: false, userAns: -1
+          },
+          {
+            q: "Kemampuan berpikir kritis (Critical Thinking) sangat dibutuhkan di era AI untuk...", 
+            opts: ["Mempercepat proses mengetik", "Menghafal lebih banyak bahasa pemrograman", "Menganalisis dan memvalidasi kebenaran informasi yang dihasilkan AI", "Menggantikan peran komputer", "Memperbaiki jaringan internet"], 
+            ans: 2, dijawab: false, userAns: -1
+          }
+        ],
+        ujianScore: 0,
+        ujianSelesai: false,
+        ujian: [
+          {
+            q: "Sebuah perusahaan menggunakan AI untuk menyaring ribuan CV pelamar kerja. Namun, AI tersebut secara otomatis menolak sebagian besar pelamar wanita karena data historis perusahaan didominasi karyawan pria. Masalah ini merupakan contoh nyata dari ancaman...", 
+            opts: ["Deepfake", "Bias Algoritma (Algorithm Bias)", "Pelanggaran Privasi", "Serangan Siber", "Kurangnya Data"], 
+            ans: 1, dijawab: false, userAns: -1
+          },
+          {
+            q: "Prinsip etika AI yang mengharuskan proses pengambilan keputusan AI dapat dijelaskan secara transparan kepada manusia (bukan Black Box) disebut...", 
+            opts: ["Accountability", "Explainability (Transparansi)", "Fairness (Keadilan)", "Privacy", "Security"], 
+            ans: 1, dijawab: false, userAns: -1
+          },
+          {
+            q: "Dalam kasus kecelakaan lalu lintas yang diakibatkan oleh mobil otonom (Self-Driving Car), muncul perdebatan hukum tentang siapa yang harus dihukum. Hal ini berkaitan erat dengan prinsip etika AI yaitu...", 
+            opts: ["Keadilan (Fairness)", "Transparansi (Transparency)", "Akuntabilitas (Accountability)", "Privasi (Privacy)", "Keberlanjutan (Sustainability)"], 
+            ans: 2, dijawab: false, userAns: -1
+          },
+          {
+            q: "Salah satu regulasi paling komprehensif di dunia yang mengatur penggunaan AI berdasarkan tingkat risikonya (Unacceptable, High, Limited, Minimal) adalah...", 
+            opts: ["UU ITE", "UU Pelindungan Data Pribadi", "General Data Protection Regulation (GDPR)", "AI Act (Uni Eropa)", "Digital Services Act"], 
+            ans: 3, dijawab: false, userAns: -1
+          },
+          {
+            q: "Dalam pengenalan suara (Speech Recognition), suara analog harus diubah menjadi representasi digital visual yang disebut...", 
+            opts: ["Histogram", "Spektrogram", "Diagram Batang", "Gelombang Sinus", "Osilogram"], 
+            ans: 1, dijawab: false, userAns: -1
+          },
+          {
+            q: "Jika kamu ingin bekerja sebagai Machine Learning Engineer, hard skill utama yang paling esensial untuk dipelajari adalah...", 
+            opts: ["Desain Grafis dan Tipografi", "Video Editing", "Matematika, Statistika, dan Bahasa Python", "Akuntansi dan Keuangan", "Komunikasi Massa"], 
+            ans: 2, dijawab: false, userAns: -1
+          },
+          {
+            q: "Otomatisasi AI sering dianggap mengancam lapangan kerja. Namun menurut pandangan Society 5.0, peran manusia di masa depan akan bergeser menjadi...", 
+            opts: ["Operator mesin", "Kolaborator AI yang fokus pada kreativitas dan empati", "Pekerja kasar manual", "Pemonitor layar 24 jam", "Digantikan sepenuhnya oleh robot"], 
+            ans: 1, dijawab: false, userAns: -1
+          },
+          {
+            q: "Pemanfaatan AI untuk memantau pergerakan warga melalui kamera CCTV secara terus-menerus sering menimbulkan kekhawatiran terkait pelanggaran etika di bidang...", 
+            opts: ["Akuntabilitas", "Keamanan Finansial", "Privasi dan Kebebasan", "Hak Cipta", "Kesehatan Lingkungan"], 
+            ans: 2, dijawab: false, userAns: -1
+          },
+          {
+            q: "Profesi AI Ethicist (Pakar Etika AI) tidak selalu membutuhkan kemampuan pemrograman tingkat tinggi karena fokus utama mereka adalah...", 
+            opts: ["Merancang tampilan antarmuka (UI/UX) aplikasi AI", "Menganalisis dampak hukum, sosial, dan kepatuhan sistem AI terhadap regulasi", "Mempercepat waktu kompilasi algoritma jaringan saraf tiruan", "Mengamankan server dari serangan hacker", "Menjual produk AI ke klien potensial"], 
+            ans: 1, dijawab: false, userAns: -1
+          },
+          {
+            q: "Natural Language Processing (NLP) adalah cabang AI yang memungkinkan mesin untuk...", 
+            opts: ["Melihat objek dalam gambar", "Memahami, menafsirkan, dan menghasilkan bahasa manusia", "Mengendalikan lengan robot industri", "Mendeteksi wajah manusia di keramaian", "Menganalisis cuaca"], 
+            ans: 1, dijawab: false, userAns: -1
+          }
+        ],
+        
+        triggerFeedback(correct) {
+           this.isFeedbackCorrect = correct;
+           this.showFeedback = true;
+           if(correct) { confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#f43f5e', '#a78bfa', '#fcd34d'] }); }
+           setTimeout(() => { this.showFeedback = false; }, 2000);
+        },
+        jawabLatihan(idx, optIdx) {
+           this.latihan[idx].dijawab = true;
+           this.latihan[idx].userAns = optIdx;
+           let correct = (optIdx === this.latihan[idx].ans);
+           if(correct) {
+              this.latihanScore += 10;
+           }
+           this.triggerFeedback(correct);
+           this.checkLatihan();
+        },
+        jawabUjian(idx, optIdx) {
+           this.ujian[idx].dijawab = true;
+           this.ujian[idx].userAns = optIdx;
+           let correct = (optIdx === this.ujian[idx].ans);
+           if(correct) {
+              this.ujianScore += 10;
+           }
+           this.triggerFeedback(correct);
+           this.checkUjian();
+        },
+        getBtnClass(idx, optIdx, tipe) {
+           let soal = tipe === 'latihan' ? this.latihan[idx] : this.ujian[idx];
+           if(!soal.dijawab) return '';
+           if(optIdx === soal.ans) return 'bg-rose-600 border-rose-400 text-white font-bold';
+           if(optIdx === soal.userAns) return 'bg-red-600/80 border-red-500 text-white';
+           return 'opacity-30';
+        },
+        checkLatihan() { if(this.latihan.every(s => s.dijawab)) setTimeout(() => { this.latihanSelesai = true; confetti({particleCount: 200, spread: 100}); }, 2200); },
+        checkUjian() { if(this.ujian.every(s => s.dijawab)) setTimeout(() => { this.ujianSelesai = true; confetti({particleCount: 200, spread: 100}); }, 2200); }
+      }))
+    })
+  </script>
+</body>
+</html>

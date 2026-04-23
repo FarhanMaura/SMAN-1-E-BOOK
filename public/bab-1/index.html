@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bab 1: Berpikir Komputasional - E-Modul</title>
+  
+  <!-- CDNs -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://unpkg.com/alpinejs@3/dist/cdn.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body { background-color: #0a0a0f; font-family: 'Plus Jakarta Sans', sans-serif; color: #e2e8f0; overflow: hidden; margin: 0; padding: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh;}
+    h1, h2, h3, .font-sora { font-family: 'Sora', sans-serif; }
+    
+    .flipbook { width: 900px; height: 600px; box-shadow: 0 0 50px rgba(167, 139, 250, 0.15); display: none; }
+    .flipbook.initialized { display: block; animation: bookFadeIn 1s ease-out forwards; }
+    
+    .page { background-color: #12121a; border: 1px solid rgba(167, 139, 250, 0.2); overflow: hidden; position: relative; }
+    .page-wrapper { width: 100%; height: 100%; padding: 2rem; display: flex; flex-direction: column; }
+    .page-content { flex-grow: 1; overflow-y: auto; padding-right: 5px; }
+    
+    /* Hide scrollbar for a cleaner book look */
+    .page-content::-webkit-scrollbar { width: 3px; }
+    .page-content::-webkit-scrollbar-thumb { background: rgba(167, 139, 250, 0.5); border-radius: 4px; }
+    
+    .page-footer { height: 25px; display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: #64748b; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; margin-top: 10px;}
+    .page.--hard { background: linear-gradient(135deg, #0f172a, #12121a); border: 2px solid #a78bfa; }
+    
+    .mascot { position: absolute; bottom: 45px; right: 25px; width: 60px; height: 60px; opacity: 0.95; z-index: 5; pointer-events: none; filter: drop-shadow(0 5px 15px rgba(167,139,250,0.3)); border-radius: 50%; border: 2px solid #a78bfa; background-color: #e2e8f0; }
+    
+    /* Animations */
+    .shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+    @keyframes shake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
+    
+    @keyframes bookFadeIn { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+    
+    .bg-pattern { background-image: radial-gradient(rgba(167, 139, 250, 0.08) 1px, transparent 1px); background-size: 24px 24px; }
+
+    /* Staggered Entrance Animations */
+    .animate-content > * { opacity: 0; animation: fadeInUp 0.5s ease-out forwards; }
+    .animate-content > *:nth-child(1) { animation-delay: 0.1s; }
+    .animate-content > *:nth-child(2) { animation-delay: 0.2s; }
+    .animate-content > *:nth-child(3) { animation-delay: 0.3s; }
+    .animate-content > *:nth-child(4) { animation-delay: 0.4s; }
+    .animate-content > *:nth-child(5) { animation-delay: 0.5s; }
+    .animate-content > *:nth-child(6) { animation-delay: 0.6s; }
+
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    
+  </style>
+</head>
+<body x-data="quizApp()" class="bg-pattern relative">
+  
+  <!-- Global Feedback Modal -->
+  <div x-show="showFeedback" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm pointer-events-none">
+     <div x-show="showFeedback" 
+          x-transition:enter="transition ease-out duration-300"
+          x-transition:enter-start="scale-50 opacity-0"
+          x-transition:enter-end="scale-100 opacity-100"
+          x-transition:leave="transition ease-in duration-200"
+          x-transition:leave-start="scale-100 opacity-100"
+          x-transition:leave-end="scale-50 opacity-0"
+          class="bg-[#1a1a2e] border-2 rounded-3xl p-8 text-center shadow-[0_0_60px_rgba(0,0,0,0.6)]"
+          :class="isFeedbackCorrect ? 'border-teal-400 shadow-teal-500/20' : 'border-red-400 shadow-red-500/20'">
+        
+        <!-- Avatar Feedback -->
+        <template x-if="isFeedbackCorrect">
+           <div class="w-40 h-40 mx-auto mb-6 rounded-full border-4 border-teal-400 bg-cover bg-no-repeat" style="background-image: url('/assets/bab1_scene.png'); background-size: cover; background-position: center;"></div>
+        </template>
+        <template x-if="!isFeedbackCorrect">
+           <div class="w-40 h-40 mx-auto mb-6 rounded-full border-4 border-red-400 bg-cover bg-no-repeat grayscale opacity-80" style="background-image: url('/assets/bab1_scene.png'); background-size: cover; background-position: center;"></div>
+        </template>
+        
+        <h3 class="text-3xl font-sora font-black mb-2" 
+            :class="isFeedbackCorrect ? 'text-teal-400' : 'text-red-400'"
+            x-text="isFeedbackCorrect ? 'BENAR SEKALI! 🎉' : 'YAH, SALAH! 😢'"></h3>
+        <p class="text-gray-300 text-lg" x-text="isFeedbackCorrect ? '+10 Poin ditambahkan!' : 'Ayo baca lagi materinya dengan teliti!'"></p>
+     </div>
+  </div>
+
+  <!-- Detail Soal Modal -->
+  <div x-show="showDetailModal" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md">
+     <div @click.away="showDetailModal = false" class="bg-[#1a1a2e] border border-teal-500/50 rounded-2xl w-[90%] max-w-[500px] max-h-[80vh] flex flex-col shadow-2xl">
+        <div class="p-4 border-b border-gray-700 flex justify-between items-center bg-teal-900/20 rounded-t-2xl">
+           <h3 class="font-bold text-teal-400">Detail Soal</h3>
+           <button @click="showDetailModal = false" class="text-gray-400 hover:text-white font-bold text-xl">&times;</button>
+        </div>
+        <div class="p-6 overflow-y-auto">
+           <template x-if="activeDetail">
+              <div>
+                 <p class="text-sm text-white mb-6 leading-relaxed" x-html="activeDetail.q"></p>
+                 <div class="space-y-3">
+                    <template x-for="(opt, idx) in activeDetail.opts">
+                       <button @click="jawabDariDetail(idx)" 
+                               :class="activeDetail.dijawab ? (idx === activeDetail.ans ? 'bg-teal-600 border-teal-400 text-white' : (idx === activeDetail.userAns ? 'bg-red-600 border-red-400 text-white' : 'opacity-50 border-gray-700')) : 'bg-gray-800 hover:bg-gray-700 border-gray-600'"
+                               class="w-full text-left p-4 rounded-xl border transition flex gap-3 items-start"
+                               :disabled="activeDetail.dijawab">
+                          <span class="font-bold text-teal-400 mt-0.5" x-text="['A','B','C','D'][idx] + '.'"></span>
+                          <span class="text-sm text-gray-200" x-text="opt"></span>
+                       </button>
+                    </template>
+                 </div>
+              </div>
+           </template>
+        </div>
+     </div>
+  </div>
+
+  <!-- Header/Controls -->
+  <div class="w-full max-w-[900px] flex justify-between items-center mb-6 px-4 z-10">
+     <a href="/" class="text-purple-400 hover:text-purple-300 transition font-semibold flex items-center gap-2 bg-purple-900/20 px-4 py-2 rounded-full border border-purple-500/30">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+       Kembali ke Beranda
+     </a>
+     <div class="flex gap-3">
+       <button id="btn-prev" class="px-6 py-2 rounded-full bg-[#12121a] border border-gray-600 hover:border-purple-400 hover:text-purple-400 text-white text-sm font-bold transition shadow-lg">← Prev</button>
+       <button id="btn-next" class="px-6 py-2 rounded-full bg-[#12121a] border border-gray-600 hover:border-teal-400 hover:text-teal-400 text-white text-sm font-bold transition shadow-lg">Next →</button>
+     </div>
+  </div>
+  
+  <!-- Container Flipbook -->
+  <div id="flipbook" class="flipbook">
+    
+    <!-- HALAMAN 1: Cover (Hard) -->
+    <div class="page --hard">
+      <div class="page-wrapper items-center justify-center text-center">
+        <div class="text-[10px] font-bold text-teal-400 mb-6 bg-teal-400/10 px-4 py-1.5 rounded-full border border-teal-400/20 tracking-widest">SMAN 1 PALEMBANG KELAS X</div>
+        <h1 class="text-7xl font-sora font-black text-transparent bg-clip-text bg-gradient-to-br from-purple-400 to-teal-400 mb-4 drop-shadow-lg">Bab 1</h1>
+        <h2 class="text-2xl font-sora font-bold text-gray-200 mb-12">Berpikir Komputasional</h2>
+        
+        <!-- Ilustrasi Cover -->
+        <div class="w-64 h-64 mx-auto drop-shadow-[0_10px_30px_rgba(255,255,255,0.1)] rounded-full border-4 border-[#12121a] bg-cover bg-center" style="background-image: url('/assets/bab1_scene.png'); background-size: cover; background-position: center;"></div>
+        <p class="mt-10 text-xs font-semibold text-gray-500 animate-pulse">Geser / Klik Next untuk membuka</p>
+      </div>
+    </div>
+    
+    <!-- HALAMAN 2: Kosong / Balik Cover -->
+    <div class="page --hard">
+       <div class="page-wrapper items-center justify-center">
+          <div class="w-32 h-32 bg-cover bg-center animate-bounce opacity-80 drop-shadow-[0_0_15px_rgba(167,139,250,0.5)]" style="background-image: url('/assets/boy_sma.png');"></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 3: Apersepsi -->
+    <div class="page">
+      <div class="page-wrapper">
+        <div class="page-content animate-content">
+          <h2 class="text-2xl font-sora font-bold text-purple-400 mb-6 border-b border-gray-700 pb-2">Apersepsi</h2>
+          <p class="mb-4 text-xs text-gray-300 leading-loose text-justify">Dalam kehidupan sehari-hari, pernahkah kamu menemukan permasalahan yang kompleks atau pernahkah kamu merasa kebingungan untuk mulai mengurai dan menyelesaikan suatu masalah?</p>
+          <p class="mb-4 text-xs text-gray-300 leading-loose text-justify">Dengan pendekatan berpikir komputasional, kamu akan terbiasa berpikir kritis dan kreatif, sistematis layaknya ilmuwan komputer, menganalisis masalah yang kompleks dan strategi pemecahannya, serta berkolaborasi untuk menemukan solusi yang efisien, efektif, dan optimal untuk dijalankan oleh manusia maupun mesin.</p>
+          <div class="mt-6 bg-gradient-to-r from-purple-900/40 to-transparent border-l-4 border-purple-500 p-4 rounded-r">
+            <h3 class="font-bold text-white text-sm mb-1">Tujuan Pembelajaran</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">Menerapkan penyelesaian masalah kompleks dalam kehidupan sehari-hari dengan pendekatan berpikir komputasional.</p>
+          </div>
+        </div>
+        <div class="page-footer"><span>Bab 1 Berpikir Komputasional</span><span>1</span></div>
+      </div>
+    </div>
+
+    <!-- HALAMAN 4: A. Penerapan -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h2 class="text-lg font-sora font-bold text-teal-400 mb-4 leading-snug">A. Penerapan Berpikir Komputasional dalam Keseharian</h2>
+             <p class="text-xs mb-3 text-justify text-gray-300">Berpikir komputasional penting karena dapat membantumu menghadapi masalah kompleks dengan cara yang lebih terstruktur. Kamu dapat memecah masalah menjadi bagian kecil, mencari pola, memilah informasi penting, lalu menyusun langkah penyelesaian.</p>
+             <p class="text-xs mb-4 text-justify text-gray-300">Masalah kompleks sulit diselesaikan langsung karena melibatkan banyak langkah. Contohnya, merancang rute untuk mengurangi kemacetan kota.</p>
+             
+             <div class="border border-teal-500/30 rounded-lg overflow-hidden mt-4 shadow-lg shadow-teal-900/20">
+                <div class="bg-teal-900/60 p-3 text-center text-xs font-bold text-teal-300 border-b border-teal-500/30">Masalah Sederhana vs Kompleks</div>
+                <table class="w-full text-[10px] text-left">
+                   <tr><th class="p-2 border-b border-r border-gray-700 bg-gray-800">Sederhana</th><th class="p-2 border-b border-gray-700 bg-gray-800">Kompleks</th></tr>
+                   <tr><td class="p-2 border-b border-r border-gray-700 text-gray-300">Langkah penyelesaian langsung</td><td class="p-2 border-b border-gray-700 text-gray-300">Perlu analisis & strategi</td></tr>
+                   <tr><td class="p-2 border-b border-r border-gray-700 text-gray-300">Penyebab tunggal & jelas</td><td class="p-2 border-b border-gray-700 text-gray-300">Penyebab banyak & saling terkait</td></tr>
+                   <tr><td class="p-2 border-r border-gray-700 text-teal-400">Cth: Printer tidak aktif</td><td class="p-2 text-teal-400">Cth: Sistem pencatatan tidak efektif</td></tr>
+                </table>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 1 Berpikir Komputasional</span><span>2</span></div>
+       </div>
+    </div>
+    
+    <!-- HALAMAN 5: B. Analisis Masalah -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h2 class="text-lg font-sora font-bold text-purple-400 mb-4">B. Analisis Masalah</h2>
+             <p class="text-xs mb-4 text-justify text-gray-300">Berpikir kritis merupakan keterampilan abad ke-21. Ini membuatmu memiliki kemampuan menganalisis informasi secara objektif, mengidentifikasi bias, dan membuat keputusan tepat.</p>
+             
+             <div class="bg-purple-900/20 border border-purple-500/30 rounded-lg p-4 mt-2">
+                <h3 class="font-bold text-xs text-purple-300 mb-3 flex items-center gap-2"><span class="text-base">📝</span> Studi Kasus Analisis</h3>
+                <p class="text-[10px] text-gray-300 text-justify mb-3 leading-relaxed">Dela mengalami penurunan drastis pada nilai Matematika dan Bahasa Inggris. Padahal itu mata pelajaran favoritnya. Usut punya usut, Dela baru saja mengikuti ekstrakurikuler baru yang menyita waktu, dan sering bermain ponsel hingga larut malam.</p>
+                <div class="text-[10px] text-gray-400 bg-gray-900/50 p-2 rounded">
+                   <p class="font-bold text-white mb-1">Penerapan:</p>
+                   <p><strong>Dekomposisi:</strong> Pelajaran apa saja yang turun?</p>
+                   <p><strong>Mencari Pola:</strong> Kapan penurunan mulai terjadi?</p>
+                   <p><strong>Akar Masalah:</strong> Kurang istirahat dan manajemen waktu.</p>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 1 Berpikir Komputasional</span><span>3</span></div>
+       </div>
+    </div>
+    
+    <!-- HALAMAN 6: C. Simulasi -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h2 class="text-lg font-sora font-bold text-teal-400 mb-5">C. Simulasi Penyelesaian Masalah</h2>
+             <p class="text-xs mb-5 text-gray-300">Mari kita terapkan pada: <strong>Rute Tercepat ke Sekolah</strong>.</p>
+             
+             <div class="space-y-4">
+                <div class="flex gap-3">
+                   <div class="w-8 h-8 rounded bg-teal-900/50 border border-teal-500 text-teal-300 flex items-center justify-center font-bold flex-shrink-0">1</div>
+                   <div>
+                      <h4 class="text-xs font-bold text-white mb-1">Dekomposisi</h4>
+                      <p class="text-[10px] text-gray-400">Memecah masalah: Di mana lokasi rumah? Di mana sekolah? Apa saja rute yang tersedia?</p>
+                   </div>
+                </div>
+                <div class="flex gap-3">
+                   <div class="w-8 h-8 rounded bg-teal-900/50 border border-teal-500 text-teal-300 flex items-center justify-center font-bold flex-shrink-0">2</div>
+                   <div>
+                      <h4 class="text-xs font-bold text-white mb-1">Pattern Recognition</h4>
+                      <p class="text-[10px] text-gray-400">Mengenali pola: Jalan utama sering macet pagi hari. Jalan pintas sepi tapi jaraknya lebih jauh.</p>
+                   </div>
+                </div>
+                <div class="flex gap-3">
+                   <div class="w-8 h-8 rounded bg-teal-900/50 border border-teal-500 text-teal-300 flex items-center justify-center font-bold flex-shrink-0">3</div>
+                   <div>
+                      <h4 class="text-xs font-bold text-white mb-1">Abstraksi</h4>
+                      <p class="text-[10px] text-gray-400">Fokus pada bobot jarak dan waktu tempuh. Abaikan detail yang tak relevan seperti warna rumah di pinggir jalan.</p>
+                   </div>
+                </div>
+                <div class="flex gap-3">
+                   <div class="w-8 h-8 rounded bg-teal-900/50 border border-teal-500 text-teal-300 flex items-center justify-center font-bold flex-shrink-0">4</div>
+                   <div>
+                      <h4 class="text-xs font-bold text-white mb-1">Algoritma</h4>
+                      <p class="text-[10px] text-gray-400">Menyusun langkah berurutan atau menggunakan algoritma Dijkstra/A-Star di Google Maps.</p>
+                   </div>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 1 Berpikir Komputasional</span><span>4</span></div>
+       </div>
+    </div>
+    
+    <!-- HALAMAN 7: D. Integrasi KA 1 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h2 class="text-lg font-sora font-bold text-purple-400 mb-4 leading-snug">D. Integrasi Kecerdasan Artifisial (KA)</h2>
+             <p class="text-xs mb-5 text-justify text-gray-300">Berpikir komputasional dapat diintegrasikan dengan AI untuk menghasilkan solusi efisien. Ada 4 kategori utama penerapannya:</p>
+             
+             <div class="space-y-5">
+                <div class="bg-[#1a1a2e] p-3 rounded-lg border-l-2 border-purple-500">
+                   <h3 class="text-xs font-bold text-white mb-1.5">1. Perception (Sensory)</h3>
+                   <p class="text-[10px] text-gray-400 text-justify">Pengumpulan dan pemrosesan data dari lingkungan. <strong>Pendekatan KA:</strong> Menggunakan API lalu lintas (Google Maps, Waze) untuk mengumpulkan data real-time kecepatan kendaraan dan kemacetan jalan.</p>
+                </div>
+                <div class="bg-[#1a1a2e] p-3 rounded-lg border-l-2 border-purple-500">
+                   <h3 class="text-xs font-bold text-white mb-1.5">2. Data Representation</h3>
+                   <p class="text-[10px] text-gray-400 text-justify">Pengorganisasian data agar diproses efisien. <strong>Pendekatan KA:</strong> Data lalu lintas direpresentasikan sebagai graf berbobot. Node adalah persimpangan, Edge adalah ruas jalan, dan Bobot adalah waktu tempuh.</p>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 1 Berpikir Komputasional</span><span>5</span></div>
+       </div>
+    </div>
+    
+    <!-- HALAMAN 8: D. Integrasi KA 2 & Kasus -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <div class="space-y-5 mb-6 mt-2">
+                <div class="bg-[#1a1a2e] p-3 rounded-lg border-l-2 border-purple-500">
+                   <h3 class="text-xs font-bold text-white mb-1.5">3. Reasoning</h3>
+                   <p class="text-[10px] text-gray-400 text-justify">Pengambilan keputusan berdasarkan data. <strong>Pendekatan KA:</strong> Menerapkan algoritma Dijkstra atau A* untuk mencari rute tercepat dengan bobot dinamis. Menggunakan <i>rule-based reasoning</i> untuk menghindari area rawan banjir.</p>
+                </div>
+                <div class="bg-[#1a1a2e] p-3 rounded-lg border-l-2 border-purple-500">
+                   <h3 class="text-xs font-bold text-white mb-1.5">4. Learning</h3>
+                   <p class="text-[10px] text-gray-400 text-justify">Meningkatkan kinerja seiring waktu (Machine Learning). <strong>Pendekatan KA:</strong> Sistem belajar bahwa rute jalan arteri selalu macet pada pukul 06.30, sehingga besok sistem merekomendasikan rute alternatif lebih awal.</p>
+                </div>
+             </div>
+             
+             <h3 class="text-sm font-sora font-bold text-teal-400 mb-2">Kasus Terintegrasi</h3>
+             <p class="text-[10px] text-gray-300 text-justify">Siswa berangkat jam 06.30. AI mengumpulkan cuaca & kemacetan (Perception), membuat graf rute (Data Rep), menghitung A* untuk pilih jalan paling cepat (Reasoning), lalu mencatat waktu tibanya untuk memperbaiki prediksi besok (Learning).</p>
+          </div>
+          <div class="page-footer"><span>Bab 1 Berpikir Komputasional</span><span>6</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 9: Peta Konsep -->
+    <div class="page">
+       <div class="page-wrapper bg-[#1a1a2e]/30">
+          <div class="page-content animate-content flex flex-col items-center justify-center h-full text-center">
+             <h2 class="text-xl font-sora font-bold text-teal-400 mb-8">Peta Konsep</h2>
+             
+             <div class="w-full max-w-[220px] bg-gradient-to-r from-teal-600 to-purple-600 p-3 rounded-xl font-bold text-white shadow-lg mb-6">
+                Berpikir Komputasional
+             </div>
+             
+             <!-- Connecting Lines -->
+             <div class="flex justify-center w-full max-w-[260px] mb-6">
+               <div class="w-full border-t-2 border-gray-600 relative">
+                  <div class="absolute w-0.5 h-6 bg-gray-600 left-[10%] top-0"></div>
+                  <div class="absolute w-0.5 h-6 bg-gray-600 left-[35%] top-0"></div>
+                  <div class="absolute w-0.5 h-6 bg-gray-600 left-[65%] top-0"></div>
+                  <div class="absolute w-0.5 h-6 bg-gray-600 left-[90%] top-0"></div>
+               </div>
+             </div>
+             
+             <div class="flex justify-between w-full max-w-[280px] gap-2 text-[9px] font-bold">
+                <div class="flex-1 bg-gray-800 py-3 px-1 rounded border border-gray-600 shadow">Dekomposisi</div>
+                <div class="flex-1 bg-gray-800 py-3 px-1 rounded border border-gray-600 shadow">Pengenalan<br>Pola</div>
+                <div class="flex-1 bg-gray-800 py-3 px-1 rounded border border-gray-600 shadow">Abstraksi</div>
+                <div class="flex-1 bg-gray-800 py-3 px-1 rounded border border-gray-600 shadow">Algoritma</div>
+             </div>
+             
+             <div class="w-0.5 h-8 bg-gray-600 my-4"></div>
+             
+             <div class="w-full max-w-[260px] border-2 border-teal-500 bg-[#12121a] p-3 rounded-xl text-[11px] font-semibold shadow-[0_0_20px_rgba(45,212,191,0.2)]">
+                <span class="text-gray-400">Integrasi Kecerdasan Artifisial</span><br>
+                <span class="text-teal-400 block mt-2 font-bold">Perception • Representation<br>Reasoning • Learning</span>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 1 Berpikir Komputasional</span><span>7</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 10: Latihan 1/2 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content relative">
+             <div class="flex justify-between items-end mb-4 border-b border-gray-700 pb-2">
+                <h2 class="text-lg font-sora font-bold text-purple-400">Latihan Dasar (1/2)</h2>
+                <div class="text-[10px] font-bold px-2 py-1 bg-purple-900/30 rounded border border-purple-500/50">Skor: <span x-text="latihanScore" class="text-purple-400"></span></div>
+             </div>
+             
+             <div class="space-y-3">
+                <template x-for="(soal, index) in latihan.slice(0, 5)">
+                   <div class="bg-gray-800/30 p-2.5 rounded-lg border border-gray-700/50">
+                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-purple-300 transition line-clamp-3" @click.stop="openDetail('latihan', index)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+1) + '. ' + soal.q"></p>
+                      <div class="grid grid-cols-2 gap-1.5">
+                         <template x-for="(opt, oidx) in soal.opts">
+                            <button @click="jawabLatihan(index, oidx)" 
+                                    :class="getBtnClass(index, oidx, 'latihan')"
+                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-purple-400 hover:bg-gray-700 transition whitespace-normal break-words"
+                                    :disabled="soal.dijawab">
+                               <span class="font-bold text-gray-400 mr-1" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
+                               <span x-text="opt"></span>
+                            </button>
+                         </template>
+                      </div>
+                   </div>
+                </template>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 1 Berpikir Komputasional</span><span>8</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 10.5: Latihan 2/2 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content relative">
+             <div class="flex justify-between items-end mb-4 border-b border-gray-700 pb-2">
+                <h2 class="text-lg font-sora font-bold text-purple-400">Latihan Dasar (2/2)</h2>
+                <div class="text-[10px] font-bold px-2 py-1 bg-purple-900/30 rounded border border-purple-500/50">Skor: <span x-text="latihanScore" class="text-purple-400"></span></div>
+             </div>
+             
+             <div class="space-y-3">
+                <template x-for="(soal, index) in latihan.slice(5, 10)">
+                   <div class="bg-gray-800/30 p-2.5 rounded-lg border border-gray-700/50">
+                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-purple-300 transition line-clamp-3" @click.stop="openDetail('latihan', index + 5)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+6) + '. ' + soal.q"></p>
+                      <div class="grid grid-cols-2 gap-1.5">
+                         <template x-for="(opt, oidx) in soal.opts">
+                            <button @click="jawabLatihan(index + 5, oidx)" 
+                                    :class="getBtnClass(index + 5, oidx, 'latihan')"
+                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-purple-400 hover:bg-gray-700 transition whitespace-normal break-words"
+                                    :disabled="soal.dijawab">
+                               <span class="font-bold text-gray-400 mr-1" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
+                               <span x-text="opt"></span>
+                            </button>
+                         </template>
+                      </div>
+                   </div>
+                </template>
+             </div>
+             
+             <!-- Latihan Finish Overlay -->
+             <div x-show="latihanSelesai" x-transition class="absolute inset-0 bg-[#12121a]/90 backdrop-blur flex flex-col items-center justify-center rounded-lg border-2 border-purple-500 z-10 shadow-2xl">
+                <div class="text-5xl mb-3">💯</div>
+                <h3 class="font-bold font-sora text-purple-400 mb-1 text-xl">Latihan Selesai!</h3>
+                <p class="text-xs text-gray-300">Skor Dasar Kamu:</p>
+                <p class="text-4xl font-black text-white mt-2" x-text="latihanScore"></p>
+                <p class="text-[10px] mt-4 text-gray-400">Geser ke halaman berikutnya untuk Ujian</p>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 1 Berpikir Komputasional</span><span>9</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 11: Ujian Intro -->
+    <div class="page">
+       <div class="page-wrapper items-center justify-center text-center">
+          <div class="page-content animate-content w-full flex flex-col items-center justify-center mt-12">
+             <div class="p-8 bg-gradient-to-b from-teal-900/40 to-transparent border-2 border-teal-500/50 rounded-2xl w-full max-w-[280px] shadow-[0_0_40px_rgba(45,212,191,0.15)] relative overflow-hidden">
+                <div class="absolute -right-6 -top-6 w-20 h-20 bg-teal-500/20 rounded-full blur-xl"></div>
+                <div class="absolute -left-6 -bottom-6 w-20 h-20 bg-purple-500/20 rounded-full blur-xl"></div>
+                
+                <div class="w-16 h-16 mx-auto mb-4 bg-teal-600 rounded-full flex items-center justify-center text-3xl shadow-lg border-4 border-[#12121a] relative z-10">🎓</div>
+                <h2 class="text-2xl font-sora font-black text-white mb-2 relative z-10">Ujian Kompetensi</h2>
+                <div class="h-1 w-12 bg-teal-400 mx-auto mb-4 rounded relative z-10"></div>
+                <p class="text-xs text-gray-300 mb-6 leading-relaxed relative z-10">Selamat! Kamu telah menguasai fondasi Berpikir Komputasional. Saatnya menguji analisis tingkat lanjutmu dalam soal studi kasus.</p>
+                <p class="text-[9px] text-teal-300 font-bold uppercase tracking-widest animate-pulse relative z-10">Buka halaman untuk mulai</p>
+             </div>
+          </div>
+          <div class="page-footer mt-auto w-full"><span>Bab 1 Berpikir Komputasional</span><span>9</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 12: Ujian 1/2 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content relative">
+             <div class="flex justify-between items-end mb-4 border-b border-gray-700 pb-2">
+                <h2 class="text-lg font-sora font-bold text-teal-400">Ujian Analitis (1/2)</h2>
+                <div class="text-[10px] font-bold px-2 py-1 bg-teal-900/30 rounded border border-teal-500/50">Skor: <span x-text="ujianScore" class="text-teal-400"></span></div>
+             </div>
+             
+             <div class="space-y-3">
+                <template x-for="(soal, index) in ujian.slice(0, 5)">
+                   <div class="bg-gray-800/30 p-2.5 rounded-lg border border-gray-700/50 hover:border-teal-500/30 transition-colors">
+                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-teal-300 transition line-clamp-3" @click.stop="openDetail('ujian', index)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+1) + '. ' + soal.q"></p>
+                      <div class="grid grid-cols-2 gap-1.5">
+                         <template x-for="(opt, oidx) in soal.opts">
+                            <button @click="jawabUjian(index, oidx)" 
+                                    :class="getBtnClass(index, oidx, 'ujian')"
+                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-teal-400 hover:bg-gray-700 transition whitespace-normal break-words"
+                                    :disabled="soal.dijawab">
+                               <span class="font-bold text-gray-400 mr-1" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
+                               <span x-text="opt"></span>
+                            </button>
+                         </template>
+                      </div>
+                   </div>
+                </template>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 1 Berpikir Komputasional</span><span>10</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 12.5: Ujian 2/2 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content relative">
+             <div class="flex justify-between items-end mb-4 border-b border-gray-700 pb-2">
+                <h2 class="text-lg font-sora font-bold text-teal-400">Ujian Analitis (2/2)</h2>
+                <div class="text-[10px] font-bold px-2 py-1 bg-teal-900/30 rounded border border-teal-500/50">Skor: <span x-text="ujianScore" class="text-teal-400"></span></div>
+             </div>
+             
+             <div class="space-y-3">
+                <template x-for="(soal, index) in ujian.slice(5, 10)">
+                   <div class="bg-gray-800/30 p-2.5 rounded-lg border border-gray-700/50 hover:border-teal-500/30 transition-colors">
+                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-teal-300 transition line-clamp-3" @click.stop="openDetail('ujian', index + 5)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+6) + '. ' + soal.q"></p>
+                      <div class="grid grid-cols-2 gap-1.5">
+                         <template x-for="(opt, oidx) in soal.opts">
+                            <button @click="jawabUjian(index + 5, oidx)" 
+                                    :class="getBtnClass(index + 5, oidx, 'ujian')"
+                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-teal-400 hover:bg-gray-700 transition whitespace-normal break-words"
+                                    :disabled="soal.dijawab">
+                               <span class="font-bold text-gray-400 mr-1" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
+                               <span x-text="opt"></span>
+                            </button>
+                         </template>
+                      </div>
+                   </div>
+                </template>
+             </div>
+             
+             <!-- Ujian Finish Overlay -->
+             <div x-show="ujianSelesai" x-transition class="absolute inset-0 bg-[#12121a]/95 backdrop-blur-sm flex flex-col items-center justify-center rounded-lg border-2 border-teal-500 z-20 shadow-2xl">
+                <div class="text-5xl mb-3">🏆</div>
+                <h3 class="font-sora font-bold text-xl text-teal-400 mb-1">Bab 1 Selesai!</h3>
+                <p class="text-xs text-gray-300 mb-4">Nilai Akhir Kompetensi Kamu</p>
+                <div class="text-5xl font-black text-white mb-6" x-text="ujianScore"></div>
+                <p class="text-[10px] text-gray-400 animate-pulse">Geser ke halaman penutup</p>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 1 Berpikir Komputasional</span><span>11</span></div>
+       </div>
+    </div>
+    
+    <!-- HALAMAN 13: Kosong / Sebelum Back Cover -->
+    <div class="page">
+       <div class="page-wrapper items-center justify-center">
+          <svg viewBox="0 0 100 100" class="w-32 h-32 opacity-10">
+             <circle cx="50" cy="50" r="40" fill="none" stroke="#2dd4bf" stroke-width="2"/>
+             <path d="M 30 50 L 70 50 M 50 30 L 50 70" stroke="#a78bfa" stroke-width="2"/>
+          </svg>
+       </div>
+    </div>
+
+    <!-- HALAMAN 16: Penutup (Back Cover Hard) -->
+    <div class="page --hard">
+       <div class="page-wrapper items-center justify-center text-center relative">
+          <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0icmdiYSgxNjcsIDEzOSLCAyNTAsIDAuMikiLz48L3N2Zz4=')] opacity-50"></div>
+          
+          <h1 class="text-3xl font-sora font-bold text-gray-300 mb-8 relative z-10">Tamat</h1>
+          
+          <svg viewBox="0 0 100 100" class="w-40 h-40 mx-auto mb-10 opacity-70 relative z-10 drop-shadow-[0_0_15px_rgba(45,212,191,0.4)]">
+             <path d="M 20 20 L 80 20 L 80 80 L 20 80 Z" fill="none" stroke="#a78bfa" stroke-width="3"/>
+             <path d="M 40 40 L 60 40 M 40 50 L 60 50 M 40 60 L 50 60" stroke="#a78bfa" stroke-width="3" stroke-linecap="round"/>
+             <circle cx="70" cy="70" r="15" fill="#2dd4bf"/>
+             <path d="M 65 70 L 68 75 L 75 65" stroke="#12121a" stroke-width="3" fill="none" stroke-linecap="round"/>
+          </svg>
+          
+          <p class="text-sm text-gray-400 mb-12 relative z-10">Terima kasih telah membaca E-Modul ini.<br>Semoga ilmu yang didapat bermanfaat!</p>
+          
+          <div class="text-[10px] font-bold text-teal-400 bg-teal-900/20 px-4 py-2 rounded-full border border-teal-500/30 relative z-10">
+             Penerbit Kemendikbudristek 2025
+          </div>
+       </div>
+    </div>
+
+  </div> <!-- End Flipbook -->
+
+  <script>
+    // Initialize StPageFlip
+    document.addEventListener('DOMContentLoaded', function() {
+      const fb = document.getElementById('flipbook');
+      const pageFlip = new St.PageFlip(fb, {
+        width: 450, // width of a single page
+        height: 600,
+        size: "fixed",
+        minWidth: 315,
+        maxWidth: 1000,
+        minHeight: 420,
+        maxHeight: 1350,
+        maxShadowOpacity: 0.5,
+        showCover: true,
+        mobileScrollSupport: false,
+        usePortrait: false // force landscape open book style
+      });
+      
+      pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+      
+      // Reveal with animation to prevent FOUC
+      setTimeout(() => { fb.classList.add('initialized'); }, 100);
+
+      // Add mascot to regular pages
+      document.querySelectorAll('.page:not(.--hard) .page-wrapper').forEach(p => {
+         p.insertAdjacentHTML('beforeend', '<div class="mascot bg-cover" style="background-image: url(/assets/bab1_scene.png); background-size: cover; background-position: center;"></div>');
+      });
+
+      document.getElementById('btn-prev').addEventListener('click', () => {
+        pageFlip.flipPrev();
+      });
+      document.getElementById('btn-next').addEventListener('click', () => {
+        pageFlip.flipNext();
+      });
+
+      // Hook into flip event to re-trigger entrance animations
+      pageFlip.on('flip', (e) => {
+         const allContents = document.querySelectorAll('.page-content');
+         allContents.forEach(p => p.classList.remove('animate-content'));
+         
+         // In StPageFlip, active pages get specific classes, but we can just add the class to the pages currently in view.
+         // A simple hack is just to re-add it to all after a small delay so CSS animation restarts
+         setTimeout(() => {
+            allContents.forEach(p => p.classList.add('animate-content'));
+         }, 50);
+      });
+    });
+
+    // Alpine.js Logic for Quizzes & Feedback Modal
+    document.addEventListener('alpine:init', () => {
+      Alpine.data('quizApp', () => ({
+        showDetailModal: false,
+        activeDetail: null,
+        activeTipe: '',
+        activeIndex: 0,
+        openDetail(tipe, index) {
+            this.activeTipe = tipe;
+            this.activeIndex = index;
+            this.activeDetail = tipe === 'latihan' ? this.latihan[index] : this.ujian[index];
+            this.showDetailModal = true;
+        },
+        jawabDariDetail(optIdx) {
+            if(this.activeTipe === 'latihan') this.jawabLatihan(this.activeIndex, optIdx);
+            else this.jawabUjian(this.activeIndex, optIdx);
+            this.showDetailModal = false;
+        },
+        showFeedback: false,
+        isFeedbackCorrect: false,
+        latihanScore: 0,
+        latihanSelesai: false,
+        latihan: [
+          {
+            q: "Selama perjalanan dari rumah ke sekolah, Andi menghadapi kemacetan. Ia menerapkan teknik berpikir komputasional untuk mencari solusi terbaik. Ia mulai dengan membagi masalah menjadi bagian-bagian kecil, seperti menganalisis waktu keberangkatan, memilih rute, dan melihat kondisi lalu lintas. Kemudian ia mengenali waktu-waktu sibuk dari pengalaman sebelumnya, mengabaikan informasi yang tidak penting, dan akhirnya menyusun langkah sistematis untuk memilih rute tercepat menggunakan aplikasi peta. Berdasarkan cerita di atas, urutan penerapan teknik berpikir komputasional yang dilakukan oleh Andi adalah ....", 
+            opts: ["Abstraksi → Pengenalan Pola → Algoritma → Dekomposisi", "Dekomposisi → Pengenalan Pola → Abstraksi → Algoritma", "Pengenalan Pola → Dekomposisi → Algoritma → Abstraksi", "Algoritma → Abstraksi → Dekomposisi → Pengenalan Pola", "Dekomposisi → Abstraksi → Pengenalan Pola → Algoritma"], 
+            ans: 1, dijawab: false, userAns: -1
+          },
+          {
+            q: "Siti selalu mengalami kemacetan setiap hari Senin pagi saat berangkat ke sekolah. Ia pun menyadari bahwa hari dan jam tertentu lebih macet dibanding hari lain. Uraian di atas merupakan contoh dari....", 
+            opts: ["abstraksi", "algoritma (setting algoritma)", "dekomposisi", "pengenalan pola", "berpikir kritis"], 
+            ans: 3, dijawab: false, userAns: -1
+          },
+          {
+            q: "Bayu sering merasa kewalahan ketika harus mengatur waktu belajar, tugas rumah, dan kegiatan ekstrakurikuler. Gurunya menyarankan Bayu untuk mulai menerapkan berpikir komputasional dalam kesehariannya. Menurutmu, alasan penting penerapan berpikir komputasional bagi Bayu dan peserta didik seusiamu dalam menghadapi tantangan sehari-hari adalah ....", 
+            opts: ["karena berpikir komputasional membuat peserta didik lebih cepat menghapal pelajaran", "karena berpikir komputasional membantu peserta didik memecah masalah kompleks menjadi bagian-bagian kecil dan menyusun solusi secara sistematis", "karena berpikir komputasional berguna bagi peserta didik yang ingin menjadi ahli komputer", "karena berpikir komputasional membuat peserta didik dapat menggunakan aplikasi peta dan teknologi digital secara otomatis", "karena berpikir komputasional dapat membuat peserta didik mengenali masalah secara menyeluruh"], 
+            ans: 1, dijawab: false, userAns: -1
+          },
+          {
+            q: "Dalam berpikir komputasional, proses menyaring informasi yang penting dan mengabaikan detail yang kurang relevan disebut...", 
+            opts: ["Dekomposisi", "Abstraksi", "Pengenalan Pola", "Algoritma", "Debugging"], 
+            ans: 1, dijawab: false, userAns: -1
+          },
+          {
+            q: "Manakah di bawah ini yang merupakan contoh penerapan dekomposisi dalam kehidupan sehari-hari?", 
+            opts: ["Mengingat rute jalan pulang", "Mengikuti resep masakan urut dari awal hingga akhir", "Memecah tugas kelompok menjadi bagian-bagian kecil untuk tiap anggota", "Menyortir pakaian berdasarkan warna", "Membuat kesimpulan dari bacaan buku"], 
+            ans: 2, dijawab: false, userAns: -1
+          },
+          {
+            q: "Algoritma adalah...", 
+            opts: ["Sebuah bahasa pemrograman", "Cara komputer menyimpan data", "Langkah-langkah sistematis untuk menyelesaikan masalah", "Proses mencari kesalahan pada program", "Komponen fisik komputer"], 
+            ans: 2, dijawab: false, userAns: -1
+          },
+          {
+            q: "Berpikir komputasional tidak hanya penting bagi programmer komputer, melainkan juga bagi profesi lain karena...", 
+            opts: ["Membantu merakit komputer", "Melatih pemecahan masalah kompleks secara sistematis", "Dapat menggantikan pekerjaan manusia sepenuhnya", "Diperlukan untuk bermain game online", "Wajib digunakan untuk membuat website"], 
+            ans: 1, dijawab: false, userAns: -1
+          },
+          {
+            q: "Ketika kamu melihat pola awan mendung tebal dan angin kencang, lalu kamu memutuskan membawa payung, proses berpikir komputasional yang kamu gunakan adalah...", 
+            opts: ["Dekomposisi", "Algoritma", "Abstraksi", "Pengenalan Pola", "Pengurutan"], 
+            ans: 3, dijawab: false, userAns: -1
+          },
+          {
+            q: "Masalah kompleks memiliki ciri-ciri di bawah ini, kecuali...", 
+            opts: ["Solusinya perlu uji coba dan evaluasi", "Penyebabnya banyak dan saling terkait", "Perlu analisis dan strategi", "Dapat diselesaikan langsung dengan satu langkah sederhana", "Melibatkan banyak komponen"], 
+            ans: 3, dijawab: false, userAns: -1
+          },
+          {
+            q: "Langkah terakhir dalam metode 5 Whys adalah...", 
+            opts: ["Menyalahkan pihak lain", "Mengidentifikasi akar masalah yang mendasar", "Mencari solusi instan", "Mengabaikan masalah", "Membuat laporan kejadian"], 
+            ans: 1, dijawab: false, userAns: -1
+          }
+        ],
+        ujianScore: 0,
+        ujianSelesai: false,
+        ujian: [
+          {
+            q: "Kamu tinggal di sebuah kota yang sering mengalami kemacetan di persimpangan jalan utama. Pemerintah kota ingin mengoptimalkan waktu lampu lalu lintas untuk mengurangi kemacetan. Kamu diminta untuk merancang solusi menggunakan pendekatan berpikir komputasional. Langkah pertama yang harus kamu lakukan adalah menganalisis pola kemacetan berdasarkan data jumlah kendaraan per jam di setiap persimpangan. Setelah itu, kamu perlu membuat algoritma untuk mengatur durasi lampu hijau di masing-masing jalur. Berdasarkan pendekatan berpikir komputasional, langkah yang paling tepat untuk dilakukan setelah mengumpulkan data jumlah kendaraan adalah ...", 
+            opts: ["Membuat simulasi visualisasi kemacetan menggunakan perangkat lunak desain graȴs.", "Menguraikan masalah menjadi langkah-langkah kecil dan menentukan hubungan antarvariabel seperti waktu tunggu dan jumlah kendaraan.", "Langsung menerapkan algoritma pengaturan lampu lalu lintas tanpa menguji validitas data.", "Mengumpulkan opini warga mengenai waktu lampu hijau yang ideal tanpa analisis data.", "Menentukan durasi menyalanya lampu lalu lintas."], 
+            ans: 1, dijawab: false, userAns: -1
+          },
+          {
+            q: "Siti ditugaskan membuat rencana pengurangan sampah plastik di lingkungan sekolah. Untuk itu, ia mulai membagi tugas kepada anggota kelompoknya, ada yang mendata jenis sampah, ada yang mengamati kebiasaan membuang sampah, dan ada yang merancang solusi. Setelah itu, Siti mengamati bahwa sebagian besar sampah berasal dari kantin pada jam istirahat. Ia lalu menyusun langkah-langkah pengurangan plastik, dimulai dari kampanye, penggantian wadah makanan, hingga evaluasi hasil. Berdasarkan aktivitas tersebut, pernyataan yang paling tepat menggambarkan penerapan berpikir komputasional yang dilakukan Siti adalah ...", 
+            opts: ["Siti menggunakan algoritma saat membagi tugas kepada teman-temannya secara merata.", "Siti menerapkan dekomposisi ketika menyusun langkah-langkah pengurangan sampah plastik.", "Siti menggunakan pengenalan pola saat mengamati kebiasaan membuang sampah di sekolah.", "Siti menggunakan abstraksi saat mendata jenis sampah.", "Siti menerapkan semua aspek berpikir komputasional secara terpadu dalam menyelesaikan masalah."], 
+            ans: 4, dijawab: false, userAns: -1
+          },
+          {
+            q: "Pak Dodo menghadapi kemacetan saat berangkat ke sekolah tempatnya mengajar. Sekolahnya sedang mengembangkan sistem berbasis kecerdasan artiȴsial yang mampu merekomendasikan rute tercepat berdasarkan data real-time dan pembelajaran dari waktu tempuh sebelumnya. Sistem ini memanfaatkan data dari Google Maps API, informasi cuaca dari BMKG, serta menerapkan algoritma A* untuk menentukan rute tercepat. Jika sistem juga dapat belajar dari pola perjalanan Pak Dodo setiap hari dan memperbaiki prediksi rute berdasarkan waktu tempuh aktual, maka aspek berpikir komputasional dan pendekatan KA yang paling dominan sedang diterapkan adalah ...", 
+            opts: ["Perception, karena sistem mengumpulkan data dari API dan sensor untuk mendeteksi kondisi jalan secara real-time.", "Reasoning, karena sistem membuat keputusan rute tercepat dengan mempertimbangkan banyak faktor secara logis.", "Learning, karena sistem memanfaatkan data historis dan umpan balik untuk meningkatkan akurasi prediksi rute.", "Data representation, karena data lalu lintas diubah menjadi graf berbobot untuk membantu pemilihan rute.", "Sensory, karena sistem memanfaatkan data historis dan umpan balik untuk meningkatkan akurasi prediksi rute."], 
+            ans: 2, dijawab: false, userAns: -1
+          },
+          {
+            q: "Dalam merancang sebuah aplikasi kasir untuk kantin sekolah, langkah pertama yang dilakukan adalah memisahkan antara bagian pencatatan menu, perhitungan total harga, dan sistem pembayaran. Langkah berpikir komputasional yang dilakukan disebut...", 
+            opts: ["Dekomposisi", "Abstraksi", "Pengenalan Pola", "Algoritma", "Debugging"], 
+            ans: 0, dijawab: false, userAns: -1
+          },
+          {
+            q: "Sebuah program AI dapat mengenali wajah siswa saat mereka masuk gerbang sekolah berdasarkan data ribuan foto yang telah dilatihkan. Pendekatan berpikir komputasional yang paling relevan dengan kemampuan ini adalah...", 
+            opts: ["Abstraksi", "Dekomposisi", "Pengenalan Pola", "Algoritma", "Coding"], 
+            ans: 2, dijawab: false, userAns: -1
+          },
+          {
+            q: "Ketika menyusun jadwal piket harian, kamu hanya mencatat nama siswa dan hari tugasnya, tanpa mencatat warna sepatu atau hobi mereka. Hal ini merupakan contoh penerapan dari...", 
+            opts: ["Pengenalan Pola", "Dekomposisi", "Algoritma", "Abstraksi", "Flowchart"], 
+            ans: 3, dijawab: false, userAns: -1
+          },
+          {
+            q: "Tono mencoba memperbaiki sepedanya yang rantainya sering lepas. Ia bertanya 'mengapa rantai lepas?' dan menemukan jawabannya 'karena rantai kendor'. Lalu ia bertanya lagi 'mengapa kendor?' dan mendapati 'karena baut roda belakang kurang kencang'. Teknik analisis masalah yang digunakan Tono adalah...", 
+            opts: ["Berpikir Kreatif", "5 Whys", "Abstraksi Logika", "Pemrograman Blok", "Pengenalan Suara"], 
+            ans: 1, dijawab: false, userAns: -1
+          },
+          {
+            q: "Dalam penyelesaian masalah menggunakan metode komputasional, tahapan 'Algoritma' sangat penting karena...", 
+            opts: ["Membuat masalah menjadi lebih rumit", "Merupakan langkah-langkah yang jelas agar solusi dapat dijalankan dengan benar", "Hanya digunakan oleh mesin atau robot", "Menghilangkan data yang tidak relevan", "Membagi sistem menjadi subsistem kecil"], 
+            ans: 1, dijawab: false, userAns: -1
+          },
+          {
+            q: "Sistem pendeteksi spam pada email menganalisis ribuan pesan untuk menemukan kata-kata tertentu seperti 'hadiah gratis' atau 'menang undian' yang sering muncul pada email penipuan. Proses ini termasuk...", 
+            opts: ["Dekomposisi data", "Pengenalan pola dalam data", "Penyusunan algoritma sistem", "Abstraksi grafis", "Penerapan debugging manual"], 
+            ans: 1, dijawab: false, userAns: -1
+          },
+          {
+            q: "Perbedaan utama antara masalah sederhana dan masalah kompleks adalah...", 
+            opts: ["Masalah kompleks dapat diselesaikan dengan satu langkah pasti", "Masalah sederhana memiliki penyebab yang banyak dan saling terkait", "Masalah kompleks seringkali memerlukan analisis dan strategi pemecahan", "Masalah sederhana memerlukan evaluasi panjang", "Tidak ada perbedaan, keduanya sama-sama mudah jika memakai AI"], 
+            ans: 2, dijawab: false, userAns: -1
+          }
+        ],
+        
+        triggerFeedback(correct) {
+           this.isFeedbackCorrect = correct;
+           this.showFeedback = true;
+           if(correct) {
+              confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#2dd4bf', '#a78bfa', '#fcd34d'] });
+           }
+           setTimeout(() => { this.showFeedback = false; }, 2000);
+        },
+        
+        jawabLatihan(idx, optIdx) {
+           this.latihan[idx].dijawab = true;
+           this.latihan[idx].userAns = optIdx;
+           let correct = (optIdx === this.latihan[idx].ans);
+           if(correct) this.latihanScore += 10;
+           
+           this.triggerFeedback(correct);
+           this.checkLatihan();
+        },
+        jawabUjian(idx, optIdx) {
+           this.ujian[idx].dijawab = true;
+           this.ujian[idx].userAns = optIdx;
+           let correct = (optIdx === this.ujian[idx].ans);
+           if(correct) this.ujianScore += 10;
+           
+           this.triggerFeedback(correct);
+           this.checkUjian();
+        },
+        getBtnClass(idx, optIdx, tipe) {
+           let soal = tipe === 'latihan' ? this.latihan[idx] : this.ujian[idx];
+           if(!soal.dijawab) return '';
+           if(optIdx === soal.ans) return 'bg-teal-600 border-teal-400 text-white font-bold';
+           if(optIdx === soal.userAns) return 'bg-red-600/80 border-red-500 text-white';
+           return 'opacity-30';
+        },
+        checkLatihan() {
+           if(this.latihan.every(s => s.dijawab)) setTimeout(() => { this.latihanSelesai = true; confetti({particleCount: 200, spread: 100}); }, 2200);
+        },
+        checkUjian() {
+           if(this.ujian.every(s => s.dijawab)) setTimeout(() => { this.ujianSelesai = true; confetti({particleCount: 300, spread: 120, origin: {y: 0.4}}); }, 2200);
+        }
+      }))
+    })
+  </script>
+</body>
+</html>
