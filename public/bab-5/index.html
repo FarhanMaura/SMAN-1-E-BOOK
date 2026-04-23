@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bab 5: Kreativitas dan Etika Produksi Konten Media Sosial - E-Modul</title>
+  <title>Bab 5: Kreativitas dan Etika Produksi Konten Media Sosial - E-Modul Interaktif</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://unpkg.com/alpinejs@3/dist/cdn.min.js"></script>
@@ -12,41 +12,116 @@
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
-    body { background-color: #0a0a0f; font-family: 'Plus Jakarta Sans', sans-serif; color: #e2e8f0; overflow: hidden; margin: 0; padding: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh;}
+    :root {
+      --bg-dark: #0a0a0f;
+      --card-bg: #12121a;
+      --accent-purple: #a78bfa;
+      --accent-teal: #2dd4bf;
+    }
+
+    body { 
+      background-color: var(--bg-dark); 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+      color: #e2e8f0; 
+      overflow: hidden; 
+      margin: 0; 
+      padding: 0; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center; 
+      min-height: 100vh;
+    }
+    
     h1, h2, h3, .font-sora { font-family: 'Sora', sans-serif; }
     
-    .flipbook { width: 900px; height: 600px; box-shadow: 0 0 50px rgba(167, 139, 250, 0.15); display: none; }
+    .flipbook { width: 900px; height: 600px; box-shadow: 0 0 50px rgba(45, 212, 191, 0.15); display: none; }
     .flipbook.initialized { display: block; animation: bookFadeIn 1s ease-out forwards; }
     
-    .page { background-color: #12121a; border: 1px solid rgba(167, 139, 250, 0.2); overflow: hidden; position: relative; }
-    .page-wrapper { width: 100%; height: 100%; padding: 2rem; display: flex; flex-direction: column; }
-    .page-content { flex-grow: 1; overflow-y: auto; padding-right: 5px; }
+    .page { background-color: var(--card-bg); border: 1px solid rgba(45, 212, 191, 0.2); overflow: hidden; position: relative; }
+    .page-wrapper { width: 100%; height: 100%; padding: 2.5rem; display: flex; flex-direction: column; position: relative; }
+    .page-content { flex-grow: 1; overflow-y: auto; padding-right: 8px; }
     
-    .page-content::-webkit-scrollbar { width: 3px; }
-    .page-content::-webkit-scrollbar-thumb { background: rgba(167, 139, 250, 0.5); border-radius: 4px; }
+    .page-content::-webkit-scrollbar { width: 4px; }
+    .page-content::-webkit-scrollbar-thumb { background: rgba(45, 212, 191, 0.3); border-radius: 10px; }
     
-    .page-footer { height: 25px; display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: #64748b; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; margin-top: 10px;}
-    .page.--hard { background: linear-gradient(135deg, #0f172a, #12121a); border: 2px solid #a78bfa; }
-    
-    .mascot { position: absolute; bottom: 45px; right: 25px; width: 60px; height: 60px; opacity: 0.95; z-index: 5; pointer-events: none; filter: drop-shadow(0 5px 15px rgba(167,139,250,0.3)); border-radius: 50%; border: 2px solid #a78bfa; background-color: #e2e8f0; }
-    
-    @keyframes bookFadeIn { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-    
-    .bg-pattern { background-image: radial-gradient(rgba(167, 139, 250, 0.08) 1px, transparent 1px); background-size: 24px 24px; }
+    .page-footer { 
+      height: 30px; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      font-size: 0.75rem; 
+      color: #64748b; 
+      border-top: 1px solid rgba(255,255,255,0.05); 
+      padding-top: 12px; 
+      margin-top: 15px;
+      font-weight: 600;
+    }
 
-    .animate-content > * { opacity: 0; animation: fadeInUp 0.5s ease-out forwards; }
-    .animate-content > *:nth-child(1) { animation-delay: 0.1s; }
-    .animate-content > *:nth-child(2) { animation-delay: 0.2s; }
-    .animate-content > *:nth-child(3) { animation-delay: 0.3s; }
-    .animate-content > *:nth-child(4) { animation-delay: 0.4s; }
-    .animate-content > *:nth-child(5) { animation-delay: 0.5s; }
-    .animate-content > *:nth-child(6) { animation-delay: 0.6s; }
+    .page.--hard { 
+      background: linear-gradient(135deg, #0f172a, #12121a); 
+      border: 2px solid var(--accent-teal); 
+    }
+    
+    .mascot { 
+      position: absolute; 
+      bottom: 25px; 
+      right: 25px; 
+      width: 80px; 
+      height: 80px; 
+      opacity: 0.95; 
+      z-index: 10; 
+      pointer-events: none; 
+      filter: drop-shadow(0 4px 15px rgba(0,0,0,0.5)); 
+      border-radius: 50%; 
+      border: 3px solid #12121a;
+      box-shadow: 0 0 15px rgba(45, 212, 191, 0.3);
+      background-color: #1a1a2e;
+    }
+    
+    @keyframes bookFadeIn { 
+      from { opacity: 0; transform: scale(0.95) translateY(20px); } 
+      to { opacity: 1; transform: scale(1) translateY(0); } 
+    }
+    
+    .bg-pattern { 
+      background-image: radial-gradient(rgba(45, 212, 191, 0.1) 1px, transparent 1px); 
+      background-size: 30px 30px; 
+    }
 
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-content > * { opacity: 0; transform: translateY(15px); }
+    .animate-content.animate-ready > * { animation: fadeInUp 0.6s ease-out forwards; }
+    
+    .animate-ready > *:nth-child(1) { animation-delay: 0.1s; }
+    .animate-ready > *:nth-child(2) { animation-delay: 0.2s; }
+    .animate-ready > *:nth-child(3) { animation-delay: 0.3s; }
+    .animate-ready > *:nth-child(4) { animation-delay: 0.4s; }
+    .animate-ready > *:nth-child(5) { animation-delay: 0.5s; }
+    .animate-ready > *:nth-child(6) { animation-delay: 0.6s; }
+
+    @keyframes fadeInUp { 
+      from { opacity: 0; transform: translateY(15px); } 
+      to { opacity: 1; transform: translateY(0); } 
+    }
+
+    .topic-card {
+      background: rgba(26, 26, 46, 0.6);
+      border: 1px solid rgba(45, 212, 191, 0.2);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      transition: all 0.3s ease;
+    }
+    .topic-card:hover {
+      border-color: var(--accent-purple);
+      background: rgba(26, 26, 46, 0.8);
+      transform: translateX(5px);
+    }
   </style>
 </head>
 <body x-data="quizApp()" class="bg-pattern relative">
   
+  <!-- FEEDBACK MODAL -->
   <div x-show="showFeedback" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm pointer-events-none">
      <div x-show="showFeedback" 
           x-transition:enter="transition ease-out duration-300"
@@ -59,23 +134,24 @@
           :class="isFeedbackCorrect ? 'border-teal-400 shadow-teal-500/20' : 'border-red-400 shadow-red-500/20'">
         
         <template x-if="isFeedbackCorrect">
-           <div class="w-40 h-40 mx-auto mb-6 rounded-full border-4 border-teal-400 bg-cover bg-no-repeat" style="background-image: url('/Gemini_Generated_Image_ecqwabecqwabecqw.png'); background-size: cover; background-position: center;"></div>
+           <div class="w-40 h-40 mx-auto mb-6 rounded-full border-4 border-teal-400 bg-cover bg-no-repeat" style="background-image: url('/assets/bab2_scene.png'); background-size: cover; background-position: center;"></div>
         </template>
         <template x-if="!isFeedbackCorrect">
-           <div class="w-40 h-40 mx-auto mb-6 rounded-full border-4 border-red-400 bg-cover bg-no-repeat grayscale opacity-80" style="background-image: url('/Gemini_Generated_Image_ecqwabecqwabecqw.png'); background-size: cover; background-position: center;"></div>
+           <div class="w-40 h-40 mx-auto mb-6 rounded-full border-4 border-red-400 bg-cover bg-no-repeat grayscale opacity-80" style="background-image: url('/assets/bab2_scene.png'); background-size: cover; background-position: center;"></div>
         </template>
         
         <h3 class="text-3xl font-sora font-black mb-2" 
             :class="isFeedbackCorrect ? 'text-teal-400' : 'text-red-400'"
-            x-text="isFeedbackCorrect ? 'BENAR SEKALI! 🎉' : 'YAH, SALAH! 😢'"></h3>
-        <p class="text-gray-300 text-lg" x-text="isFeedbackCorrect ? '+10 Poin ditambahkan!' : 'Ayo baca lagi materinya dengan teliti!'"></p>
+            x-text="isFeedbackCorrect ? 'KEREN BANGET! 🎉' : 'YAH, COBA LAGI! 😢'"></h3>
+        <p class="text-gray-300 text-lg" x-text="isFeedbackCorrect ? 'Jawabanmu benar!' : 'Jangan menyerah, baca lagi yuk!'"></p>
      </div>
   </div>
 
+  <!-- DETAIL MODAL -->
   <div x-show="showDetailModal" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md">
-     <div @click.away="showDetailModal = false" class="bg-[#1a1a2e] border border-teal-500/50 rounded-2xl w-[90%] max-w-[500px] max-h-[80vh] flex flex-col shadow-2xl">
-        <div class="p-4 border-b border-gray-700 flex justify-between items-center bg-teal-900/20 rounded-t-2xl">
-           <h3 class="font-bold text-teal-400">Detail Soal</h3>
+     <div @click.away="showDetailModal = false" class="bg-[#1a1a2e] border border-purple-500/50 rounded-2xl w-[90%] max-w-[500px] max-h-[80vh] flex flex-col shadow-2xl">
+        <div class="p-4 border-b border-gray-700 flex justify-between items-center bg-purple-900/20 rounded-t-2xl">
+           <h3 class="font-bold text-purple-400">Detail Pertanyaan</h3>
            <button @click="showDetailModal = false" class="text-gray-400 hover:text-white font-bold text-xl">&times;</button>
         </div>
         <div class="p-6 overflow-y-auto">
@@ -85,10 +161,10 @@
                  <div class="space-y-3">
                     <template x-for="(opt, idx) in activeDetail.opts">
                        <button @click="jawabDariDetail(idx)" 
-                               :class="activeDetail.dijawab ? (idx === activeDetail.ans ? 'bg-teal-600 border-teal-400 text-white' : (idx === activeDetail.userAns ? 'bg-red-600 border-red-400 text-white' : 'opacity-50 border-gray-700')) : 'bg-gray-800 hover:bg-gray-700 border-gray-600'"
+                               :class="activeDetail.dijawab ? (idx === activeDetail.ans ? 'bg-purple-600 border-purple-400 text-white' : (idx === activeDetail.userAns ? 'bg-red-600 border-red-400 text-white' : 'opacity-50 border-gray-700')) : 'bg-gray-800 hover:bg-gray-700 border-gray-600'"
                                class="w-full text-left p-4 rounded-xl border transition flex gap-3 items-start"
                                :disabled="activeDetail.dijawab">
-                          <span class="font-bold text-teal-400 mt-0.5" x-text="['A','B','C','D','E'][idx] + '.'"></span>
+                          <span class="font-bold text-purple-400 mt-0.5" x-text="['A','B','C','D','E'][idx] + '.'"></span>
                           <span class="text-sm text-gray-200" x-text="opt"></span>
                        </button>
                     </template>
@@ -99,253 +175,498 @@
      </div>
   </div>
 
+  <!-- NAVIGATION -->
   <div class="w-full max-w-[900px] flex justify-between items-center mb-6 px-4 z-10">
-     <a href="/" class="text-purple-400 hover:text-purple-300 transition font-semibold flex items-center gap-2 bg-purple-900/20 px-4 py-2 rounded-full border border-purple-500/30">
+     <a href="/" class="text-teal-400 hover:text-teal-300 transition font-semibold flex items-center gap-2 bg-teal-900/20 px-4 py-2 rounded-full border border-teal-500/30 shadow-lg">
        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-       Kembali ke Beranda
+       Beranda
      </a>
-     <div class="flex gap-3">
-       <button id="btn-prev" class="px-6 py-2 rounded-full bg-[#12121a] border border-gray-600 hover:border-purple-400 hover:text-purple-400 text-white text-sm font-bold transition shadow-lg">← Prev</button>
-       <button id="btn-next" class="px-6 py-2 rounded-full bg-[#12121a] border border-gray-600 hover:border-teal-400 hover:text-teal-400 text-white text-sm font-bold transition shadow-lg">Next →</button>
+     <div class="flex gap-4">
+       <button id="btn-prev" class="px-6 py-2.5 rounded-full bg-[#12121a] border border-gray-600 hover:border-teal-400 hover:text-teal-400 text-white text-sm font-bold transition shadow-xl hover:shadow-teal-500/10">← Prev</button>
+       <button id="btn-next" class="px-6 py-2.5 rounded-full bg-[#12121a] border border-gray-600 hover:border-purple-400 hover:text-purple-400 text-white text-sm font-bold transition shadow-xl hover:shadow-purple-500/10">Next →</button>
      </div>
   </div>
   
+  <!-- FLIPBOOK CONTAINER -->
   <div id="flipbook" class="flipbook">
     
+    <!-- HALAMAN 1: COVER -->
     <div class="page --hard">
       <div class="page-wrapper items-center justify-center text-center">
-        <div class="text-[10px] font-bold text-teal-400 mb-6 bg-teal-400/10 px-4 py-1.5 rounded-full border border-teal-400/20 tracking-widest">SMAN 1 PALEMBANG KELAS X</div>
-        <h1 class="text-7xl font-sora font-black text-transparent bg-clip-text bg-gradient-to-br from-purple-400 to-teal-400 mb-4 drop-shadow-lg">Bab 5</h1>
-        <h2 class="text-2xl font-sora font-bold text-gray-200 mb-12 max-w-[300px] leading-snug">Kreativitas dan Etika Produksi Konten Media Sosial</h2>
+        <div class="text-[10px] font-bold text-purple-400 mb-8 bg-purple-400/10 px-5 py-2 rounded-full border border-purple-400/20 tracking-widest uppercase">SMAN 1 PALEMBANG • KELAS X</div>
+        <h1 class="text-8xl font-sora font-black text-transparent bg-clip-text bg-gradient-to-br from-teal-400 to-purple-400 mb-6 drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)]">Bab 5</h1>
+        <h2 class="text-3xl font-sora font-bold text-gray-200 mb-12 max-w-[350px] leading-tight">Kreativitas dan Etika Produksi Konten</h2>
         
-        <div class="w-64 h-64 mx-auto drop-shadow-[0_10px_30px_rgba(255,255,255,0.1)] rounded-full border-4 border-[#12121a] bg-cover bg-center" style="background-image: url('/Gemini_Generated_Image_ecqwabecqwabecqw.png'); background-size: cover; background-position: center;"></div>
-        <p class="mt-10 text-xs font-semibold text-gray-500 animate-pulse">Geser / Klik Next untuk membuka</p>
+        <div class="w-64 h-64 mx-auto drop-shadow-[0_10px_40px_rgba(167,139,250,0.2)] rounded-full border-4 border-[#12121a] bg-cover bg-center ring-4 ring-purple-500/20" style="background-image: url('/assets/bab2_scene.png'); background-size: cover; background-position: center;"></div>
+        <p class="mt-12 text-xs font-bold text-gray-500 animate-pulse tracking-[0.2em] uppercase italic">Jadilah Kreator yang Beretika</p>
       </div>
     </div>
     
+    <!-- HALAMAN 2: KOSONG / MASCOT -->
     <div class="page --hard">
        <div class="page-wrapper items-center justify-center">
-          <div class="w-32 h-32 bg-cover bg-center animate-bounce opacity-80 drop-shadow-[0_0_15px_rgba(167,139,250,0.5)]" style="background-image: url('/assets/boy_sma.png');"></div>
+          <div class="w-48 h-48 bg-cover bg-center animate-bounce opacity-80 drop-shadow-[0_0_20px_rgba(45,212,191,0.6)]" style="background-image: url('/assets/girl_sma.png');"></div>
+          <p class="text-teal-400 font-bold mt-8 tracking-widest uppercase text-xs">Siap Berkreasi Digital?</p>
        </div>
     </div>
 
+    <!-- HALAMAN 3: INTRO -->
     <div class="page">
       <div class="page-wrapper">
         <div class="page-content animate-content">
-          <h2 class="text-xl font-sora font-bold text-purple-400 mb-4 border-b border-gray-700 pb-2">Tujuan Pembelajaran</h2>
-          <p class="mb-3 text-xs text-gray-300 leading-relaxed text-justify">Setelah mempelajari dan mencermati uraian materi beserta aktivitas pembelajaran pada bab ini, kalian diharapkan mampu:</p>
-          <ol class="list-decimal pl-5 text-xs text-gray-300 leading-relaxed mb-4 space-y-1">
-             <li>memahami dan menerapkan konsep multimedia pada teknik produksi konten multimedia yang terintegrasi, dan</li>
-             <li>mendiseminasi konten multimedia dengan efektif.</li>
-          </ol>
+          <h2 class="text-2xl font-sora font-bold text-teal-400 mb-6 border-b-2 border-teal-500/20 pb-3">Tujuan Pembelajaran</h2>
+          <div class="space-y-4 mb-8">
+             <div class="flex gap-3 items-start">
+                <span class="w-6 h-6 bg-teal-500/20 text-teal-400 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">1</span>
+                <p class="text-xs text-gray-300 leading-relaxed text-justify">Memahami konsep multimedia dan elemen-elemen penyusunnya.</p>
+             </div>
+             <div class="flex gap-3 items-start">
+                <span class="w-6 h-6 bg-teal-500/20 text-teal-400 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">2</span>
+                <p class="text-xs text-gray-300 leading-relaxed text-justify">Mengenali hak cipta dan berbagai jenis lisensi digital (Creative Commons).</p>
+             </div>
+             <div class="flex gap-3 items-start">
+                <span class="w-6 h-6 bg-teal-500/20 text-teal-400 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">3</span>
+                <p class="text-xs text-gray-300 leading-relaxed text-justify">Mampu memproduksi konten digital dengan etika dan rasa tanggung jawab.</p>
+             </div>
+          </div>
           
-          <h3 class="text-sm font-sora font-bold text-teal-400 mb-2 mt-4">Kata Kunci</h3>
-          <div class="flex flex-wrap gap-2 mb-6">
-             <span class="bg-gray-800 text-teal-300 text-[9px] px-2 py-1 rounded border border-gray-700">Multimedia</span>
-             <span class="bg-gray-800 text-teal-300 text-[9px] px-2 py-1 rounded border border-gray-700">Konten Digital</span>
-             <span class="bg-gray-800 text-teal-300 text-[9px] px-2 py-1 rounded border border-gray-700">Produksi Konten</span>
-             <span class="bg-gray-800 text-teal-300 text-[9px] px-2 py-1 rounded border border-gray-700">Diseminasi Konten</span>
-             <span class="bg-gray-800 text-teal-300 text-[9px] px-2 py-1 rounded border border-gray-700">Creative Commons</span>
+          <h3 class="text-sm font-sora font-bold text-purple-400 mb-3 uppercase tracking-widest">Kata Kunci</h3>
+          <div class="flex flex-wrap gap-2 mb-8">
+             <span class="bg-purple-900/20 text-purple-300 text-[10px] px-3 py-1.5 rounded-lg border border-purple-500/30 font-bold">Multimedia</span>
+             <span class="bg-purple-900/20 text-purple-300 text-[10px] px-3 py-1.5 rounded-lg border border-purple-500/30 font-bold">Hak Cipta</span>
+             <span class="bg-purple-900/20 text-purple-300 text-[10px] px-3 py-1.5 rounded-lg border border-purple-500/30 font-bold">Canva</span>
+             <span class="bg-purple-900/20 text-purple-300 text-[10px] px-3 py-1.5 rounded-lg border border-purple-500/30 font-bold">Jejak Digital</span>
           </div>
 
-          <h2 class="text-xl font-sora font-bold text-purple-400 mb-4 border-b border-gray-700 pb-2 mt-6">Apersepsi</h2>
-          <p class="mb-3 text-[11px] text-gray-300 leading-relaxed text-justify">Hampir setiap hari, kita berinteraksi dengan konten digital, baik itu video pendek, poster promosi, atau animasi yang sering muncul di media sosial. Membuat konten yang bagus dan bernilai, bukan hanya sekadar edit atau menambahkan musik pada aplikasi, tetapi juga cara menyampaikan pesan yang kuat, menarik perhatian, dan relevan.</p>
-          <p class="mb-3 text-[11px] text-gray-300 leading-relaxed text-justify">Kamu pasti pernah melihat konten digital yang muncul di media sosial. Pernahkah kamu berpikir untuk membuat konten lalu mengunggahnya ke platform media sosial? Bagaimana perasaanmu jika konten yang kamu buat digunakan oleh orang lain tanpa izin?</p>
+          <h2 class="text-2xl font-sora font-bold text-teal-400 mb-4 border-b-2 border-teal-500/20 pb-3 mt-6">Apersepsi</h2>
+          <p class="mb-5 text-[12px] text-gray-300 leading-relaxed text-justify italic">"Bayangkan kamu menghabiskan waktu berjam-jam membuat desain poster yang keren, lalu seseorang mengambilnya tanpa izin dan mengakuinya sebagai miliknya. Bagaimana perasaanmu? Di bab ini, kita akan belajar bagaimana berkreasi tanpa melanggar hak orang lain."</p>
         </div>
-        <div class="page-footer"><span>Bab 5 Kreativitas & Etika</span><span>1</span></div>
+        <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>1</span></div>
       </div>
     </div>
 
-    <!-- HALAMAN 4: A. Konsep Multimedia -->
+    <!-- HALAMAN 4: A. KONSEP MULTIMEDIA -->
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-teal-400 mb-4 leading-snug">A. Konsep Multimedia</h2>
-             <p class="text-[11px] mb-3 text-justify text-gray-300">Multimedia adalah kombinasi dari berbagai elemen komunikasi seperti teks, gambar, audio, video, dan animasi yang digabungkan secara interaktif dan digital. Tujuan utamanya adalah menyampaikan informasi agar lebih menarik dan mudah dipahami.</p>
-             
-             <h3 class="text-sm font-bold text-purple-400 mb-2">Elemen-Elemen Multimedia</h3>
-             <ul class="space-y-3 list-none p-0 m-0">
-                <li class="bg-[#1a1a2e] p-2 rounded border-l-4 border-teal-500">
-                   <strong class="text-white text-xs block mb-1">1. Teks</strong>
-                   <span class="text-[10px] text-gray-400">Bentuk dasar komunikasi. Berguna menyampaikan informasi spesifik yang sulit digambarkan dengan elemen visual saja.</span>
-                </li>
-                <li class="bg-[#1a1a2e] p-2 rounded border-l-4 border-teal-500">
-                   <strong class="text-white text-xs block mb-1">2. Gambar (Visual)</strong>
-                   <span class="text-[10px] text-gray-400">Bisa berupa foto, ilustrasi, atau infografis. Berfungsi memvisualisasikan konsep.</span>
-                </li>
-                <li class="bg-[#1a1a2e] p-2 rounded border-l-4 border-teal-500">
-                   <strong class="text-white text-xs block mb-1">3. Audio</strong>
-                   <span class="text-[10px] text-gray-400">Meliputi narasi (voiceover), musik latar, dan efek suara (sound effects).</span>
-                </li>
-                <li class="bg-[#1a1a2e] p-2 rounded border-l-4 border-teal-500">
-                   <strong class="text-white text-xs block mb-1">4. Video</strong>
-                   <span class="text-[10px] text-gray-400">Rekaman pergerakan visual yang sangat efektif menyampaikan tutorial atau liputan.</span>
-                </li>
-             </ul>
-          </div>
-          <div class="page-footer"><span>Bab 5 Kreativitas & Etika</span><span>2</span></div>
-       </div>
-    </div>
-    
-    <!-- HALAMAN 5: B. Hak Cipta dan Lisensi -->
-    <div class="page">
-       <div class="page-wrapper">
-          <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-teal-400 mb-4 leading-snug">B. Hak Cipta dan Lisensi Digital</h2>
-             <p class="text-[11px] mb-3 text-justify text-gray-300">Hak Cipta (Copyright) adalah hak eksklusif yang diberikan hukum kepada pencipta karya untuk mengatur penggunaan karyanya. Berlaku otomatis begitu karya diwujudkan.</p>
-
-             <h3 class="text-sm font-bold text-purple-400 mb-2 mt-4">Lisensi Digital (Creative Commons)</h3>
-             <p class="text-[10px] mb-3 text-justify text-gray-300">Creative Commons (CC) adalah sistem lisensi yang memungkinkan pencipta memberi izin kepada publik untuk menggunakan karyanya dengan syarat tertentu.</p>
-             
-             <div class="grid grid-cols-2 gap-2 text-[9px]">
-                <div class="bg-gray-800/50 p-2 rounded border border-gray-700">
-                   <strong class="text-teal-300 block mb-1">Attribution (BY)</strong>
-                   Bebas digunakan, harus mencantumkan sumber.
-                </div>
-                <div class="bg-gray-800/50 p-2 rounded border border-gray-700">
-                   <strong class="text-teal-300 block mb-1">ShareAlike (SA)</strong>
-                   Karya turunan harus pakai lisensi yang sama persis.
-                </div>
-                <div class="bg-gray-800/50 p-2 rounded border border-gray-700">
-                   <strong class="text-teal-300 block mb-1">NonCommercial (NC)</strong>
-                   Tidak boleh untuk tujuan komersial (mencari uang).
-                </div>
-                <div class="bg-gray-800/50 p-2 rounded border border-gray-700">
-                   <strong class="text-teal-300 block mb-1">NoDerivatives (ND)</strong>
-                   Boleh digunakan, tapi tidak boleh diubah/diedit sama sekali.
-                </div>
-             </div>
-          </div>
-          <div class="page-footer"><span>Bab 5 Kreativitas & Etika</span><span>3</span></div>
-       </div>
-    </div>
-
-    <!-- HALAMAN 6: C. Etika Produksi Konten -->
-    <div class="page">
-       <div class="page-wrapper">
-          <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-purple-400 mb-4 leading-snug">C. Etika Produksi Konten</h2>
-             <p class="text-[11px] mb-3 text-justify text-gray-300">Etika adalah kompas moral saat membuat dan membagikan sesuatu di dunia digital.</p>
-             
-             <h3 class="text-sm font-bold text-teal-400 mb-2">Contoh Pelanggaran Etika:</h3>
-             <div class="space-y-3 mt-3">
-                <div class="border-l-2 border-red-500 pl-3">
-                   <p class="text-[10px] font-bold text-white mb-1">1. Plagiarisme</p>
-                   <p class="text-[10px] text-gray-400 text-justify">Mengambil gambar, video, atau musik orang lain tanpa izin atau tanpa mencantumkan sumber/pemiliknya.</p>
-                </div>
-                <div class="border-l-2 border-red-500 pl-3">
-                   <p class="text-[10px] font-bold text-white mb-1">2. Pelanggaran Privasi</p>
-                   <p class="text-[10px] text-gray-400 text-justify">Merekam orang lain dan menyebarkannya tanpa izin.</p>
-                </div>
-                <div class="border-l-2 border-red-500 pl-3">
-                   <p class="text-[10px] font-bold text-white mb-1">3. Cyberbullying</p>
-                   <p class="text-[10px] text-gray-400 text-justify">Membuat konten dengan tujuan menghina, mengejek, atau menyinggung orang lain atau kelompok tertentu.</p>
-                </div>
-                <div class="border-l-2 border-red-500 pl-3">
-                   <p class="text-[10px] font-bold text-white mb-1">4. Disinformasi</p>
-                   <p class="text-[10px] text-gray-400 text-justify">Mengedit informasi atau gambar untuk menipu atau memanipulasi lalu menyebarkannya (hoaks).</p>
-                </div>
-             </div>
-          </div>
-          <div class="page-footer"><span>Bab 5 Kreativitas & Etika</span><span>4</span></div>
-       </div>
-    </div>
-
-    <!-- HALAMAN 7: D. Proses Pembuatan Konten -->
-    <div class="page">
-       <div class="page-wrapper">
-          <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-teal-400 mb-4 leading-snug">D. Proses Pembuatan Konten Digital</h2>
-             <p class="text-[11px] mb-3 text-justify text-gray-300">Pembuatan konten digital memerlukan aplikasi penyunting. Salah satu aplikasi yang populer dan dapat diakses dengan akun belajar.id adalah <strong>Canva</strong>.</p>
-             
-             <div class="bg-[#1a1a2e] p-3 rounded-lg border border-teal-500/30 mb-4 mt-4">
-                <h3 class="text-sm font-bold text-white mb-2">Memulai Pembuatan Video</h3>
-                <ol class="list-decimal pl-4 text-[10px] text-gray-400 space-y-1">
-                   <li>Buka Canva.com dan login dengan akun belajar.id</li>
-                   <li>Pilih menu "Video" di halaman utama.</li>
-                   <li>Pilih jenis resolusi video yang diinginkan.</li>
-                   <li>Gunakan menu "Elemen" untuk memasukkan video, gambar, audio, atau grafis ke dalam ruang kerja.</li>
-                </ol>
-             </div>
-             
-             <p class="text-[10px] text-justify text-gray-400 bg-teal-900/20 p-2 rounded">
-                <strong>Catatan:</strong> Foto merepresentasikan objek nyata, sementara grafis lebih bersifat kreasi visual atau ilustrasi. Keduanya ada di menu Elemen.
+             <h2 class="text-xl font-sora font-bold text-purple-400 mb-6 border-l-4 border-purple-500 pl-4">A. Konsep Multimedia</h2>
+             <p class="text-[12px] text-gray-200 mb-6 leading-relaxed text-justify">
+                <strong>Multimedia</strong> adalah kombinasi dari berbagai elemen media untuk menyampaikan informasi secara lebih menarik dan interaktif.
              </p>
+             
+             <h4 class="text-xs font-bold text-teal-400 mb-4 uppercase tracking-widest">Elemen Multimedia:</h4>
+             <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-[#1a1a2e] p-3 rounded-xl border border-gray-800 text-center">
+                   <div class="text-xl mb-1">📝</div>
+                   <span class="text-[9px] font-bold text-white">Teks</span>
+                </div>
+                <div class="bg-[#1a1a2e] p-3 rounded-xl border border-gray-800 text-center">
+                   <div class="text-xl mb-1">🖼️</div>
+                   <span class="text-[9px] font-bold text-white">Gambar</span>
+                </div>
+                <div class="bg-[#1a1a2e] p-3 rounded-xl border border-gray-800 text-center">
+                   <div class="text-xl mb-1">🔊</div>
+                   <span class="text-[9px] font-bold text-white">Audio</span>
+                </div>
+                <div class="bg-[#1a1a2e] p-3 rounded-xl border border-gray-800 text-center">
+                   <div class="text-xl mb-1">🎬</div>
+                   <span class="text-[9px] font-bold text-white">Video</span>
+                </div>
+             </div>
+             <p class="text-[10px] text-gray-400 italic text-center">"Gabungan elemen-elemen ini membuat pesan lebih mudah diingat!"</p>
           </div>
-          <div class="page-footer"><span>Bab 5 Kreativitas & Etika</span><span>5</span></div>
+          <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>2</span></div>
        </div>
     </div>
 
-    <!-- HALAMAN 8: D. Proses Pembuatan Konten (Lanjutan) -->
+    <!-- HALAMAN 5: MANFAAT MULTIMEDIA -->
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-sm font-bold text-teal-400 mb-3">AI Voice & Animasi pada Canva</h3>
-             <p class="text-[11px] mb-3 text-justify text-gray-300">Selain elemen biasa, kamu bisa memasukkan suara dengan memilih menu "AI Voice" di Canva. Cukup masukkan teks, pilih karakter suara, dan suara narasi akan masuk otomatis.</p>
+             <h3 class="text-md font-bold text-teal-400 mb-6">Mengapa Multimedia Penting?</h3>
              
-             <p class="text-[11px] mb-3 text-justify text-gray-300"><strong>Animasi:</strong> Terdapat dua jenis, yaitu animasi keseluruhan video/halaman (saat masuk atau keluar) dan animasi pada objek tertentu (teks, foto, grafis).</p>
-             
-             <h3 class="text-sm font-bold text-purple-400 mb-2 mt-4">Kecerdasan Artifisial pada Canva</h3>
-             <ul class="space-y-2 list-none p-0 m-0">
-                <li class="bg-gray-800/40 p-2 rounded text-[10px] text-gray-300">
-                   <strong class="text-purple-300">AI Captions:</strong> Menambahkan takarir secara otomatis dari suara narasi.
-                </li>
-                <li class="bg-gray-800/40 p-2 rounded text-[10px] text-gray-300">
-                   <strong class="text-purple-300">AI Motion:</strong> Menambahkan efek animasi/transisi dengan bantuan AI.
-                </li>
-                <li class="bg-gray-800/40 p-2 rounded text-[10px] text-gray-300">
-                   <strong class="text-purple-300">Vector AI & AI Frames:</strong> Menghasilkan gambar/ilustrasi dari deskripsi teks (Prompt).
-                </li>
-             </ul>
-          </div>
-          <div class="page-footer"><span>Bab 5 Kreativitas & Etika</span><span>6</span></div>
-       </div>
-    </div>
-
-    <!-- HALAMAN 9: Keamanan Digital -->
-    <div class="page">
-       <div class="page-wrapper">
-          <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-purple-400 mb-4 leading-snug">E. Keamanan Digital dalam Berbagi Konten</h2>
-             <h3 class="text-sm font-bold text-white mb-2">Jejak Digital</h3>
-             <p class="text-[10px] mb-4 text-justify text-gray-300">Jejak digital adalah rekaman data yang ditinggalkan saat berinteraksi di dunia maya (komentar, unggahan foto, likes). Ini membentuk reputasi pribadi dan profesionalmu di masa depan.</p>
-             
-             <h3 class="text-sm font-bold text-teal-400 mb-2">Melindungi Konten Digital</h3>
-             <ul class="list-disc pl-4 text-[10px] text-gray-400 space-y-1 mb-4">
-                <li>Tambahkan <strong>watermark</strong> (logo/nama) sebagai tanda kepemilikan.</li>
-                <li>Atur <strong>privasi akun</strong> agar tidak sembarang orang bisa melihat.</li>
-                <li>Simpan salinan asli sebagai bukti pemilik.</li>
-                <li>Gunakan <strong>Creative Commons</strong> untuk menjelaskan aturan penggunaan.</li>
-             </ul>
-             
-             <div class="bg-red-900/20 border border-red-500/30 p-2 rounded mt-2">
-                <p class="text-[9px] text-gray-300 text-justify font-bold">Selalu cek sebelum mengunggah: Apakah konten ini aman? Apakah menyakiti orang lain? Apakah bisa disalahartikan?</p>
+             <div class="space-y-4">
+                <div class="topic-card">
+                   <h4 class="text-xs font-bold text-white mb-2 uppercase">1. Meningkatkan Pemahaman</h4>
+                   <p class="text-[10px] text-gray-400">Otak manusia memproses informasi visual 60.000 kali lebih cepat daripada teks.</p>
+                </div>
+                <div class="topic-card">
+                   <h4 class="text-xs font-bold text-white mb-2 uppercase">2. Menarik Perhatian</h4>
+                   <p class="text-[10px] text-gray-400">Konten dengan gambar dan video 2x lebih mungkin dibagikan di media sosial.</p>
+                </div>
+                <div class="topic-card">
+                   <h4 class="text-xs font-bold text-white mb-2 uppercase">3. Interaktivitas</h4>
+                   <p class="text-[10px] text-gray-400">Memungkinkan pengguna untuk terlibat langsung dengan konten (seperti flipbook ini!).</p>
+                </div>
              </div>
           </div>
-          <div class="page-footer"><span>Bab 5 Kreativitas & Etika</span><span>7</span></div>
+          <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>3</span></div>
        </div>
     </div>
 
-    <!-- HALAMAN 10: Formatif Awal (Latihan Dasar) -->
+    <!-- HALAMAN 6: B. HAK CIPTA -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h2 class="text-xl font-sora font-bold text-teal-400 mb-6 border-l-4 border-teal-500 pl-4">B. Hak Cipta & Lisensi</h2>
+             <div class="bg-gradient-to-br from-red-900/20 to-transparent p-6 rounded-2xl border border-red-500/30 mb-8">
+                <p class="text-[11px] text-gray-200 leading-relaxed text-justify">
+                   <strong>Hak Cipta</strong> adalah hak eksklusif pencipta atas karyanya yang timbul secara otomatis setelah suatu ciptaan diwujudkan dalam bentuk nyata.
+                </p>
+             </div>
+             
+             <h3 class="text-md font-bold text-purple-400 mb-4">Lisensi Digital</h3>
+             <p class="text-[11px] text-gray-300 mb-4 text-justify">Lisensi adalah izin yang diberikan oleh pemegang hak cipta kepada orang lain untuk menggunakan karyanya dengan aturan tertentu.</p>
+             
+             <div class="bg-[#1a1a2e] p-4 rounded-xl border border-gray-700">
+                <p class="text-[10px] text-teal-400 font-bold uppercase mb-2 tracking-widest">Ingat!</p>
+                <p class="text-[10px] text-gray-400 italic">"Tidak semua yang ada di internet adalah GRATIS untuk digunakan sembarangan."</p>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>4</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 7: CREATIVE COMMONS 1 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-md font-bold text-purple-400 mb-6 uppercase tracking-tighter">Jenis Lisensi Creative Commons (CC)</h3>
+             
+             <div class="space-y-4">
+                <div class="topic-card border-l-4 border-teal-500">
+                   <h4 class="text-xs font-bold text-white mb-1">CC BY (Atribusi)</h4>
+                   <p class="text-[9px] text-gray-400">Bebas digunakan selama mencantumkan nama pencipta.</p>
+                </div>
+                <div class="topic-card border-l-4 border-teal-500">
+                   <h4 class="text-xs font-bold text-white mb-1">CC BY-SA (Berbagi Serupa)</h4>
+                   <p class="text-[9px] text-gray-400">Harus dibagikan dengan lisensi yang sama jika diubah.</p>
+                </div>
+                <div class="topic-card border-l-4 border-teal-500">
+                   <h4 class="text-xs font-bold text-white mb-1">CC BY-ND (Tanpa Modifikasi)</h4>
+                   <p class="text-[9px] text-gray-400">Boleh dibagikan tapi TIDAK boleh diubah isinya.</p>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>5</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 8: CREATIVE COMMONS 2 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <div class="space-y-4 mt-4">
+                <div class="topic-card border-l-4 border-purple-500">
+                   <h4 class="text-xs font-bold text-white mb-1">CC BY-NC (Non-Komersial)</h4>
+                   <p class="text-[9px] text-gray-400">Tidak boleh digunakan untuk tujuan mencari keuntungan uang.</p>
+                </div>
+                <div class="topic-card border-l-4 border-purple-500">
+                   <h4 class="text-xs font-bold text-white mb-1">CC BY-NC-SA</h4>
+                   <p class="text-[9px] text-gray-400">Non-komersial dan harus berbagi dengan lisensi yang sama.</p>
+                </div>
+                <div class="topic-card border-l-4 border-red-500">
+                   <h4 class="text-xs font-bold text-white mb-1">CC BY-NC-ND</h4>
+                   <p class="text-[9px] text-gray-400">Lisensi paling ketat. Hanya boleh dibagikan tanpa diubah & non-komersial.</p>
+                </div>
+             </div>
+             
+             <div class="mt-8 text-center bg-gray-900/40 p-4 rounded-xl border border-gray-700">
+                <p class="text-[10px] text-gray-400 italic">"Gunakan situs seperti <u>search.creativecommons.org</u> untuk mencari aset gratis yang aman."</p>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>6</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 9: C. ETIKA PRODUKSI KONTEN -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h2 class="text-xl font-sora font-bold text-purple-400 mb-6 border-l-4 border-purple-500 pl-4 uppercase">C. Etika Produksi Konten</h2>
+             <p class="text-[11px] mb-6 text-gray-300 leading-relaxed text-justify">
+                Etika adalah "kompas moral" saat kita beraktivitas di dunia digital. Sebagai kreator, kita punya tanggung jawab besar.
+             </p>
+             
+             <h4 class="text-xs font-bold text-red-400 mb-3 uppercase tracking-widest">Pelanggaran Etika Umum:</h4>
+             <div class="grid grid-cols-1 gap-4">
+                <div class="bg-red-900/10 p-3 rounded-lg border border-red-500/20">
+                   <p class="text-[10px] text-white font-bold">1. Plagiarisme</p>
+                   <p class="text-[9px] text-gray-400">Mengambil karya orang lain tanpa izin atau sumber.</p>
+                </div>
+                <div class="bg-red-900/10 p-3 rounded-lg border border-red-500/20">
+                   <p class="text-[10px] text-white font-bold">2. Pelanggaran Privasi</p>
+                   <p class="text-[9px] text-gray-400">Menyebarkan data pribadi atau foto orang lain tanpa izin.</p>
+                </div>
+                <div class="bg-red-900/10 p-3 rounded-lg border border-red-500/20">
+                   <p class="text-[10px] text-white font-bold">3. Disinformasi (Hoaks)</p>
+                   <p class="text-[9px] text-gray-400">Membuat atau menyebarkan berita bohong.</p>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>7</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 10: TANGGUNG JAWAB KREATOR -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-md font-bold text-teal-400 mb-8 uppercase tracking-widest text-center">Tanggung Jawab Kreator</h3>
+             
+             <div class="flex flex-col gap-6">
+                <div class="flex gap-4 items-center bg-[#1a1a2e] p-4 rounded-2xl border border-gray-700">
+                   <div class="text-3xl">🤝</div>
+                   <p class="text-[10px] text-gray-300"><b>Menghormati:</b> Selalu hargai karya dan privasi orang lain di media sosial.</p>
+                </div>
+                <div class="flex gap-4 items-center bg-[#1a1a2e] p-4 rounded-2xl border border-gray-700">
+                   <div class="text-3xl">🛡️</div>
+                   <p class="text-[10px] text-gray-300"><b>Melindungi:</b> Tidak menyebarkan konten yang memicu kebencian (SARA).</p>
+                </div>
+                <div class="flex gap-4 items-center bg-[#1a1a2e] p-4 rounded-2xl border border-gray-700">
+                   <div class="text-3xl">✅</div>
+                   <p class="text-[10px] text-gray-300"><b>Validasi:</b> Memastikan informasi yang dibagikan adalah benar dan bermanfaat.</p>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>8</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 11: D. PROSES PEMBUATAN KONTEN -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h2 class="text-xl font-sora font-bold text-teal-400 mb-6 border-l-4 border-teal-500 pl-4 uppercase">D. Proses Pembuatan Konten</h2>
+             <p class="text-[11px] mb-8 text-gray-300 leading-relaxed text-justify">
+                Saat ini banyak aplikasi yang memudahkan kita membuat konten multimedia. Salah satu yang terpopuler adalah <strong>Canva</strong>.
+             </p>
+             
+             <div class="flex justify-center mb-8">
+                <div class="w-24 h-24 bg-teal-500 rounded-2xl flex items-center justify-center text-4xl shadow-[0_0_30px_rgba(45,212,191,0.3)]">🎨</div>
+             </div>
+             
+             <div class="bg-teal-900/20 p-5 rounded-2xl border border-teal-500/30">
+                <h4 class="text-xs font-bold text-white mb-2 uppercase">Kelebihan Canva:</h4>
+                <ul class="text-[10px] text-gray-400 list-disc pl-5 space-y-2">
+                   <li>Mudah digunakan (Drag & Drop).</li>
+                   <li>Ribuan template siap pakai.</li>
+                   <li>Bisa kolaborasi tim secara real-time.</li>
+                   <li>Mendukung elemen AI yang canggih.</li>
+                </ul>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>9</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 12: MEMULAI PROYEK CANVA -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-md font-bold text-purple-400 mb-6 uppercase">Langkah 1: Memulai Proyek</h3>
+             <ol class="list-decimal pl-5 text-[11px] text-gray-300 space-y-4 text-justify">
+                <li>Buka <code class="text-teal-400">canva.com</code> dan login (disarankan pakai akun belajar.id).</li>
+                <li>Klik tombol <b>"Create a design"</b> atau pilih menu <b>"Video"</b> untuk proyek multimedia.</li>
+                <li>Pilih jenis ukuran (Video YouTube, Instagram Reel, atau TikTok).</li>
+                <li>Gunakan kolom pencarian template untuk mencari inspirasi tema yang sesuai dengan materimu.</li>
+             </ol>
+             
+             <div class="mt-12 bg-gray-900/50 p-4 rounded-xl border border-dashed border-gray-600 text-center">
+                <p class="text-[9px] text-gray-500 uppercase tracking-widest font-black">Area Kerja Canva</p>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>10</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 13: TEKS & GAMBAR -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-md font-bold text-teal-400 mb-6 uppercase">Langkah 2: Menambah Elemen</h3>
+             
+             <div class="space-y-6">
+                <div class="topic-card">
+                   <h4 class="text-xs font-bold text-white mb-2">A. Elemen Teks</h4>
+                   <p class="text-[10px] text-gray-400 mb-2">Pilih menu <b>"Text"</b> di sebelah kiri. Pilih <i>Heading</i> untuk judul besar dan <i>Body text</i> untuk penjelasan.</p>
+                   <p class="text-[9px] text-teal-400 italic">Tips: Gunakan maksimal 2 jenis font agar desain tidak berantakan.</p>
+                </div>
+                
+                <div class="topic-card">
+                   <h4 class="text-xs font-bold text-white mb-2">B. Elemen Gambar/Grafis</h4>
+                   <p class="text-[10px] text-gray-400">Pilih menu <b>"Elements"</b>. Masukkan kata kunci (misal: "Sekolah", "Teknologi"). Kamu bisa pilih <i>Graphics</i> (kartun) atau <i>Photos</i> (nyata).</p>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>11</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 14: AUDIO & AI VOICE -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-md font-bold text-purple-400 mb-6 uppercase">Langkah 3: Menambah Audio</h3>
+             <p class="text-[11px] mb-6 text-gray-300 text-justify">Audio membuat video jadi "hidup". Kamu bisa menambah musik latar atau narasi suara.</p>
+             
+             <div class="bg-purple-900/10 p-5 rounded-2xl border border-purple-500/20 mb-8">
+                <h4 class="text-xs font-bold text-purple-400 mb-2">Fitur AI Voice:</h4>
+                <p class="text-[10px] text-gray-400 mb-3 text-justify">Canva memiliki fitur "Text to Speech" yang bisa mengubah tulisanmu menjadi suara manusia secara otomatis!</p>
+                <code class="text-[9px] bg-black/50 p-2 rounded block text-center text-purple-300">Apps > AI Voice > Ketik Teks > Pilih Suara</code>
+             </div>
+             
+             <p class="text-[9px] text-gray-500 italic text-center">"Pastikan volume musik latar tidak menutupi suara narasi utamamu."</p>
+          </div>
+          <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>12</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 15: ANIMASI -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-md font-bold text-teal-400 mb-6 uppercase">Langkah 4: Animasi & Transisi</h3>
+             <p class="text-[11px] mb-8 text-gray-300 text-justify">Animasi membuat elemen bergerak, sedangkan transisi membuat perpindahan antar halaman jadi halus.</p>
+             
+             <div class="grid grid-cols-2 gap-4 mb-8">
+                <div class="bg-[#1a1a2e] p-4 rounded-xl border border-gray-800 text-center">
+                   <div class="text-2xl mb-2">✨</div>
+                   <p class="text-[10px] font-bold text-white uppercase">Animate</p>
+                   <p class="text-[8px] text-gray-500">Gunakan untuk TEKS atau GAMBAR.</p>
+                </div>
+                <div class="bg-[#1a1a2e] p-4 rounded-xl border border-gray-800 text-center">
+                   <div class="text-2xl mb-2">🎞️</div>
+                   <p class="text-[10px] font-bold text-white uppercase">Transition</p>
+                   <p class="text-[8px] text-gray-500">Klik di ANTARA dua slide.</p>
+                </div>
+             </div>
+             
+             <div class="bg-teal-900/20 p-4 rounded-xl border border-teal-500/20">
+                <p class="text-[10px] text-gray-300 leading-relaxed"><b>AI Magic Animate:</b> Fitur sekali klik yang akan menganimasikan seluruh desainmu secara cerdas!</p>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>13</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 16: PUBLIKASI -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-md font-bold text-purple-400 mb-6 uppercase">Langkah Akhir: Publikasi</h3>
+             <p class="text-[11px] mb-6 text-gray-300">Setelah konten selesai, klik tombol <b>"Share"</b> di pojok kanan atas.</p>
+             
+             <div class="space-y-4">
+                <div class="topic-card flex justify-between items-center">
+                   <span class="text-[10px] font-bold text-white uppercase">Format Video</span>
+                   <span class="bg-teal-600 text-[9px] px-2 py-0.5 rounded font-black">MP4 (Recommended)</span>
+                </div>
+                <div class="topic-card flex justify-between items-center">
+                   <span class="text-[10px] font-bold text-white uppercase">Link Berbagi</span>
+                   <span class="bg-purple-600 text-[9px] px-2 py-0.5 rounded font-black">VIEW ONLY</span>
+                </div>
+                <div class="topic-card flex justify-between items-center">
+                   <span class="text-[10px] font-bold text-white uppercase">Cetak Kode QR</span>
+                   <span class="bg-gray-600 text-[9px] px-2 py-0.5 rounded font-black">GENERATE QR</span>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>14</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 17: E. KEAMANAN DIGITAL -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h2 class="text-xl font-sora font-bold text-teal-400 mb-6 border-l-4 border-teal-500 pl-4 uppercase">E. Keamanan Digital</h2>
+             <h3 class="text-md font-bold text-white mb-3">Jejak Digital</h3>
+             <p class="text-[11px] text-gray-300 mb-8 leading-relaxed text-justify">
+                <strong>Jejak Digital</strong> adalah rekaman aktivitasmu di internet (postingan, komentar, riwayat pencarian). Jejak ini <u>SULIT DIHAPUS</u> dan bisa berpengaruh pada masa depanmu (beasiswa/pekerjaan).
+             </p>
+             
+             <div class="bg-red-900/10 p-5 rounded-2xl border border-red-500/30">
+                <h4 class="text-xs font-bold text-red-400 mb-2 uppercase">Tips Menjaga Jejak:</h4>
+                <ul class="text-[10px] text-gray-400 space-y-2">
+                   <li>Pikirkan dulu sebelum membagikan (THINK).</li>
+                   <li>Jangan membagikan data pribadi (Alamat, NIK, NISN).</li>
+                   <li>Gunakan pengaturan privasi akun secara bijak.</li>
+                </ul>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>15</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 18: WATERMARK & PRIVASI -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-md font-bold text-purple-400 mb-8 text-center uppercase tracking-widest">Melindungi Karya Kamu</h3>
+             
+             <div class="grid grid-cols-1 gap-6">
+                <div class="topic-card flex gap-4">
+                   <div class="text-3xl">🌊</div>
+                   <div>
+                      <h4 class="text-xs font-bold text-white uppercase">Gunakan Watermark</h4>
+                      <p class="text-[9px] text-gray-500">Tambahkan nama atau logomu di sudut karya agar tidak mudah diklaim orang lain.</p>
+                   </div>
+                </div>
+                
+                <div class="topic-card flex gap-4">
+                   <div class="text-3xl">🔒</div>
+                   <div>
+                      <h4 class="text-xs font-bold text-white uppercase">Pengaturan Akses</h4>
+                      <p class="text-[9px] text-gray-500">Saat berbagi link Google Drive/Canva, pastikan aksesnya "Commenter" atau "Viewer" saja.</p>
+                   </div>
+                </div>
+             </div>
+             
+             <div class="mt-12 bg-teal-900/10 p-5 rounded-2xl border border-teal-500/20 text-center italic">
+                <p class="text-[10px] text-gray-300">"Kreativitas bukan hanya soal menciptakan, tapi juga soal menjaga apa yang sudah diciptakan."</p>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>16</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 19: RANGKUMAN -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h2 class="text-2xl font-sora font-bold text-purple-400 mb-6 border-b-2 border-purple-500/20 pb-3 uppercase tracking-tighter">Rangkuman</h2>
+             <div class="space-y-4 bg-[#1a1a2e] p-6 rounded-2xl border border-gray-700 shadow-xl">
+                <p class="text-[11px] text-gray-300 leading-relaxed"><span class="text-teal-400 font-black">●</span> Multimedia adalah perpaduan teks, gambar, audio, dan video yang interaktif.</p>
+                <p class="text-[11px] text-gray-300 leading-relaxed"><span class="text-teal-400 font-black">●</span> Selalu cantumkan sumber dan perhatikan jenis lisensi CC saat menggunakan aset internet.</p>
+                <p class="text-[11px] text-gray-300 leading-relaxed"><span class="text-teal-400 font-black">●</span> Canva adalah alat bantu praktis untuk memproduksi konten multimedia secara profesional.</p>
+                <p class="text-[11px] text-gray-300 leading-relaxed"><span class="text-teal-400 font-black">●</span> Jejak digital harus dijaga dengan tidak membagikan informasi pribadi secara sembarangan.</p>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>17</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 20: LATIHAN -->
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content relative">
-             <div class="flex justify-between items-end mb-4 border-b border-gray-700 pb-2">
-                <h2 class="text-lg font-sora font-bold text-purple-400">Formatif Awal</h2>
-                <div class="text-[10px] font-bold px-2 py-1 bg-purple-900/30 rounded border border-purple-500/50">Skor: <span x-text="latihanScore" class="text-purple-400"></span></div>
+             <div class="flex justify-between items-end mb-6 border-b border-gray-700 pb-3">
+                <h2 class="text-xl font-sora font-bold text-teal-400 uppercase tracking-widest">Latihan</h2>
+                <div class="text-[11px] font-bold px-3 py-1.5 bg-teal-900/30 rounded-full border border-teal-500/50">Skor: <span x-text="latihanScore" class="text-teal-400"></span></div>
              </div>
              
-             <div class="space-y-3">
+             <div class="space-y-4">
                 <template x-for="(soal, index) in latihan">
-                   <div class="bg-gray-800/30 p-2.5 rounded-lg border border-gray-700/50">
-                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-purple-300 transition line-clamp-3" @click.stop="openDetail('latihan', index)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+1) + '. ' + soal.q"></p>
-                      <div class="flex flex-col gap-1.5">
+                   <div class="bg-gray-800/30 p-4 rounded-xl border border-gray-700/50">
+                      <p class="text-[11px] font-medium mb-3 leading-snug text-gray-200 cursor-pointer hover:text-teal-300 transition" @click.stop="openDetail('latihan', index)" x-html="(index+1) + '. ' + soal.q"></p>
+                      <div class="grid grid-cols-1 gap-2">
                          <template x-for="(opt, oidx) in soal.opts">
                             <button @click="jawabLatihan(index, oidx)" 
                                     :class="getBtnClass(index, oidx, 'latihan')"
-                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-purple-400 hover:bg-gray-700 transition whitespace-normal break-words"
+                                    class="text-[10px] text-left p-2.5 rounded-lg border border-gray-600 hover:border-teal-400 hover:bg-gray-700 transition"
                                     :disabled="soal.dijawab">
-                               <span class="font-bold text-gray-400 mr-1" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
+                               <span class="font-bold text-gray-400 mr-2" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
                                <span x-text="opt"></span>
                             </button>
                          </template>
@@ -354,131 +675,36 @@
                 </template>
              </div>
              
-             <!-- Latihan Finish Overlay -->
-             <div x-show="latihanSelesai" x-transition class="absolute inset-0 bg-[#12121a]/90 backdrop-blur flex flex-col items-center justify-center rounded-lg border-2 border-purple-500 z-10 shadow-2xl">
-                <div class="text-5xl mb-3">💯</div>
-                <h3 class="font-bold font-sora text-purple-400 mb-1 text-xl">Latihan Selesai!</h3>
-                <p class="text-xs text-gray-300">Skor Dasar Kamu:</p>
-                <p class="text-4xl font-black text-white mt-2" x-text="latihanScore"></p>
-                <p class="text-[10px] mt-4 text-gray-400">Geser ke halaman berikutnya</p>
+             <div x-show="latihanSelesai" x-transition class="absolute inset-0 bg-[#12121a]/95 backdrop-blur flex flex-col items-center justify-center rounded-3xl border-4 border-teal-500 z-10">
+                <h3 class="font-black font-sora text-teal-400 mb-2 text-2xl uppercase">Hasil Latihan</h3>
+                <p class="text-6xl font-black text-white" x-text="latihanScore"></p>
+                <p class="text-xs mt-8 text-gray-500">Geser ke halaman berikutnya untuk Ujian!</p>
              </div>
           </div>
-          <div class="page-footer"><span>Bab 5 Kreativitas & Etika</span><span>20</span></div>
+          <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>18</span></div>
        </div>
     </div>
 
-    <!-- HALAMAN 20.5: Latihan Dasar 2/2 -->
+    <!-- HALAMAN 21: UJIAN -->
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content relative">
-             <div class="flex justify-between items-end mb-4 border-b border-gray-700 pb-2">
-                <h2 class="text-lg font-sora font-bold text-purple-400">Formatif Awal (2/2)</h2>
-                <div class="text-[10px] font-bold px-2 py-1 bg-purple-900/30 rounded border border-purple-500/50">Skor: <span x-text="latihanScore" class="text-purple-400"></span></div>
+             <div class="flex justify-between items-end mb-6 border-b border-gray-700 pb-3">
+                <h2 class="text-xl font-sora font-bold text-purple-400 uppercase tracking-widest">Ujian Kompetensi</h2>
+                <div class="text-[11px] font-bold px-3 py-1.5 bg-purple-900/30 rounded-full border border-purple-500/50">Skor: <span x-text="ujianScore" class="text-purple-400"></span></div>
              </div>
              
-             <div class="space-y-3">
-                <template x-for="(soal, index) in latihan.slice(5, 10)">
-                   <div class="bg-gray-800/30 p-2.5 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-colors">
-                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-purple-300 transition line-clamp-3" @click.stop="openDetail('latihan', index + 5)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+6) + '. ' + soal.q"></p>
-                      <div class="flex flex-col gap-1.5">
-                         <template x-for="(opt, oidx) in soal.opts">
-                            <button @click="jawabLatihan(index + 5, oidx)" 
-                                    :class="getBtnClass(index + 5, oidx, 'latihan')"
-                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-purple-400 hover:bg-gray-700 transition whitespace-normal break-words"
-                                    :disabled="soal.dijawab">
-                               <span class="font-bold text-gray-400 mr-1" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
-                               <span x-text="opt"></span>
-                            </button>
-                         </template>
-                      </div>
-                   </div>
-                </template>
-             </div>
-             
-             <!-- Latihan Finish Overlay -->
-             <div x-show="latihanSelesai" x-transition class="absolute inset-0 bg-[#12121a]/90 backdrop-blur flex flex-col items-center justify-center rounded-lg border-2 border-purple-500 z-10 shadow-2xl">
-                <div class="text-5xl mb-3">💯</div>
-                <h3 class="font-bold font-sora text-purple-400 mb-1 text-xl">Latihan Selesai!</h3>
-                <p class="text-xs text-gray-300">Skor Dasar Kamu:</p>
-                <p class="text-4xl font-black text-white mt-2" x-text="latihanScore"></p>
-                <p class="text-[10px] mt-4 text-gray-400">Geser ke halaman berikutnya untuk Ujian</p>
-             </div>
-          </div>
-          <div class="page-footer"><span>Bab 5 Kreativitas & Etika</span><span>21</span></div>
-       </div>
-    </div>
-
-    <!-- HALAMAN 21: Ujian Intro -->
-    <div class="page">
-       <div class="page-wrapper items-center justify-center text-center">
-          <div class="page-content animate-content w-full flex flex-col items-center justify-center mt-12">
-             <div class="p-8 bg-gradient-to-b from-teal-900/40 to-transparent border-2 border-teal-500/50 rounded-2xl w-full max-w-[280px] shadow-[0_0_40px_rgba(45,212,191,0.15)] relative overflow-hidden">
-                <div class="absolute -right-6 -top-6 w-20 h-20 bg-purple-500/20 rounded-full blur-xl"></div>
-                <div class="absolute -left-6 -bottom-6 w-20 h-20 bg-teal-500/20 rounded-full blur-xl"></div>
-                
-                <div class="w-16 h-16 mx-auto mb-4 bg-teal-600 rounded-full flex items-center justify-center text-3xl shadow-lg border-4 border-[#12121a] relative z-10">🎨</div>
-                <h2 class="text-2xl font-sora font-black text-white mb-2 relative z-10">Uji Kompetensi</h2>
-                <div class="h-1 w-12 bg-teal-400 mx-auto mb-4 rounded relative z-10"></div>
-                <p class="text-xs text-gray-300 mb-6 leading-relaxed relative z-10">Mari uji pemahamanmu mengenai etika bermedia sosial dan hak cipta konten!</p>
-                <p class="text-[9px] text-teal-300 font-bold uppercase tracking-widest animate-pulse relative z-10">Buka halaman untuk mulai</p>
-             </div>
-          </div>
-          <div class="page-footer mt-auto w-full"><span>Bab 5 Kreativitas & Etika</span><span>22</span></div>
-       </div>
-    </div>
-
-    <!-- HALAMAN 22: Ujian Kompetensi 1/2 -->
-    <div class="page">
-       <div class="page-wrapper">
-          <div class="page-content animate-content relative">
-             <div class="flex justify-between items-end mb-4 border-b border-gray-700 pb-2">
-                <h2 class="text-lg font-sora font-bold text-teal-400">Ujian Kompetensi (1/2)</h2>
-                <div class="text-[10px] font-bold px-2 py-1 bg-teal-900/30 rounded border border-teal-500/50">Skor: <span x-text="ujianScore" class="text-teal-400"></span></div>
-             </div>
-             
-             <div class="space-y-3">
-                <template x-for="(soal, index) in ujian.slice(0, 5)">
-                   <div class="bg-gray-800/30 p-2.5 rounded-lg border border-gray-700/50 hover:border-teal-500/30 transition-colors">
-                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-teal-300 transition line-clamp-3" @click.stop="openDetail('ujian', index)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+1) + '. ' + soal.q"></p>
-                      <div class="flex flex-col gap-1.5">
+             <div class="space-y-4">
+                <template x-for="(soal, index) in ujian">
+                   <div class="bg-gray-800/30 p-4 rounded-xl border border-gray-700/50">
+                      <p class="text-[11px] font-medium mb-3 leading-snug text-gray-200 cursor-pointer hover:text-purple-300 transition" @click.stop="openDetail('ujian', index)" x-html="(index+1) + '. ' + soal.q"></p>
+                      <div class="grid grid-cols-1 gap-2">
                          <template x-for="(opt, oidx) in soal.opts">
                             <button @click="jawabUjian(index, oidx)" 
                                     :class="getBtnClass(index, oidx, 'ujian')"
-                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-teal-400 hover:bg-gray-700 transition whitespace-normal break-words"
+                                    class="text-[10px] text-left p-2.5 rounded-lg border border-gray-600 hover:border-purple-400 hover:bg-gray-700 transition"
                                     :disabled="soal.dijawab">
-                               <span class="font-bold text-gray-400 mr-1" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
-                               <span x-text="opt"></span>
-                            </button>
-                         </template>
-                      </div>
-                   </div>
-                </template>
-             </div>
-          </div>
-          <div class="page-footer"><span>Bab 5 Kreativitas & Etika</span><span>23</span></div>
-       </div>
-    </div>
-
-    <!-- HALAMAN 23: Ujian Kompetensi 2/2 -->
-    <div class="page">
-       <div class="page-wrapper">
-          <div class="page-content animate-content relative">
-             <div class="flex justify-between items-end mb-4 border-b border-gray-700 pb-2">
-                <h2 class="text-lg font-sora font-bold text-teal-400">Ujian Kompetensi (2/2)</h2>
-                <div class="text-[10px] font-bold px-2 py-1 bg-teal-900/30 rounded border border-teal-500/50">Skor: <span x-text="ujianScore" class="text-teal-400"></span></div>
-             </div>
-             
-             <div class="space-y-3">
-                <template x-for="(soal, index) in ujian.slice(5, 10)">
-                   <div class="bg-gray-800/30 p-2.5 rounded-lg border border-gray-700/50 hover:border-teal-500/30 transition-colors">
-                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-teal-300 transition line-clamp-3" @click.stop="openDetail('ujian', index + 5)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+6) + '. ' + soal.q"></p>
-                      <div class="flex flex-col gap-1.5">
-                         <template x-for="(opt, oidx) in soal.opts">
-                            <button @click="jawabUjian(index + 5, oidx)" 
-                                    :class="getBtnClass(index + 5, oidx, 'ujian')"
-                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-teal-400 hover:bg-gray-700 transition whitespace-normal break-words"
-                                    :disabled="soal.dijawab">
-                               <span class="font-bold text-gray-400 mr-1" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
+                               <span class="font-bold text-gray-400 mr-2" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
                                <span x-text="opt"></span>
                             </button>
                          </template>
@@ -487,42 +713,28 @@
                 </template>
              </div>
              
-             <!-- Ujian Finish Overlay -->
-             <div x-show="ujianSelesai" x-transition class="absolute inset-0 bg-[#12121a]/95 backdrop-blur-sm flex flex-col items-center justify-center rounded-lg border-2 border-teal-500 z-20 shadow-2xl">
-                <div class="text-5xl mb-3">🏆</div>
-                <h3 class="font-sora font-bold text-xl text-teal-400 mb-1">Bab 5 Selesai!</h3>
-                <p class="text-xs text-gray-300 mb-4">Nilai Akhir Kompetensi Kamu</p>
-                <div class="text-5xl font-black text-white mb-6" x-text="ujianScore"></div>
-                <p class="text-[10px] text-gray-400 animate-pulse">Geser ke halaman penutup</p>
+             <div x-show="ujianSelesai" x-transition class="absolute inset-0 bg-[#0a0a0f]/98 backdrop-blur-xl flex flex-col items-center justify-center rounded-3xl border-4 border-purple-500 z-20">
+                <div class="text-6xl mb-6">🎖️</div>
+                <h3 class="font-black font-sora text-purple-400 mb-2 text-2xl uppercase">Bab 5 Selesai!</h3>
+                <p class="text-xs text-gray-400 mb-6 uppercase tracking-widest">Skor Akhir:</p>
+                <div class="text-7xl font-black text-white" x-text="ujianScore"></div>
              </div>
           </div>
-          <div class="page-footer"><span>Bab 5 Kreativitas & Etika</span><span>24</span></div>
+          <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>19</span></div>
        </div>
     </div>
 
-    <!-- HALAMAN 24: Penutup (Back Cover Hard) -->
+    <!-- HALAMAN 22: PENUTUP -->
     <div class="page --hard">
-       <div class="page-wrapper items-center justify-center text-center relative">
-          <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0icmdiYSgxNjcsIDEzOSLCAyNTAsIDAuMikiLz48L3N2Zz4=')] opacity-50"></div>
-          
-          <h1 class="text-3xl font-sora font-bold text-gray-300 mb-8 relative z-10">Selesai</h1>
-          
-          <svg viewBox="0 0 100 100" class="w-40 h-40 mx-auto mb-10 opacity-70 relative z-10 drop-shadow-[0_0_15px_rgba(45,212,191,0.4)]">
-             <path d="M 20 20 L 80 20 L 80 80 L 20 80 Z" fill="none" stroke="#a78bfa" stroke-width="3"/>
-             <path d="M 40 40 L 60 40 M 40 50 L 60 50 M 40 60 L 50 60" stroke="#a78bfa" stroke-width="3" stroke-linecap="round"/>
-             <circle cx="70" cy="70" r="15" fill="#2dd4bf"/>
-             <path d="M 65 70 L 68 75 L 75 65" stroke="#12121a" stroke-width="3" fill="none" stroke-linecap="round"/>
-          </svg>
-          
-          <p class="text-sm text-gray-400 mb-12 relative z-10">Terima kasih telah membaca E-Modul ini.<br>Bab 5 telah berhasil diselesaikan!</p>
-          
-          <div class="text-[10px] font-bold text-teal-400 bg-teal-900/20 px-4 py-2 rounded-full border border-teal-500/30 relative z-10">
-             Kemendikbudristek 2025
-          </div>
+       <div class="page-wrapper items-center justify-center text-center">
+          <h1 class="text-4xl font-sora font-black text-white mb-12 tracking-widest uppercase">FINISH</h1>
+          <div class="w-32 h-32 mx-auto mb-12 bg-purple-500/20 rounded-full flex items-center justify-center text-5xl animate-pulse">✨</div>
+          <p class="text-md text-gray-300 max-w-sm px-4 leading-relaxed">Selamat! Kamu telah menyelesaikan <b>Bab 5: Kreativitas dan Etika Produksi Konten</b>.</p>
+          <div class="mt-12 text-[10px] font-black text-purple-400 bg-purple-400/10 px-8 py-3 rounded-full border border-purple-400/30 tracking-[0.3em] uppercase">Kemendikbudristek 2025</div>
        </div>
     </div>
 
-  </div>
+  </div> <!-- END FLIPBOOK -->
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -534,19 +746,32 @@
       });
       pageFlip.loadFromHTML(document.querySelectorAll('.page'));
       setTimeout(() => { fb.classList.add('initialized'); }, 100);
-
       document.querySelectorAll('.page:not(.--hard) .page-wrapper').forEach(p => {
-         p.insertAdjacentHTML('beforeend', '<div class="mascot bg-cover" style="background-image: url(/Gemini_Generated_Image_ecqwabecqwabecqw.png); background-size: cover; background-position: center;"></div>');
+         p.insertAdjacentHTML('beforeend', '<div class="mascot bg-cover" style="background-image: url(/assets/bab2_scene.png); background-size: cover; background-position: center;"></div>');
       });
 
       document.getElementById('btn-prev').addEventListener('click', () => pageFlip.flipPrev());
       document.getElementById('btn-next').addEventListener('click', () => pageFlip.flipNext());
 
-      pageFlip.on('flip', (e) => {
+      const triggerAnimation = () => {
          const allContents = document.querySelectorAll('.page-content');
-         allContents.forEach(p => p.classList.remove('animate-content'));
-         setTimeout(() => { allContents.forEach(p => p.classList.add('animate-content')); }, 50);
+         allContents.forEach(p => p.classList.remove('animate-ready'));
+         setTimeout(() => { 
+           allContents.forEach(p => {
+             const page = p.parentElement.parentElement;
+             if(page.classList.contains('st-page-active') || page.classList.contains('st-page-visible') || page.style.display !== 'none') {
+               p.classList.add('animate-ready');
+             }
+           }); 
+         }, 100);
+      };
+
+      pageFlip.on('flip', (e) => {
+         triggerAnimation();
       });
+
+      // Trigger animation on start
+      setTimeout(triggerAnimation, 500);
     });
 
     document.addEventListener('alpine:init', () => {
@@ -563,117 +788,39 @@
         },
         jawabDariDetail(optIdx) {
             if(this.activeTipe === 'latihan') this.jawabLatihan(this.activeIndex, optIdx);
+            else this.jawabUjian(this.activeIndex, optIdx);
             this.showDetailModal = false;
         },
         showFeedback: false,
         isFeedbackCorrect: false,
         latihanScore: 0,
-        latihanSelesai: false,
-        latihan: [
-          {
-            q: "Konten multimedia yang sering kamu temui sehari-hari adalah ....", 
-            opts: ["artikel di koran cetak", "foto di media sosial tanpa caption", "video di platform berbagi video", "siaran berita di radio", "tontonan di televisi"], 
-            ans: 2, dijawab: false, userAns: -1
-          },
-          {
-            q: "Kamu memotret temanmu dalam momen lucu di kelas dan ingin mengunggah foto tersebut ke media sosial. Langkah yang sebaiknya kamu lakukan terlebih dulu adalah ....", 
-            opts: ["Langsung unggah saja fotonya, temanmu pasti tidak akan keberatan.", "Edit fotonya supaya terlihat lebih lucu, lalu unggah tanpa bertanya.", "Minta izin kepada temanmu sebelum mengunggah foto tersebut.", "Unggah di akun palsu agar temanmu tidak tahu.", "Memperlihatkan hasil fotomu kepada teman-teman yang lain."], 
-            ans: 2, dijawab: false, userAns: -1
-          },
-          {
-            q: "Kamu menemukan gambar keren di internet dan ingin memasukkannya ke video tugas sekolahmu. Langkah terbaik yang harus kamu lakukan adalah ....", 
-            opts: ["Pakai saja gambarnya langsung, karena semua yang di internet bebas untuk dipakai.", "Cantumkan sumber atau nama pemilik gambar tersebut di videomu.", "Ubah sedikit gambar supaya tidak ketahuan asalnya dari orang lain.", "Tidak usah pakai gambar apa pun agar aman.", "Memasukkan gambar dengan mencantumkan namamu sebagai pemiliknya."], 
-            ans: 1, dijawab: false, userAns: -1
-          },
-          {
-            q: "Menurut UU ITE, menyebarkan informasi palsu (hoaks) dengan sengaja dapat dikenakan sanksi pidana. Etika yang paling tepat saat menerima berita provokatif adalah...", 
-            opts: ["Segera membagikannya agar orang lain waspada", "Memeriksa kebenaran berita melalui sumber resmi", "Menghapus akun media sosial", "Menyalahkan pembuat berita di kolom komentar", "Membiarkan saja tanpa membaca"], 
-            ans: 1, dijawab: false, userAns: -1
-          },
-          {
-            q: "Cyberbullying atau perundungan siber termasuk tindakan yang melanggar etika bermedia sosial karena...", 
-            opts: ["Membutuhkan kuota internet yang besar", "Berdampak buruk bagi kesehatan mental korban", "Mengurangi jumlah followers pelaku", "Hanya bisa dilakukan oleh hacker", "Sering terjadi di grup keluarga"], 
-            ans: 1, dijawab: false, userAns: -1
-          },
-          {
-            q: "Dampak negatif dari kecanduan media sosial (Social Media Addiction) antara lain adalah...", 
-            opts: ["Meningkatnya rasa empati terhadap sesama", "Produktivitas meningkat pesat", "Gangguan tidur (insomnia) dan FOMO (Fear Of Missing Out)", "Kesehatan fisik semakin prima", "Lebih mudah berkonsentrasi belajar"], 
-            ans: 2, dijawab: false, userAns: -1
-          },
-          {
-            q: "Apa yang dimaksud dengan 'Jejak Digital' (Digital Footprint)?", 
-            opts: ["Sidik jari pada layar sentuh smartphone", "Catatan semua aktivitas, unggahan, dan interaksi yang pernah dilakukan seseorang di internet", "Aplikasi pelacak langkah kaki", "Riwayat lokasi GPS di map", "Halaman website yang dihapus"], 
-            ans: 1, dijawab: false, userAns: -1
-          },
-          {
-            q: "Ketika membuat konten promosi produk, penggunaan Clickbait yang berlebihan dinilai tidak etis karena...", 
-            opts: ["Membuat judul menjadi terlalu pendek", "Bisa menipu penonton atau memberikan ekspektasi palsu", "Meningkatkan engagement secara instan", "Mengurangi biaya iklan", "Menghibur audiens"], 
-            ans: 1, dijawab: false, userAns: -1
-          },
-          {
-            q: "Hak eksklusif bagi pencipta atau penerima hak untuk mengumumkan atau memperbanyak ciptaannya disebut...", 
-            opts: ["Hak Asasi", "Hak Paten", "Hak Cipta (Copyright)", "Hak Guna Bangunan", "Hak Merek"], 
-            ans: 2, dijawab: false, userAns: -1
-          },
-          {
-            q: "Sebagai pembuat konten yang baik, cara menghadapi komentar negatif (hate speech) yang bersifat destruktif adalah...", 
-            opts: ["Membalas dengan kata-kata kasar", "Melaporkan (report) akun dan menghapus komentar tersebut", "Menyebarluaskan akun pelaku agar dibully balik", "Menutup semua akun media sosial", "Meminta maaf walaupun tidak salah"], 
-            ans: 1, dijawab: false, userAns: -1
-          }
-        ],
         ujianScore: 0,
+        latihanSelesai: false,
         ujianSelesai: false,
+        
+        latihan: [
+          { q: "Apa yang dimaksud dengan multimedia?", opts: ["Hanya berupa teks saja", "Hanya berupa gambar saja", "Kombinasi berbagai elemen media", "Hanya berupa video saja", "Buku cetak konvensional"], ans: 2, dijawab: false, userAns: -1 },
+          { q: "Berikut ini adalah elemen multimedia, kecuali...", opts: ["Teks", "Audio", "Video", "Kertas", "Animasi"], ans: 3, dijawab: false, userAns: -1 },
+          { q: "Lisensi CC BY mengharuskan pengguna untuk...", opts: ["Membayar uang", "Mencantumkan nama pencipta", "Tidak boleh mengubah karya", "Hanya boleh digunakan sekolah", "Menghapus karya asli"], ans: 1, dijawab: false, userAns: -1 },
+          { q: "Aplikasi Canva paling cocok digunakan untuk...", opts: ["Membuat sistem operasi", "Membuat konten desain grafis & video", "Menghitung rumus matematika rumit", "Memperbaiki mesin", "Browsing internet"], ans: 1, dijawab: false, userAns: -1 },
+          { q: "Jejak digital adalah...", opts: ["Langkah kaki di tanah", "Rekaman aktivitas di internet", "Foto cetak di album", "Komentar di buku tamu fisik", "Tanda tangan di atas kertas"], ans: 1, dijawab: false, userAns: -1 },
+          { q: "Salah satu manfaat utama multimedia dalam pembelajaran adalah...", opts: ["Membuat file jadi berat", "Meningkatkan pemahaman informasi secara visual", "Menghilangkan kebutuhan akan guru", "Membuat kuota internet cepat habis", "Hanya sebagai hiburan saja"], ans: 1, dijawab: false, userAns: -1 },
+          { q: "Hak Cipta atas suatu karya timbul secara otomatis sejak...", opts: ["Daftar ke pemerintah", "Karya diwujudkan dalam bentuk nyata", "Karya dipikirkan", "Karya dijual", "Karya diberikan ke orang lain"], ans: 1, dijawab: false, userAns: -1 },
+          { q: "Izin yang diberikan pemegang hak cipta kepada orang lain disebut...", opts: ["Sertifikat", "Lisensi", "Kuitansi", "Ijazah", "Nota"], ans: 1, dijawab: false, userAns: -1 },
+          { q: "Etika digital adalah...", opts: ["Cara merakit komputer", "Kompas moral saat beraktivitas di dunia digital", "Hukum pidana internet", "Cara hack akun orang", "Aturan membuat email"], ans: 1, dijawab: false, userAns: -1 },
+          { q: "Fitur Canva yang bisa mengubah teks menjadi suara secara otomatis adalah...", opts: ["Magic Resize", "AI Voice (Text to Speech)", "Background Remover", "Grid Layout", "Color Palette"], ans: 1, dijawab: false, userAns: -1 }
+        ],
         ujian: [
-          {
-            q: "Seseorang membuat video parodi menggunakan potongan lagu terkenal tanpa izin pemilik hak cipta. Dalam aturan YouTube, video ini berisiko terkena...", 
-            opts: ["Shadowban", "Trending Topic", "Copyright Strike (Teguran Hak Cipta)", "Verified Badge", "Monetisasi Otomatis"], 
-            ans: 2, dijawab: false, userAns: -1
-          },
-          {
-            q: "Istilah 'Fair Use' (Penggunaan Wajar) dalam Hak Cipta memperbolehkan penggunaan sebagian kecil karya orang lain tanpa izin khusus, asalkan tujuannya untuk...", 
-            opts: ["Keuntungan komersial pribadi", "Kritik, komentar, laporan berita, atau pendidikan", "Disalin dan dijual kembali", "Membuat produk saingan yang persis sama", "Mengakui karya tersebut sebagai miliknya"], 
-            ans: 1, dijawab: false, userAns: -1
-          },
-          {
-            q: "Kamu melihat sebuah utas (thread) di media sosial yang menyebarkan data pribadi (KTP, alamat, nomor telepon) seseorang yang dituduh bersalah tanpa proses hukum. Tindakan menyebarkan data pribadi ini disebut...", 
-            opts: ["Phishing", "Hacking", "Doxing", "Spamming", "Carding"], 
-            ans: 2, dijawab: false, userAns: -1
-          },
-          {
-            q: "Konsep 'Netiquette' (Etika Berinternet) mencakup perilaku menghargai privasi orang lain. Contoh perilaku yang melanggar Netiquette adalah...", 
-            opts: ["Meminta izin sebelum menandai (tag) foto teman", "Mengirimkan pesan berantai (spam) promosi barang secara terus-menerus di grup WhatsApp", "Menggunakan bahasa yang sopan di kolom komentar", "Menghargai pendapat berbeda di forum online", "Menulis email menggunakan tata bahasa yang benar"], 
-            ans: 1, dijawab: false, userAns: -1
-          },
-          {
-            q: "Plagiarisme digital sangat dihindari dalam memproduksi konten. Untuk menghindari plagiarisme, seorang konten kreator wajib...", 
-            opts: ["Mempercepat tempo video agar berbeda", "Mengubah font tulisan saja", "Menyebutkan sumber (atribusi) dengan jelas dari mana informasi atau aset diperoleh", "Menggunakan bahasa asing", "Menghapus metadata file"], 
-            ans: 2, dijawab: false, userAns: -1
-          },
-          {
-            q: "Seorang influencer dibayar untuk mereview sebuah produk kecantikan yang ternyata berbahaya, tapi ia berbohong dengan mengatakan produk tersebut sangat bagus. Pelanggaran etika ini berdampak pada...", 
-            opts: ["Meningkatnya kepercayaan publik", "Kerugian kesehatan konsumen dan hilangnya reputasi influencer", "Kenaikan harga saham produk tersebut", "Penurunan tarif pajak influencer", "Pemberian penghargaan konten kreatif"], 
-            ans: 1, dijawab: false, userAns: -1
-          },
-          {
-            q: "Algoritma media sosial cenderung menciptakan lingkungan di mana pengguna hanya melihat informasi yang sejalan dengan keyakinannya sendiri. Fenomena ini disebut...", 
-            opts: ["Echo Chamber / Filter Bubble", "Digital Divide", "Cyber Security", "Cloud Computing", "Artificial Intelligence"], 
-            ans: 0, dijawab: false, userAns: -1
-          },
-          {
-            q: "Platform berlisensi Creative Commons (CC) menyediakan aset digital (musik, gambar) untuk konten kreator. Lisensi 'CC BY' (Attribution) mengharuskan pengguna untuk...", 
-            opts: ["Membayar royalti setiap kali video diputar", "Dilarang memodifikasi karya tersebut sama sekali", "Hanya mencantumkan kredit pembuat asli karya tersebut saat digunakan", "Tidak boleh digunakan untuk tujuan komersial", "Mendaftar keanggotaan premium"], 
-            ans: 2, dijawab: false, userAns: -1
-          },
-          {
-            q: "Dalam produksi video, elemen yang paling berperan membangkitkan emosi audiens selain visual adalah...", 
-            opts: ["Watermark", "Komentar penonton", "Audio / Sound Design", "Thumbnail resolusi rendah", "Deskripsi video yang panjang"], 
-            ans: 2, dijawab: false, userAns: -1
-          },
-          {
-            q: "Menerapkan prinsip 'Think Before You Post' (Berpikir Sebelum Mengunggah) bertujuan untuk...", 
-            opts: ["Memperlambat koneksi internet", "Mencegah penyesalan di masa depan karena jejak digital yang memalukan atau melanggar hukum", "Menghabiskan banyak memori HP", "Membuat konten viral dengan cepat", "Menghemat biaya produksi konten"], 
-            ans: 1, dijawab: false, userAns: -1
-          }
+          { q: "Lisensi paling ketat dalam Creative Commons yang melarang modifikasi dan komersial adalah...", opts: ["CC BY", "CC BY-SA", "CC BY-NC-ND", "CC BY-NC", "CC Zero"], ans: 2, dijawab: false, userAns: -1 },
+          { q: "Apa fungsi utama watermark pada sebuah karya digital?", opts: ["Mempercantik tampilan", "Menunjukkan identitas pemilik karya", "Menghilangkan virus", "Mempercepat download", "Mengubah format file"], ans: 1, dijawab: false, userAns: -1 },
+          { q: "Tindakan mengambil karya orang lain dan mengakuinya sebagai milik sendiri disebut...", opts: ["Kolaborasi", "Plagiarisme", "Inovasi", "Apresiasi", "Distribusi"], ans: 1, dijawab: false, userAns: -1 },
+          { q: "Format file video yang paling umum disarankan saat ekspor di Canva adalah...", opts: ["JPG", "PNG", "MP4", "PDF", "MP3"], ans: 2, dijawab: false, userAns: -1 },
+          { q: "Cara terbaik melindungi jejak digital adalah...", opts: ["Posting semua aktivitas setiap jam", "Tidak membagikan data pribadi secara sembarangan", "Memakai nama asli untuk semua akun", "Menghapus semua akun sosial media", "Menggunakan password yang sama"], ans: 1, dijawab: false, userAns: -1 },
+          { q: "Multimedia interaktif memungkinkan pengguna untuk...", opts: ["Hanya menonton saja", "Terlibat langsung dengan konten", "Membayar lebih mahal", "Melihat gambar statis", "Membaca teks panjang"], ans: 1, dijawab: false, userAns: -1 },
+          { q: "Lisensi CC BY-SA mengharuskan karya turunan untuk...", opts: ["Dijual dengan harga tinggi", "Dibagikan dengan lisensi yang sama", "Tidak boleh dibagikan", "Hanya untuk pribadi", "Diberikan ke pencipta asli"], ans: 1, dijawab: false, userAns: -1 },
+          { q: "Perpindahan halus antar halaman dalam video disebut...", opts: ["Animasi", "Transisi", "Eksport", "Import", "Editing"], ans: 1, dijawab: false, userAns: -1 },
+          { q: "Elemen yang membuat benda di dalam desain bergerak disebut...", opts: ["Teks", "Latar belakang", "Animasi", "Resolusi", "Pixel"], ans: 2, dijawab: false, userAns: -1 },
+          { q: "Saat berbagi link karya di internet, pengaturan akses paling aman adalah...", opts: ["Editor", "Owner", "Viewer only", "Public with Edit access", "Administrator"], ans: 2, dijawab: false, userAns: -1 }
         ],
         
         triggerFeedback(correct) {
@@ -688,7 +835,6 @@
            this.latihan[idx].userAns = optIdx;
            let correct = (optIdx === this.latihan[idx].ans);
            if(correct) this.latihanScore += 10;
-           
            this.triggerFeedback(correct);
            this.checkLatihan();
         },
@@ -697,7 +843,6 @@
            this.ujian[idx].userAns = optIdx;
            let correct = (optIdx === this.ujian[idx].ans);
            if(correct) this.ujianScore += 10;
-           
            this.triggerFeedback(correct);
            this.checkUjian();
         },
@@ -712,7 +857,7 @@
            if(this.latihan.every(s => s.dijawab)) setTimeout(() => { this.latihanSelesai = true; confetti({particleCount: 200, spread: 100}); }, 2200);
         },
         checkUjian() {
-           if(this.ujian.every(s => s.dijawab)) setTimeout(() => { this.ujianSelesai = true; confetti({particleCount: 300, spread: 120, origin: {y: 0.4}}); }, 2200);
+           if(this.ujian.every(s => s.dijawab)) setTimeout(() => { this.ujianSelesai = true; confetti({particleCount: 300, spread: 120}); }, 2200);
         }
       }))
     })

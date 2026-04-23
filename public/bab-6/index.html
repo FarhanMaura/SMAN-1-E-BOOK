@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bab 6: Pengelolaan Informasi Digital - E-Modul</title>
+  <title>Bab 6: Pengelolaan Informasi Digital - E-Modul Interaktif</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://unpkg.com/alpinejs@3/dist/cdn.min.js"></script>
@@ -12,42 +12,153 @@
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
-    body { background-color: #0a0a0f; font-family: 'Plus Jakarta Sans', sans-serif; color: #e2e8f0; overflow: hidden; margin: 0; padding: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh;}
+    :root {
+      --bg-dark: #0a0a0f;
+      --card-bg: #12121a;
+      --accent-purple: #a78bfa;
+      --accent-teal: #2dd4bf;
+    }
+
+    body { 
+      background-color: var(--bg-dark); 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+      color: #e2e8f0; 
+      overflow: hidden; 
+      margin: 0; 
+      padding: 0; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center; 
+      min-height: 100vh;
+    }
+    
     h1, h2, h3, .font-sora { font-family: 'Sora', sans-serif; }
     
     .flipbook { width: 900px; height: 600px; box-shadow: 0 0 50px rgba(167, 139, 250, 0.15); display: none; }
     .flipbook.initialized { display: block; animation: bookFadeIn 1s ease-out forwards; }
     
-    .page { background-color: #12121a; border: 1px solid rgba(167, 139, 250, 0.2); overflow: hidden; position: relative; }
-    .page-wrapper { width: 100%; height: 100%; padding: 2rem; display: flex; flex-direction: column; }
-    .page-content { flex-grow: 1; overflow-y: auto; padding-right: 5px; }
+    .page { background-color: var(--card-bg); border: 1px solid rgba(167, 139, 250, 0.2); overflow: hidden; position: relative; }
+    .page-wrapper { width: 100%; height: 100%; padding: 2.5rem; display: flex; flex-direction: column; position: relative; }
+    .page-content { flex-grow: 1; overflow-y: auto; padding-right: 8px; }
     
-    .page-content::-webkit-scrollbar { width: 3px; }
-    .page-content::-webkit-scrollbar-thumb { background: rgba(167, 139, 250, 0.5); border-radius: 4px; }
+    .page-content::-webkit-scrollbar { width: 4px; }
+    .page-content::-webkit-scrollbar-thumb { background: rgba(167, 139, 250, 0.3); border-radius: 10px; }
     
-    .page-footer { height: 25px; display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: #64748b; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; margin-top: 10px;}
-    .page.--hard { background: linear-gradient(135deg, #0f172a, #12121a); border: 2px solid #a78bfa; }
-    
-    .mascot { position: absolute; bottom: 45px; right: 25px; width: 60px; height: 60px; opacity: 0.95; z-index: 5; pointer-events: none; filter: drop-shadow(0 5px 15px rgba(167,139,250,0.3)); border-radius: 50%; border: 2px solid #a78bfa; background-color: #e2e8f0; }
-    
-    @keyframes bookFadeIn { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-    
-    .bg-pattern { background-image: radial-gradient(rgba(167, 139, 250, 0.08) 1px, transparent 1px); background-size: 24px 24px; }
+    .page-footer { 
+      height: 30px; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      font-size: 0.75rem; 
+      color: #64748b; 
+      border-top: 1px solid rgba(255,255,255,0.05); 
+      padding-top: 12px; 
+      margin-top: 15px;
+      font-weight: 600;
+    }
 
-    .animate-content > * { opacity: 0; animation: fadeInUp 0.5s ease-out forwards; }
-    .animate-content > *:nth-child(1) { animation-delay: 0.1s; }
-    .animate-content > *:nth-child(2) { animation-delay: 0.2s; }
-    .animate-content > *:nth-child(3) { animation-delay: 0.3s; }
-    .animate-content > *:nth-child(4) { animation-delay: 0.4s; }
-    .animate-content > *:nth-child(5) { animation-delay: 0.5s; }
-    .animate-content > *:nth-child(6) { animation-delay: 0.6s; }
+    .page.--hard { 
+      background: linear-gradient(135deg, #0f172a, #12121a); 
+      border: 2px solid var(--accent-purple); 
+    }
+    
+    .mascot { 
+      position: absolute; 
+      bottom: 25px; 
+      right: 25px; 
+      width: 80px; 
+      height: 80px; 
+      opacity: 0.95; 
+      z-index: 10; 
+      pointer-events: none; 
+      filter: drop-shadow(0 4px 15px rgba(0,0,0,0.5)); 
+      border-radius: 50%; 
+      border: 3px solid #12121a;
+      box-shadow: 0 0 15px rgba(167, 139, 250, 0.3);
+      background-color: #1a1a2e;
+    }
+    
+    @keyframes bookFadeIn { 
+      from { opacity: 0; transform: scale(0.95) translateY(20px); } 
+      to { opacity: 1; transform: scale(1) translateY(0); } 
+    }
+    
+    .bg-pattern { 
+      background-image: radial-gradient(rgba(167, 139, 250, 0.1) 1px, transparent 1px); 
+      background-size: 30px 30px; 
+    }
 
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-content > * { opacity: 0; transform: translateY(15px); }
+    .animate-content.animate-ready > * { animation: fadeInUp 0.6s ease-out forwards; }
+    
+    .animate-ready > *:nth-child(1) { animation-delay: 0.1s; }
+    .animate-ready > *:nth-child(2) { animation-delay: 0.2s; }
+    .animate-ready > *:nth-child(3) { animation-delay: 0.3s; }
+    .animate-ready > *:nth-child(4) { animation-delay: 0.4s; }
+    .animate-ready > *:nth-child(5) { animation-delay: 0.5s; }
+    .animate-ready > *:nth-child(6) { animation-delay: 0.6s; }
+
+    @keyframes fadeInUp { 
+      from { opacity: 0; transform: translateY(15px); } 
+      to { opacity: 1; transform: translateY(0); } 
+    }
+
+    .topic-card {
+      background: rgba(26, 26, 46, 0.6);
+      border: 1px solid rgba(167, 139, 250, 0.2);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      transition: all 0.3s ease;
+    }
+    .topic-card:hover {
+      border-color: var(--accent-teal);
+      background: rgba(26, 26, 46, 0.8);
+      transform: translateX(5px);
+    }
+
+    .sql-code {
+      background: #0f172a;
+      border-left: 4px solid var(--accent-teal);
+      padding: 0.75rem;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.8rem;
+      color: #94a3b8;
+      border-radius: 0 8px 8px 0;
+      margin: 0.5rem 0;
+    }
   </style>
 </head>
 <body x-data="quizApp()" class="bg-pattern relative">
   
-  <!-- Modal Detail Soal -->
+  <!-- FEEDBACK MODAL -->
+  <div x-show="showFeedback" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm pointer-events-none">
+     <div x-show="showFeedback" 
+          x-transition:enter="transition ease-out duration-300"
+          x-transition:enter-start="scale-50 opacity-0"
+          x-transition:enter-end="scale-100 opacity-100"
+          x-transition:leave="transition ease-in duration-200"
+          x-transition:leave-start="scale-100 opacity-100"
+          x-transition:leave-end="scale-50 opacity-0"
+          class="bg-[#1a1a2e] border-2 rounded-3xl p-8 text-center shadow-[0_0_60px_rgba(0,0,0,0.6)]"
+          :class="isFeedbackCorrect ? 'border-teal-400 shadow-teal-500/20' : 'border-red-400 shadow-red-500/20'">
+        
+        <template x-if="isFeedbackCorrect">
+           <div class="w-40 h-40 mx-auto mb-6 rounded-full border-4 border-teal-400 bg-cover bg-no-repeat" style="background-image: url('/assets/bab3_scene.png'); background-size: cover; background-position: center;"></div>
+        </template>
+        <template x-if="!isFeedbackCorrect">
+           <div class="w-40 h-40 mx-auto mb-6 rounded-full border-4 border-red-400 bg-cover bg-no-repeat grayscale opacity-80" style="background-image: url('/assets/bab3_scene.png'); background-size: cover; background-position: center;"></div>
+        </template>
+        
+        <h3 class="text-3xl font-sora font-black mb-2" 
+            :class="isFeedbackCorrect ? 'text-teal-400' : 'text-red-400'"
+            x-text="isFeedbackCorrect ? 'BENAR SEKALI! 🎉' : 'YAH, SALAH! 😢'"></h3>
+        <p class="text-gray-300 text-lg" x-text="isFeedbackCorrect ? '+10 Poin ditambahkan!' : 'Ayo baca lagi materinya dengan teliti!'"></p>
+     </div>
+  </div>
+
+  <!-- DETAIL MODAL -->
   <div x-show="showDetailModal" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md">
      <div @click.away="showDetailModal = false" class="bg-[#1a1a2e] border border-teal-500/50 rounded-2xl w-[90%] max-w-[500px] max-h-[80vh] flex flex-col shadow-2xl">
         <div class="p-4 border-b border-gray-700 flex justify-between items-center bg-teal-900/20 rounded-t-2xl">
@@ -75,314 +186,1012 @@
      </div>
   </div>
 
-  <div x-show="showFeedback" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm pointer-events-none">
-     <div x-show="showFeedback" 
-          x-transition:enter="transition ease-out duration-300"
-          x-transition:enter-start="scale-50 opacity-0"
-          x-transition:enter-end="scale-100 opacity-100"
-          x-transition:leave="transition ease-in duration-200"
-          x-transition:leave-start="scale-100 opacity-100"
-          x-transition:leave-end="scale-50 opacity-0"
-          class="bg-[#1a1a2e] border-2 rounded-3xl p-8 text-center shadow-[0_0_60px_rgba(0,0,0,0.6)]"
-          :class="isFeedbackCorrect ? 'border-teal-400 shadow-teal-500/20' : 'border-red-400 shadow-red-500/20'">
-        
-        <template x-if="isFeedbackCorrect">
-           <div class="w-40 h-40 mx-auto mb-6 rounded-full border-4 border-teal-400 bg-cover bg-no-repeat" style="background-image: url('/Gemini_Generated_Image_ecqwabecqwabecqw.png'); background-size: cover; background-position: center;"></div>
-        </template>
-        <template x-if="!isFeedbackCorrect">
-           <div class="w-40 h-40 mx-auto mb-6 rounded-full border-4 border-red-400 bg-cover bg-no-repeat grayscale opacity-80" style="background-image: url('/Gemini_Generated_Image_ecqwabecqwabecqw.png'); background-size: cover; background-position: center;"></div>
-        </template>
-        
-        <h3 class="text-3xl font-sora font-black mb-2" 
-            :class="isFeedbackCorrect ? 'text-teal-400' : 'text-red-400'"
-            x-text="isFeedbackCorrect ? 'BENAR SEKALI! 🎉' : 'YAH, SALAH! 😢'"></h3>
-        <p class="text-gray-300 text-lg" x-text="isFeedbackCorrect ? '+10 Poin ditambahkan!' : 'Ayo baca lagi materinya dengan teliti!'"></p>
-     </div>
-  </div>
-
+  <!-- NAVIGATION -->
   <div class="w-full max-w-[900px] flex justify-between items-center mb-6 px-4 z-10">
-     <a href="/" class="text-purple-400 hover:text-purple-300 transition font-semibold flex items-center gap-2 bg-purple-900/20 px-4 py-2 rounded-full border border-purple-500/30">
+     <a href="/" class="text-purple-400 hover:text-purple-300 transition font-semibold flex items-center gap-2 bg-purple-900/20 px-4 py-2 rounded-full border border-purple-500/30 shadow-lg">
        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-       Kembali ke Beranda
+       Beranda
      </a>
-     <div class="flex gap-3">
-       <button id="btn-prev" class="px-6 py-2 rounded-full bg-[#12121a] border border-gray-600 hover:border-purple-400 hover:text-purple-400 text-white text-sm font-bold transition shadow-lg">← Prev</button>
-       <button id="btn-next" class="px-6 py-2 rounded-full bg-[#12121a] border border-gray-600 hover:border-teal-400 hover:text-teal-400 text-white text-sm font-bold transition shadow-lg">Next →</button>
+     <div class="flex gap-4">
+       <button id="btn-prev" class="px-6 py-2.5 rounded-full bg-[#12121a] border border-gray-600 hover:border-purple-400 hover:text-purple-400 text-white text-sm font-bold transition shadow-xl hover:shadow-purple-500/10">← Prev</button>
+       <button id="btn-next" class="px-6 py-2.5 rounded-full bg-[#12121a] border border-gray-600 hover:border-teal-400 hover:text-teal-400 text-white text-sm font-bold transition shadow-xl hover:shadow-teal-500/10">Next →</button>
      </div>
   </div>
   
+  <!-- FLIPBOOK CONTAINER -->
   <div id="flipbook" class="flipbook">
     
-    <!-- Cover Bab 6 -->
+    <!-- HALAMAN 1: COVER -->
     <div class="page --hard">
       <div class="page-wrapper items-center justify-center text-center">
-        <div class="text-[10px] font-bold text-teal-400 mb-6 bg-teal-400/10 px-4 py-1.5 rounded-full border border-teal-400/20 tracking-widest">SMAN 1 PALEMBANG KELAS X</div>
-        <h1 class="text-7xl font-sora font-black text-transparent bg-clip-text bg-gradient-to-br from-purple-400 to-teal-400 mb-4 drop-shadow-lg">Bab 6</h1>
-        <h2 class="text-2xl font-sora font-bold text-gray-200 mb-12 max-w-[300px] leading-snug">Pengelolaan Informasi Digital</h2>
+        <div class="text-[10px] font-bold text-teal-400 mb-8 bg-teal-400/10 px-5 py-2 rounded-full border border-teal-400/20 tracking-widest uppercase">SMAN 1 PALEMBANG • KELAS X</div>
+        <h1 class="text-8xl font-sora font-black text-transparent bg-clip-text bg-gradient-to-br from-purple-400 to-teal-400 mb-6 drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)]">Bab 6</h1>
+        <h2 class="text-3xl font-sora font-bold text-gray-200 mb-12 max-w-[350px] leading-tight">Pengelolaan Informasi Digital</h2>
         
-        <div class="w-64 h-64 mx-auto drop-shadow-[0_10px_30px_rgba(255,255,255,0.1)] rounded-full border-4 border-[#12121a] bg-cover bg-center" style="background-image: url('/boy_sma_1776937854416.png'); background-size: cover; background-position: center;"></div>
-        <p class="mt-10 text-xs font-semibold text-gray-500 animate-pulse">Geser / Klik Next untuk membuka</p>
+        <div class="w-64 h-64 mx-auto drop-shadow-[0_10px_40px_rgba(45,212,191,0.2)] rounded-full border-4 border-[#12121a] bg-cover bg-center ring-4 ring-teal-500/20" style="background-image: url('/assets/bab3_scene.png'); background-size: cover; background-position: center;"></div>
+        <p class="mt-12 text-xs font-bold text-gray-500 animate-pulse tracking-[0.2em] uppercase italic">Buka untuk memulai petualangan data</p>
       </div>
     </div>
     
+    <!-- HALAMAN 2: KOSONG / MASCOT -->
     <div class="page --hard">
        <div class="page-wrapper items-center justify-center">
-          <div class="w-32 h-32 bg-cover bg-center animate-bounce opacity-80 drop-shadow-[0_0_15px_rgba(167,139,250,0.5)]" style="background-image: url('/assets/boy_sma.png');"></div>
+          <div class="w-48 h-48 bg-cover bg-center animate-bounce opacity-80 drop-shadow-[0_0_20px_rgba(167,139,250,0.6)]" style="background-image: url('/assets/boy_sma.png');"></div>
+          <p class="text-purple-400 font-bold mt-8 tracking-widest uppercase text-xs">Siap Mengelola Data?</p>
        </div>
     </div>
 
-    <!-- HALAMAN 3: Tujuan, Kata Kunci, Apersepsi -->
+    <!-- HALAMAN 3: INTRO -->
     <div class="page">
       <div class="page-wrapper">
         <div class="page-content animate-content">
-          <h2 class="text-xl font-sora font-bold text-purple-400 mb-4 border-b border-gray-700 pb-2">Tujuan Pembelajaran</h2>
-          <ol class="list-decimal pl-5 text-xs text-gray-300 leading-relaxed mb-4 space-y-1 text-justify">
-             <li>memahami konsep dasar basis data,</li>
-             <li>menggunakan perangkat lunak basis data secara efektif, dan</li>
-             <li>menggunakan perintah pengelolaan basis data untuk mengelola informasi.</li>
-          </ol>
+          <h2 class="text-2xl font-sora font-bold text-purple-400 mb-6 border-b-2 border-purple-500/20 pb-3">Tujuan Pembelajaran</h2>
+          <div class="space-y-4 mb-8">
+             <div class="flex gap-3 items-start">
+                <span class="w-6 h-6 bg-purple-500/20 text-purple-400 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">1</span>
+                <p class="text-xs text-gray-300 leading-relaxed text-justify">Memahami konsep dasar basis data sebagai fondasi informasi digital.</p>
+             </div>
+             <div class="flex gap-3 items-start">
+                <span class="w-6 h-6 bg-purple-500/20 text-purple-400 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">2</span>
+                <p class="text-xs text-gray-300 leading-relaxed text-justify">Menggunakan perangkat lunak basis data secara efektif dalam skenario nyata.</p>
+             </div>
+             <div class="flex gap-3 items-start">
+                <span class="w-6 h-6 bg-purple-500/20 text-purple-400 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">3</span>
+                <p class="text-xs text-gray-300 leading-relaxed text-justify">Menguasai perintah SQL dasar untuk mengelola dan memanipulasi informasi.</p>
+             </div>
+          </div>
           
-          <h3 class="text-sm font-sora font-bold text-teal-400 mb-2 mt-4">Kata Kunci</h3>
-          <div class="flex flex-wrap gap-2 mb-6">
-             <span class="bg-gray-800 text-teal-300 text-[9px] px-2 py-1 rounded border border-gray-700">Basis Data</span>
-             <span class="bg-gray-800 text-teal-300 text-[9px] px-2 py-1 rounded border border-gray-700">Pengelolaan Data</span>
-             <span class="bg-gray-800 text-teal-300 text-[9px] px-2 py-1 rounded border border-gray-700">SQL</span>
-             <span class="bg-gray-800 text-teal-300 text-[9px] px-2 py-1 rounded border border-gray-700">Perangkat Lunak Basis Data</span>
-             <span class="bg-gray-800 text-teal-300 text-[9px] px-2 py-1 rounded border border-gray-700">Informasi</span>
+          <h3 class="text-sm font-sora font-bold text-teal-400 mb-3">Kata Kunci</h3>
+          <div class="flex flex-wrap gap-2 mb-8">
+             <span class="bg-teal-900/20 text-teal-300 text-[10px] px-3 py-1.5 rounded-lg border border-teal-500/30 font-bold">Basis Data</span>
+             <span class="bg-teal-900/20 text-teal-300 text-[10px] px-3 py-1.5 rounded-lg border border-teal-500/30 font-bold">SQL</span>
+             <span class="bg-teal-900/20 text-teal-300 text-[10px] px-3 py-1.5 rounded-lg border border-teal-500/30 font-bold">DBMS</span>
+             <span class="bg-teal-900/20 text-teal-300 text-[10px] px-3 py-1.5 rounded-lg border border-teal-500/30 font-bold">Informasi</span>
+             <span class="bg-teal-900/20 text-teal-300 text-[10px] px-3 py-1.5 rounded-lg border border-teal-500/30 font-bold">Digital</span>
           </div>
 
-          <h2 class="text-xl font-sora font-bold text-purple-400 mb-4 border-b border-gray-700 pb-2 mt-6">Apersepsi</h2>
-          <p class="mb-3 text-[11px] text-gray-300 leading-relaxed text-justify">Ketika kamu menggunakan aplikasi pada gawaimu, konten disimpan dan dikelola dalam sistem yang terorganisir. Lihatlah cara aplikasi menyimpan foto dan data tanpa membuatnya kacau. Bagaimana sistem mengelola data tersebut agar mudah dicari? Di sini peran basis data menjadi sangat penting.</p>
+          <h2 class="text-2xl font-sora font-bold text-purple-400 mb-4 border-b-2 border-purple-500/20 pb-3 mt-6">Apersepsi</h2>
+          <p class="mb-5 text-[12px] text-gray-300 leading-relaxed text-justify italic">Pernahkah kamu membayangkan bagaimana aplikasi seperti Instagram atau Gojek menyimpan jutaan data pengguna tanpa tertukar? Bagaimana mereka bisa mencari riwayat pesananmu dalam hitungan detik? Rahasianya ada pada sistem pengelolaan informasi yang kita sebut Basis Data.</p>
         </div>
-        <div class="page-footer"><span>Bab 6 Pengelolaan Informasi</span><span>1</span></div>
+        <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>1</span></div>
       </div>
     </div>
 
-    <!-- HALAMAN 4: A. Pengenalan Basis Data -->
+    <!-- HALAMAN 4: A. PENGENALAN BASIS DATA -->
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-teal-400 mb-4 leading-snug">A. Pengenalan Basis Data</h2>
-             <h3 class="text-sm font-bold text-white mb-2">1. Data dan Informasi</h3>
-             <p class="text-[11px] mb-3 text-justify text-gray-300"><strong>Data</strong> adalah kumpulan fakta mentah yang tidak memiliki arti atau konteks. Sedangkan <strong>Informasi</strong> adalah data yang telah diolah atau diproses sehingga memiliki arti dan bermanfaat.</p>
-             <p class="text-[11px] mb-3 text-justify text-gray-300">Ibaratnya, data adalah bahan mentah (wortel, kentang). Jika diolah, ia akan menjadi sayur sop yang matang (informasi).</p>
-
-             <h3 class="text-sm font-bold text-purple-400 mb-2 mt-4">Klasifikasi Data</h3>
-             <ul class="space-y-3 list-none p-0 m-0">
-                <li class="bg-[#1a1a2e] p-2 rounded border-l-4 border-teal-500">
-                   <strong class="text-white text-xs block mb-1">Berdasarkan Bentuknya</strong>
-                   <span class="text-[10px] text-gray-400">Bisa numerik (angka), tekstual (kata), visual (gambar), atau audio (suara).</span>
-                </li>
-                <li class="bg-[#1a1a2e] p-2 rounded border-l-4 border-teal-500">
-                   <strong class="text-white text-xs block mb-1">Berdasarkan Sifatnya</strong>
-                   <span class="text-[10px] text-gray-400">Data kualitatif (kategori/deskriptif) dan data kuantitatif (numerik hasil ukur).</span>
-                </li>
-             </ul>
-          </div>
-          <div class="page-footer"><span>Bab 6 Pengelolaan Informasi</span><span>2</span></div>
-       </div>
-    </div>
-
-    <!-- HALAMAN 5: Piramida DIKW & Definisi Basis Data -->
-    <div class="page">
-       <div class="page-wrapper">
-          <div class="page-content animate-content">
-             <h3 class="text-sm font-bold text-teal-400 mb-3">Piramida DIKW</h3>
-             <p class="text-[11px] mb-2 text-justify text-gray-300">Data mentah diolah menjadi Informasi. Kumpulan informasi dipahami menjadi Pengetahuan (Knowledge), lalu berkembang menjadi Kebijaksanaan (Wisdom).</p>
-             
-             <div class="flex justify-center mb-4">
-                <div class="text-[10px] font-bold text-center space-y-1 w-full max-w-[200px]">
-                   <div class="bg-purple-600 text-white p-1 rounded">Wisdom</div>
-                   <div class="bg-purple-700 text-white p-1 mx-2 rounded">Knowledge</div>
-                   <div class="bg-teal-600 text-white p-1 mx-4 rounded">Information</div>
-                   <div class="bg-teal-700 text-white p-1 mx-6 rounded">Data</div>
+             <h2 class="text-xl font-sora font-bold text-teal-400 mb-6 leading-tight border-l-4 border-teal-500 pl-4">A. Pengenalan Basis Data</h2>
+             <h3 class="text-md font-bold text-white mb-3">1. Data vs Informasi</h3>
+             <div class="grid grid-cols-1 gap-4 mb-6">
+                <div class="bg-[#1a1a2e] p-4 rounded-xl border border-gray-700">
+                   <strong class="text-teal-400 block mb-2 uppercase text-xs tracking-wider">Data</strong>
+                   <p class="text-[11px] text-gray-300 text-justify">Kumpulan fakta mentah yang belum diolah dan tidak memiliki arti bagi penerimanya. Contoh: Angka 37, 38, 39.</p>
+                </div>
+                <div class="bg-[#1a1a2e] p-4 rounded-xl border border-gray-700">
+                   <strong class="text-purple-400 block mb-2 uppercase text-xs tracking-wider">Informasi</strong>
+                   <p class="text-[11px] text-gray-300 text-justify">Data yang telah diolah sehingga memiliki konteks dan manfaat. Contoh: "Suhu tubuh 39°C menandakan gejala demam."</p>
                 </div>
              </div>
-
-             <h3 class="text-sm font-bold text-purple-400 mb-2 mt-4">3. Basis Data</h3>
-             <p class="text-[10px] mb-3 text-justify text-gray-300"><strong>Basis data (database)</strong> adalah kumpulan data yang disimpan secara sistematis di dalam komputer yang dapat diolah atau dimanipulasi menggunakan perangkat lunak (DBMS) untuk menghasilkan informasi.</p>
-             <p class="text-[10px] mb-3 text-justify text-gray-300">Manfaat basis data: menghemat waktu dan biaya, konsistensi data, menghindari duplikasi, memudahkan akses, menjaga keamanan, dan mendukung integrasi sistem.</p>
+             
+             <div class="bg-teal-900/20 p-4 rounded-xl border border-teal-500/30">
+                <p class="text-[11px] text-gray-300 italic">"Ibarat masakan, data adalah bahan mentah (wortel, kentang), sedangkan informasi adalah sayur sop yang sudah matang dan siap dinikmati."</p>
+             </div>
           </div>
-          <div class="page-footer"><span>Bab 6 Pengelolaan Informasi</span><span>3</span></div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>2</span></div>
        </div>
     </div>
 
-    <!-- HALAMAN 6: Peran dalam Lingkungan Basis Data -->
+    <!-- HALAMAN 5: KLASIFIKASI DATA -->
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-sm font-bold text-teal-400 mb-3">4. Peran dalam Lingkungan Basis Data</h3>
+             <h3 class="text-md font-bold text-purple-400 mb-6">2. Klasifikasi Data</h3>
+             <p class="text-[11px] mb-6 text-gray-300">Data dapat dikelompokkan berdasarkan beberapa kategori penting:</p>
              
-             <div class="space-y-3 mt-3">
-                <div class="border-l-2 border-purple-500 pl-3">
-                   <p class="text-[10px] font-bold text-white mb-1">a. Administrator Basis Data (DBA)</p>
-                   <p class="text-[10px] text-gray-400 text-justify">Menjaga dan mengelola semua data, memastikan aman, mengatur hak akses, memperbaiki masalah sistem.</p>
+             <div class="space-y-4">
+                <div class="topic-card">
+                   <h4 class="text-xs font-bold text-white mb-2">Berdasarkan Bentuknya</h4>
+                   <ul class="text-[10px] text-gray-400 list-disc pl-5 space-y-1">
+                      <li>Numerik (Angka/Nilai)</li>
+                      <li>Tekstual (Kata/Kalimat)</li>
+                      <li>Visual (Gambar/Video)</li>
+                      <li>Audio (Suara)</li>
+                   </ul>
                 </div>
-                <div class="border-l-2 border-purple-500 pl-3">
-                   <p class="text-[10px] font-bold text-white mb-1">b. Desainer Basis Data</p>
-                   <p class="text-[10px] text-gray-400 text-justify">Merancang cara penyimpanan dan pengorganisasian data, seperti membuat struktur tabel-tabel.</p>
-                </div>
-                <div class="border-l-2 border-purple-500 pl-3">
-                   <p class="text-[10px] font-bold text-white mb-1">c. Pengembang Aplikasi</p>
-                   <p class="text-[10px] text-gray-400 text-justify">Membuat aplikasi komputer yang berinteraksi dengan basis data (menulis kode program dan antarmuka).</p>
-                </div>
-                <div class="border-l-2 border-purple-500 pl-3">
-                   <p class="text-[10px] font-bold text-white mb-1">d. Pengguna Akhir (End-Users)</p>
-                   <p class="text-[10px] text-gray-400 text-justify">Orang yang menggunakan aplikasi untuk mencari atau memasukkan informasi (misal: memesan makanan).</p>
+                
+                <div class="topic-card">
+                   <h4 class="text-xs font-bold text-white mb-2">Berdasarkan Sifatnya</h4>
+                   <ul class="text-[10px] text-gray-400 list-disc pl-5 space-y-1">
+                      <li><strong class="text-teal-400">Kualitatif:</strong> Deskriptif, tidak berupa angka (Contoh: Warna, Nama).</li>
+                      <li><strong class="text-teal-400">Kuantitatif:</strong> Berupa angka hasil pengukuran (Contoh: Tinggi badan, Harga).</li>
+                   </ul>
                 </div>
              </div>
           </div>
-          <div class="page-footer"><span>Bab 6 Pengelolaan Informasi</span><span>4</span></div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>3</span></div>
        </div>
     </div>
 
-    <!-- HALAMAN 7: B. Jenis-Jenis Basis Data -->
+    <!-- HALAMAN 6: PIRAMIDA DIKW -->
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-teal-400 mb-4 leading-snug">B. Jenis-Jenis Basis Data</h2>
-             
-             <div class="grid grid-cols-1 gap-3 text-[10px]">
-                <div class="bg-gray-800/50 p-3 rounded border border-gray-700">
-                   <strong class="text-teal-300 block mb-1">1. Basis Data Relasi</strong>
-                   Data disimpan dalam bentuk tabel (baris dan kolom). Paling umum digunakan untuk sistem dengan struktur data kaku.
+             <h3 class="text-md font-bold text-teal-400 mb-8 text-center">Piramida DIKW</h3>
+             <div class="flex flex-col items-center">
+                <div class="relative w-full max-w-[300px] flex flex-col gap-1 items-center">
+                   <div class="w-[40%] bg-purple-600 p-2 text-center rounded-t-lg shadow-lg">
+                      <span class="text-[10px] font-black text-white">WISDOM</span>
+                   </div>
+                   <div class="w-[60%] bg-purple-500 p-2 text-center shadow-lg">
+                      <span class="text-[10px] font-black text-white">KNOWLEDGE</span>
+                   </div>
+                   <div class="w-[80%] bg-teal-500 p-2 text-center shadow-lg">
+                      <span class="text-[10px] font-black text-white">INFORMATION</span>
+                   </div>
+                   <div class="w-[100%] bg-teal-600 p-2 text-center rounded-b-lg shadow-lg">
+                      <span class="text-[10px] font-black text-white">DATA</span>
+                   </div>
                 </div>
-                <div class="bg-gray-800/50 p-3 rounded border border-gray-700">
-                   <strong class="text-teal-300 block mb-1">2. Basis Data NoSQL</strong>
-                   Lebih fleksibel, tanpa struktur tabel kaku. Cocok untuk data format dokumen/objek (seperti aplikasi media sosial besar).
-                </div>
-                <div class="bg-gray-800/50 p-3 rounded border border-gray-700">
-                   <strong class="text-teal-300 block mb-1">3. Basis Data Berbasis Cloud</strong>
-                   Disimpan di internet, dapat diakses dari mana saja.
-                </div>
-                <div class="bg-gray-800/50 p-3 rounded border border-gray-700">
-                   <strong class="text-teal-300 block mb-1">4. Basis Data Terdistribusi</strong>
-                   Tersebar di beberapa lokasi fisik tetapi bekerja sebagai satu kesatuan, menggunakan teknologi replikasi dan big data.
+                
+                <div class="mt-8 space-y-4 w-full">
+                   <p class="text-[11px] text-gray-300 text-justify leading-relaxed">
+                      Piramida ini menunjukkan bagaimana data mentah berevolusi menjadi kebijaksanaan:
+                   </p>
+                   <ul class="text-[10px] text-gray-400 space-y-2">
+                      <li><b class="text-white">Data:</b> Fakta dasar.</li>
+                      <li><b class="text-white">Information:</b> Memberikan jawaban "siapa, apa, di mana".</li>
+                      <li><b class="text-white">Knowledge:</b> Memberikan jawaban "bagaimana".</li>
+                      <li><b class="text-white">Wisdom:</b> Memberikan jawaban "mengapa" dan etika.</li>
+                   </ul>
                 </div>
              </div>
           </div>
-          <div class="page-footer"><span>Bab 6 Pengelolaan Informasi</span><span>5</span></div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>4</span></div>
        </div>
     </div>
 
-    <!-- HALAMAN 8: C. Basis Data Relasi (Entitas & Atribut) -->
+    <!-- HALAMAN 7: DEFINISI BASIS DATA -->
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-purple-400 mb-4 leading-snug">C. Basis Data Relasi</h2>
-             <h3 class="text-sm font-bold text-white mb-2">Entitas dan Atribut</h3>
-             <p class="text-[10px] mb-3 text-justify text-gray-300"><strong>Entitas:</strong> Sesuatu yang memiliki keberadaan unik (Peserta didik, Guru, Buku).</p>
-             <p class="text-[10px] mb-4 text-justify text-gray-300"><strong>Atribut:</strong> Sifat/detail yang menjelaskan entitas, menjadi kolom tabel (Nama, NIS, Alamat).</p>
+             <h3 class="text-md font-bold text-purple-400 mb-6">3. Apa itu Basis Data?</h3>
+             <div class="bg-gradient-to-br from-purple-900/20 to-teal-900/20 p-6 rounded-2xl border border-gray-700 shadow-inner mb-8">
+                <p class="text-[12px] text-gray-200 leading-relaxed text-justify">
+                   <strong>Basis Data (Database)</strong> adalah kumpulan data yang disimpan secara sistematis di dalam komputer yang dapat diolah atau dimanipulasi menggunakan perangkat lunak (DBMS) untuk menghasilkan informasi.
+                </p>
+             </div>
              
-             <div class="bg-teal-900/20 border border-teal-500/30 p-2 rounded mb-3">
-                <h4 class="text-[10px] font-bold text-teal-300 mb-1">Jenis-Jenis Atribut:</h4>
-                <ul class="list-disc pl-4 text-[9px] text-gray-300">
-                   <li><strong>Atribut Sederhana:</strong> Tidak bisa dipecah lagi (Nama, Jenis Kelamin).</li>
-                   <li><strong>Atribut Komposit:</strong> Bisa dipecah (Alamat -> Jalan, RT, Kota).</li>
-                   <li><strong>Atribut Kunci:</strong> Unik untuk membedakan record.</li>
+             <h4 class="text-xs font-bold text-teal-400 mb-4 uppercase tracking-widest">Manfaat Utama:</h4>
+             <div class="grid grid-cols-2 gap-4">
+                <div class="bg-[#1a1a2e] p-3 rounded-xl border border-gray-800 text-center">
+                   <div class="text-xl mb-1">⏱️</div>
+                   <span class="text-[9px] font-bold text-white">Efisiensi Waktu</span>
+                </div>
+                <div class="bg-[#1a1a2e] p-3 rounded-xl border border-gray-800 text-center">
+                   <div class="text-xl mb-1">🛡️</div>
+                   <span class="text-[9px] font-bold text-white">Keamanan Data</span>
+                </div>
+                <div class="bg-[#1a1a2e] p-3 rounded-xl border border-gray-800 text-center">
+                   <div class="text-xl mb-1">🔄</div>
+                   <span class="text-[9px] font-bold text-white">Konsistensi</span>
+                </div>
+                <div class="bg-[#1a1a2e] p-3 rounded-xl border border-gray-800 text-center">
+                   <div class="text-xl mb-1">💾</div>
+                   <span class="text-[9px] font-bold text-white">Hemat Ruang</span>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>5</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 8: PERAN 1 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-md font-bold text-teal-400 mb-6">4. Peran dalam Lingkungan Basis Data</h3>
+             
+             <div class="space-y-6">
+                <div class="topic-card border-l-4 border-purple-500">
+                   <h4 class="text-sm font-bold text-white mb-2">a. Administrator Basis Data (DBA)</h4>
+                   <p class="text-[10px] text-gray-400 text-justify">Bertanggung jawab penuh atas keamanan, performa, dan pemeliharaan sistem. Mereka mengatur siapa yang boleh masuk dan menjaga agar data tidak hilang.</p>
+                </div>
+                
+                <div class="topic-card border-l-4 border-teal-500">
+                   <h4 class="text-sm font-bold text-white mb-2">b. Desainer Basis Data</h4>
+                   <p class="text-[10px] text-gray-400 text-justify">Arsitek data. Mereka merancang bagaimana informasi harus disusun, tabel apa saja yang dibutuhkan, dan bagaimana antar tabel berhubungan.</p>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>6</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 9: PERAN 2 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <div class="space-y-6 mt-4">
+                <div class="topic-card border-l-4 border-purple-500">
+                   <h4 class="text-sm font-bold text-white mb-2">c. Pengembang Aplikasi</h4>
+                   <p class="text-[10px] text-gray-400 text-justify">Membangun program (web/mobile) yang berinteraksi dengan basis data. Mereka menulis kode untuk mengambil data dan menampilkannya kepada pengguna.</p>
+                </div>
+                
+                <div class="topic-card border-l-4 border-teal-500">
+                   <h4 class="text-sm font-bold text-white mb-2">d. Pengguna Akhir (End-Users)</h4>
+                   <p class="text-[10px] text-gray-400 text-justify">Orang-orang yang menggunakan aplikasi setiap hari (seperti kita saat belanja online). Mereka memasukkan atau mencari data melalui antarmuka yang ramah pengguna.</p>
+                </div>
+             </div>
+             
+             <div class="mt-12 bg-teal-900/10 p-4 rounded-xl border border-teal-500/20 text-center">
+                <p class="text-[10px] text-teal-400 font-bold uppercase tracking-widest">Tugas Utama: Berkolaborasi untuk Sistem yang Handal</p>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>7</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 10: AKTIVITAS KELOMPOK -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <div class="bg-purple-900/20 p-6 rounded-2xl border border-purple-500/30">
+                <h4 class="text-sm font-bold text-purple-400 mb-4 flex items-center gap-2">
+                   <span class="text-lg">👥</span> Ayo Mencoba!
+                </h4>
+                <p class="text-[11px] text-gray-300 mb-6 font-bold">Aktivitas BD-K10-03: Peran Basis Data</p>
+                <ol class="list-decimal pl-5 text-[10px] text-gray-400 space-y-4">
+                   <li>Buat kelompok beranggotakan 4 orang.</li>
+                   <li>Setiap anggota memilih satu peran (DBA, Desainer, Developer, atau User).</li>
+                   <li>Simulasikan skenario: "Sekolah ingin membuat aplikasi kartu digital peserta didik".</li>
+                   <li>Diskusikan: Apa kontribusi spesifik dari setiap peran dalam proyek tersebut?</li>
+                   <li>Presentasikan hasil diskusi kalian di depan kelas!</li>
+                </ol>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>8</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 11: JENIS BASIS DATA (1/2) -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h2 class="text-xl font-sora font-bold text-teal-400 mb-6 border-l-4 border-teal-500 pl-4">B. Jenis-Jenis Basis Data</h2>
+             
+             <div class="space-y-4">
+                <div class="topic-card">
+                   <h4 class="text-sm font-bold text-white mb-2">1. Basis Data Relasi</h4>
+                   <p class="text-[10px] text-gray-400 text-justify">Data disimpan dalam bentuk tabel yang saling terhubung. Contoh: MySQL, PostgreSQL. Paling umum digunakan karena strukturnya yang jelas.</p>
+                </div>
+                
+                <div class="topic-card">
+                   <h4 class="text-sm font-bold text-white mb-2">2. Basis Data NoSQL</h4>
+                   <p class="text-[10px] text-gray-400 text-justify">Tidak menggunakan struktur tabel yang kaku. Sangat fleksibel untuk data yang berubah-ubah (seperti post media sosial). Contoh: MongoDB.</p>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>9</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 12: JENIS BASIS DATA (2/2) -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <div class="space-y-4 mt-4">
+                <div class="topic-card">
+                   <h4 class="text-sm font-bold text-white mb-2">3. Basis Data Berbasis Cloud</h4>
+                   <p class="text-[10px] text-gray-400 text-justify">Disimpan di server internet (Cloud). Kamu bisa mengakses data dari mana saja selama ada koneksi. Contoh: Google Firebase, AWS RDS.</p>
+                </div>
+                
+                <div class="topic-card">
+                   <h4 class="text-sm font-bold text-white mb-2">4. Basis Data Terdistribusi</h4>
+                   <p class="text-[10px] text-gray-400 text-justify">Data tidak berada di satu tempat saja, tapi tersebar di berbagai lokasi fisik (misal: server Jakarta, server Palembang, server Papua) namun tetap bekerja sebagai satu kesatuan.</p>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>10</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 13: TEKNOLOGI PENDUKUNG 1 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-md font-bold text-purple-400 mb-6 uppercase tracking-widest">Teknologi Pendukung</h3>
+             
+             <div class="grid grid-cols-1 gap-6">
+                <div class="flex gap-4 items-center">
+                   <div class="w-12 h-12 bg-purple-900/30 rounded-lg flex items-center justify-center text-2xl border border-purple-500/30">📋</div>
+                   <div>
+                      <h4 class="text-xs font-bold text-white uppercase">Replikasi</h4>
+                      <p class="text-[9px] text-gray-400">Menyalin data dari satu server ke server lain agar jika satu rusak, data masih ada di tempat lain.</p>
+                   </div>
+                </div>
+                
+                <div class="flex gap-4 items-center">
+                   <div class="w-12 h-12 bg-teal-900/30 rounded-lg flex items-center justify-center text-2xl border border-teal-500/30">🪞</div>
+                   <div>
+                      <h4 class="text-xs font-bold text-white uppercase">Mirroring</h4>
+                      <p class="text-[9px] text-gray-400">Membuat salinan data secara "real-time" (seketika itu juga) sebagai cadangan utama.</p>
+                   </div>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>11</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 14: TEKNOLOGI PENDUKUNG 2 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <div class="grid grid-cols-1 gap-6 mt-4">
+                <div class="flex gap-4 items-center">
+                   <div class="w-12 h-12 bg-purple-900/30 rounded-lg flex items-center justify-center text-2xl border border-purple-500/30">🏭</div>
+                   <div>
+                      <h4 class="text-xs font-bold text-white uppercase">Data Warehouse</h4>
+                      <p class="text-[9px] text-gray-400">Gudang penyimpanan data yang sangat besar untuk keperluan analisis bisnis jangka panjang.</p>
+                   </div>
+                </div>
+                
+                <div class="flex gap-4 items-center">
+                   <div class="w-12 h-12 bg-teal-900/30 rounded-lg flex items-center justify-center text-2xl border border-teal-500/30">📈</div>
+                   <div>
+                      <h4 class="text-xs font-bold text-white uppercase">Big Data</h4>
+                      <p class="text-[9px] text-gray-400">Teknologi untuk menangani volume data yang raksasa, cepat, dan beragam (misal: data transaksi seluruh dunia).</p>
+                   </div>
+                </div>
+             </div>
+             
+             <div class="mt-12 bg-gradient-to-r from-purple-500/20 to-teal-500/20 p-4 rounded-xl border border-gray-700">
+                <p class="text-[10px] text-center text-gray-300 italic">"Memilih jenis basis data yang tepat seperti memilih baju: harus sesuai dengan kebutuhan dan ukuran proyekmu."</p>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>12</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 15: C. BASIS DATA RELASI: ENTITAS -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h2 class="text-xl font-sora font-bold text-purple-400 mb-6 border-l-4 border-purple-500 pl-4">C. Basis Data Relasi</h2>
+             <h3 class="text-md font-bold text-white mb-3">Entitas</h3>
+             <p class="text-[11px] mb-6 text-gray-300 text-justify"><strong>Entitas</strong> adalah sesuatu yang memiliki keberadaan unik dan berbeda di dunia nyata yang ingin kita simpan datanya.</p>
+             
+             <div class="bg-[#1a1a2e] p-5 rounded-2xl border border-gray-700 relative overflow-hidden">
+                <div class="absolute right-[-10px] top-[-10px] text-6xl opacity-10">👤</div>
+                <h4 class="text-xs font-bold text-teal-400 mb-2 uppercase">Contoh Entitas:</h4>
+                <ul class="text-[10px] text-gray-400 space-y-2">
+                   <li><b class="text-white">Benda Konkret:</b> Buku, Peserta Didik, Guru.</li>
+                   <li><b class="text-white">Peran/Fungsi:</b> Karyawan, Pelanggan, User.</li>
+                   <li><b class="text-white">Kejadian:</b> Peminjaman, Transaksi, Nilai.</li>
                 </ul>
              </div>
-
-             <h3 class="text-sm font-bold text-white mb-2 mt-4">Kardinalitas (Hubungan Antar Entitas)</h3>
-             <ul class="list-none text-[9px] text-gray-300 space-y-1">
-                <li><strong class="text-purple-300">One to One:</strong> 1 peserta didik dengan 1 NIS.</li>
-                <li><strong class="text-purple-300">One to Many:</strong> 1 pembeli meminjam banyak buku.</li>
-                <li><strong class="text-purple-300">Many to Many:</strong> Banyak siswa mengikuti banyak ekstrakurikuler.</li>
-             </ul>
           </div>
-          <div class="page-footer"><span>Bab 6 Pengelolaan Informasi</span><span>6</span></div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>13</span></div>
        </div>
     </div>
 
-    <!-- HALAMAN 9: Record, Field, Primary Key -->
+    <!-- HALAMAN 16: ATRIBUT KUNCI & SEDERHANA -->
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-sm font-bold text-teal-400 mb-3">Tabel, Record, Field, & Kunci</h3>
-             <p class="text-[10px] mb-3 text-justify text-gray-300">Bagian kolom disebut <strong>Atribut/Field</strong>. Bagian baris disebut <strong>Record</strong>.</p>
+             <h3 class="text-md font-bold text-white mb-6">Atribut</h3>
+             <p class="text-[11px] mb-6 text-gray-300"><strong>Atribut</strong> adalah detail atau ciri khas yang menjelaskan sebuah entitas. Dalam tabel, atribut direpresentasikan sebagai <strong>kolom</strong>.</p>
              
-             <table class="w-full text-[9px] text-left border border-gray-600 mb-4">
-                <thead class="bg-gray-800">
+             <div class="space-y-4">
+                <div class="topic-card">
+                   <h4 class="text-xs font-bold text-teal-400 mb-1">1. Atribut Kunci (Key)</h4>
+                   <p class="text-[10px] text-gray-400">Unik untuk membedakan satu baris dengan baris lain. Contoh: <strong class="text-white">NIS</strong> pada data siswa.</p>
+                </div>
+                
+                <div class="topic-card">
+                   <h4 class="text-xs font-bold text-teal-400 mb-1">2. Atribut Sederhana (Simple)</h4>
+                   <p class="text-[10px] text-gray-400">Nilainya tidak bisa dipecah lagi. Contoh: <strong class="text-white">Jenis Kelamin</strong>, <strong class="text-white">Tahun Terbit</strong>.</p>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>14</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 17: ATRIBUT KOMPOSIT & MULTIVALUE -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <div class="space-y-4 mt-4">
+                <div class="topic-card">
+                   <h4 class="text-xs font-bold text-purple-400 mb-1">3. Atribut Komposit</h4>
+                   <p class="text-[10px] text-gray-400">Atribut yang bisa dipecah menjadi bagian-bagian kecil. Contoh: <strong class="text-white">Alamat</strong> (Jalan, RT/RW, Kota, Kode Pos).</p>
+                </div>
+                
+                <div class="topic-card">
+                   <h4 class="text-xs font-bold text-purple-400 mb-1">4. Atribut Multivalue</h4>
+                   <p class="text-[10px] text-gray-400">Satu orang bisa punya lebih dari satu nilai. Contoh: <strong class="text-white">Nomor Telepon</strong> (bisa punya 2 nomor), <strong class="text-white">Hobi</strong>.</p>
+                </div>
+             </div>
+             
+             <div class="mt-8 bg-red-900/10 p-4 rounded-xl border border-red-500/20">
+                <p class="text-[10px] text-gray-300 italic font-bold">Catatan: Sebaiknya atribut komposit dipisah menjadi kolom sendiri agar data mudah dicari!</p>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>15</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 18: ATRIBUT TURUNAN & TIPE DATA -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <div class="topic-card mt-4 border-dashed border-2 border-teal-500/30">
+                <h4 class="text-xs font-bold text-teal-400 mb-1">5. Atribut Turunan (Derived)</h4>
+                <p class="text-[10px] text-gray-400 text-justify">Atribut yang nilainya didapat dari hitungan atribut lain. Contoh: <strong class="text-white">Usia</strong> (didapat dari: Tahun Sekarang - Tahun Lahir).</p>
+             </div>
+             
+             <h2 class="text-xl font-sora font-bold text-white mb-6 mt-12 border-b-2 border-gray-700 pb-3">Tipe Data</h2>
+             <p class="text-[11px] text-gray-300 text-justify leading-relaxed mb-6">
+                Setiap atribut harus memiliki tipe data yang jelas agar komputer tahu cara menyimpannya dengan benar. Salah memilih tipe data bisa membuat database jadi lambat atau error!
+             </p>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>16</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 19: TIPE DATA NUMERIK & TEKS -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-md font-bold text-teal-400 mb-6 tracking-widest uppercase">Kategori Tipe Data</h3>
+             
+             <div class="grid grid-cols-1 gap-6">
+                <div class="bg-[#1a1a2e] p-4 rounded-xl border border-teal-500/20">
+                   <h4 class="text-xs font-bold text-white mb-2 uppercase">A. Numerik (Angka)</h4>
+                   <p class="text-[10px] text-gray-400 mb-2">Untuk data yang bisa dihitung (Matematika).</p>
+                   <code class="text-[9px] bg-black/50 p-1 rounded text-teal-300 font-mono">INT, FLOAT, DECIMAL</code>
+                   <p class="text-[9px] mt-2 text-gray-500 italic">Contoh: Stok barang (50), Nilai (85.5).</p>
+                </div>
+                
+                <div class="bg-[#1a1a2e] p-4 rounded-xl border border-purple-500/20">
+                   <h4 class="text-xs font-bold text-white mb-2 uppercase">B. Teks (Karakter)</h4>
+                   <p class="text-[10px] text-gray-400 mb-2">Untuk huruf, kalimat, atau angka yang tidak dihitung.</p>
+                   <code class="text-[9px] bg-black/50 p-1 rounded text-purple-300 font-mono">CHAR, VARCHAR, TEXT</code>
+                   <p class="text-[9px] mt-2 text-gray-500 italic">Contoh: Nama (Dela), Kode Pos (30128).</p>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>17</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 20: TIPE DATA TANGGAL & BOOLEAN -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <div class="grid grid-cols-1 gap-6 mt-4">
+                <div class="bg-[#1a1a2e] p-4 rounded-xl border border-teal-500/20">
+                   <h4 class="text-xs font-bold text-white mb-2 uppercase">C. Tanggal & Waktu</h4>
+                   <p class="text-[10px] text-gray-400 mb-2">Untuk menyimpan momen waktu secara akurat.</p>
+                   <code class="text-[9px] bg-black/50 p-1 rounded text-teal-300 font-mono">DATE, TIME, DATETIME, YEAR</code>
+                   <p class="text-[9px] mt-2 text-gray-500 italic">Contoh: Tgl Lahir (2007-10-05).</p>
+                </div>
+                
+                <div class="bg-[#1a1a2e] p-4 rounded-xl border border-purple-500/20">
+                   <h4 class="text-xs font-bold text-white mb-2 uppercase">D. Boolean (Logika)</h4>
+                   <p class="text-[10px] text-gray-400 mb-2">Hanya dua kemungkinan: Benar atau Salah.</p>
+                   <code class="text-[9px] bg-black/50 p-1 rounded text-purple-300 font-mono">BOOLEAN (T/F atau 1/0)</code>
+                   <p class="text-[9px] mt-2 text-gray-500 italic">Contoh: Sudah Lulus? (Ya/Tidak).</p>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>18</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 21: TABEL, RECORD, FIELD -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-md font-bold text-teal-400 mb-6">Tabel, Record, dan Field</h3>
+             <p class="text-[11px] mb-4 text-gray-300">Mari kita lihat anatomi sebuah tabel dalam basis data:</p>
+             
+             <table class="w-full text-[10px] text-left border border-gray-600 mb-8 overflow-hidden rounded-lg">
+                <thead class="bg-teal-900/40 text-teal-300 uppercase">
                    <tr>
-                      <th class="p-1 border border-gray-600">No (PK)</th>
-                      <th class="p-1 border border-gray-600">NIS (FK)</th>
-                      <th class="p-1 border border-gray-600">Judul Buku</th>
+                      <th class="p-2 border border-gray-600">ID (PK)</th>
+                      <th class="p-2 border border-gray-600">Nama (Field)</th>
+                      <th class="p-2 border border-gray-600">Skor</th>
                    </tr>
                 </thead>
-                <tbody class="bg-gray-900/50">
-                   <tr><td class="p-1 border border-gray-600">1</td><td class="p-1 border border-gray-600">222080884</td><td class="p-1 border border-gray-600">Logika & Algoritma</td></tr>
-                   <tr><td class="p-1 border border-gray-600">2</td><td class="p-1 border border-gray-600">222080886</td><td class="p-1 border border-gray-600">Dasar Pemrograman Web</td></tr>
+                <tbody class="bg-gray-900/50 text-gray-300">
+                   <tr><td class="p-2 border border-gray-600">1</td><td class="p-2 border border-gray-600">Filindo</td><td class="p-2 border border-gray-600">95</td></tr>
+                   <tr><td class="p-2 border border-gray-600">2</td><td class="p-2 border border-gray-600">Manyang</td><td class="p-2 border border-gray-600">88</td></tr>
                 </tbody>
              </table>
-
-             <div class="bg-[#1a1a2e] p-2 rounded border-l-4 border-purple-500 mb-2">
-                <strong class="text-white text-xs block mb-1">Primary Key (PK)</strong>
-                <span class="text-[10px] text-gray-400 text-justify">Kunci Utama. Atribut yang nilai tiap barisnya unik, tidak boleh sama. Contoh: NIK, NIS.</span>
-             </div>
              
-             <div class="bg-[#1a1a2e] p-2 rounded border-l-4 border-teal-500">
-                <strong class="text-white text-xs block mb-1">Foreign Key (FK)</strong>
-                <span class="text-[10px] text-gray-400 text-justify">Kunci Tamu. Kolom yang merujuk ke Primary Key di tabel lain. Berfungsi sebagai jembatan yang merelasikan dua tabel.</span>
+             <div class="space-y-3">
+                <div class="flex items-center gap-3">
+                   <div class="w-4 h-4 bg-teal-500 rounded"></div>
+                   <p class="text-[10px] text-gray-400 font-bold uppercase"><strong class="text-white">Field/Column:</strong> Bagian Vertikal (Atribut).</p>
+                </div>
+                <div class="flex items-center gap-3">
+                   <div class="w-4 h-4 bg-purple-500 rounded"></div>
+                   <p class="text-[10px] text-gray-400 font-bold uppercase"><strong class="text-white">Record/Row:</strong> Bagian Horizontal (Data Spesifik).</p>
+                </div>
              </div>
           </div>
-          <div class="page-footer"><span>Bab 6 Pengelolaan Informasi</span><span>7</span></div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>19</span></div>
        </div>
     </div>
 
-    <!-- HALAMAN 10: D. Dasar SQL -->
+    <!-- HALAMAN 22: RAMBU PENAMAAN TABEL -->
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-purple-400 mb-3 leading-snug">D. Sekilas SQL</h2>
-             <p class="text-[10px] mb-3 text-justify text-gray-300">Structured Query Language (SQL) digunakan untuk berinteraksi dengan basis data.</p>
+             <h3 class="text-md font-bold text-purple-400 mb-6">Rambu-Rambu Penamaan Tabel</h3>
+             <p class="text-[11px] mb-6 text-gray-300">Agar sistem tidak error, ikuti aturan ini saat memberi nama tabel:</p>
              
-             <div class="space-y-3">
-                <div class="bg-gray-800/80 p-2 rounded">
-                   <p class="text-[9px] font-bold text-teal-300 mb-1">1. CREATE TABLE</p>
-                   <code class="text-[8px] text-gray-400 block font-mono">CREATE TABLE buku ( id_buku INT PRIMARY KEY, judul VARCHAR(100) );</code>
-                </div>
-                
-                <div class="bg-gray-800/80 p-2 rounded">
-                   <p class="text-[9px] font-bold text-teal-300 mb-1">2. INSERT (Menambah Data)</p>
-                   <code class="text-[8px] text-gray-400 block font-mono">INSERT INTO buku (judul) VALUES ('Laskar Pelangi');</code>
-                </div>
-                
-                <div class="bg-gray-800/80 p-2 rounded">
-                   <p class="text-[9px] font-bold text-teal-300 mb-1">3. SELECT (Menampilkan Data)</p>
-                   <code class="text-[8px] text-gray-400 block font-mono">SELECT * FROM buku;</code>
-                   <code class="text-[8px] text-gray-400 block font-mono mt-1">SELECT judul FROM buku WHERE id_buku = 1;</code>
-                </div>
-                
-                <div class="bg-gray-800/80 p-2 rounded">
-                   <p class="text-[9px] font-bold text-teal-300 mb-1">4. UPDATE (Mengubah Data)</p>
-                   <code class="text-[8px] text-gray-400 block font-mono">UPDATE buku SET judul = 'Bumi' WHERE id_buku = 1;</code>
-                </div>
-             </div>
+             <ul class="space-y-4 text-[10px] text-gray-400">
+                <li class="flex gap-3">
+                   <span class="text-teal-400 font-bold">✓</span>
+                   <span><strong class="text-white">Deskriptif:</strong> Harus mencerminkan isinya (Contoh: <code class="text-teal-300">data_peserta_didik</code>).</span>
+                </li>
+                <li class="flex gap-3">
+                   <span class="text-red-400 font-bold">✗</span>
+                   <span><strong class="text-white">Tanpa Karakter Khusus:</strong> Jangan pakai spasi atau tanda baca (!@#).</span>
+                </li>
+                <li class="flex gap-3">
+                   <span class="text-teal-400 font-bold">✓</span>
+                   <span><strong class="text-white">Konsisten:</strong> Gunakan format <code class="text-teal-300">snake_case</code> (huruf kecil semua dipisah garis bawah).</span>
+                </li>
+                <li class="flex gap-3">
+                   <span class="text-red-400 font-bold">✗</span>
+                   <span><strong class="text-white">Hindari Keyword:</strong> Jangan pakai kata <code class="text-teal-300">select, table, or user</code>.</span>
+                </li>
+             </ul>
           </div>
-          <div class="page-footer"><span>Bab 6 Pengelolaan Informasi</span><span>8</span></div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>20</span></div>
        </div>
     </div>
 
-    <!-- HALAMAN 11: Formatif Awal (1/2) -->
+    <!-- HALAMAN 23: KARDINALITAS 1 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h2 class="text-xl font-sora font-bold text-teal-400 mb-6 border-l-4 border-teal-500 pl-4">Kardinalitas</h2>
+             <p class="text-[11px] mb-6 text-gray-300">Kardinalitas menggambarkan jumlah maksimal hubungan antara satu data di sebuah tabel dengan data di tabel lain.</p>
+             
+             <div class="topic-card">
+                <h4 class="text-sm font-bold text-white mb-2">1. One to One (1:1)</h4>
+                <p class="text-[10px] text-gray-400 mb-4">Satu baris di tabel A hanya boleh berpasangan dengan satu baris di tabel B.</p>
+                <div class="bg-black/30 p-3 rounded-lg flex justify-center items-center gap-6">
+                   <div class="bg-teal-900/40 p-2 rounded border border-teal-500/30 text-[9px]">Siswa</div>
+                   <div class="text-teal-400">↔️</div>
+                   <div class="bg-purple-900/40 p-2 rounded border border-purple-500/30 text-[9px]">NIS</div>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>21</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 24: KARDINALITAS 2 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <div class="topic-card mt-4">
+                <h4 class="text-sm font-bold text-white mb-2">2. One to Many (1:N)</h4>
+                <p class="text-[10px] text-gray-400 mb-4">Satu baris di tabel A bisa berpasangan dengan banyak baris di tabel B.</p>
+                <div class="bg-black/30 p-3 rounded-lg flex justify-center items-center gap-6">
+                   <div class="bg-teal-900/40 p-2 rounded border border-teal-500/30 text-[9px]">Ibu</div>
+                   <div class="text-teal-400">➡️</div>
+                   <div class="flex flex-col gap-1">
+                      <div class="bg-purple-900/40 p-1 rounded border border-purple-500/30 text-[8px]">Anak 1</div>
+                      <div class="bg-purple-900/40 p-1 rounded border border-purple-500/30 text-[8px]">Anak 2</div>
+                   </div>
+                </div>
+                <p class="text-[9px] mt-4 text-gray-500 italic">Contoh: Satu pembeli bisa memesan banyak barang.</p>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>22</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 25: KARDINALITAS 3 -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <div class="topic-card mt-4">
+                <h4 class="text-sm font-bold text-white mb-2">3. Many to Many (N:M)</h4>
+                <p class="text-[10px] text-gray-400 mb-4">Banyak baris di tabel A bisa berpasangan dengan banyak baris di tabel B.</p>
+                <div class="bg-black/30 p-3 rounded-lg flex justify-center items-center gap-4">
+                   <div class="flex flex-col gap-1">
+                      <div class="bg-teal-900/40 p-1 rounded border border-teal-500/30 text-[8px]">Siswa A</div>
+                      <div class="bg-teal-900/40 p-1 rounded border border-teal-500/30 text-[8px]">Siswa B</div>
+                   </div>
+                   <div class="text-teal-400">↔️</div>
+                   <div class="flex flex-col gap-1">
+                      <div class="bg-purple-900/40 p-1 rounded border border-purple-500/30 text-[8px]">Ekskul IT</div>
+                      <div class="bg-purple-900/40 p-1 rounded border border-purple-500/30 text-[8px]">Ekskul Tari</div>
+                   </div>
+                </div>
+                <p class="text-[9px] mt-4 text-gray-500 italic">Contoh: Banyak siswa mengambil banyak mata pelajaran.</p>
+             </div>
+             
+             <div class="bg-teal-900/20 p-5 rounded-2xl border border-teal-500/30 mt-8">
+                <p class="text-[11px] text-gray-300 text-justify">
+                   "Kardinalitas membantu sistem kita memetakan hubungan dunia nyata ke dalam struktur komputer yang logis."
+                </p>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>23</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 26: PRIMARY KEY (PK) -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h2 class="text-xl font-sora font-bold text-purple-400 mb-6 border-l-4 border-purple-500 pl-4 uppercase">Primary Key (PK)</h2>
+             <div class="flex flex-col items-center gap-6 mb-8">
+                <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-teal-400 rounded-full flex items-center justify-center text-4xl shadow-[0_0_30px_rgba(167,139,250,0.4)] border-4 border-white/20">🔑</div>
+                <p class="text-[12px] text-gray-200 text-center leading-relaxed">
+                   <strong>Kunci Utama</strong>. Atribut yang nilai tiap barisnya <strong>HARUS UNIK</strong> dan tidak boleh kosong.
+                </p>
+             </div>
+             
+             <div class="bg-[#1a1a2e] p-4 rounded-xl border border-gray-700">
+                <h4 class="text-xs font-bold text-white mb-3">Syarat Primary Key:</h4>
+                <ul class="text-[10px] text-gray-400 space-y-3">
+                   <li class="flex gap-2"><span class="text-teal-400">●</span> Tidak boleh ada dua nilai yang sama (Unik).</li>
+                   <li class="flex gap-2"><span class="text-teal-400">●</span> Tidak boleh bernilai kosong (Not Null).</li>
+                   <li class="flex gap-2"><span class="text-teal-400">●</span> Bersifat tetap dan tidak berubah.</li>
+                </ul>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>24</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 27: FOREIGN KEY (FK) -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h2 class="text-xl font-sora font-bold text-teal-400 mb-6 border-l-4 border-teal-500 pl-4 uppercase">Foreign Key (FK)</h2>
+             <p class="text-[11px] mb-6 text-gray-300 leading-relaxed text-justify">
+                <strong>Kunci Tamu</strong>. Adalah kolom di sebuah tabel yang merujuk ke Primary Key di tabel lain. Berfungsi sebagai <strong>jembatan</strong> yang merelasikan dua tabel.
+             </p>
+             
+             <div class="topic-card border-2 border-teal-500/30">
+                <h4 class="text-xs font-bold text-white mb-3 uppercase tracking-wider">Visualisasi Relasi:</h4>
+                <div class="flex flex-col gap-4 items-center">
+                   <div class="w-full bg-teal-900/20 p-2 rounded border border-teal-500/20 text-center text-[9px]">
+                      <b class="text-teal-300">Tabel Siswa:</b> (<u>NIS-PK</u>, Nama)
+                   </div>
+                   <div class="text-white text-xl">⬇️</div>
+                   <div class="w-full bg-purple-900/20 p-2 rounded border border-purple-500/20 text-center text-[9px]">
+                      <b class="text-purple-300">Tabel Pinjam:</b> (ID_Pinjam, <u>NIS-FK</u>, Buku)
+                   </div>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>25</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 28: TABEL REFERENSI VS TRANSAKSI -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-md font-bold text-white mb-6 uppercase">Jenis Tabel dalam Relasi</h3>
+             
+             <div class="grid grid-cols-1 gap-6">
+                <div class="topic-card">
+                   <h4 class="text-sm font-bold text-teal-400 mb-2">1. Tabel Referensi (Master)</h4>
+                   <p class="text-[10px] text-gray-400">Menyimpan data utama yang jarang berubah. Contoh: Tabel Siswa, Tabel Barang, Tabel Guru.</p>
+                </div>
+                
+                <div class="topic-card">
+                   <h4 class="text-sm font-bold text-purple-400 mb-2">2. Tabel Transaksi</h4>
+                   <p class="text-[10px] text-gray-400">Menyimpan catatan aktivitas yang terjadi berkali-kali. Contoh: Tabel Penjualan, Tabel Peminjaman, Tabel Absensi.</p>
+                </div>
+             </div>
+             
+             <div class="mt-8 bg-black/40 p-4 rounded-xl border border-gray-700 flex items-center gap-4">
+                <div class="text-3xl">💡</div>
+                <p class="text-[10px] text-gray-300 italic">"Foreign Key membantu sistem mengenali 'Siapa' (Master) melakukan 'Apa' (Transaksi) tanpa harus mengulang data yang sama."</p>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>26</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 29: D. SEKILAS SQL & SERVER -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h2 class="text-xl font-sora font-bold text-teal-400 mb-6 border-l-4 border-teal-500 pl-4 uppercase">D. Sekilas SQL & Server</h2>
+             <p class="text-[11px] mb-8 text-gray-300 leading-relaxed text-justify">
+                Untuk mengelola basis data di komputer sendiri, kita membutuhkan <strong>Server Lokal</strong> (sebagai lingkungannya) dan <strong>SQL</strong> (sebagai bahasanya).
+             </p>
+             
+             <div class="topic-card">
+                <h4 class="text-sm font-bold text-white mb-3">Server Lokal</h4>
+                <p class="text-[10px] text-gray-400 text-justify mb-4">Ibarat dapur pribadi di komputermu. Kamu bisa memasak (mengembangkan web) secara offline sebelum disajikan (diunggah ke internet).</p>
+                <div class="flex gap-2">
+                   <span class="bg-gray-800 text-[8px] px-2 py-1 rounded border border-gray-700">XAMPP</span>
+                   <span class="bg-gray-800 text-[8px] px-2 py-1 rounded border border-gray-700">WAMP</span>
+                   <span class="bg-gray-800 text-[8px] px-2 py-1 rounded border border-gray-700">LARAVEL HERD</span>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>27</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 30: SERVER LOKAL (APACHE & NGINX) -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-md font-bold text-white mb-6 uppercase">Jenis-Jenis Server Web</h3>
+             
+             <div class="space-y-4">
+                <div class="bg-[#1a1a2e] p-4 rounded-xl border border-teal-500/20">
+                   <h4 class="text-xs font-bold text-teal-400 mb-1">A. Apache HTTP Server</h4>
+                   <p class="text-[10px] text-gray-400">Paling populer, sangat stabil, dan mudah digunakan untuk pemula (tersedia di XAMPP).</p>
+                </div>
+                
+                <div class="bg-[#1a1a2e] p-4 rounded-xl border border-purple-500/20">
+                   <h4 class="text-xs font-bold text-purple-400 mb-1">B. Nginx (Engine-X)</h4>
+                   <p class="text-[10px] text-gray-400">Dikenal sangat cepat dan ringan, terutama untuk menangani banyak pengunjung sekaligus.</p>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>28</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 31: NODE.JS & SQL DML -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <div class="bg-[#1a1a2e] p-4 rounded-xl border border-teal-500/20 mb-12">
+                <h4 class="text-xs font-bold text-teal-400 mb-1">C. Node.js</h4>
+                <p class="text-[10px] text-gray-400">Unik karena kamu membuat servernya sendiri menggunakan bahasa pemrograman JavaScript.</p>
+             </div>
+             
+             <h3 class="text-md font-bold text-white mb-6">Structured Query Language (SQL)</h3>
+             <div class="topic-card border-l-4 border-teal-500">
+                <h4 class="text-sm font-bold text-white mb-2 uppercase text-xs">1. DML (Data Manipulation Language)</h4>
+                <p class="text-[9px] text-gray-400 mb-4 font-bold uppercase">Berfungsi untuk mengelola ISI data (Record).</p>
+                <div class="grid grid-cols-2 gap-2">
+                   <div class="bg-black/30 p-2 rounded text-[8px] border border-gray-800"><b class="text-teal-400">INSERT:</b> Tambah</div>
+                   <div class="bg-black/30 p-2 rounded text-[8px] border border-gray-800"><b class="text-teal-400">SELECT:</b> Lihat</div>
+                   <div class="bg-black/30 p-2 rounded text-[8px] border border-gray-800"><b class="text-teal-400">UPDATE:</b> Ubah</div>
+                   <div class="bg-black/30 p-2 rounded text-[8px] border border-gray-800"><b class="text-teal-400">DELETE:</b> Hapus</div>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>29</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 32: SQL DDL -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <div class="topic-card border-l-4 border-purple-500 mt-4">
+                <h4 class="text-sm font-bold text-white mb-2 uppercase text-xs">2. DDL (Data Definition Language)</h4>
+                <p class="text-[9px] text-gray-400 mb-4 font-bold uppercase">Berfungsi untuk mengelola STRUKTUR basis data (Kerangka).</p>
+                <div class="grid grid-cols-2 gap-2">
+                   <div class="bg-black/30 p-2 rounded text-[8px] border border-gray-800"><b class="text-purple-400">CREATE:</b> Buat Baru</div>
+                   <div class="bg-black/30 p-2 rounded text-[8px] border border-gray-800"><b class="text-purple-400">ALTER:</b> Ubah Struktur</div>
+                   <div class="bg-black/30 p-2 rounded text-[8px] border border-gray-800"><b class="text-purple-400">DROP:</b> Hapus Total</div>
+                   <div class="bg-black/30 p-2 rounded text-[8px] border border-gray-800"><b class="text-purple-400">TRUNCATE:</b> Kosongkan</div>
+                </div>
+             </div>
+             
+             <div class="mt-12 bg-[#1a1a2e] p-5 rounded-2xl border border-gray-700">
+                <h4 class="text-xs font-bold text-white mb-2 uppercase">3. DCL (Data Control Language)</h4>
+                <p class="text-[10px] text-gray-400">Untuk keamanan dan hak akses.</p>
+                <div class="flex gap-4 mt-2">
+                   <code class="text-teal-300 text-[10px]">GRANT</code>
+                   <code class="text-red-400 text-[10px]">REVOKE</code>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>30</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 33: phpMyAdmin -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-md font-bold text-teal-400 mb-6 uppercase">phpMyAdmin</h3>
+             <p class="text-[11px] mb-6 text-gray-300 leading-relaxed text-justify">
+                Biasanya SQL ditulis di Command Line (Hitam-Putih). Namun, ada alat bantu grafis bernama <strong>phpMyAdmin</strong> yang membuat pengerjaan basis data semudah menggunakan aplikasi biasa.
+             </p>
+             
+             <div class="bg-gray-800/50 p-5 rounded-xl border border-gray-700 mb-8">
+                <h4 class="text-xs font-bold text-white mb-4 uppercase">Cara Memulai:</h4>
+                <ol class="list-decimal pl-5 text-[10px] text-gray-400 space-y-3">
+                   <li>Buka Control Panel XAMPP.</li>
+                   <li>Klik tombol <strong>Start</strong> pada Apache dan MySQL.</li>
+                   <li>Buka browser, ketik <code class="text-teal-300">localhost/phpmyadmin</code>.</li>
+                   <li>Pilih menu <strong>SQL</strong> untuk mulai mengetik perintah.</li>
+                </ol>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>31</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 34: OPERASI SQL 1 (CREATE) -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-md font-bold text-purple-400 mb-4 uppercase">Operasi SQL: Membuat Database</h3>
+             <div class="sql-code">
+                CREATE DATABASE db_sekolah;
+             </div>
+             <p class="text-[9px] text-gray-500 mb-8 italic italic">Langkah awal untuk menyiapkan "wadah" besar data sekolah.</p>
+             
+             <h3 class="text-md font-bold text-teal-400 mb-4 uppercase mt-8">Membuat Tabel</h3>
+             <div class="sql-code">
+                CREATE TABLE siswa (<br>
+                &nbsp;&nbsp;nis INT PRIMARY KEY,<br>
+                &nbsp;&nbsp;nama VARCHAR(100),<br>
+                &nbsp;&nbsp;kelas VARCHAR(10)<br>
+                );
+             </div>
+             <p class="text-[9px] text-gray-500 italic">Kita membuat kolom NIS sebagai Primary Key agar tidak ada data siswa ganda.</p>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>32</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 35: OPERASI SQL 2 (INSERT/SELECT) -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-md font-bold text-purple-400 mb-4 uppercase">Operasi SQL: Menambah Data</h3>
+             <div class="sql-code">
+                INSERT INTO siswa (nis, nama, kelas)<br>
+                VALUES (22201, 'Budi Santoso', 'X-1');
+             </div>
+             
+             <h3 class="text-md font-bold text-teal-400 mb-4 uppercase mt-8">Menampilkan Data</h3>
+             <div class="sql-code">
+                SELECT * FROM siswa;
+             </div>
+             <p class="text-[9px] text-gray-400 mb-4">Gunakan tanda bintang (*) untuk menampilkan SEMUA kolom.</p>
+             
+             <div class="sql-code">
+                SELECT nama FROM siswa WHERE kelas = 'X-1';
+             </div>
+             <p class="text-[9px] text-gray-400">Gunakan WHERE untuk memfilter data spesifik (misal: hanya kelas X-1).</p>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>33</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 36: OPERASI SQL 3 (UPDATE/DELETE) -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-md font-bold text-red-400 mb-4 uppercase">Operasi SQL: Mengubah & Menghapus</h3>
+             
+             <div class="sql-code">
+                UPDATE siswa<br>
+                SET kelas = 'X-2'<br>
+                WHERE nis = 22201;
+             </div>
+             <p class="text-[9px] text-red-300 font-bold mb-8">Peringatan: Selalu gunakan WHERE saat UPDATE agar tidak semua data berubah!</p>
+             
+             <div class="sql-code">
+                DELETE FROM siswa WHERE nis = 22201;
+             </div>
+             <p class="text-[9px] text-red-300 font-bold uppercase tracking-widest mt-4">Hati-hati dengan perintah DELETE!</p>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>34</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 37: E. PENGOLAHAN DATA DASAR -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h2 class="text-xl font-sora font-bold text-teal-400 mb-6 border-l-4 border-teal-500 pl-4 uppercase">E. Pengolahan Data Dasar</h2>
+             <p class="text-[11px] mb-8 text-gray-300 leading-relaxed text-justify">
+                Sebelum beralih ke basis data yang rumit, kita bisa memulai dengan <strong>Spreadsheet</strong> (seperti Excel atau Google Sheets).
+             </p>
+             
+             <div class="grid grid-cols-2 gap-4">
+                <div class="topic-card border-teal-500/30">
+                   <h4 class="text-xs font-bold text-white mb-2">Spreadsheet</h4>
+                   <ul class="text-[9px] text-gray-400 list-disc pl-4 space-y-1">
+                      <li>Data skala kecil</li>
+                      <li>Mudah diedit langsung</li>
+                      <li>Cocok untuk analisis cepat</li>
+                   </ul>
+                </div>
+                <div class="topic-card border-purple-500/30">
+                   <h4 class="text-xs font-bold text-white mb-2">Basis Data</h4>
+                   <ul class="text-[9px] text-gray-400 list-disc pl-4 space-y-1">
+                      <li>Data skala besar</li>
+                      <li>Keamanan ketat</li>
+                      <li>Terhubung ke aplikasi</li>
+                   </ul>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>35</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 38: DATA PRIMER & SEKUNDER -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h3 class="text-md font-bold text-purple-400 mb-6 uppercase tracking-widest">Sumber Pengumpulan Data</h3>
+             
+             <div class="space-y-6">
+                <div class="topic-card bg-teal-900/10">
+                   <h4 class="text-sm font-bold text-teal-300 mb-2">A. Data Primer</h4>
+                   <p class="text-[10px] text-gray-400 text-justify">Data yang kamu kumpulkan sendiri secara langsung dari sumbernya. Contoh: Melakukan wawancara, mengisi angket kuesioner, atau melakukan eksperimen sendiri.</p>
+                </div>
+                
+                <div class="topic-card bg-purple-900/10">
+                   <h4 class="text-sm font-bold text-purple-300 mb-2">B. Data Sekunder</h4>
+                   <p class="text-[10px] text-gray-400 text-justify">Data yang didapat dari pihak lain yang sudah mengumpulkannya. Contoh: Mencari data jumlah penduduk dari BPS atau membaca dataset dari internet.</p>
+                </div>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>36</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 39: RANGKUMAN -->
+    <div class="page">
+       <div class="page-wrapper">
+          <div class="page-content animate-content">
+             <h2 class="text-2xl font-sora font-bold text-teal-400 mb-6 border-b-2 border-teal-500/20 pb-3 uppercase tracking-tighter">Rangkuman Materi</h2>
+             <div class="space-y-4 bg-[#1a1a2e] p-6 rounded-2xl border border-gray-700 shadow-xl">
+                <p class="text-[11px] text-gray-300 leading-relaxed"><span class="text-teal-400 font-black">●</span> Basis data adalah kunci pengelolaan informasi digital yang sistematis.</p>
+                <p class="text-[11px] text-gray-300 leading-relaxed"><span class="text-teal-400 font-black">●</span> Entitas dan Atribut membentuk struktur dasar tabel relasi.</p>
+                <p class="text-[11px] text-gray-300 leading-relaxed"><span class="text-teal-400 font-black">●</span> Primary Key (PK) memastikan setiap data bersifat unik.</p>
+                <p class="text-[11px] text-gray-300 leading-relaxed"><span class="text-teal-400 font-black">●</span> SQL (Structured Query Language) adalah bahasa standar dunia untuk bicara dengan basis data.</p>
+                <p class="text-[11px] text-gray-300 leading-relaxed"><span class="text-teal-400 font-black">●</span> Spreadsheet adalah alat awal yang hebat untuk belajar pengolahan data sebelum masuk ke DBMS.</p>
+             </div>
+          </div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>37</span></div>
+       </div>
+    </div>
+
+    <!-- HALAMAN 40: LATIHAN 1 -->
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content relative">
-             <div class="flex justify-between items-end mb-4 border-b border-gray-700 pb-2">
-                <h2 class="text-lg font-sora font-bold text-purple-400">Formatif Awal (1/2)</h2>
-                <div class="text-[10px] font-bold px-2 py-1 bg-purple-900/30 rounded border border-purple-500/50">Skor: <span x-text="latihanScore" class="text-purple-400"></span></div>
+             <div class="flex justify-between items-end mb-6 border-b border-gray-700 pb-3">
+                <h2 class="text-xl font-sora font-bold text-purple-400 uppercase tracking-widest">Latihan (1/2)</h2>
+                <div class="text-[11px] font-bold px-3 py-1.5 bg-purple-900/30 rounded-full border border-purple-500/50">Skor: <span x-text="latihanScore" class="text-purple-400"></span></div>
              </div>
              
-             <div class="space-y-3">
+             <div class="space-y-4">
                 <template x-for="(soal, index) in latihan.slice(0, 5)">
-                   <div class="bg-gray-800/30 p-2.5 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-colors">
-                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-purple-300 transition line-clamp-3" @click.stop="openDetail('latihan', index)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+1) + '. ' + soal.q"></p>
-                      <div class="flex flex-col gap-1.5">
+                   <div class="bg-gray-800/30 p-4 rounded-xl border border-gray-700/50 hover:border-purple-500/40 transition-all">
+                      <p class="text-[11px] font-medium mb-3 leading-snug text-gray-200 cursor-pointer hover:text-purple-300 transition" @click.stop="openDetail('latihan', index)" x-html="(index+1) + '. ' + soal.q"></p>
+                      <div class="grid grid-cols-1 gap-2">
                          <template x-for="(opt, oidx) in soal.opts">
                             <button @click="jawabLatihan(index, oidx)" 
                                     :class="getBtnClass(index, oidx, 'latihan')"
-                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-purple-400 hover:bg-gray-700 transition whitespace-normal break-words"
+                                    class="text-[10px] text-left p-2.5 rounded-lg border border-gray-600 hover:border-purple-400 hover:bg-gray-700 transition"
                                     :disabled="soal.dijawab">
-                               <span class="font-bold text-gray-400 mr-1" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
+                               <span class="font-bold text-gray-400 mr-2" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
                                <span x-text="opt"></span>
                             </button>
                          </template>
@@ -391,30 +1200,30 @@
                 </template>
              </div>
           </div>
-          <div class="page-footer"><span>Bab 6 Pengelolaan Informasi</span><span>20</span></div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>38</span></div>
        </div>
     </div>
 
-    <!-- HALAMAN 11.5: Formatif Awal (2/2) -->
+    <!-- HALAMAN 41: LATIHAN 2 -->
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content relative">
-             <div class="flex justify-between items-end mb-4 border-b border-gray-700 pb-2">
-                <h2 class="text-lg font-sora font-bold text-purple-400">Formatif Awal (2/2)</h2>
-                <div class="text-[10px] font-bold px-2 py-1 bg-purple-900/30 rounded border border-purple-500/50">Skor: <span x-text="latihanScore" class="text-purple-400"></span></div>
+             <div class="flex justify-between items-end mb-6 border-b border-gray-700 pb-3">
+                <h2 class="text-xl font-sora font-bold text-purple-400 uppercase tracking-widest">Latihan (2/2)</h2>
+                <div class="text-[11px] font-bold px-3 py-1.5 bg-purple-900/30 rounded-full border border-purple-500/50">Skor: <span x-text="latihanScore" class="text-purple-400"></span></div>
              </div>
              
-             <div class="space-y-3">
+             <div class="space-y-4">
                 <template x-for="(soal, index) in latihan.slice(5, 10)">
-                   <div class="bg-gray-800/30 p-2.5 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-colors">
-                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-purple-300 transition line-clamp-3" @click.stop="openDetail('latihan', index + 5)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+6) + '. ' + soal.q"></p>
-                      <div class="flex flex-col gap-1.5">
+                   <div class="bg-gray-800/30 p-4 rounded-xl border border-gray-700/50 hover:border-purple-500/40 transition-all">
+                      <p class="text-[11px] font-medium mb-3 leading-snug text-gray-200 cursor-pointer hover:text-purple-300 transition" @click.stop="openDetail('latihan', index + 5)" x-html="(index+6) + '. ' + soal.q"></p>
+                      <div class="grid grid-cols-1 gap-2">
                          <template x-for="(opt, oidx) in soal.opts">
                             <button @click="jawabLatihan(index + 5, oidx)" 
                                     :class="getBtnClass(index + 5, oidx, 'latihan')"
-                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-purple-400 hover:bg-gray-700 transition whitespace-normal break-words"
+                                    class="text-[10px] text-left p-2.5 rounded-lg border border-gray-600 hover:border-purple-400 hover:bg-gray-700 transition"
                                     :disabled="soal.dijawab">
-                               <span class="font-bold text-gray-400 mr-1" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
+                               <span class="font-bold text-gray-400 mr-2" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
                                <span x-text="opt"></span>
                             </button>
                          </template>
@@ -423,58 +1232,57 @@
                 </template>
              </div>
              
-             <!-- Latihan Finish Overlay -->
-             <div x-show="latihanSelesai" x-transition class="absolute inset-0 bg-[#12121a]/90 backdrop-blur flex flex-col items-center justify-center rounded-lg border-2 border-purple-500 z-10 shadow-2xl">
-                <div class="text-5xl mb-3">💯</div>
-                <h3 class="font-bold font-sora text-purple-400 mb-1 text-xl">Latihan Selesai!</h3>
-                <p class="text-xs text-gray-300">Skor Dasar Kamu:</p>
-                <p class="text-4xl font-black text-white mt-2" x-text="latihanScore"></p>
-                <p class="text-[10px] mt-4 text-gray-400">Geser ke halaman berikutnya untuk Ujian</p>
+             <div x-show="latihanSelesai" x-transition class="absolute inset-0 bg-[#12121a]/95 backdrop-blur flex flex-col items-center justify-center rounded-3xl border-4 border-purple-500 z-10 shadow-[0_0_100px_rgba(167,139,250,0.3)]">
+                <div class="text-7xl mb-6">🏆</div>
+                <h3 class="font-black font-sora text-purple-400 mb-2 text-3xl">Latihan Selesai!</h3>
+                <p class="text-sm text-gray-300 mb-6 uppercase tracking-widest">Skor Akhir:</p>
+                <p class="text-7xl font-black text-white" x-text="latihanScore"></p>
+                <p class="text-xs mt-10 text-gray-400 animate-pulse">Geser untuk Ujian Akhir Bab</p>
              </div>
           </div>
-          <div class="page-footer"><span>Bab 6 Pengelolaan Informasi</span><span>21</span></div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>39</span></div>
        </div>
     </div>
 
-    <!-- HALAMAN 12: Ujian Intro -->
+    <!-- HALAMAN 42: UJI KOMPETENSI INTRO -->
     <div class="page">
        <div class="page-wrapper items-center justify-center text-center">
           <div class="page-content animate-content w-full flex flex-col items-center justify-center mt-12">
-             <div class="p-8 bg-gradient-to-b from-teal-900/40 to-transparent border-2 border-teal-500/50 rounded-2xl w-full max-w-[280px] shadow-[0_0_40px_rgba(45,212,191,0.15)] relative overflow-hidden">
-                <div class="absolute -right-6 -top-6 w-20 h-20 bg-purple-500/20 rounded-full blur-xl"></div>
-                <div class="absolute -left-6 -bottom-6 w-20 h-20 bg-teal-500/20 rounded-full blur-xl"></div>
+             <div class="p-10 bg-gradient-to-b from-teal-900/40 to-transparent border-2 border-teal-500/50 rounded-3xl w-full max-w-[320px] shadow-[0_0_60px_rgba(45,212,191,0.2)] relative overflow-hidden">
+                <div class="absolute -right-10 -top-10 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl"></div>
+                <div class="absolute -left-10 -bottom-10 w-32 h-32 bg-teal-500/10 rounded-full blur-3xl"></div>
                 
-                <div class="w-16 h-16 mx-auto mb-4 bg-teal-600 rounded-full flex items-center justify-center text-3xl shadow-lg border-4 border-[#12121a] relative z-10">🚀</div>
-                <h2 class="text-2xl font-sora font-black text-white mb-2 relative z-10">Uji Kompetensi</h2>
-                <div class="h-1 w-12 bg-teal-400 mx-auto mb-4 rounded relative z-10"></div>
-                <p class="text-xs text-gray-300 mb-6 leading-relaxed relative z-10">Saatnya menguji pemahamanmu mengenai pengelolaan informasi digital!</p>
-                <p class="text-[9px] text-teal-300 font-bold uppercase tracking-widest animate-pulse relative z-10">Buka halaman untuk mulai</p>
+                <div class="w-20 h-20 mx-auto mb-6 bg-teal-600 rounded-full flex items-center justify-center text-4xl shadow-2xl border-4 border-[#12121a] relative z-10">🎓</div>
+                <h2 class="text-3xl font-sora font-black text-white mb-2 relative z-10">Ujian Akhir</h2>
+                <div class="h-1.5 w-16 bg-teal-400 mx-auto mb-6 rounded-full relative z-10"></div>
+                <p class="text-sm text-gray-300 mb-10 leading-relaxed relative z-10 font-medium">Buktikan bahwa kamu sudah mahir mengelola informasi digital!</p>
+                <p class="text-[10px] text-teal-300 font-black uppercase tracking-[0.3em] animate-bounce relative z-10">Siap? Buka Halaman!</p>
              </div>
           </div>
-          <div class="page-footer mt-auto w-full"><span>Bab 6 Pengelolaan Informasi</span><span>22</span></div>
+          <div class="page-footer mt-auto w-full"><span>Bab 6: Pengelolaan Informasi</span><span>40</span></div>
        </div>
     </div>
 
-    <!-- HALAMAN 12.5: Ujian Kompetensi 1/2 -->
+    <!-- HALAMAN 43: UJIAN 1 -->
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content relative">
-             <div class="flex justify-between items-end mb-4 border-b border-gray-700 pb-2">
-                <h2 class="text-lg font-sora font-bold text-teal-400">Ujian Kompetensi (1/2)</h2>
-                <div class="text-[10px] font-bold px-2 py-1 bg-teal-900/30 rounded border border-teal-500/50">Skor: <span x-text="ujianScore" class="text-teal-400"></span></div>
+             <div class="flex justify-between items-end mb-6 border-b border-gray-700 pb-3">
+                <h2 class="text-xl font-sora font-bold text-teal-400 uppercase tracking-widest">Ujian (1/2)</h2>
+                <div class="text-[11px] font-bold px-3 py-1.5 bg-teal-900/30 rounded-full border border-teal-500/50">Skor: <span x-text="ujianScore" class="text-teal-400"></span></div>
              </div>
              
-             <div class="space-y-3">
+             <div class="space-y-4">
                 <template x-for="(soal, index) in ujian.slice(0, 5)">
-                   <div class="bg-gray-800/30 p-2.5 rounded-lg border border-gray-700/50 hover:border-teal-500/30 transition-colors">
-                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-teal-300 transition line-clamp-3" @click.stop="openDetail('ujian', index)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+1) + '. ' + soal.q"></p>
-                      <div class="flex flex-col gap-1.5">
+                   <div class="bg-gray-800/30 p-4 rounded-xl border border-gray-700/50 hover:border-teal-500/40 transition-all">
+                      <p class="text-[11px] font-medium mb-3 leading-snug text-gray-200 cursor-pointer hover:text-teal-300 transition" @click.stop="openDetail('ujian', index)" x-html="(index+1) + '. ' + soal.q"></p>
+                      <div class="grid grid-cols-1 gap-2">
                          <template x-for="(opt, oidx) in soal.opts">
                             <button @click="jawabUjian(index, oidx)" 
                                     :class="getBtnClass(index, oidx, 'ujian')"
-                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-teal-400 hover:bg-gray-700 transition whitespace-normal break-words"
+                                    class="text-[10px] text-left p-2.5 rounded-lg border border-gray-600 hover:border-teal-400 hover:bg-gray-700 transition"
                                     :disabled="soal.dijawab">
-                               <span class="font-bold text-gray-400 mr-1" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
+                               <span class="font-bold text-gray-400 mr-2" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
                                <span x-text="opt"></span>
                             </button>
                          </template>
@@ -483,30 +1291,30 @@
                 </template>
              </div>
           </div>
-          <div class="page-footer"><span>Bab 6 Pengelolaan Informasi</span><span>23</span></div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>41</span></div>
        </div>
     </div>
 
-    <!-- HALAMAN 12.6: Ujian Kompetensi 2/2 -->
+    <!-- HALAMAN 44: UJIAN 2 -->
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content relative">
-             <div class="flex justify-between items-end mb-4 border-b border-gray-700 pb-2">
-                <h2 class="text-lg font-sora font-bold text-teal-400">Ujian Kompetensi (2/2)</h2>
-                <div class="text-[10px] font-bold px-2 py-1 bg-teal-900/30 rounded border border-teal-500/50">Skor: <span x-text="ujianScore" class="text-teal-400"></span></div>
+             <div class="flex justify-between items-end mb-6 border-b border-gray-700 pb-3">
+                <h2 class="text-xl font-sora font-bold text-teal-400 uppercase tracking-widest">Ujian (2/2)</h2>
+                <div class="text-[11px] font-bold px-3 py-1.5 bg-teal-900/30 rounded-full border border-teal-500/50">Skor: <span x-text="ujianScore" class="text-teal-400"></span></div>
              </div>
              
-             <div class="space-y-3">
+             <div class="space-y-4">
                 <template x-for="(soal, index) in ujian.slice(5, 10)">
-                   <div class="bg-gray-800/30 p-2.5 rounded-lg border border-gray-700/50 hover:border-teal-500/30 transition-colors">
-                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-teal-300 transition line-clamp-3" @click.stop="openDetail('ujian', index + 5)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+6) + '. ' + soal.q"></p>
-                      <div class="flex flex-col gap-1.5">
+                   <div class="bg-gray-800/30 p-4 rounded-xl border border-gray-700/50 hover:border-teal-500/40 transition-all">
+                      <p class="text-[11px] font-medium mb-3 leading-snug text-gray-200 cursor-pointer hover:text-teal-300 transition" @click.stop="openDetail('ujian', index + 5)" x-html="(index+6) + '. ' + soal.q"></p>
+                      <div class="grid grid-cols-1 gap-2">
                          <template x-for="(opt, oidx) in soal.opts">
                             <button @click="jawabUjian(index + 5, oidx)" 
                                     :class="getBtnClass(index + 5, oidx, 'ujian')"
-                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-teal-400 hover:bg-gray-700 transition whitespace-normal break-words"
+                                    class="text-[10px] text-left p-2.5 rounded-lg border border-gray-600 hover:border-teal-400 hover:bg-gray-700 transition"
                                     :disabled="soal.dijawab">
-                               <span class="font-bold text-gray-400 mr-1" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
+                               <span class="font-bold text-gray-400 mr-2" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
                                <span x-text="opt"></span>
                             </button>
                          </template>
@@ -515,43 +1323,48 @@
                 </template>
              </div>
              
-             <!-- Ujian Finish Overlay -->
-             <div x-show="ujianSelesai" x-transition class="absolute inset-0 bg-[#12121a]/95 backdrop-blur-sm flex flex-col items-center justify-center rounded-lg border-2 border-teal-500 z-20 shadow-2xl">
-                <div class="text-5xl mb-3">🏆</div>
-                <h3 class="font-sora font-bold text-xl text-teal-400 mb-1">Bab 6 Selesai!</h3>
-                <p class="text-xs text-gray-300 mb-4">Nilai Akhir Kompetensi Kamu</p>
-                <div class="text-5xl font-black text-white mb-6" x-text="ujianScore"></div>
-                <p class="text-[10px] text-gray-400 animate-pulse">Geser ke halaman penutup</p>
+             <div x-show="ujianSelesai" x-transition class="absolute inset-0 bg-[#0a0a0f]/98 backdrop-blur-xl flex flex-col items-center justify-center rounded-3xl border-4 border-teal-400 z-20 shadow-[0_0_120px_rgba(45,212,191,0.4)]">
+                <div class="text-8xl mb-8 animate-bounce">🎖️</div>
+                <h3 class="font-black font-sora text-teal-400 mb-2 text-4xl uppercase tracking-tighter">Bab 6 Tuntas!</h3>
+                <p class="text-sm text-gray-400 mb-8 uppercase tracking-[0.4em]">Nilai Kompetensi Kamu:</p>
+                <div class="text-9xl font-black text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.3)] mb-12" x-text="ujianScore"></div>
+                <p class="text-[11px] text-gray-500 animate-pulse tracking-widest font-bold">Terima kasih telah belajar bersama kami</p>
              </div>
           </div>
-          <div class="page-footer"><span>Bab 6 Pengelolaan Informasi</span><span>24</span></div>
+          <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>42</span></div>
        </div>
     </div>
 
-
-    <!-- HALAMAN 13: Penutup (Back Cover Hard) -->
+    <!-- HALAMAN 45: PENUTUP -->
     <div class="page --hard">
-       <div class="page-wrapper items-center justify-center text-center relative">
+       <div class="page-wrapper items-center justify-center text-center relative overflow-hidden">
           <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0icmdiYSgxNjcsIDEzOSLCAyNTAsIDAuMikiLz48L3N2Zz4=')] opacity-50"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-transparent"></div>
           
-          <h1 class="text-3xl font-sora font-bold text-gray-300 mb-8 relative z-10">Selesai</h1>
+          <h1 class="text-4xl font-sora font-black text-white mb-12 relative z-10 tracking-widest uppercase">Selesai</h1>
           
-          <svg viewBox="0 0 100 100" class="w-40 h-40 mx-auto mb-10 opacity-70 relative z-10 drop-shadow-[0_0_15px_rgba(45,212,191,0.4)]">
-             <path d="M 20 20 L 80 20 L 80 80 L 20 80 Z" fill="none" stroke="#a78bfa" stroke-width="3"/>
-             <path d="M 40 40 L 60 40 M 40 50 L 60 50 M 40 60 L 50 60" stroke="#a78bfa" stroke-width="3" stroke-linecap="round"/>
-             <circle cx="70" cy="70" r="15" fill="#2dd4bf"/>
-             <path d="M 65 70 L 68 75 L 75 65" stroke="#12121a" stroke-width="3" fill="none" stroke-linecap="round"/>
-          </svg>
+          <div class="relative mb-16 z-10">
+             <svg viewBox="0 0 100 100" class="w-48 h-48 mx-auto drop-shadow-[0_0_25px_rgba(45,212,191,0.5)]">
+                <circle cx="50" cy="50" r="45" fill="none" stroke="url(#grad)" stroke-width="2" stroke-dasharray="283" stroke-dashoffset="0" />
+                <defs>
+                   <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style="stop-color:#a78bfa;stop-opacity:1" />
+                      <stop offset="100%" style="stop-color:#2dd4bf;stop-opacity:1" />
+                   </linearGradient>
+                </defs>
+                <path d="M 30 50 L 45 65 L 70 35" fill="none" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+             </svg>
+          </div>
           
-          <p class="text-sm text-gray-400 mb-12 relative z-10">Selamat!<br>Seluruh bab telah berhasil kamu selesaikan!</p>
+          <p class="text-md text-gray-300 mb-16 relative z-10 max-w-sm px-4 leading-relaxed">Selamat! Kamu telah menguasai seluruh materi <b>Pengelolaan Informasi Digital</b> di Bab 6.</p>
           
-          <div class="text-[10px] font-bold text-teal-400 bg-teal-900/20 px-4 py-2 rounded-full border border-teal-500/30 relative z-10">
+          <div class="text-[12px] font-black text-teal-400 bg-teal-400/10 px-8 py-3 rounded-full border border-teal-400/30 relative z-10 tracking-[0.3em] uppercase">
              Kemendikbudristek 2025
           </div>
        </div>
     </div>
 
-  </div>
+  </div> <!-- END FLIPBOOK -->
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -563,19 +1376,32 @@
       });
       pageFlip.loadFromHTML(document.querySelectorAll('.page'));
       setTimeout(() => { fb.classList.add('initialized'); }, 100);
-
       document.querySelectorAll('.page:not(.--hard) .page-wrapper').forEach(p => {
-         p.insertAdjacentHTML('beforeend', '<div class="mascot bg-cover" style="background-image: url(/boy_sma_1776937854416.png); background-size: cover; background-position: center;"></div>');
+         p.insertAdjacentHTML('beforeend', '<div class="mascot bg-cover" style="background-image: url(/assets/bab3_scene.png); background-size: cover; background-position: center;"></div>');
       });
 
       document.getElementById('btn-prev').addEventListener('click', () => pageFlip.flipPrev());
       document.getElementById('btn-next').addEventListener('click', () => pageFlip.flipNext());
 
-      pageFlip.on('flip', (e) => {
+      const triggerAnimation = () => {
          const allContents = document.querySelectorAll('.page-content');
-         allContents.forEach(p => p.classList.remove('animate-content'));
-         setTimeout(() => { allContents.forEach(p => p.classList.add('animate-content')); }, 50);
+         allContents.forEach(p => p.classList.remove('animate-ready'));
+         setTimeout(() => { 
+           allContents.forEach(p => {
+             const page = p.parentElement.parentElement;
+             if(page.classList.contains('st-page-active') || page.classList.contains('st-page-visible') || page.style.display !== 'none') {
+               p.classList.add('animate-ready');
+             }
+           }); 
+         }, 100);
+      };
+
+      pageFlip.on('flip', (e) => {
+         triggerAnimation();
       });
+
+      // Trigger animation on start
+      setTimeout(triggerAnimation, 500);
     });
 
     document.addEventListener('alpine:init', () => {
@@ -603,108 +1429,28 @@
         ujianSelesai: false,
         
         latihan: [
-          {
-            q: "Berikut ini yang merupakan contoh data adalah …", 
-            opts: ["rata-rata nilai peserta didik kelas X", "daftar nilai ulangan peserta didik sebelum dihitung", "kesimpulan hasil survei", "laporan tren penjualan selama 1 tahun", "laporan pertanggungjawaban sebuah kegiatan"], 
-            ans: 1, dijawab: false, userAns: -1
-          },
-          {
-            q: "Pengertian dari basis data (database) adalah …", 
-            opts: ["program untuk membuat dokumen", "kumpulan data yang tidak terstruktur", "kumpulan data yang disimpan dan dikelola secara sistematis", "grafik atau diagram dari data", "tempat penyimpatan sekumpulan data"], 
-            ans: 2, dijawab: false, userAns: -1
-          },
-          {
-            q: "Di antara berikut ini, fungsi utama spreadsheet adalah …", 
-            opts: ["membuat animasi", "mengolah dan menganalisis data secara otomatis", "menyimpan video", "merekam audio", "menyimpan data dan laporan"], 
-            ans: 1, dijawab: false, userAns: -1
-          },
-          {
-            q: "Saat kamu menggunakan aplikasi pemesanan makanan, datamu seperti alamat dan riwayat pesanan tersimpan rapi. Sistem yang digunakan untuk menyimpan dan mengatur data tersebut adalah ....", 
-            opts: ["file explorer", "spreadsheet", "basis data", "Cloud storage", "media sosial"], 
-            ans: 2, dijawab: false, userAns: -1
-          },
-          {
-            q: "Berikut ini yang merupakan ciri dari data yang telah menjadi informasi adalah…", 
-            opts: ["ditulis dalam format angka", "sudah memiliki konteks dan arti", "disimpan dalam folder", "dapat dibagikan melalui WhatsApp", "hanya dapat dibaca oleh admin"], 
-            ans: 1, dijawab: false, userAns: -1
-          },
-          {
-            q: "Perangkat lunak spreadsheet yang paling umum digunakan oleh masyarakat dan merupakan buatan Microsoft adalah...", 
-            opts: ["Google Sheets", "LibreOffice Calc", "Microsoft Excel", "Apple Numbers", "WPS Office"], 
-            ans: 2, dijawab: false, userAns: -1
-          },
-          {
-            q: "Dalam basis data relasional, bahasa pemrograman standar yang digunakan untuk mengelola data adalah...", 
-            opts: ["HTML", "Python", "SQL (Structured Query Language)", "Java", "C++"], 
-            ans: 2, dijawab: false, userAns: -1
-          },
-          {
-            q: "Proses memeriksa, membersihkan, mengubah, dan memodelkan data dengan tujuan menemukan informasi yang berguna disebut...", 
-            opts: ["Data Entry", "Data Mining", "Data Analysis (Analisis Data)", "Data Storage", "Data Deletion"], 
-            ans: 2, dijawab: false, userAns: -1
-          },
-          {
-            q: "Salah satu keuntungan utama menyimpan dokumen menggunakan Cloud Storage (seperti Google Drive) dibandingkan Flashdisk adalah...", 
-            opts: ["Kapasitas selalu tidak terbatas gratis", "Bisa diakses dari mana saja asal ada internet dan tidak mudah hilang fisiknya", "Tidak membutuhkan koneksi internet sama sekali", "Hanya bisa dibuka di satu komputer", "Sistem operasi menjadi lebih cepat"], 
-            ans: 1, dijawab: false, userAns: -1
-          },
-          {
-            q: "Sekumpulan informasi atau data yang berukuran sangat besar, cepat berubah, dan kompleks sehingga sulit diproses dengan metode tradisional disebut...", 
-            opts: ["Micro Data", "Small Data", "Big Data", "Cloud Data", "Local Data"], 
-            ans: 2, dijawab: false, userAns: -1
-          }
+          { q: "Berikut ini yang merupakan contoh data adalah …", opts: ["rata-rata nilai peserta didik kelas X", "daftar nilai ulangan peserta didik sebelum dihitung", "kesimpulan hasil survei", "laporan tren penjualan selama 1 tahun", "laporan pertanggungjawaban sebuah kegiatan"], ans: 1, dijawab: false, userAns: -1 },
+          { q: "Pengertian dari basis data (database) adalah …", opts: ["program untuk membuat dokumen", "kumpulan data yang tidak terstruktur", "kumpulan data yang disimpan dan dikelola secara sistematis", "grafik atau diagram dari data", "tempat penyimpatan sekumpulan data"], ans: 2, dijawab: false, userAns: -1 },
+          { q: "Di antara berikut ini, fungsi utama spreadsheet adalah …", opts: ["membuat animasi", "mengolah dan menganalisis data secara otomatis", "menyimpan video", "merekam audio", "menyimpan data dan laporan"], ans: 1, dijawab: false, userAns: -1 },
+          { q: "Sistem yang digunakan untuk menyimpan dan mengatur data pesanan makanan agar tidak kacau disebut ....", opts: ["file explorer", "spreadsheet", "basis data", "Cloud storage", "media sosial"], ans: 2, dijawab: false, userAns: -1 },
+          { q: "Data yang telah memiliki konteks dan arti disebut sebagai…", opts: ["Angka mentah", "Informasi", "Folder", "Harddisk", "Admin"], ans: 1, dijawab: false, userAns: -1 },
+          { q: "Microsoft Excel merupakan contoh perangkat lunak jenis...", opts: ["Browser", "Spreadsheet", "Database Server", "Operating System", "Design Graphic"], ans: 1, dijawab: false, userAns: -1 },
+          { q: "Bahasa standar untuk mengelola basis data relasional adalah...", opts: ["HTML", "Java", "SQL", "Python", "PHP"], ans: 2, dijawab: false, userAns: -1 },
+          { q: "Piramida DIKW menunjukkan evolusi data menjadi...", opts: ["Digital, Information, Knowledge, Web", "Data, Information, Knowledge, Wisdom", "Data, Internet, Key, Wisdom", "Digital, Internet, Knowledge, Wisdom", "Data, Information, Key, Web"], ans: 1, dijawab: false, userAns: -1 },
+          { q: "Keuntungan utama Cloud Storage adalah...", opts: ["Tidak butuh internet", "Kapasitas 100% gratis selamanya", "Dapat diakses di mana saja asal ada internet", "Hanya bisa dibuka di PC", "Lebih berat dari flashdisk"], ans: 2, dijawab: false, userAns: -1 },
+          { q: "Kumpulan data berukuran raksasa dan kompleks disebut...", opts: ["Small Data", "Micro Data", "Big Data", "Flash Data", "Local Data"], ans: 2, dijawab: false, userAns: -1 }
         ],
         ujian: [
-          {
-            q: "Pernyataan yang paling tepat menggambarkan perbedaan antara data dan informasi adalah ...", 
-            opts: ["data adalah hasil analisis dari informasi", "informasi adalah kumpulan data yang belum diolah", "Data adalah fakta mentah, sedangkan informasi adalah hasil pengolahan data", "informasi tidak dapat digunakan tanpa data", "Informasi adalah bagian dari data"], 
-            ans: 2, dijawab: false, userAns: -1
-          },
-          {
-            q: "Berikut ini yang merupakan contoh data kuantitatif adalah …", 
-            opts: ["warna pakaian", "tingkat kepuasan pelanggan", "jumlah pengunjung perpustakaan", "jenis kelamin", "daftar makanan kesukaan"], 
-            ans: 2, dijawab: false, userAns: -1
-          },
-          {
-            q: "Atribut dalam sebuah tabel basis data dapat diartikan sebagai …", 
-            opts: ["baris data", "kolom data", "nama tabel", "isi data", "kumpulan informasi"], 
-            ans: 1, dijawab: false, userAns: -1
-          },
-          {
-            q: "Dalam sebuah sistem basis data sekolah, terdapat dua tabel: Nama Peserta Didik dan Peminjaman. Tabel Peminjaman mencatat siapa yang meminjam buku. Kolom NIS muncul di kedua tabel. Fungsi NIS pada tabel Peminjaman adalah sebagai …", 
-            opts: ["primary key", "foreign key", "auto increment", "index", "record"], 
-            ans: 1, dijawab: false, userAns: -1
-          },
-          {
-            q: "Dalam proyek analisis data ujian, seorang peserta didik menggunakan fitur countif untuk menghitung jumlah peserta didik yang mendapat nilai di atas 75. Hal ini menunjukkan bahwa peserta didik tersebut telah menerapkan …", 
-            opts: ["visualisasi data", "data cleaning", "analisis data", "pembuatan struktur tabel", "pengurutan data"], 
-            ans: 2, dijawab: false, userAns: -1
-          },
-          {
-            q: "Manakah dari formula Microsoft Excel berikut yang digunakan untuk mencari rata-rata nilai dari sel A1 sampai A10?", 
-            opts: ["=SUM(A1:A10)", "=AVERAGE(A1:A10)", "=MAX(A1:A10)", "=MIN(A1:A10)", "=COUNT(A1:A10)"], 
-            ans: 1, dijawab: false, userAns: -1
-          },
-          {
-            q: "Sebuah perusahaan e-commerce menganalisis pola pembelian pelanggannya untuk memprediksi produk apa yang akan laku keras bulan depan. Proses ini merupakan contoh penerapan dari...", 
-            opts: ["Descriptive Analytics", "Diagnostic Analytics", "Predictive Analytics", "Prescriptive Analytics", "Data Entry Biasa"], 
-            ans: 2, dijawab: false, userAns: -1
-          },
-          {
-            q: "Salah satu ancaman terbesar dalam pengelolaan informasi digital adalah peretasan data pribadi. Langkah perlindungan paling dasar yang harus dilakukan pengguna adalah...", 
-            opts: ["Menyimpan password di note HP yang tidak terkunci", "Menggunakan password yang sama untuk semua akun", "Mengaktifkan Two-Factor Authentication (2FA)", "Membagikan kode OTP kepada teman terpercaya", "Tidak pernah logout dari komputer umum"], 
-            ans: 2, dijawab: false, userAns: -1
-          },
-          {
-            q: "Dalam pengumpulan data (Data Collection), metode pengumpulan secara tidak langsung dengan memanfaatkan data yang sudah dikumpulkan oleh pihak lain disebut...", 
-            opts: ["Data Primer", "Data Sekunder", "Data Kualitatif", "Data Kuantitatif", "Data Observasi"], 
-            ans: 1, dijawab: false, userAns: -1
-          },
-          {
-            q: "Representasi visual dari informasi dan data menggunakan elemen grafis seperti bagan, grafik, dan peta disebut...", 
-            opts: ["Data Mining", "Data Storage", "Data Visualization", "Data Architecture", "Data Cleaning"], 
-            ans: 2, dijawab: false, userAns: -1
-          }
+          { q: "Perbedaan utama antara data dan informasi adalah ...", opts: ["Data lebih penting dari informasi", "Informasi adalah fakta mentah", "Data adalah fakta mentah, informasi adalah hasil olahan data", "Keduanya sama saja", "Informasi tidak butuh data"], ans: 2, dijawab: false, userAns: -1 },
+          { q: "Contoh data kuantitatif adalah …", opts: ["Warna baju", "Hobi", "Jumlah siswa", "Nama guru", "Alamat"], ans: 2, dijawab: false, userAns: -1 },
+          { q: "Dalam tabel, bagian kolom sering disebut sebagai …", opts: ["Record", "Field / Atribut", "Tabel", "Row", "Database"], ans: 1, dijawab: false, userAns: -1 },
+          { q: "Kunci unik yang membedakan setiap baris dalam satu tabel disebut …", opts: ["Primary Key", "Foreign Key", "Access Key", "Master Key", "Secret Key"], ans: 0, dijawab: false, userAns: -1 },
+          { q: "Fungsi spreadsheet =AVERAGE(A1:A10) digunakan untuk...", opts: ["Menjumlah", "Mencari rata-rata", "Mencari nilai tertinggi", "Mencari nilai terendah", "Menghitung jumlah sel"], ans: 1, dijawab: false, userAns: -1 },
+          { q: "Analisis data untuk memprediksi apa yang akan terjadi di masa depan disebut...", opts: ["Descriptive", "Diagnostic", "Predictive", "Prescriptive", "Basic"], ans: 2, dijawab: false, userAns: -1 },
+          { q: "Langkah perlindungan data pribadi yang paling disarankan adalah...", opts: ["Satu password untuk semua", "Mengaktifkan 2FA", "Mencatat password di kertas", "Share OTP ke teman", "Tidak pernah logout"], ans: 1, dijawab: false, userAns: -1 },
+          { q: "Data yang didapat dari pihak lain (misal dari BPS) disebut data...", opts: ["Primer", "Sekunder", "Tersier", "Utama", "Pribadi"], ans: 1, dijawab: false, userAns: -1 },
+          { q: "Visualisasi data menggunakan elemen grafis disebut...", opts: ["Data Mining", "Data Cleaning", "Data Visualization", "Data Architecture", "Data Storage"], ans: 2, dijawab: false, userAns: -1 },
+          { q: "Kardinalitas 'One to Many' berarti...", opts: ["Satu ke Satu", "Banyak ke Banyak", "Satu ke Banyak", "Satu ke Tidak Ada", "Banyak ke Satu"], ans: 2, dijawab: false, userAns: -1 }
         ],
         
         triggerFeedback(correct) {
@@ -719,7 +1465,6 @@
            this.latihan[idx].userAns = optIdx;
            let correct = (optIdx === this.latihan[idx].ans);
            if(correct) this.latihanScore += 10;
-           
            this.triggerFeedback(correct);
            this.checkLatihan();
         },
@@ -728,7 +1473,6 @@
            this.ujian[idx].userAns = optIdx;
            let correct = (optIdx === this.ujian[idx].ans);
            if(correct) this.ujianScore += 10;
-           
            this.triggerFeedback(correct);
            this.checkUjian();
         },
