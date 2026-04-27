@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" width="1200" height="780">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#a78bfa"/><stop offset="100%" style="stop-color:#2dd4bf"/></linearGradient>
+    <linearGradient id="gteal" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#0d9488"/><stop offset="100%" style="stop-color:#2dd4bf"/></linearGradient>
+  </defs>
+  <rect width="1200" height="780" fill="#0a0a0f"/>
+  <circle cx="100" cy="100" r="200" fill="#2dd4bf" opacity="0.07"/>
+  <circle cx="1150" cy="700" r="160" fill="#0d9488" opacity="0.07"/>
+  <pattern id="dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="rgba(45,212,191,0.07)"/></pattern>
+  <rect width="1200" height="780" fill="url(#dots)"/>
+  <!-- NAV -->
+  <rect width="1200" height="58" fill="#0a0a0f" fill-opacity="0.95"/>
+  <line x1="0" y1="58" x2="1200" y2="58" stroke="rgba(45,212,191,0.15)" stroke-width="1"/>
+  <rect x="26" y="15" width="152" height="30" rx="15" fill="rgba(13,148,136,0.2)" stroke="rgba(45,212,191,0.35)" stroke-width="1"/>
+  <text x="52" y="34" font-size="13" fill="#2dd4bf" font-family="sans-serif">← Kembali</text>
+  <rect x="920" y="16" width="88" height="28" rx="14" fill="#12121a" stroke="#555" stroke-width="1"/>
+  <text x="964" y="34" text-anchor="middle" font-size="12" fill="#e2e8f0" font-family="sans-serif">← Prev</text>
+  <rect x="1018" y="16" width="88" height="28" rx="14" fill="#12121a" stroke="#555" stroke-width="1"/>
+  <text x="1062" y="34" text-anchor="middle" font-size="12" fill="#e2e8f0" font-family="sans-serif">Next →</text>
+  <!-- BOOK -->
+  <rect x="18" y="70" width="1164" height="650" rx="10" fill="#1a1a2e" stroke="rgba(45,212,191,0.1)" stroke-width="1"/>
+  <line x1="601" y1="70" x2="601" y2="720" stroke="rgba(45,212,191,0.3)" stroke-width="2"/>
+  <line x1="598" y1="70" x2="598" y2="720" stroke="rgba(0,0,0,0.5)" stroke-width="3"/>
+  <line x1="604" y1="70" x2="604" y2="720" stroke="rgba(0,0,0,0.5)" stroke-width="3"/>
+  <!-- LEFT: COVER (Teal for Bab 2) -->
+  <rect x="20" y="72" width="576" height="646" rx="8" fill="#0f172a"/>
+  <rect x="20" y="72" width="576" height="646" rx="8" fill="none" stroke="#2dd4bf" stroke-width="2"/>
+  <rect x="183" y="88" width="230" height="22" rx="11" fill="rgba(45,212,191,0.1)" stroke="rgba(45,212,191,0.3)" stroke-width="1"/>
+  <text x="298" y="103" text-anchor="middle" font-size="9" fill="#2dd4bf" font-family="sans-serif" font-weight="bold" letter-spacing="2">SMAN 1 PALEMBANG KELAS X</text>
+  <text x="298" y="192" text-anchor="middle" font-size="80" fill="url(#gteal)" font-family="sans-serif" font-weight="900">Bab 2</text>
+  <text x="298" y="228" text-anchor="middle" font-size="16" fill="#e2e8f0" font-family="sans-serif" font-weight="700">Algoritma &amp; Pemrograman Lanjut</text>
+  <!-- Illustration: laptop/code -->
+  <circle cx="298" cy="420" r="130" fill="#12121a" stroke="#2dd4bf" stroke-width="3"/>
+  <circle cx="298" cy="420" r="125" fill="none" stroke="rgba(45,212,191,0.3)" stroke-width="1"/>
+  <rect x="234" y="380" width="128" height="88" rx="8" fill="#1a1a2e" stroke="#2dd4bf" stroke-width="1.5"/>
+  <rect x="234" y="380" width="128" height="14" rx="8" fill="rgba(45,212,191,0.3)"/>
+  <line x1="242" y1="404" x2="290" y2="404" stroke="#2dd4bf" stroke-width="2"/>
+  <line x1="242" y1="416" x2="308" y2="416" stroke="#a78bfa" stroke-width="1.5"/>
+  <line x1="250" y1="428" x2="300" y2="428" stroke="#2dd4bf" stroke-width="1.5"/>
+  <line x1="242" y1="440" x2="280" y2="440" stroke="#a78bfa" stroke-width="1.5"/>
+  <line x1="242" y1="452" x2="355" y2="452" stroke="#4b5563" stroke-width="1"/>
+  <rect x="248" y="468" width="100" height="6" rx="3" fill="rgba(45,212,191,0.3)"/>
+  <text x="298" y="578" text-anchor="middle" font-size="9" fill="#475569" font-family="sans-serif">Geser / Klik Next untuk membuka</text>
+  <line x1="30" y1="702" x2="588" y2="702" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+  <text x="38" y="716" font-size="9" fill="#475569" font-family="sans-serif">Bab 2 Algoritma &amp; Pemrograman Lanjut</text>
+  <text x="582" y="716" text-anchor="end" font-size="9" fill="#475569" font-family="sans-serif">1</text>
+  <!-- RIGHT: MATERI -->
+  <rect x="607" y="72" width="572" height="646" rx="8" fill="#12121a"/>
+  <circle cx="1148" cy="695" r="32" fill="#12121a" stroke="#2dd4bf" stroke-width="2"/>
+  <text x="624" y="108" font-size="16" fill="#2dd4bf" font-family="sans-serif" font-weight="700">Apersepsi</text>
+  <line x1="624" y1="118" x2="1165" y2="118" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <rect x="624" y="128" width="530" height="7" rx="3" fill="#4b5563" opacity="0.7"/>
+  <rect x="624" y="141" width="530" height="7" rx="3" fill="#4b5563" opacity="0.7"/>
+  <rect x="624" y="154" width="490" height="7" rx="3" fill="#4b5563" opacity="0.6"/>
+  <rect x="624" y="174" width="530" height="7" rx="3" fill="#4b5563" opacity="0.7"/>
+  <rect x="624" y="187" width="460" height="7" rx="3" fill="#4b5563" opacity="0.6"/>
+  <rect x="624" y="210" width="530" height="82" rx="6" fill="rgba(13,148,136,0.15)"/>
+  <rect x="624" y="210" width="4" height="82" rx="2" fill="#2dd4bf"/>
+  <text x="638" y="228" font-size="11" fill="#ffffff" font-family="sans-serif" font-weight="bold">Tujuan Pembelajaran</text>
+  <rect x="638" y="236" width="400" height="6" rx="3" fill="#6b7280" opacity="0.7"/>
+  <rect x="638" y="248" width="480" height="6" rx="3" fill="#6b7280" opacity="0.6"/>
+  <rect x="638" y="260" width="440" height="6" rx="3" fill="#6b7280" opacity="0.6"/>
+  <text x="624" y="316" font-size="13" fill="#a78bfa" font-family="sans-serif" font-weight="700">A. Flowchart &amp; Struktur Kontrol</text>
+  <!-- Flowchart diagram mock -->
+  <rect x="624" y="326" width="530" height="170" rx="6" fill="#0a0a0f" stroke="rgba(45,212,191,0.3)" stroke-width="1"/>
+  <rect x="730" y="338" width="140" height="26" rx="4" fill="rgba(45,212,191,0.2)" stroke="#2dd4bf" stroke-width="1"/>
+  <text x="800" y="355" text-anchor="middle" font-size="9" fill="#2dd4bf" font-family="sans-serif">MULAI</text>
+  <line x1="800" y1="364" x2="800" y2="376" stroke="#2dd4bf" stroke-width="1.5"/>
+  <rect x="720" y="376" width="160" height="26" rx="4" fill="rgba(167,139,250,0.15)" stroke="#a78bfa" stroke-width="1"/>
+  <text x="800" y="393" text-anchor="middle" font-size="9" fill="#a78bfa" font-family="sans-serif">Input Data</text>
+  <line x1="800" y1="402" x2="800" y2="414" stroke="#a78bfa" stroke-width="1.5"/>
+  <polygon points="800,414 760,432 800,450 840,432" fill="rgba(45,212,191,0.1)" stroke="#2dd4bf" stroke-width="1"/>
+  <text x="800" y="436" text-anchor="middle" font-size="8" fill="#2dd4bf" font-family="sans-serif">Kondisi?</text>
+  <line x1="760" y1="432" x2="700" y2="432" stroke="#2dd4bf" stroke-width="1.5"/>
+  <line x1="840" y1="432" x2="900" y2="432" stroke="#2dd4bf" stroke-width="1.5"/>
+  <rect x="650" y="420" width="50" height="24" rx="3" fill="rgba(167,139,250,0.15)" stroke="#a78bfa" stroke-width="1"/>
+  <rect x="900" y="420" width="50" height="24" rx="3" fill="rgba(45,212,191,0.2)" stroke="#2dd4bf" stroke-width="1"/>
+  <text x="675" y="436" text-anchor="middle" font-size="8" fill="#a78bfa" font-family="sans-serif">Ya</text>
+  <text x="925" y="436" text-anchor="middle" font-size="8" fill="#2dd4bf" font-family="sans-serif">Tidak</text>
+  <rect x="624" y="514" width="530" height="110" rx="6" fill="none" stroke="rgba(45,212,191,0.2)" stroke-width="1" stroke-dasharray="4,3"/>
+  <rect x="636" y="524" width="26" height="26" rx="4" fill="rgba(45,212,191,0.2)" stroke="rgba(45,212,191,0.5)" stroke-width="1"/>
+  <text x="649" y="541" text-anchor="middle" font-size="11" fill="#2dd4bf" font-family="sans-serif" font-weight="bold">1</text>
+  <rect x="672" y="530" width="150" height="7" rx="3" fill="#e2e8f0" opacity="0.7"/>
+  <rect x="672" y="542" width="430" height="5" rx="2" fill="#4b5563" opacity="0.5"/>
+  <rect x="636" y="560" width="26" height="26" rx="4" fill="rgba(45,212,191,0.2)" stroke="rgba(45,212,191,0.5)" stroke-width="1"/>
+  <text x="649" y="577" text-anchor="middle" font-size="11" fill="#2dd4bf" font-family="sans-serif" font-weight="bold">2</text>
+  <rect x="672" y="566" width="140" height="7" rx="3" fill="#e2e8f0" opacity="0.7"/>
+  <rect x="672" y="578" width="400" height="5" rx="2" fill="#4b5563" opacity="0.5"/>
+  <rect x="636" y="596" width="26" height="26" rx="4" fill="rgba(45,212,191,0.2)" stroke="rgba(45,212,191,0.5)" stroke-width="1"/>
+  <text x="649" y="613" text-anchor="middle" font-size="11" fill="#2dd4bf" font-family="sans-serif" font-weight="bold">3</text>
+  <rect x="672" y="602" width="130" height="7" rx="3" fill="#e2e8f0" opacity="0.7"/>
+  <line x1="615" y1="702" x2="1168" y2="702" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+  <text x="624" y="716" font-size="9" fill="#475569" font-family="sans-serif">Bab 2 Algoritma &amp; Pemrograman Lanjut</text>
+  <text x="1160" y="716" text-anchor="end" font-size="9" fill="#475569" font-family="sans-serif">2</text>
+  <text x="600" y="776" text-anchor="middle" font-size="9" fill="#555" font-family="monospace">MOCKUP — BAB 2 : Algoritma &amp; Pemrograman Lanjut</text>
+</svg>

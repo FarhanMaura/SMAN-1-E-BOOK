@@ -1,0 +1,172 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" width="1200" height="780">
+  <defs>
+    <style>
+      .sketch { stroke:#222; fill:none; }
+      .fill-light { fill:#f0f0f0; stroke:#555; }
+      .fill-mid { fill:#d8d8d8; stroke:#666; }
+      .fill-dark { fill:#2e2e2e; }
+      .line-hint { stroke:#bbb; fill:none; }
+      .dashed { stroke:#aaa; fill:none; stroke-dasharray:5,3; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="780" fill="#fff"/>
+  <rect x="8" y="8" width="1184" height="764" rx="3" class="sketch" stroke-width="2" stroke-dasharray="8,4"/>
+  <text x="600" y="22" text-anchor="middle" font-size="10" fill="#999" font-family="monospace" font-style="italic">WIREFRAME — TAMPILAN AWAL BAB (Cover Page + Materi) / bab-1..6/index.html</text>
+
+  <!-- ════════ TOP NAV BAR ════════ -->
+  <rect x="20" y="28" width="1160" height="50" rx="0" class="fill-light" stroke-width="1.5"/>
+  <!-- Back button (← Kembali ke Beranda) -->
+  <rect x="32" y="38" width="148" height="28" rx="14" class="sketch" stroke-width="1.5"/>
+  <line x1="46" y1="52" x2="84" y2="52" class="line-hint" stroke-width="2"/><!-- arrow -->
+  <line x1="72" y1="52" x2="164" y2="52" class="line-hint" stroke-width="1.5"/>
+  <!-- Prev button -->
+  <rect x="920" y="39" width="90" height="26" rx="13" class="sketch" stroke-width="1.5"/>
+  <line x1="936" y1="52" x2="994" y2="52" class="line-hint" stroke-width="1.5"/>
+  <!-- Next button (filled) -->
+  <rect x="1020" y="39" width="90" height="26" rx="13" class="fill-dark"/>
+  <line x1="1036" y1="52" x2="1094" y2="52" stroke="#fff" stroke-width="1.5"/>
+
+  <!-- ════════ OPEN BOOK / FLIPBOOK CONTAINER ════════ -->
+  <!-- Book shadow -->
+  <rect x="26" y="86" width="1148" height="648" rx="10" fill="#e8e8e8" stroke="#aaa" stroke-width="1"/>
+  <rect x="22" y="82" width="1148" height="648" rx="10" class="fill-light" stroke-width="2"/>
+
+  <!-- CENTER SPINE -->
+  <line x1="598" y1="82" x2="598" y2="730" class="sketch" stroke-width="3"/>
+  <!-- Spine shadow left -->
+  <line x1="593" y1="82" x2="593" y2="730" stroke="#ccc" stroke-width="3"/>
+  <!-- Spine shadow right -->
+  <line x1="603" y1="82" x2="603" y2="730" stroke="#ccc" stroke-width="3"/>
+
+  <!-- ═══════════════════════════════ -->
+  <!-- LEFT PAGE: COVER (Hard Page)   -->
+  <!-- ═══════════════════════════════ -->
+  <rect x="24" y="84" width="572" height="644" rx="8" fill="#ebebeb" stroke="#666" stroke-width="1.5"/>
+
+  <!-- SMAN 1 PALEMBANG badge top center -->
+  <rect x="196" y="100" width="204" height="22" rx="11" fill="#d0d0d0" stroke="#888" stroke-width="1"/>
+  <line x1="216" y1="111" x2="384" y2="111" class="line-hint" stroke-width="1.5"/>
+
+  <!-- Big "Bab N" title block -->
+  <rect x="148" y="136" width="300" height="80" rx="8" fill="#c4c4c4" stroke="#777" stroke-width="2"/>
+  <!-- Large number inside -->
+  <text x="298" y="190" text-anchor="middle" font-size="54" fill="#aaa" font-family="sans-serif" font-weight="900" opacity="0.4">1</text>
+
+  <!-- Chapter subtitle lines -->
+  <line x1="140" y1="232" x2="456" y2="232" class="line-hint" stroke-width="2.5"/>
+  <line x1="172" y1="248" x2="424" y2="248" class="line-hint" stroke-width="2"/>
+
+  <!-- Cover Illustration — circular mascot/scene placeholder -->
+  <circle cx="298" cy="420" r="130" fill="#d8d8d8" stroke="#777" stroke-width="2.5"/>
+  <!-- Inner dashed circle -->
+  <circle cx="298" cy="420" r="108" class="dashed" stroke-width="1.5"/>
+  <!-- Rough humanoid blob inside circle (mascot sketch) -->
+  <ellipse cx="298" cy="408" rx="44" ry="52" fill="#c0c0c0" stroke="#999" stroke-width="1"/>
+  <circle cx="298" cy="366" r="30" fill="#cccccc" stroke="#999" stroke-width="1"/>
+  <!-- Arms -->
+  <path d="M 258 400 Q 240 420 250 440" class="sketch" stroke-width="2"/>
+  <path d="M 338 400 Q 358 420 348 440" class="sketch" stroke-width="2"/>
+  <!-- Legs -->
+  <line x1="278" y1="458" x2="268" y2="500" class="sketch" stroke-width="2"/>
+  <line x1="318" y1="458" x2="328" y2="500" class="sketch" stroke-width="2"/>
+
+  <!-- "Geser / Klik Next" hint text -->
+  <line x1="220" y1="574" x2="376" y2="574" class="dashed"/>
+
+  <!-- Page footer LEFT -->
+  <line x1="36" y1="710" x2="582" y2="710" class="line-hint" stroke-width="1"/>
+  <line x1="36" y1="720" x2="220" y2="720" class="line-hint" stroke-width="1.5"/>
+  <line x1="554" y1="720" x2="582" y2="720" class="line-hint" stroke-width="1.5"/>
+
+  <!-- ═══════════════════════════════ -->
+  <!-- RIGHT PAGE: MATERI (Content)   -->
+  <!-- ═══════════════════════════════ -->
+  <rect x="606" y="84" width="562" height="644" rx="8" fill="#f8f8f8" stroke="#666" stroke-width="1.5"/>
+
+  <!-- Mascot thumbnail (bottom right corner of page) -->
+  <circle cx="1130" cy="696" r="32" fill="#e0e0e0" stroke="#888" stroke-width="1.5"/>
+  <circle cx="1130" cy="684" r="14" fill="#ccc" stroke="#aaa" stroke-width="1"/>
+  <ellipse cx="1130" cy="704" rx="18" ry="14" fill="#d0d0d0" stroke="#aaa" stroke-width="1"/>
+
+  <!-- Section heading "Apersepsi / Materi" -->
+  <rect x="622" y="102" width="240" height="18" rx="4" class="fill-mid" stroke-width="0"/>
+  <!-- Heading underline decoration -->
+  <line x1="622" y1="126" x2="1152" y2="126" class="line-hint" stroke-width="1"/>
+
+  <!-- Paragraph 1 -->
+  <line x1="622" y1="142" x2="1148" y2="142" class="line-hint" stroke-width="1.5"/>
+  <line x1="622" y1="156" x2="1148" y2="156" class="line-hint" stroke-width="1.5"/>
+  <line x1="622" y1="170" x2="1090" y2="170" class="line-hint" stroke-width="1.5"/>
+
+  <!-- Paragraph 2 -->
+  <line x1="622" y1="190" x2="1148" y2="190" class="line-hint" stroke-width="1.5"/>
+  <line x1="622" y1="204" x2="1148" y2="204" class="line-hint" stroke-width="1.5"/>
+  <line x1="622" y1="218" x2="1060" y2="218" class="line-hint" stroke-width="1.5"/>
+
+  <!-- Learning Goal Box (info box dengan border-left) -->
+  <rect x="622" y="238" width="508" height="80" rx="6" fill="#ececec" stroke="#aaa" stroke-width="1.5"/>
+  <!-- Left accent line -->
+  <rect x="622" y="238" width="4" height="80" rx="2" fill="#555"/>
+  <!-- Box title -->
+  <rect x="636" y="248" width="130" height="12" rx="3" fill="#ccc"/>
+  <!-- Box content lines -->
+  <line x1="636" y1="270" x2="1116" y2="270" class="line-hint" stroke-width="1.5"/>
+  <line x1="636" y1="284" x2="1080" y2="284" class="line-hint" stroke-width="1.5"/>
+  <line x1="636" y1="298" x2="1100" y2="298" class="line-hint" stroke-width="1.5"/>
+
+  <!-- Content Box (tabel / info kartu dengan border & bg) -->
+  <rect x="622" y="336" width="508" height="148" rx="8" fill="#ececec" stroke="#888" stroke-width="1.5"/>
+  <!-- Table header row -->
+  <rect x="622" y="336" width="508" height="28" rx="6" fill="#d0d0d0" stroke="none"/>
+  <rect x="622" y="352" width="508" height="12" rx="0" fill="#d0d0d0"/>
+  <line x1="622" y1="378" x2="1130" y2="378" stroke="#ccc" stroke-width="1"/>
+  <!-- Table rows -->
+  <line x1="636" y1="394" x2="1116" y2="394" class="line-hint" stroke-width="1.5"/>
+  <line x1="636" y1="408" x2="1116" y2="408" class="line-hint" stroke-width="1.5"/>
+  <line x1="636" y1="422" x2="1116" y2="422" class="line-hint" stroke-width="1.5"/>
+  <line x1="636" y1="436" x2="1086" y2="436" class="line-hint" stroke-width="1.5"/>
+  <line x1="636" y1="450" x2="1060" y2="450" class="line-hint" stroke-width="1.5"/>
+  <!-- Table middle divider vertical -->
+  <line x1="876" y1="364" x2="876" y2="484" stroke="#ccc" stroke-width="1"/>
+
+  <!-- Step/list block (C. Simulasi / D. Integrasi) -->
+  <rect x="622" y="502" width="508" height="120" rx="6" fill="none" stroke="#bbb" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <!-- Steps -->
+  <rect x="636" y="514" width="24" height="24" rx="5" fill="#d8d8d8" stroke="#aaa" stroke-width="1"/>
+  <line x1="670" y1="522" x2="820" y2="522" class="line-hint" stroke-width="1.5"/>
+  <line x1="670" y1="534" x2="900" y2="534" class="line-hint" stroke-width="1"/>
+
+  <rect x="636" y="548" width="24" height="24" rx="5" fill="#d8d8d8" stroke="#aaa" stroke-width="1"/>
+  <line x1="670" y1="556" x2="800" y2="556" class="line-hint" stroke-width="1.5"/>
+  <line x1="670" y1="568" x2="860" y2="568" class="line-hint" stroke-width="1"/>
+
+  <rect x="636" y="582" width="24" height="24" rx="5" fill="#d8d8d8" stroke="#aaa" stroke-width="1"/>
+  <line x1="670" y1="590" x2="850" y2="590" class="line-hint" stroke-width="1.5"/>
+  <line x1="670" y1="602" x2="920" y2="602" class="line-hint" stroke-width="1"/>
+
+  <!-- Peta Konsep mini preview (node-node) -->
+  <rect x="672" y="638" width="100" height="20" rx="4" fill="#d0d0d0" stroke="#aaa" stroke-width="1"/>
+  <line x1="722" y1="658" x2="722" y2="672" stroke="#bbb" stroke-width="1.5"/>
+  <line x1="666" y1="672" x2="780" y2="672" stroke="#bbb" stroke-width="1.5"/>
+  <rect x="640" y="672" width="52" height="18" rx="3" fill="#e0e0e0" stroke="#aaa" stroke-width="1"/>
+  <rect x="700" y="672" width="52" height="18" rx="3" fill="#e0e0e0" stroke="#aaa" stroke-width="1"/>
+  <rect x="760" y="672" width="52" height="18" rx="3" fill="#e0e0e0" stroke="#aaa" stroke-width="1"/>
+
+  <!-- Page footer RIGHT -->
+  <line x1="618" y1="710" x2="1158" y2="710" class="line-hint" stroke-width="1"/>
+  <line x1="618" y1="720" x2="820" y2="720" class="line-hint" stroke-width="1.5"/>
+  <line x1="1130" y1="720" x2="1158" y2="720" class="line-hint" stroke-width="1.5"/>
+
+  <!-- Corner decoration -->
+  <path d="M 8 8 L 8 22 L 22 22" class="sketch" stroke-width="2"/>
+  <path d="M 1192 8 L 1192 22 L 1178 22" class="sketch" stroke-width="2"/>
+  <path d="M 8 772 L 8 758 L 22 758" class="sketch" stroke-width="2"/>
+  <path d="M 1192 772 L 1192 758 L 1178 758" class="sketch" stroke-width="2"/>
+
+  <!-- Annotation arrows (keterangan elemen) -->
+  <!-- Label: Cover Page -->
+  <text x="70" y="76" font-size="10" fill="#888" font-family="monospace">[Cover Page — Hard]</text>
+  <!-- Label: Materi -->
+  <text x="720" y="76" font-size="10" fill="#888" font-family="monospace">[Halaman Materi — Regular]</text>
+</svg>

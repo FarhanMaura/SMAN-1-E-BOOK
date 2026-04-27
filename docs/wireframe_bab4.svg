@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" width="1200" height="780">
+  <defs><style>.sk{stroke:#222;fill:none;stroke-width:2;}.fl{fill:#f0f0f0;stroke:#555;stroke-width:1.5;}.fm{fill:#d8d8d8;stroke:#666;stroke-width:1;}.fd{fill:#2e2e2e;}.lh{stroke:#bbb;fill:none;stroke-width:1.5;}.ds{stroke:#aaa;fill:none;stroke-dasharray:5,3;}</style></defs>
+  <rect width="1200" height="780" fill="#fff"/>
+  <rect x="6" y="6" width="1188" height="768" rx="3" class="sk" stroke-dasharray="8,4"/>
+  <text x="600" y="20" text-anchor="middle" font-size="10" fill="#aaa" font-family="monospace">WIREFRAME — BAB 4 : Prompt Engineering &amp; Design Thinking</text>
+  <rect x="20" y="26" width="1160" height="48" class="fl"/>
+  <rect x="32" y="36" width="148" height="26" rx="13" class="sk"/>
+  <line x1="46" y1="49" x2="164" y2="49" class="lh"/>
+  <rect x="916" y="37" width="88" height="24" rx="12" class="sk"/>
+  <rect x="1014" y="37" width="88" height="24" rx="12" class="fd"/>
+  <rect x="20" y="82" width="1160" height="650" rx="8" class="fl"/>
+  <line x1="600" y1="82" x2="600" y2="732" stroke="#888" stroke-width="3"/>
+  <line x1="596" y1="82" x2="596" y2="732" stroke="#ccc" stroke-width="2"/>
+  <line x1="604" y1="82" x2="604" y2="732" stroke="#ccc" stroke-width="2"/>
+  <rect x="22" y="84" width="572" height="646" rx="6" fill="#e8e8e8" stroke="#666" stroke-width="1.5"/>
+  <rect x="190" y="100" width="216" height="20" rx="10" class="fm"/>
+  <rect x="150" y="138" width="296" height="82" rx="6" fill="#c8c8c8" stroke="#888" stroke-width="1.5"/>
+  <text x="298" y="194" text-anchor="middle" font-size="62" fill="#aaa" font-family="sans-serif" font-weight="900" opacity="0.35">4</text>
+  <line x1="148" y1="238" x2="448" y2="238" class="lh"/>
+  <line x1="180" y1="254" x2="416" y2="254" class="lh"/>
+  <circle cx="298" cy="420" r="128" fill="#d4d4d4" stroke="#777" stroke-width="2"/>
+  <circle cx="298" cy="420" r="106" class="ds"/>
+  <!-- Chat bubble shapes (bab 4 = prompt engineering) -->
+  <rect x="238" y="370" width="120" height="60" rx="12" fill="#c0c0c0" stroke="#999" stroke-width="1.5"/>
+  <path d="M 258 430 L 248 450 L 278 430 Z" fill="#c0c0c0" stroke="#999" stroke-width="1"/>
+  <line x1="250" y1="386" x2="346" y2="386" class="lh" stroke-width="1"/>
+  <line x1="250" y1="398" x2="340" y2="398" class="lh" stroke-width="1"/>
+  <line x1="250" y1="410" x2="330" y2="410" class="lh" stroke-width="1"/>
+  <rect x="270" y="452" width="110" height="48" rx="12" fill="#bbb" stroke="#999" stroke-width="1.5"/>
+  <path d="M 360 500 L 370 518 L 340 500 Z" fill="#bbb" stroke="#999" stroke-width="1"/>
+  <line x1="226" y1="572" x2="370" y2="572" class="ds"/>
+  <line x1="36" y1="712" x2="582" y2="712" class="lh" stroke-width="1"/>
+  <line x1="36" y1="722" x2="220" y2="722" class="lh"/>
+  <line x1="554" y1="722" x2="582" y2="722" class="lh"/>
+  <rect x="606" y="84" width="572" height="646" rx="6" fill="#f8f8f8" stroke="#666" stroke-width="1.5"/>
+  <circle cx="1138" cy="698" r="30" fill="#ddd" stroke="#888" stroke-width="1.5"/>
+  <circle cx="1138" cy="686" r="13" fill="#ccc" stroke="#aaa" stroke-width="1"/>
+  <rect x="622" y="100" width="240" height="16" rx="4" class="fm" stroke-width="0"/>
+  <line x1="622" y1="124" x2="1158" y2="124" class="lh" stroke-width="1"/>
+  <line x1="622" y1="140" x2="1148" y2="140" class="lh"/>
+  <line x1="622" y1="154" x2="1090" y2="154" class="lh"/>
+  <line x1="622" y1="174" x2="1148" y2="174" class="lh"/>
+  <line x1="622" y1="188" x2="1090" y2="188" class="lh"/>
+  <!-- Design Thinking steps (5 steps) -->
+  <rect x="622" y="210" width="510" height="140" rx="6" fill="#ececec" stroke="#888" stroke-width="1.5"/>
+  <rect x="622" y="210" width="510" height="24" rx="6" fill="#d0d0d0"/>
+  <rect x="636" y="244" width="80" height="50" rx="6" class="fm"/>
+  <rect x="728" y="244" width="80" height="50" rx="6" class="fm"/>
+  <rect x="820" y="244" width="80" height="50" rx="6" class="fm"/>
+  <rect x="912" y="244" width="80" height="50" rx="6" class="fm"/>
+  <rect x="1004" y="244" width="80" height="50" rx="6" class="fm"/>
+  <line x1="716" y1="269" x2="728" y2="269" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="808" y1="269" x2="820" y2="269" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="900" y1="269" x2="912" y2="269" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="992" y1="269" x2="1004" y2="269" stroke="#aaa" stroke-width="1.5"/>
+  <rect x="622" y="370" width="510" height="100" rx="6" fill="#ececec" stroke="#aaa" stroke-width="1.5"/>
+  <rect x="622" y="370" width="4" height="100" rx="2" fill="#555"/>
+  <rect x="636" y="380" width="130" height="12" rx="3" fill="#ccc" stroke="none"/>
+  <line x1="636" y1="400" x2="1118" y2="400" class="lh"/>
+  <line x1="636" y1="414" x2="1080" y2="414" class="lh"/>
+  <line x1="636" y1="428" x2="1100" y2="428" class="lh"/>
+  <line x1="636" y1="442" x2="1060" y2="442" class="lh"/>
+  <rect x="622" y="490" width="510" height="110" rx="6" class="ds"/>
+  <rect x="636" y="500" width="22" height="22" rx="4" class="fm"/>
+  <line x1="668" y1="508" x2="820" y2="508" class="lh"/>
+  <line x1="668" y1="520" x2="900" y2="520" class="lh" stroke-width="1"/>
+  <rect x="636" y="534" width="22" height="22" rx="4" class="fm"/>
+  <line x1="668" y1="542" x2="800" y2="542" class="lh"/>
+  <line x1="668" y1="554" x2="860" y2="554" class="lh" stroke-width="1"/>
+  <rect x="636" y="568" width="22" height="22" rx="4" class="fm"/>
+  <line x1="668" y1="576" x2="840" y2="576" class="lh"/>
+  <line x1="618" y1="712" x2="1158" y2="712" class="lh" stroke-width="1"/>
+  <line x1="618" y1="722" x2="820" y2="722" class="lh"/>
+  <line x1="1132" y1="722" x2="1158" y2="722" class="lh"/>
+  <path d="M 6 6 L 6 20 L 20 20" class="sk"/><path d="M 1194 6 L 1194 20 L 1180 20" class="sk"/>
+  <path d="M 6 774 L 6 760 L 20 760" class="sk"/><path d="M 1194 774 L 1194 760 L 1180 760" class="sk"/>
+</svg>

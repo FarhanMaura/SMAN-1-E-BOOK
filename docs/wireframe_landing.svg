@@ -1,0 +1,200 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <style>
+      .sketch { stroke:#222; fill:none; }
+      .fill-light { fill:#f0f0f0; stroke:#444; }
+      .fill-mid { fill:#d8d8d8; stroke:#555; }
+      .fill-dark { fill:#333; stroke:#222; }
+      .line-hint { stroke:#bbb; fill:none; }
+      .dashed { stroke:#aaa; fill:none; stroke-dasharray:5,3; }
+    </style>
+    <!-- Rough paper texture filter -->
+    <filter id="rough">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+
+  <!-- White background -->
+  <rect width="1200" height="800" fill="#fff"/>
+
+  <!-- Outer page border (sketch style) -->
+  <rect x="8" y="8" width="1184" height="784" rx="3" class="sketch" stroke-width="2.5" stroke-dasharray="8,4"/>
+
+  <!-- Page label top -->
+  <text x="600" y="22" text-anchor="middle" font-size="10" fill="#999" font-family="monospace" font-style="italic">WIREFRAME — LANDING PAGE / index.html</text>
+
+  <!-- ════════════ HEADER ════════════ -->
+  <rect x="20" y="28" width="1160" height="56" rx="0" class="fill-light" stroke-width="1.5"/>
+  <!-- Logo block (text placeholder jagged) -->
+  <rect x="36" y="38" width="160" height="30" rx="5" class="fill-mid" stroke-width="1.5"/>
+  <!-- Horizontal slash inside logo -->
+  <line x1="50" y1="53" x2="180" y2="53" class="line-hint" stroke-width="2"/>
+  <!-- Badge pill top-right -->
+  <rect x="1010" y="40" width="158" height="28" rx="14" class="sketch" stroke-width="1.5"/>
+  <line x1="1028" y1="54" x2="1152" y2="54" class="line-hint" stroke-width="1.5"/>
+
+  <!-- HEADER bottom divider -->
+  <line x1="20" y1="84" x2="1180" y2="84" class="sketch" stroke-width="1"/>
+
+  <!-- ════════════ HERO SECTION ════════════ -->
+  <!-- Hero tag pill (center) -->
+  <rect x="508" y="106" width="184" height="26" rx="13" class="sketch" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <line x1="530" y1="119" x2="674" y2="119" class="line-hint" stroke-width="1.5"/>
+
+  <!-- H1 Main Title (big block) -->
+  <rect x="240" y="146" width="720" height="64" rx="5" class="fill-light" stroke-width="2"/>
+  <!-- Two rough lines inside H1 -->
+  <line x1="270" y1="168" x2="930" y2="168" class="line-hint" stroke-width="3"/>
+  <line x1="350" y1="190" x2="850" y2="190" class="line-hint" stroke-width="3"/>
+
+  <!-- Subtitle paragraph lines -->
+  <line x1="330" y1="226" x2="870" y2="226" class="line-hint" stroke-width="2"/>
+  <line x1="360" y1="242" x2="840" y2="242" class="line-hint" stroke-width="2"/>
+  <line x1="390" y1="258" x2="810" y2="258" class="line-hint" stroke-width="2"/>
+
+  <!-- ════════════ SECTION LABEL ════════════ -->
+  <!-- "— Pilih Bab yang Ingin Dipelajari —" -->
+  <line x1="380" y1="296" x2="820" y2="296" class="dashed"/>
+  <!-- Small dash-pill -->
+  <rect x="454" y="287" width="292" height="18" rx="9" class="fill-light" stroke-width="1"/>
+
+  <!-- ════════════ CHAPTER CARDS GRID (2 rows × 3 cols) ════════════ -->
+
+  <!-- === ROW 1 === -->
+  <!-- Card 1: Bab 1 - Berpikir Komputasional -->
+  <g transform="translate(20,320)">
+    <rect width="370" height="178" rx="12" class="fill-light" stroke-width="2"/>
+    <!-- Glow blob top-right -->
+    <ellipse cx="336" cy="32" rx="46" ry="46" fill="#e0e0e0" opacity="0.6"/>
+    <!-- Card badge "BAB 01" -->
+    <rect x="16" y="16" width="64" height="14" rx="7" class="fill-mid" stroke-width="1"/>
+    <!-- Icon circle -->
+    <circle cx="44" cy="64" r="20" class="fill-mid" stroke-width="1.5"/>
+    <!-- Card title bar -->
+    <rect x="16" y="94" width="230" height="14" rx="3" class="fill-mid" stroke-width="0"/>
+    <!-- Desc lines -->
+    <line x1="16" y1="118" x2="348" y2="118" class="line-hint" stroke-width="1.5"/>
+    <line x1="16" y1="132" x2="320" y2="132" class="line-hint" stroke-width="1.5"/>
+    <!-- Tags -->
+    <rect x="16" y="146" width="66" height="12" rx="6" class="sketch" stroke-width="1"/>
+    <rect x="88" y="146" width="56" height="12" rx="6" class="sketch" stroke-width="1"/>
+    <rect x="150" y="146" width="66" height="12" rx="6" class="sketch" stroke-width="1"/>
+    <!-- Footer line -->
+    <line x1="0" y1="164" x2="370" y2="164" class="line-hint" stroke-width="1"/>
+    <!-- Card info text hint -->
+    <line x1="16" y1="174" x2="110" y2="174" class="line-hint" stroke-width="1.5"/>
+    <!-- CTA button pill -->
+    <rect x="278" y="165" width="80" height="22" rx="11" class="fill-dark"/>
+    <line x1="290" y1="176" x2="342" y2="176" stroke="#fff" stroke-width="1.5"/>
+  </g>
+
+  <!-- Card 2: Bab 2 -->
+  <g transform="translate(410,320)">
+    <rect width="370" height="178" rx="12" class="fill-light" stroke-width="2"/>
+    <ellipse cx="336" cy="32" rx="46" ry="46" fill="#e8e8e8" opacity="0.6"/>
+    <rect x="16" y="16" width="64" height="14" rx="7" class="fill-mid" stroke-width="1"/>
+    <circle cx="44" cy="64" r="20" class="fill-mid" stroke-width="1.5"/>
+    <rect x="16" y="94" width="250" height="14" rx="3" class="fill-mid" stroke-width="0"/>
+    <line x1="16" y1="118" x2="348" y2="118" class="line-hint" stroke-width="1.5"/>
+    <line x1="16" y1="132" x2="300" y2="132" class="line-hint" stroke-width="1.5"/>
+    <rect x="16" y="146" width="60" height="12" rx="6" class="sketch" stroke-width="1"/>
+    <rect x="82" y="146" width="52" height="12" rx="6" class="sketch" stroke-width="1"/>
+    <rect x="140" y="146" width="64" height="12" rx="6" class="sketch" stroke-width="1"/>
+    <line x1="0" y1="164" x2="370" y2="164" class="line-hint" stroke-width="1"/>
+    <line x1="16" y1="174" x2="110" y2="174" class="line-hint" stroke-width="1.5"/>
+    <rect x="278" y="165" width="80" height="22" rx="11" class="fill-dark"/>
+    <line x1="290" y1="176" x2="342" y2="176" stroke="#fff" stroke-width="1.5"/>
+  </g>
+
+  <!-- Card 3: Bab 3 -->
+  <g transform="translate(800,320)">
+    <rect width="370" height="178" rx="12" class="fill-light" stroke-width="2"/>
+    <ellipse cx="336" cy="32" rx="46" ry="46" fill="#e0e0e0" opacity="0.6"/>
+    <rect x="16" y="16" width="64" height="14" rx="7" class="fill-mid" stroke-width="1"/>
+    <circle cx="44" cy="64" r="20" class="fill-mid" stroke-width="1.5"/>
+    <rect x="16" y="94" width="210" height="14" rx="3" class="fill-mid" stroke-width="0"/>
+    <line x1="16" y1="118" x2="348" y2="118" class="line-hint" stroke-width="1.5"/>
+    <line x1="16" y1="132" x2="280" y2="132" class="line-hint" stroke-width="1.5"/>
+    <rect x="16" y="146" width="58" height="12" rx="6" class="sketch" stroke-width="1"/>
+    <rect x="80" y="146" width="60" height="12" rx="6" class="sketch" stroke-width="1"/>
+    <rect x="146" y="146" width="56" height="12" rx="6" class="sketch" stroke-width="1"/>
+    <line x1="0" y1="164" x2="370" y2="164" class="line-hint" stroke-width="1"/>
+    <line x1="16" y1="174" x2="110" y2="174" class="line-hint" stroke-width="1.5"/>
+    <rect x="278" y="165" width="80" height="22" rx="11" class="fill-dark"/>
+    <line x1="290" y1="176" x2="342" y2="176" stroke="#fff" stroke-width="1.5"/>
+  </g>
+
+  <!-- === ROW 2 === -->
+  <!-- Card 4: Bab 4 -->
+  <g transform="translate(20,520)">
+    <rect width="370" height="178" rx="12" class="fill-light" stroke-width="2"/>
+    <ellipse cx="336" cy="32" rx="46" ry="46" fill="#e8e8e8" opacity="0.6"/>
+    <rect x="16" y="16" width="64" height="14" rx="7" class="fill-mid" stroke-width="1"/>
+    <circle cx="44" cy="64" r="20" class="fill-mid" stroke-width="1.5"/>
+    <rect x="16" y="94" width="195" height="14" rx="3" class="fill-mid" stroke-width="0"/>
+    <line x1="16" y1="118" x2="348" y2="118" class="line-hint" stroke-width="1.5"/>
+    <line x1="16" y1="132" x2="330" y2="132" class="line-hint" stroke-width="1.5"/>
+    <rect x="16" y="146" width="54" height="12" rx="6" class="sketch" stroke-width="1"/>
+    <rect x="76" y="146" width="36" height="12" rx="6" class="sketch" stroke-width="1"/>
+    <rect x="118" y="146" width="84" height="12" rx="6" class="sketch" stroke-width="1"/>
+    <line x1="0" y1="164" x2="370" y2="164" class="line-hint" stroke-width="1"/>
+    <line x1="16" y1="174" x2="110" y2="174" class="line-hint" stroke-width="1.5"/>
+    <rect x="278" y="165" width="80" height="22" rx="11" class="fill-dark"/>
+    <line x1="290" y1="176" x2="342" y2="176" stroke="#fff" stroke-width="1.5"/>
+  </g>
+
+  <!-- Card 5: Bab 5 -->
+  <g transform="translate(410,520)">
+    <rect width="370" height="178" rx="12" class="fill-light" stroke-width="2"/>
+    <ellipse cx="336" cy="32" rx="46" ry="46" fill="#e0e0e0" opacity="0.6"/>
+    <rect x="16" y="16" width="64" height="14" rx="7" class="fill-mid" stroke-width="1"/>
+    <circle cx="44" cy="64" r="20" class="fill-mid" stroke-width="1.5"/>
+    <rect x="16" y="94" width="238" height="14" rx="3" class="fill-mid" stroke-width="0"/>
+    <line x1="16" y1="118" x2="348" y2="118" class="line-hint" stroke-width="1.5"/>
+    <line x1="16" y1="132" x2="310" y2="132" class="line-hint" stroke-width="1.5"/>
+    <rect x="16" y="146" width="68" height="12" rx="6" class="sketch" stroke-width="1"/>
+    <rect x="90" y="146" width="40" height="12" rx="6" class="sketch" stroke-width="1"/>
+    <rect x="136" y="146" width="72" height="12" rx="6" class="sketch" stroke-width="1"/>
+    <line x1="0" y1="164" x2="370" y2="164" class="line-hint" stroke-width="1"/>
+    <line x1="16" y1="174" x2="110" y2="174" class="line-hint" stroke-width="1.5"/>
+    <rect x="278" y="165" width="80" height="22" rx="11" class="fill-dark"/>
+    <line x1="290" y1="176" x2="342" y2="176" stroke="#fff" stroke-width="1.5"/>
+  </g>
+
+  <!-- Card 6: Bab 6 -->
+  <g transform="translate(800,520)">
+    <rect width="370" height="178" rx="12" class="fill-light" stroke-width="2"/>
+    <ellipse cx="336" cy="32" rx="46" ry="46" fill="#e8e8e8" opacity="0.6"/>
+    <rect x="16" y="16" width="64" height="14" rx="7" class="fill-mid" stroke-width="1"/>
+    <circle cx="44" cy="64" r="20" class="fill-mid" stroke-width="1.5"/>
+    <rect x="16" y="94" width="220" height="14" rx="3" class="fill-mid" stroke-width="0"/>
+    <line x1="16" y1="118" x2="348" y2="118" class="line-hint" stroke-width="1.5"/>
+    <line x1="16" y1="132" x2="290" y2="132" class="line-hint" stroke-width="1.5"/>
+    <rect x="16" y="146" width="62" height="12" rx="6" class="sketch" stroke-width="1"/>
+    <rect x="84" y="146" width="36" height="12" rx="6" class="sketch" stroke-width="1"/>
+    <rect x="126" y="146" width="44" height="12" rx="6" class="sketch" stroke-width="1"/>
+    <line x1="0" y1="164" x2="370" y2="164" class="line-hint" stroke-width="1"/>
+    <line x1="16" y1="174" x2="110" y2="174" class="line-hint" stroke-width="1.5"/>
+    <rect x="278" y="165" width="80" height="22" rx="11" class="fill-dark"/>
+    <line x1="290" y1="176" x2="342" y2="176" stroke="#fff" stroke-width="1.5"/>
+  </g>
+
+  <!-- ════════════ FOOTER ════════════ -->
+  <line x1="20" y1="726" x2="1180" y2="726" class="sketch" stroke-width="1"/>
+  <!-- Footer line 1 center -->
+  <line x1="380" y1="742" x2="820" y2="742" class="line-hint" stroke-width="1.5"/>
+  <!-- Footer line 2 center -->
+  <line x1="440" y1="758" x2="760" y2="758" class="line-hint" stroke-width="1"/>
+
+  <!-- Corner bracket decorations -->
+  <path d="M 8 8 L 8 24 L 24 24" class="sketch" stroke-width="2"/>
+  <path d="M 1192 8 L 1192 24 L 1176 24" class="sketch" stroke-width="2"/>
+  <path d="M 8 792 L 8 776 L 24 776" class="sketch" stroke-width="2"/>
+  <path d="M 1192 792 L 1192 776 L 1176 776" class="sketch" stroke-width="2"/>
+
+  <!-- BG decorative orb hints (circles floating — like the CSS bg-orb) -->
+  <circle cx="200" cy="200" r="120" fill="none" stroke="#eee" stroke-width="1" stroke-dasharray="6,4"/>
+  <circle cx="1050" cy="650" r="90" fill="none" stroke="#eee" stroke-width="1" stroke-dasharray="6,4"/>
+  <circle cx="600" cy="400" r="70" fill="none" stroke="#f0f0f0" stroke-width="1" stroke-dasharray="4,3"/>
+</svg>

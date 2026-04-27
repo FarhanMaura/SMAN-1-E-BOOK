@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" width="1200" height="780">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#a78bfa"/><stop offset="100%" style="stop-color:#2dd4bf"/></linearGradient>
+    <linearGradient id="gpurp" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#7c3aed"/><stop offset="100%" style="stop-color:#a78bfa"/></linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="8" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <!-- BG -->
+  <rect width="1200" height="780" fill="#0a0a0f"/>
+  <circle cx="100" cy="100" r="200" fill="#a78bfa" opacity="0.08"/>
+  <circle cx="1150" cy="700" r="160" fill="#2dd4bf" opacity="0.07"/>
+  <!-- BG pattern dots -->
+  <pattern id="dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+    <circle cx="1" cy="1" r="1" fill="rgba(167,139,250,0.08)"/>
+  </pattern>
+  <rect width="1200" height="780" fill="url(#dots)"/>
+
+  <!-- NAV BAR -->
+  <rect width="1200" height="58" fill="#0a0a0f" fill-opacity="0.95"/>
+  <line x1="0" y1="58" x2="1200" y2="58" stroke="rgba(167,139,250,0.15)" stroke-width="1"/>
+  <!-- Back btn -->
+  <rect x="26" y="15" width="152" height="30" rx="15" fill="rgba(124,58,237,0.2)" stroke="rgba(167,139,250,0.35)" stroke-width="1"/>
+  <text x="52" y="34" font-size="13" fill="#a78bfa" font-family="sans-serif">← Kembali</text>
+  <!-- Prev/Next btns -->
+  <rect x="920" y="16" width="88" height="28" rx="14" fill="#12121a" stroke="#555" stroke-width="1"/>
+  <text x="964" y="34" text-anchor="middle" font-size="12" fill="#e2e8f0" font-family="sans-serif">← Prev</text>
+  <rect x="1018" y="16" width="88" height="28" rx="14" fill="#12121a" stroke="#555" stroke-width="1"/>
+  <text x="1062" y="34" text-anchor="middle" font-size="12" fill="#e2e8f0" font-family="sans-serif">Next →</text>
+
+  <!-- OPEN BOOK -->
+  <rect x="18" y="70" width="1164" height="650" rx="10" fill="#1a1a2e" stroke="rgba(167,139,250,0.1)" stroke-width="1"/>
+  <!-- Book shadow glow -->
+  <rect x="18" y="70" width="1164" height="650" rx="10" fill="none" stroke="rgba(167,139,250,0.2)" stroke-width="1" filter="url(#glow)"/>
+
+  <!-- SPINE -->
+  <line x1="601" y1="70" x2="601" y2="720" stroke="rgba(167,139,250,0.3)" stroke-width="2"/>
+  <line x1="598" y1="70" x2="598" y2="720" stroke="rgba(0,0,0,0.5)" stroke-width="3"/>
+  <line x1="604" y1="70" x2="604" y2="720" stroke="rgba(0,0,0,0.5)" stroke-width="3"/>
+
+  <!-- ======== LEFT PAGE: COVER (Hard) ======== -->
+  <rect x="20" y="72" width="576" height="646" rx="8" fill="#0f172a"/>
+  <rect x="20" y="72" width="576" height="646" rx="8" fill="none" stroke="#a78bfa" stroke-width="2"/>
+
+  <!-- SMAN badge -->
+  <rect x="183" y="88" width="230" height="22" rx="11" fill="rgba(45,212,191,0.1)" stroke="rgba(45,212,191,0.3)" stroke-width="1"/>
+  <text x="298" y="103" text-anchor="middle" font-size="9" fill="#2dd4bf" font-family="sans-serif" font-weight="bold" letter-spacing="2">SMAN 1 PALEMBANG KELAS X</text>
+
+  <!-- Big "Bab 1" title with gradient -->
+  <text x="298" y="192" text-anchor="middle" font-size="80" fill="url(#g1)" font-family="sans-serif" font-weight="900">Bab 1</text>
+
+  <!-- Chapter title -->
+  <text x="298" y="228" text-anchor="middle" font-size="18" fill="#e2e8f0" font-family="sans-serif" font-weight="700">Berpikir Komputasional</text>
+
+  <!-- Circular illustration -->
+  <circle cx="298" cy="420" r="130" fill="#12121a" stroke="#a78bfa" stroke-width="3"/>
+  <!-- Inner glow -->
+  <circle cx="298" cy="420" r="125" fill="none" stroke="rgba(167,139,250,0.3)" stroke-width="1"/>
+  <!-- Illustration content: brain/think icon -->
+  <ellipse cx="298" cy="408" rx="55" ry="60" fill="#1a1a2e" stroke="#a78bfa" stroke-width="1.5"/>
+  <circle cx="298" cy="360" r="38" fill="#1a1a2e" stroke="#a78bfa" stroke-width="1.5"/>
+  <!-- Gear/cog lines inside brain -->
+  <circle cx="298" cy="360" r="18" fill="none" stroke="#2dd4bf" stroke-width="1.5"/>
+  <line x1="298" y1="338" x2="298" y2="344" stroke="#2dd4bf" stroke-width="2"/>
+  <line x1="298" y1="376" x2="298" y2="382" stroke="#2dd4bf" stroke-width="2"/>
+  <line x1="276" y1="360" x2="282" y2="360" stroke="#2dd4bf" stroke-width="2"/>
+  <line x1="314" y1="360" x2="320" y2="360" stroke="#2dd4bf" stroke-width="2"/>
+  <circle cx="298" cy="360" r="6" fill="#a78bfa"/>
+  <!-- connecting nodes -->
+  <circle cx="250" cy="416" r="8" fill="#2dd4bf" opacity="0.7"/>
+  <circle cx="346" cy="416" r="8" fill="#2dd4bf" opacity="0.7"/>
+  <line x1="258" y1="416" x2="348" y2="416" stroke="#2dd4bf" stroke-width="1" opacity="0.4"/>
+  <line x1="280" y1="368" x2="250" y2="410" stroke="#a78bfa" stroke-width="1" opacity="0.5"/>
+  <line x1="316" y1="368" x2="346" y2="410" stroke="#a78bfa" stroke-width="1" opacity="0.5"/>
+
+  <!-- Scroll hint -->
+  <text x="298" y="578" text-anchor="middle" font-size="9" fill="#475569" font-family="sans-serif">Geser / Klik Next untuk membuka</text>
+
+  <!-- Page footer left -->
+  <line x1="30" y1="702" x2="588" y2="702" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+  <text x="38" y="716" font-size="9" fill="#475569" font-family="sans-serif">Bab 1 Berpikir Komputasional</text>
+  <text x="582" y="716" text-anchor="end" font-size="9" fill="#475569" font-family="sans-serif">1</text>
+
+  <!-- ======== RIGHT PAGE: MATERI ======== -->
+  <rect x="607" y="72" width="572" height="646" rx="8" fill="#12121a"/>
+  <rect x="607" y="72" width="572" height="646" rx="8" fill="none" stroke="rgba(167,139,250,0.1)" stroke-width="1"/>
+
+  <!-- Mascot thumbnail -->
+  <circle cx="1148" cy="695" r="32" fill="#12121a" stroke="#a78bfa" stroke-width="2"/>
+  <circle cx="1148" cy="682" r="14" fill="#1a1a2e" stroke="#a78bfa" stroke-width="1"/>
+  <ellipse cx="1148" cy="702" rx="18" ry="13" fill="#1a1a2e" stroke="#a78bfa" stroke-width="1"/>
+
+  <!-- Heading "Apersepsi" -->
+  <text x="624" y="108" font-size="16" fill="#a78bfa" font-family="sans-serif" font-weight="700">Apersepsi</text>
+  <line x1="624" y1="118" x2="1165" y2="118" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+
+  <!-- Paragraph text lines -->
+  <rect x="624" y="128" width="530" height="7" rx="3" fill="#4b5563" opacity="0.7"/>
+  <rect x="624" y="141" width="530" height="7" rx="3" fill="#4b5563" opacity="0.7"/>
+  <rect x="624" y="154" width="490" height="7" rx="3" fill="#4b5563" opacity="0.6"/>
+  <rect x="624" y="174" width="530" height="7" rx="3" fill="#4b5563" opacity="0.7"/>
+  <rect x="624" y="187" width="530" height="7" rx="3" fill="#4b5563" opacity="0.7"/>
+  <rect x="624" y="200" width="450" height="7" rx="3" fill="#4b5563" opacity="0.6"/>
+
+  <!-- Tujuan Pembelajaran box -->
+  <rect x="624" y="222" width="530" height="82" rx="6" fill="rgba(124,58,237,0.15)"/>
+  <rect x="624" y="222" width="4" height="82" rx="2" fill="#a78bfa"/>
+  <text x="638" y="240" font-size="11" fill="#ffffff" font-family="sans-serif" font-weight="bold">Tujuan Pembelajaran</text>
+  <rect x="638" y="248" width="400" height="6" rx="3" fill="#6b7280" opacity="0.7"/>
+  <rect x="638" y="260" width="480" height="6" rx="3" fill="#6b7280" opacity="0.6"/>
+  <rect x="638" y="272" width="440" height="6" rx="3" fill="#6b7280" opacity="0.6"/>
+  <rect x="638" y="284" width="390" height="6" rx="3" fill="#6b7280" opacity="0.5"/>
+
+  <!-- Section heading A -->
+  <text x="624" y="328" font-size="13" fill="#2dd4bf" font-family="sans-serif" font-weight="700">A. Penerapan Berpikir Komputasional</text>
+
+  <!-- Content table -->
+  <rect x="624" y="338" width="530" height="120" rx="6" fill="#0a0a0f" stroke="rgba(45,212,191,0.3)" stroke-width="1"/>
+  <rect x="624" y="338" width="530" height="24" rx="6" fill="rgba(45,212,191,0.2)"/>
+  <rect x="624" y="350" width="530" height="12" rx="0" fill="rgba(45,212,191,0.2)"/>
+  <text x="889" y="353" text-anchor="middle" font-size="9" fill="#2dd4bf" font-family="sans-serif" font-weight="bold">Masalah Sederhana vs Kompleks</text>
+  <!-- Table rows -->
+  <line x1="624" y1="378" x2="1154" y2="378" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <line x1="624" y1="400" x2="1154" y2="400" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <line x1="624" y1="422" x2="1154" y2="422" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <line x1="889" y1="362" x2="889" y2="458" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <rect x="636" y="368" width="230" height="6" rx="3" fill="#4b5563" opacity="0.6"/>
+  <rect x="900" y="368" width="210" height="6" rx="3" fill="#4b5563" opacity="0.6"/>
+  <rect x="636" y="390" width="200" height="6" rx="3" fill="#4b5563" opacity="0.5"/>
+  <rect x="900" y="390" width="220" height="6" rx="3" fill="#4b5563" opacity="0.5"/>
+  <rect x="636" y="412" width="180" height="6" rx="3" fill="#2dd4bf" opacity="0.5"/>
+  <rect x="900" y="412" width="200" height="6" rx="3" fill="#2dd4bf" opacity="0.5"/>
+
+  <!-- Steps section -->
+  <rect x="624" y="478" width="530" height="130" rx="6" fill="none" stroke="rgba(167,139,250,0.2)" stroke-width="1" stroke-dasharray="4,3"/>
+  <!-- Step items -->
+  <rect x="636" y="488" width="26" height="26" rx="4" fill="rgba(45,212,191,0.2)" stroke="rgba(45,212,191,0.5)" stroke-width="1"/>
+  <text x="649" y="505" text-anchor="middle" font-size="11" fill="#2dd4bf" font-family="sans-serif" font-weight="bold">1</text>
+  <rect x="672" y="494" width="150" height="7" rx="3" fill="#e2e8f0" opacity="0.7"/>
+  <rect x="672" y="506" width="430" height="5" rx="2" fill="#4b5563" opacity="0.5"/>
+
+  <rect x="636" y="524" width="26" height="26" rx="4" fill="rgba(45,212,191,0.2)" stroke="rgba(45,212,191,0.5)" stroke-width="1"/>
+  <text x="649" y="541" text-anchor="middle" font-size="11" fill="#2dd4bf" font-family="sans-serif" font-weight="bold">2</text>
+  <rect x="672" y="530" width="140" height="7" rx="3" fill="#e2e8f0" opacity="0.7"/>
+  <rect x="672" y="542" width="410" height="5" rx="2" fill="#4b5563" opacity="0.5"/>
+
+  <rect x="636" y="560" width="26" height="26" rx="4" fill="rgba(45,212,191,0.2)" stroke="rgba(45,212,191,0.5)" stroke-width="1"/>
+  <text x="649" y="577" text-anchor="middle" font-size="11" fill="#2dd4bf" font-family="sans-serif" font-weight="bold">3</text>
+  <rect x="672" y="566" width="130" height="7" rx="3" fill="#e2e8f0" opacity="0.7"/>
+  <rect x="672" y="578" width="450" height="5" rx="2" fill="#4b5563" opacity="0.5"/>
+
+  <!-- Page footer right -->
+  <line x1="615" y1="702" x2="1168" y2="702" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+  <text x="624" y="716" font-size="9" fill="#475569" font-family="sans-serif">Bab 1 Berpikir Komputasional</text>
+  <text x="1160" y="716" text-anchor="end" font-size="9" fill="#475569" font-family="sans-serif">2</text>
+
+  <!-- Label -->
+  <text x="600" y="776" text-anchor="middle" font-size="9" fill="#555" font-family="monospace">MOCKUP — BAB 1 : Berpikir Komputasional</text>
+</svg>

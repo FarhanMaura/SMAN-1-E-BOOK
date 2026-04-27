@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="purpleTeal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#a78bfa"/>
+      <stop offset="100%" style="stop-color:#2dd4bf"/>
+    </linearGradient>
+    <linearGradient id="orb1g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#a78bfa;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:#a78bfa;stop-opacity:0"/>
+    </linearGradient>
+    <linearGradient id="orb2g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2dd4bf;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:#2dd4bf;stop-opacity:0"/>
+    </linearGradient>
+    <filter id="blur1"><feGaussianBlur stdDeviation="40"/></filter>
+    <filter id="blur2"><feGaussianBlur stdDeviation="30"/></filter>
+  </defs>
+
+  <!-- BG -->
+  <rect width="1200" height="800" fill="#0a0a0f"/>
+  <!-- Orbs -->
+  <circle cx="0" cy="0" r="300" fill="url(#orb1g)" filter="url(#blur1)"/>
+  <circle cx="1200" cy="800" r="200" fill="url(#orb2g)" filter="url(#blur1)"/>
+  <circle cx="600" cy="400" r="150" fill="#7c3aed" opacity="0.05" filter="url(#blur2)"/>
+
+  <!-- HEADER -->
+  <rect x="0" y="0" width="1200" height="72" fill="#0a0a0f" fill-opacity="0.9"/>
+  <line x1="0" y1="72" x2="1200" y2="72" stroke="rgba(167,139,250,0.15)" stroke-width="1"/>
+  <!-- Logo gradient text simulation -->
+  <rect x="32" y="24" width="200" height="24" rx="4" fill="url(#purpleTeal)" opacity="0.9"/>
+  <!-- Badge -->
+  <rect x="990" y="24" width="178" height="26" rx="13" fill="rgba(167,139,250,0.1)" stroke="rgba(167,139,250,0.3)" stroke-width="1"/>
+  <rect x="1010" y="34" width="138" height="6" rx="3" fill="#a78bfa" opacity="0.6"/>
+
+  <!-- HERO -->
+  <!-- Tag pill -->
+  <rect x="476" y="96" width="248" height="30" rx="15" fill="rgba(45,212,191,0.1)" stroke="rgba(45,212,191,0.3)" stroke-width="1"/>
+  <rect x="504" y="108" width="192" height="6" rx="3" fill="#2dd4bf" opacity="0.7"/>
+  <!-- H1 gradient text -->
+  <rect x="180" y="142" width="840" height="56" rx="6" fill="none"/>
+  <rect x="240" y="148" width="200" height="44" rx="4" fill="#e2e8f0" opacity="0.9"/>
+  <rect x="450" y="148" width="10" height="44" rx="2" fill="#e2e8f0" opacity="0.5"/>
+  <rect x="470" y="148" width="490" height="44" rx="4" fill="url(#purpleTeal)" opacity="0.9"/>
+  <!-- Subtitle -->
+  <rect x="296" y="212" width="608" height="8" rx="4" fill="#94a3b8" opacity="0.6"/>
+  <rect x="330" y="228" width="540" height="8" rx="4" fill="#94a3b8" opacity="0.5"/>
+  <rect x="370" y="244" width="460" height="8" rx="4" fill="#94a3b8" opacity="0.4"/>
+
+  <!-- SECTION LABEL -->
+  <rect x="390" y="278" width="420" height="14" rx="7" fill="none"/>
+  <rect x="420" y="282" width="360" height="6" rx="3" fill="#94a3b8" opacity="0.3"/>
+
+  <!-- CHAPTER CARDS GRID -->
+  <!-- Card 1 (Bab 1 - Purple) -->
+  <g transform="translate(24,304)">
+    <rect width="364" height="176" rx="16" fill="#12121a" stroke="rgba(167,139,250,0.2)" stroke-width="1"/>
+    <circle cx="340" cy="20" r="70" fill="#a78bfa" opacity="0.1"/>
+    <rect x="16" y="14" width="56" height="12" rx="6" fill="rgba(167,139,250,0.2)"/>
+    <text x="44" y="23" text-anchor="middle" font-size="7" fill="#a78bfa" font-family="sans-serif" font-weight="bold">BAB 01</text>
+    <text x="40" y="54" font-size="22" font-family="sans-serif">🧠</text>
+    <rect x="16" y="68" width="200" height="12" rx="3" fill="#e2e8f0" opacity="0.8"/>
+    <rect x="16" y="90" width="330" height="7" rx="2" fill="#94a3b8" opacity="0.5"/>
+    <rect x="16" y="103" width="300" height="7" rx="2" fill="#94a3b8" opacity="0.4"/>
+    <rect x="16" y="118" width="56" height="12" rx="6" fill="rgba(167,139,250,0.1)" stroke="rgba(167,139,250,0.3)" stroke-width="1"/>
+    <rect x="78" y="118" width="46" height="12" rx="6" fill="rgba(167,139,250,0.1)" stroke="rgba(167,139,250,0.3)" stroke-width="1"/>
+    <rect x="130" y="118" width="56" height="12" rx="6" fill="rgba(167,139,250,0.1)" stroke="rgba(167,139,250,0.3)" stroke-width="1"/>
+    <line x1="0" y1="148" x2="364" y2="148" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+    <rect x="16" y="158" width="90" height="8" rx="4" fill="#94a3b8" opacity="0.4"/>
+    <rect x="270" y="152" width="80" height="20" rx="10" fill="url(#purpleTeal)"/>
+  </g>
+
+  <!-- Card 2 (Bab 2 - Teal) -->
+  <g transform="translate(412,304)">
+    <rect width="364" height="176" rx="16" fill="#12121a" stroke="rgba(45,212,191,0.2)" stroke-width="1"/>
+    <circle cx="340" cy="20" r="70" fill="#2dd4bf" opacity="0.1"/>
+    <rect x="16" y="14" width="56" height="12" rx="6" fill="rgba(45,212,191,0.2)"/>
+    <text x="44" y="23" text-anchor="middle" font-size="7" fill="#2dd4bf" font-family="sans-serif" font-weight="bold">BAB 02</text>
+    <text x="40" y="54" font-size="22" font-family="sans-serif">💻</text>
+    <rect x="16" y="68" width="240" height="12" rx="3" fill="#e2e8f0" opacity="0.8"/>
+    <rect x="16" y="90" width="330" height="7" rx="2" fill="#94a3b8" opacity="0.5"/>
+    <rect x="16" y="103" width="280" height="7" rx="2" fill="#94a3b8" opacity="0.4"/>
+    <rect x="16" y="118" width="50" height="12" rx="6" fill="rgba(45,212,191,0.1)" stroke="rgba(45,212,191,0.3)" stroke-width="1"/>
+    <rect x="72" y="118" width="50" height="12" rx="6" fill="rgba(45,212,191,0.1)" stroke="rgba(45,212,191,0.3)" stroke-width="1"/>
+    <rect x="128" y="118" width="56" height="12" rx="6" fill="rgba(45,212,191,0.1)" stroke="rgba(45,212,191,0.3)" stroke-width="1"/>
+    <line x1="0" y1="148" x2="364" y2="148" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+    <rect x="16" y="158" width="90" height="8" rx="4" fill="#94a3b8" opacity="0.4"/>
+    <rect x="270" y="152" width="80" height="20" rx="10" fill="url(#purpleTeal)"/>
+  </g>
+
+  <!-- Card 3 (Bab 3 - Purple) -->
+  <g transform="translate(800,304)">
+    <rect width="376" height="176" rx="16" fill="#12121a" stroke="rgba(167,139,250,0.2)" stroke-width="1"/>
+    <circle cx="356" cy="20" r="70" fill="#a78bfa" opacity="0.1"/>
+    <rect x="16" y="14" width="56" height="12" rx="6" fill="rgba(167,139,250,0.2)"/>
+    <text x="44" y="23" text-anchor="middle" font-size="7" fill="#a78bfa" font-family="sans-serif" font-weight="bold">BAB 03</text>
+    <text x="40" y="54" font-size="22" font-family="sans-serif">🤖</text>
+    <rect x="16" y="68" width="210" height="12" rx="3" fill="#e2e8f0" opacity="0.8"/>
+    <rect x="16" y="90" width="340" height="7" rx="2" fill="#94a3b8" opacity="0.5"/>
+    <rect x="16" y="103" width="310" height="7" rx="2" fill="#94a3b8" opacity="0.4"/>
+    <rect x="16" y="118" width="54" height="12" rx="6" fill="rgba(167,139,250,0.1)" stroke="rgba(167,139,250,0.3)" stroke-width="1"/>
+    <rect x="76" y="118" width="56" height="12" rx="6" fill="rgba(167,139,250,0.1)" stroke="rgba(167,139,250,0.3)" stroke-width="1"/>
+    <rect x="138" y="118" width="54" height="12" rx="6" fill="rgba(167,139,250,0.1)" stroke="rgba(167,139,250,0.3)" stroke-width="1"/>
+    <line x1="0" y1="148" x2="376" y2="148" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+    <rect x="16" y="158" width="90" height="8" rx="4" fill="#94a3b8" opacity="0.4"/>
+    <rect x="282" y="152" width="80" height="20" rx="10" fill="url(#purpleTeal)"/>
+  </g>
+
+  <!-- Card 4 (Bab 4 - Teal) -->
+  <g transform="translate(24,498)">
+    <rect width="364" height="176" rx="16" fill="#12121a" stroke="rgba(45,212,191,0.2)" stroke-width="1"/>
+    <circle cx="340" cy="20" r="70" fill="#2dd4bf" opacity="0.1"/>
+    <rect x="16" y="14" width="56" height="12" rx="6" fill="rgba(45,212,191,0.2)"/>
+    <text x="44" y="23" text-anchor="middle" font-size="7" fill="#2dd4bf" font-family="sans-serif" font-weight="bold">BAB 04</text>
+    <text x="40" y="54" font-size="22" font-family="sans-serif">✨</text>
+    <rect x="16" y="68" width="220" height="12" rx="3" fill="#e2e8f0" opacity="0.8"/>
+    <rect x="16" y="90" width="330" height="7" rx="2" fill="#94a3b8" opacity="0.5"/>
+    <rect x="16" y="103" width="290" height="7" rx="2" fill="#94a3b8" opacity="0.4"/>
+    <rect x="16" y="118" width="46" height="12" rx="6" fill="rgba(45,212,191,0.1)" stroke="rgba(45,212,191,0.3)" stroke-width="1"/>
+    <rect x="68" y="118" width="36" height="12" rx="6" fill="rgba(45,212,191,0.1)" stroke="rgba(45,212,191,0.3)" stroke-width="1"/>
+    <rect x="110" y="118" width="84" height="12" rx="6" fill="rgba(45,212,191,0.1)" stroke="rgba(45,212,191,0.3)" stroke-width="1"/>
+    <line x1="0" y1="148" x2="364" y2="148" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+    <rect x="16" y="158" width="90" height="8" rx="4" fill="#94a3b8" opacity="0.4"/>
+    <rect x="270" y="152" width="80" height="20" rx="10" fill="url(#purpleTeal)"/>
+  </g>
+
+  <!-- Card 5 (Bab 5 - Purple) -->
+  <g transform="translate(412,498)">
+    <rect width="364" height="176" rx="16" fill="#12121a" stroke="rgba(167,139,250,0.2)" stroke-width="1"/>
+    <circle cx="340" cy="20" r="70" fill="#a78bfa" opacity="0.1"/>
+    <rect x="16" y="14" width="56" height="12" rx="6" fill="rgba(167,139,250,0.2)"/>
+    <text x="44" y="23" text-anchor="middle" font-size="7" fill="#a78bfa" font-family="sans-serif" font-weight="bold">BAB 05</text>
+    <text x="40" y="54" font-size="22" font-family="sans-serif">🎬</text>
+    <rect x="16" y="68" width="248" height="12" rx="3" fill="#e2e8f0" opacity="0.8"/>
+    <rect x="16" y="90" width="330" height="7" rx="2" fill="#94a3b8" opacity="0.5"/>
+    <rect x="16" y="103" width="270" height="7" rx="2" fill="#94a3b8" opacity="0.4"/>
+    <rect x="16" y="118" width="62" height="12" rx="6" fill="rgba(167,139,250,0.1)" stroke="rgba(167,139,250,0.3)" stroke-width="1"/>
+    <rect x="84" y="118" width="40" height="12" rx="6" fill="rgba(167,139,250,0.1)" stroke="rgba(167,139,250,0.3)" stroke-width="1"/>
+    <rect x="130" y="118" width="66" height="12" rx="6" fill="rgba(167,139,250,0.1)" stroke="rgba(167,139,250,0.3)" stroke-width="1"/>
+    <line x1="0" y1="148" x2="364" y2="148" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+    <rect x="16" y="158" width="90" height="8" rx="4" fill="#94a3b8" opacity="0.4"/>
+    <rect x="270" y="152" width="80" height="20" rx="10" fill="url(#purpleTeal)"/>
+  </g>
+
+  <!-- Card 6 (Bab 6 - Teal) -->
+  <g transform="translate(800,498)">
+    <rect width="376" height="176" rx="16" fill="#12121a" stroke="rgba(45,212,191,0.2)" stroke-width="1"/>
+    <circle cx="356" cy="20" r="70" fill="#2dd4bf" opacity="0.1"/>
+    <rect x="16" y="14" width="56" height="12" rx="6" fill="rgba(45,212,191,0.2)"/>
+    <text x="44" y="23" text-anchor="middle" font-size="7" fill="#2dd4bf" font-family="sans-serif" font-weight="bold">BAB 06</text>
+    <text x="40" y="54" font-size="22" font-family="sans-serif">🗄️</text>
+    <rect x="16" y="68" width="196" height="12" rx="3" fill="#e2e8f0" opacity="0.8"/>
+    <rect x="16" y="90" width="340" height="7" rx="2" fill="#94a3b8" opacity="0.5"/>
+    <rect x="16" y="103" width="300" height="7" rx="2" fill="#94a3b8" opacity="0.4"/>
+    <rect x="16" y="118" width="54" height="12" rx="6" fill="rgba(45,212,191,0.1)" stroke="rgba(45,212,191,0.3)" stroke-width="1"/>
+    <rect x="76" y="118" width="36" height="12" rx="6" fill="rgba(45,212,191,0.1)" stroke="rgba(45,212,191,0.3)" stroke-width="1"/>
+    <rect x="118" y="118" width="44" height="12" rx="6" fill="rgba(45,212,191,0.1)" stroke="rgba(45,212,191,0.3)" stroke-width="1"/>
+    <line x1="0" y1="148" x2="376" y2="148" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+    <rect x="16" y="158" width="90" height="8" rx="4" fill="#94a3b8" opacity="0.4"/>
+    <rect x="282" y="152" width="80" height="20" rx="10" fill="url(#purpleTeal)"/>
+  </g>
+
+  <!-- FOOTER -->
+  <line x1="0" y1="730" x2="1200" y2="730" stroke="rgba(167,139,250,0.1)" stroke-width="1"/>
+  <rect x="336" y="748" width="528" height="8" rx="4" fill="#94a3b8" opacity="0.3"/>
+  <rect x="420" y="764" width="360" height="6" rx="3" fill="#94a3b8" opacity="0.2"/>
+
+  <!-- Page label -->
+  <text x="600" y="796" text-anchor="middle" font-size="9" fill="#444" font-family="monospace">MOCKUP — LANDING PAGE / index.html</text>
+</svg>

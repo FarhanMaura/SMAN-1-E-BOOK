@@ -17,9 +17,15 @@ app.get('/bab-:num', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', `bab-${num}`, 'index.html'));
 });
 
+// Full Book Route
+app.get('/book', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'book.html'));
+});
+
 app.listen(PORT, () => {
   console.log(`\n🚀 Flipbook KKA SMA Kelas 10 berjalan di: http://localhost:${PORT}`);
-  console.log(`\n📚 Daftar Bab:`);
+  console.log(`\n📖 BUKU LENGKAP: http://localhost:${PORT}/book`);
+  console.log(`\n📚 Daftar Bab (Terpisah):`);
   for (let i = 1; i <= 6; i++) {
     console.log(`   Bab ${i}: http://localhost:${PORT}/bab-${i}`);
   }

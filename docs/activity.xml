@@ -1,0 +1,157 @@
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+  <root>
+    <mxCell id="0"/>
+    <mxCell id="1" parent="0"/>
+
+    <!-- TITLE -->
+    <mxCell id="t1" value="ACTIVITY DIAGRAM — Flipbook E-Modul KKA SMAN 1 Palembang" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="100" y="15" width="980" height="30" as="geometry"/>
+    </mxCell>
+
+    <!-- === SWIMLANE: AKSES E-MODUL (kiri) === -->
+    <mxCell id="sw1" value="Alur 1: Mengakses E-Modul" style="swimlane;startSize=30;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="30" y="60" width="480" height="820" as="geometry"/>
+    </mxCell>
+
+    <!-- Start -->
+    <mxCell id="s1" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#000000;" vertex="1" parent="sw1">
+      <mxGeometry x="210" y="40" width="30" height="30" as="geometry"/>
+    </mxCell>
+    <!-- Buka browser -->
+    <mxCell id="a1" value="Siswa membuka browser" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" vertex="1" parent="sw1">
+      <mxGeometry x="140" y="100" width="200" height="40" as="geometry"/>
+    </mxCell>
+    <!-- Akses URL -->
+    <mxCell id="a2" value="Akses URL localhost:3000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" vertex="1" parent="sw1">
+      <mxGeometry x="140" y="170" width="200" height="40" as="geometry"/>
+    </mxCell>
+    <!-- Server kirim HTML -->
+    <mxCell id="a3" value="Server kirim index.html" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" vertex="1" parent="sw1">
+      <mxGeometry x="140" y="240" width="200" height="40" as="geometry"/>
+    </mxCell>
+    <!-- Render Landing -->
+    <mxCell id="a4" value="Browser render Landing Page&#xa;(Header + Hero + 6 Cards)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" vertex="1" parent="sw1">
+      <mxGeometry x="120" y="310" width="240" height="50" as="geometry"/>
+    </mxCell>
+    <!-- Fetch bab -->
+    <mxCell id="a5" value="Script fetch tiap /bab-N&#xa;Hitung div.page" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" vertex="1" parent="sw1">
+      <mxGeometry x="140" y="390" width="200" height="50" as="geometry"/>
+    </mxCell>
+    <!-- Decision: valid? -->
+    <mxCell id="d1" value="Bab valid?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="sw1">
+      <mxGeometry x="175" y="470" width="130" height="60" as="geometry"/>
+    </mxCell>
+    <!-- Ya: update card -->
+    <mxCell id="a6" value="Update card:&#xa;info halaman &amp; soal" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="sw1">
+      <mxGeometry x="60" y="560" width="150" height="50" as="geometry"/>
+    </mxCell>
+    <!-- Tidak: disable card -->
+    <mxCell id="a7" value="Disable card:&#xa;'Segera Hadir'" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="sw1">
+      <mxGeometry x="270" y="560" width="150" height="50" as="geometry"/>
+    </mxCell>
+    <!-- Pilih chapter -->
+    <mxCell id="a8" value="Siswa pilih chapter card" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" vertex="1" parent="sw1">
+      <mxGeometry x="140" y="640" width="200" height="40" as="geometry"/>
+    </mxCell>
+    <!-- Server kirim bab -->
+    <mxCell id="a9" value="Server kirim bab-N/index.html" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" vertex="1" parent="sw1">
+      <mxGeometry x="130" y="710" width="220" height="40" as="geometry"/>
+    </mxCell>
+    <!-- StPageFlip -->
+    <mxCell id="a10" value="StPageFlip.js inisialisasi&#xa;Flipbook animasi fadeIn" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="sw1">
+      <mxGeometry x="140" y="770" width="200" height="40" as="geometry"/>
+    </mxCell>
+    <!-- End sw1 -->
+    <mxCell id="e1_end" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#000000;strokeColor=#ffffff;" vertex="1" parent="sw1">
+      <mxGeometry x="210" y="790" width="30" height="30" as="geometry"/>
+    </mxCell>
+
+    <!-- sw1 edges -->
+    <mxCell id="sa1" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="s1" target="a1" parent="sw1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="sa2" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="a1" target="a2" parent="sw1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="sa3" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="a2" target="a3" parent="sw1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="sa4" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="a3" target="a4" parent="sw1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="sa5" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="a4" target="a5" parent="sw1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="sa6" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="a5" target="d1" parent="sw1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="sa7" value="Ya" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="d1" target="a6" parent="sw1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="sa8" value="Tidak" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="d1" target="a7" parent="sw1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="sa9" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="a6" target="a8" parent="sw1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="sa10" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="a7" target="a8" parent="sw1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="sa11" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="a8" target="a9" parent="sw1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="sa12" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="a9" target="a10" parent="sw1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <!-- === SWIMLANE: KUIS (kanan) === -->
+    <mxCell id="sw2" value="Alur 2: Mengerjakan Kuis (Latihan &amp; Ujian)" style="swimlane;startSize=30;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="540" y="60" width="530" height="820" as="geometry"/>
+    </mxCell>
+
+    <!-- Start -->
+    <mxCell id="s2" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#000000;" vertex="1" parent="sw2">
+      <mxGeometry x="235" y="40" width="30" height="30" as="geometry"/>
+    </mxCell>
+    <!-- Di halaman latihan -->
+    <mxCell id="b1" value="Siswa di halaman Latihan Dasar" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="sw2">
+      <mxGeometry x="145" y="100" width="220" height="40" as="geometry"/>
+    </mxCell>
+    <!-- Baca soal -->
+    <mxCell id="b2" value="Baca pertanyaan soal" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="sw2">
+      <mxGeometry x="165" y="170" width="180" height="40" as="geometry"/>
+    </mxCell>
+    <!-- Detail soal? -->
+    <mxCell id="d2" value="Klik untuk&#xa;Detail Soal?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="sw2">
+      <mxGeometry x="185" y="235" width="140" height="60" as="geometry"/>
+    </mxCell>
+    <!-- Modal detail -->
+    <mxCell id="b3" value="Buka Modal Detail Soal&#xa;(Alpine.js showDetailModal)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="sw2">
+      <mxGeometry x="50" y="330" width="200" height="50" as="geometry"/>
+    </mxCell>
+    <!-- Pilih di modal -->
+    <mxCell id="b4" value="Pilih jawaban di modal" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="sw2">
+      <mxGeometry x="50" y="405" width="200" height="40" as="geometry"/>
+    </mxCell>
+    <!-- Pilih langsung -->
+    <mxCell id="b5" value="Pilih jawaban langsung" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="sw2">
+      <mxGeometry x="290" y="330" width="180" height="40" as="geometry"/>
+    </mxCell>
+    <!-- Evaluasi -->
+    <mxCell id="b6" value="Evaluasi jawaban&#xa;jawabLatihan() / jawabUjian()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="sw2">
+      <mxGeometry x="155" y="470" width="200" height="50" as="geometry"/>
+    </mxCell>
+    <!-- Benar? -->
+    <mxCell id="d3" value="Jawaban&#xa;benar?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="sw2">
+      <mxGeometry x="195" y="550" width="130" height="60" as="geometry"/>
+    </mxCell>
+    <!-- +10 poin -->
+    <mxCell id="b7" value="+10 Poin ke skor&#xa;Konfeti animasi 🎉" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="sw2">
+      <mxGeometry x="50" y="640" width="160" height="50" as="geometry"/>
+    </mxCell>
+    <!-- salah -->
+    <mxCell id="b8" value="Tidak ada poin&#xa;tambahan" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="sw2">
+      <mxGeometry x="300" y="640" width="160" height="50" as="geometry"/>
+    </mxCell>
+    <!-- Modal feedback -->
+    <mxCell id="b9" value="Tampilkan Modal Feedback&#xa;'BENAR SEKALI!' atau 'YAH SALAH!'" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="sw2">
+      <mxGeometry x="130" y="720" width="250" height="50" as="geometry"/>
+    </mxCell>
+    <!-- Auto dismiss -->
+    <mxCell id="b10" value="Auto-dismiss modal&#xa;setelah 2 detik" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="sw2">
+      <mxGeometry x="165" y="800" width="190" height="40" as="geometry"/>
+    </mxCell>
+
+    <!-- sw2 edges -->
+    <mxCell id="sb1" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="s2" target="b1" parent="sw2"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="sb2" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="b1" target="b2" parent="sw2"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="sb3" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="b2" target="d2" parent="sw2"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="sb4" value="Ya" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="d2" target="b3" parent="sw2"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="sb5" value="Tidak" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="d2" target="b5" parent="sw2"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="sb6" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="b3" target="b4" parent="sw2"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="sb7" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="b4" target="b6" parent="sw2"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="sb8" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="b5" target="b6" parent="sw2"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="sb9" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="b6" target="d3" parent="sw2"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="sb10" value="Ya" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="d3" target="b7" parent="sw2"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="sb11" value="Tidak" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="d3" target="b8" parent="sw2"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="sb12" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="b7" target="b9" parent="sw2"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="sb13" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="b8" target="b9" parent="sw2"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="sb14" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="b9" target="b10" parent="sw2"><mxGeometry relative="1" as="geometry"/></mxCell>
+  </root>
+</mxGraphModel>

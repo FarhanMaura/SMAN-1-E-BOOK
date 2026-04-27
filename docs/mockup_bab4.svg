@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" width="1200" height="780">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#a78bfa"/><stop offset="100%" style="stop-color:#2dd4bf"/></linearGradient>
+    <linearGradient id="gteal" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#0d9488"/><stop offset="100%" style="stop-color:#2dd4bf"/></linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="blur"><feGaussianBlur stdDeviation="40"/></filter>
+  </defs>
+  <rect width="1200" height="780" fill="#0a0a0f"/>
+  <circle cx="100" cy="100" r="200" fill="#2dd4bf" opacity="0.07" filter="url(#blur)"/>
+  <circle cx="1100" cy="680" r="160" fill="#0d9488" opacity="0.06" filter="url(#blur)"/>
+  <pattern id="dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="rgba(45,212,191,0.07)"/></pattern>
+  <rect width="1200" height="780" fill="url(#dots)"/>
+  <!-- NAV -->
+  <rect width="1200" height="58" fill="#0a0a0f" fill-opacity="0.95"/>
+  <line x1="0" y1="58" x2="1200" y2="58" stroke="rgba(45,212,191,0.15)" stroke-width="1"/>
+  <rect x="26" y="15" width="172" height="30" rx="15" fill="rgba(13,148,136,0.2)" stroke="rgba(45,212,191,0.4)" stroke-width="1"/>
+  <text x="44" y="35" font-size="12" fill="#2dd4bf" font-family="sans-serif" font-weight="600">← Kembali ke Beranda</text>
+  <rect x="910" y="16" width="88" height="28" rx="14" fill="#12121a" stroke="#374151" stroke-width="1"/>
+  <text x="954" y="34" text-anchor="middle" font-size="12" fill="#e2e8f0" font-family="sans-serif">← Prev</text>
+  <rect x="1008" y="16" width="88" height="28" rx="14" fill="#12121a" stroke="#374151" stroke-width="1"/>
+  <text x="1052" y="34" text-anchor="middle" font-size="12" fill="#e2e8f0" font-family="sans-serif">Next →</text>
+  <!-- BOOK -->
+  <rect x="18" y="66" width="1164" height="660" rx="10" fill="#1a1a2e" stroke="rgba(45,212,191,0.08)" stroke-width="1"/>
+  <line x1="601" y1="66" x2="601" y2="726" stroke="rgba(45,212,191,0.4)" stroke-width="2" filter="url(#glow)"/>
+  <rect x="596" y="66" width="10" height="660" fill="rgba(0,0,0,0.6)"/>
+  <!-- LEFT: COVER Teal -->
+  <rect x="20" y="68" width="574" height="656" rx="8" fill="#0f172a"/>
+  <rect x="20" y="68" width="574" height="656" rx="8" fill="none" stroke="#2dd4bf" stroke-width="2" filter="url(#glow)"/>
+  <rect x="181" y="84" width="232" height="22" rx="11" fill="rgba(45,212,191,0.08)" stroke="rgba(45,212,191,0.35)" stroke-width="1"/>
+  <text x="297" y="99" text-anchor="middle" font-size="8" fill="#2dd4bf" font-family="sans-serif" font-weight="700" letter-spacing="2">SMAN 1 PALEMBANG KELAS X</text>
+  <text x="297" y="186" text-anchor="middle" font-size="76" fill="url(#gteal)" font-family="sans-serif" font-weight="900">Bab 4</text>
+  <text x="297" y="220" text-anchor="middle" font-size="14" fill="#e2e8f0" font-family="sans-serif" font-weight="700">Prompt Engineering &amp; Design Thinking</text>
+  <!-- Illustration circle - chat bubbles -->
+  <circle cx="297" cy="414" r="128" fill="#12121a" stroke="#2dd4bf" stroke-width="2.5" filter="url(#glow)"/>
+  <circle cx="297" cy="414" r="122" fill="none" stroke="rgba(45,212,191,0.2)" stroke-width="1"/>
+  <!-- Chat bubbles -->
+  <rect x="200" y="362" rx="12" ry="12" width="140" height="44" fill="#1a1a2e" stroke="#a78bfa" stroke-width="1.5"/>
+  <polygon points="212,406 200,420 230,406" fill="#1a1a2e" stroke="#a78bfa" stroke-width="1"/>
+  <rect x="212" y="372" width="116" height="6" rx="3" fill="#a78bfa" opacity="0.5"/>
+  <rect x="212" y="382" width="96" height="5" rx="2" fill="#4b5563" opacity="0.6"/>
+  <rect x="212" y="392" width="106" height="5" rx="2" fill="#4b5563" opacity="0.5"/>
+  <rect x="240" y="430" rx="12" ry="12" width="130" height="40" fill="#0d9488" opacity="0.4" stroke="#2dd4bf" stroke-width="1.5"/>
+  <polygon points="358,430 370,418 342,430" fill="#0d9488" opacity="0.4" stroke="#2dd4bf" stroke-width="1"/>
+  <rect x="252" y="440" width="106" height="6" rx="3" fill="#2dd4bf" opacity="0.6"/>
+  <rect x="252" y="452" width="88" height="5" rx="2" fill="#4b5563" opacity="0.5"/>
+  <!-- Stars/sparkles -->
+  <text x="230" y="354" font-size="14" font-family="sans-serif" fill="#2dd4bf" opacity="0.8">✦</text>
+  <text x="350" y="478" font-size="10" font-family="sans-serif" fill="#a78bfa" opacity="0.8">✦</text>
+  <text x="196" y="476" font-size="12" font-family="sans-serif" fill="#2dd4bf" opacity="0.6">✦</text>
+  <!-- Input bar -->
+  <rect x="215" y="490" rx="16" width="164" height="28" fill="#1a1a2e" stroke="rgba(45,212,191,0.4)" stroke-width="1"/>
+  <rect x="225" y="499" width="100" height="6" rx="3" fill="#374151" opacity="0.7"/>
+  <circle cx="366" cy="504" r="10" fill="rgba(45,212,191,0.3)" stroke="#2dd4bf" stroke-width="1"/>
+  <text x="366" y="509" text-anchor="middle" font-size="10" fill="#2dd4bf" font-family="sans-serif">→</text>
+  <text x="297" y="566" text-anchor="middle" font-size="9" fill="#475569" font-family="sans-serif">Geser / Klik Next untuk membuka</text>
+  <line x1="30" y1="706" x2="586" y2="706" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+  <text x="38" y="720" font-size="9" fill="#475569" font-family="sans-serif">Bab 4 Prompt Engineering &amp; Design Thinking</text>
+  <text x="580" y="720" text-anchor="end" font-size="9" fill="#475569" font-family="sans-serif">1</text>
+  <!-- RIGHT: MATERI -->
+  <rect x="607" y="68" width="572" height="656" rx="8" fill="#12121a"/>
+  <circle cx="1148" cy="692" r="30" fill="#12121a" stroke="#2dd4bf" stroke-width="1.5"/>
+  <circle cx="1148" cy="680" r="12" fill="#1a1a2e" stroke="#2dd4bf" stroke-width="1"/>
+  <ellipse cx="1148" cy="700" rx="16" ry="12" fill="#1a1a2e" stroke="#2dd4bf" stroke-width="1"/>
+  <text x="624" y="104" font-size="15" fill="#2dd4bf" font-family="sans-serif" font-weight="700">Apersepsi</text>
+  <line x1="624" y1="112" x2="1162" y2="112" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  <rect x="624" y="122" width="524" height="7" rx="3" fill="#374151" opacity="0.8"/>
+  <rect x="624" y="135" width="524" height="7" rx="3" fill="#374151" opacity="0.8"/>
+  <rect x="624" y="148" width="480" height="7" rx="3" fill="#374151" opacity="0.7"/>
+  <rect x="624" y="168" width="524" height="7" rx="3" fill="#374151" opacity="0.7"/>
+  <rect x="624" y="181" width="450" height="7" rx="3" fill="#374151" opacity="0.6"/>
+  <!-- Info box teal -->
+  <rect x="624" y="202" width="524" height="82" rx="6" fill="rgba(13,148,136,0.12)"/>
+  <rect x="624" y="202" width="4" height="82" rx="2" fill="#2dd4bf"/>
+  <text x="638" y="220" font-size="11" fill="#ffffff" font-family="sans-serif" font-weight="700">Tujuan Pembelajaran</text>
+  <rect x="638" y="228" width="390" height="6" rx="3" fill="#4b5563" opacity="0.8"/>
+  <rect x="638" y="240" width="470" height="6" rx="3" fill="#4b5563" opacity="0.7"/>
+  <rect x="638" y="252" width="430" height="6" rx="3" fill="#4b5563" opacity="0.7"/>
+  <rect x="638" y="264" width="360" height="6" rx="3" fill="#4b5563" opacity="0.6"/>
+  <!-- Design Thinking heading -->
+  <text x="624" y="310" font-size="13" fill="#a78bfa" font-family="sans-serif" font-weight="700">A. Tahapan Design Thinking</text>
+  <!-- 5 step flow -->
+  <rect x="624" y="320" width="524" height="88" rx="6" fill="#0a0a0f" stroke="rgba(45,212,191,0.2)" stroke-width="1"/>
+  <!-- 5 boxes -->
+  <rect x="634" y="332" width="84" height="52" rx="6" fill="#1a1a2e" stroke="rgba(45,212,191,0.4)" stroke-width="1"/>
+  <text x="676" y="355" text-anchor="middle" font-size="9" fill="#2dd4bf" font-family="sans-serif" font-weight="700">Empathize</text>
+  <rect x="634" y="362" width="84" height="5" rx="2" fill="#2dd4bf" opacity="0.25"/>
+  <line x1="718" y1="358" x2="730" y2="358" stroke="#2dd4bf" stroke-width="1.5"/>
+  <text x="724" y="354" font-size="8" fill="#2dd4bf" font-family="sans-serif">▶</text>
+  <rect x="730" y="332" width="84" height="52" rx="6" fill="#1a1a2e" stroke="rgba(167,139,250,0.4)" stroke-width="1"/>
+  <text x="772" y="355" text-anchor="middle" font-size="9" fill="#a78bfa" font-family="sans-serif" font-weight="700">Define</text>
+  <line x1="814" y1="358" x2="826" y2="358" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="820" y="354" font-size="8" fill="#a78bfa" font-family="sans-serif">▶</text>
+  <rect x="826" y="332" width="84" height="52" rx="6" fill="#1a1a2e" stroke="rgba(45,212,191,0.4)" stroke-width="1"/>
+  <text x="868" y="355" text-anchor="middle" font-size="9" fill="#2dd4bf" font-family="sans-serif" font-weight="700">Ideate</text>
+  <line x1="910" y1="358" x2="922" y2="358" stroke="#2dd4bf" stroke-width="1.5"/>
+  <text x="916" y="354" font-size="8" fill="#2dd4bf" font-family="sans-serif">▶</text>
+  <rect x="922" y="332" width="84" height="52" rx="6" fill="#1a1a2e" stroke="rgba(167,139,250,0.4)" stroke-width="1"/>
+  <text x="964" y="355" text-anchor="middle" font-size="9" fill="#a78bfa" font-family="sans-serif" font-weight="700">Prototype</text>
+  <line x1="1006" y1="358" x2="1018" y2="358" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="1012" y="354" font-size="8" fill="#a78bfa" font-family="sans-serif">▶</text>
+  <rect x="1018" y="332" width="84" height="52" rx="6" fill="#1a1a2e" stroke="rgba(45,212,191,0.4)" stroke-width="1"/>
+  <text x="1060" y="355" text-anchor="middle" font-size="9" fill="#2dd4bf" font-family="sans-serif" font-weight="700">Test</text>
+  <!-- Section B prompt tips -->
+  <text x="624" y="432" font-size="13" fill="#2dd4bf" font-family="sans-serif" font-weight="700">B. Tips Menulis Prompt Efektif</text>
+  <rect x="624" y="444" width="524" height="88" rx="6" fill="#0a0a0f" stroke="rgba(167,139,250,0.2)" stroke-width="1"/>
+  <rect x="624" y="444" width="524" height="22" rx="6" fill="rgba(167,139,250,0.12)"/>
+  <rect x="636" y="478" width="500" height="6" rx="3" fill="#4b5563" opacity="0.7"/>
+  <rect x="636" y="490" width="480" height="6" rx="3" fill="#4b5563" opacity="0.6"/>
+  <rect x="636" y="502" width="440" height="6" rx="3" fill="#4b5563" opacity="0.6"/>
+  <rect x="636" y="514" width="460" height="6" rx="3" fill="#4b5563" opacity="0.5"/>
+  <!-- Step list -->
+  <rect x="624" y="546" width="524" height="108" rx="6" fill="none" stroke="rgba(45,212,191,0.18)" stroke-width="1" stroke-dasharray="4,3"/>
+  <rect x="636" y="556" width="26" height="26" rx="5" fill="rgba(45,212,191,0.2)" stroke="rgba(45,212,191,0.5)" stroke-width="1"/>
+  <text x="649" y="573" text-anchor="middle" font-size="11" fill="#2dd4bf" font-family="sans-serif" font-weight="700">1</text>
+  <rect x="672" y="562" width="160" height="7" rx="3" fill="#e2e8f0" opacity="0.7"/>
+  <rect x="672" y="574" width="450" height="5" rx="2" fill="#4b5563" opacity="0.5"/>
+  <rect x="636" y="594" width="26" height="26" rx="5" fill="rgba(45,212,191,0.2)" stroke="rgba(45,212,191,0.5)" stroke-width="1"/>
+  <text x="649" y="611" text-anchor="middle" font-size="11" fill="#2dd4bf" font-family="sans-serif" font-weight="700">2</text>
+  <rect x="672" y="600" width="140" height="7" rx="3" fill="#e2e8f0" opacity="0.7"/>
+  <rect x="672" y="612" width="420" height="5" rx="2" fill="#4b5563" opacity="0.5"/>
+  <rect x="636" y="632" width="26" height="26" rx="5" fill="rgba(45,212,191,0.2)" stroke="rgba(45,212,191,0.5)" stroke-width="1"/>
+  <text x="649" y="649" text-anchor="middle" font-size="11" fill="#2dd4bf" font-family="sans-serif" font-weight="700">3</text>
+  <rect x="672" y="638" width="150" height="7" rx="3" fill="#e2e8f0" opacity="0.7"/>
+  <line x1="615" y1="706" x2="1162" y2="706" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+  <text x="624" y="720" font-size="9" fill="#475569" font-family="sans-serif">Bab 4 Prompt Engineering &amp; Design Thinking</text>
+  <text x="1155" y="720" text-anchor="end" font-size="9" fill="#475569" font-family="sans-serif">2</text>
+  <text x="600" y="776" text-anchor="middle" font-size="9" fill="#444" font-family="monospace">MOCKUP — BAB 4 : Prompt Engineering &amp; Design Thinking</text>
+</svg>

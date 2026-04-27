@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" width="1200" height="780">
+  <defs><style>.sk{stroke:#222;fill:none;stroke-width:2;}.fl{fill:#f0f0f0;stroke:#555;stroke-width:1.5;}.fm{fill:#d8d8d8;stroke:#666;stroke-width:1;}.fd{fill:#2e2e2e;}.lh{stroke:#bbb;fill:none;stroke-width:1.5;}.ds{stroke:#aaa;fill:none;stroke-dasharray:5,3;}</style></defs>
+  <rect width="1200" height="780" fill="#fff"/>
+  <rect x="6" y="6" width="1188" height="768" rx="3" class="sk" stroke-dasharray="8,4"/>
+  <text x="600" y="20" text-anchor="middle" font-size="10" fill="#aaa" font-family="monospace">WIREFRAME — BAB 2 : Algoritma &amp; Pemrograman Lanjut</text>
+  <rect x="20" y="26" width="1160" height="48" rx="0" class="fl"/>
+  <rect x="32" y="36" width="148" height="26" rx="13" class="sk"/>
+  <line x1="46" y1="49" x2="164" y2="49" class="lh"/>
+  <rect x="916" y="37" width="88" height="24" rx="12" class="sk"/>
+  <rect x="1014" y="37" width="88" height="24" rx="12" class="fd"/>
+  <rect x="20" y="82" width="1160" height="650" rx="8" class="fl"/>
+  <line x1="600" y1="82" x2="600" y2="732" stroke="#888" stroke-width="3"/>
+  <line x1="596" y1="82" x2="596" y2="732" stroke="#ccc" stroke-width="2"/>
+  <line x1="604" y1="82" x2="604" y2="732" stroke="#ccc" stroke-width="2"/>
+  <!-- LEFT COVER -->
+  <rect x="22" y="84" width="572" height="646" rx="6" fill="#e8e8e8" stroke="#666" stroke-width="1.5"/>
+  <rect x="190" y="100" width="216" height="20" rx="10" class="fm"/>
+  <rect x="150" y="138" width="296" height="82" rx="6" fill="#c8c8c8" stroke="#888" stroke-width="1.5"/>
+  <text x="298" y="194" text-anchor="middle" font-size="62" fill="#aaa" font-family="sans-serif" font-weight="900" opacity="0.35">2</text>
+  <line x1="148" y1="238" x2="448" y2="238" class="lh"/>
+  <line x1="180" y1="254" x2="416" y2="254" class="lh"/>
+  <circle cx="298" cy="420" r="128" fill="#d4d4d4" stroke="#777" stroke-width="2"/>
+  <circle cx="298" cy="420" r="106" class="ds"/>
+  <ellipse cx="298" cy="410" rx="42" ry="50" fill="#bbb" stroke="#999" stroke-width="1"/>
+  <circle cx="298" cy="368" r="28" fill="#c8c8c8" stroke="#999" stroke-width="1"/>
+  <!-- Laptop/screen shape inside (bab 2 = algoritma/coding) -->
+  <rect x="260" y="396" width="76" height="52" rx="4" fill="#c0c0c0" stroke="#999" stroke-width="1.5"/>
+  <line x1="268" y1="406" x2="328" y2="406" class="lh" stroke-width="1"/>
+  <line x1="268" y1="416" x2="320" y2="416" class="lh" stroke-width="1"/>
+  <line x1="268" y1="426" x2="310" y2="426" class="lh" stroke-width="1"/>
+  <line x1="226" y1="572" x2="370" y2="572" class="ds"/>
+  <line x1="36" y1="712" x2="582" y2="712" class="lh" stroke-width="1"/>
+  <line x1="36" y1="722" x2="220" y2="722" class="lh"/>
+  <line x1="554" y1="722" x2="582" y2="722" class="lh"/>
+  <!-- RIGHT CONTENT -->
+  <rect x="606" y="84" width="572" height="646" rx="6" fill="#f8f8f8" stroke="#666" stroke-width="1.5"/>
+  <circle cx="1138" cy="698" r="30" fill="#ddd" stroke="#888" stroke-width="1.5"/>
+  <circle cx="1138" cy="686" r="13" fill="#ccc" stroke="#aaa" stroke-width="1"/>
+  <rect x="622" y="100" width="240" height="16" rx="4" class="fm" stroke-width="0"/>
+  <line x1="622" y1="124" x2="1158" y2="124" class="lh" stroke-width="1"/>
+  <line x1="622" y1="140" x2="1148" y2="140" class="lh"/>
+  <line x1="622" y1="154" x2="1148" y2="154" class="lh"/>
+  <line x1="622" y1="168" x2="1060" y2="168" class="lh"/>
+  <line x1="622" y1="188" x2="1148" y2="188" class="lh"/>
+  <line x1="622" y1="202" x2="1090" y2="202" class="lh"/>
+  <!-- Flowchart diagram box (bab 2 = flowchart) -->
+  <rect x="622" y="224" width="510" height="200" rx="6" fill="#ececec" stroke="#888" stroke-width="1.5"/>
+  <rect x="730" y="240" width="130" height="30" rx="4" class="fm"/>
+  <line x1="795" y1="270" x2="795" y2="286" stroke="#aaa" stroke-width="1.5"/>
+  <rect x="730" y="286" width="130" height="30" rx="15" class="fm"/>
+  <line x1="795" y1="316" x2="795" y2="332" stroke="#aaa" stroke-width="1.5"/>
+  <rect x="750" y="332" width="90" height="30" fill="#d0d0d0" stroke="#aaa" stroke-width="1" transform="rotate(45 795 347)"/>
+  <line x1="730" y1="372" x2="695" y2="390" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="860" y1="372" x2="895" y2="390" stroke="#aaa" stroke-width="1.5"/>
+  <rect x="660" y="390" width="100" height="26" rx="4" class="fm"/>
+  <rect x="830" y="390" width="100" height="26" rx="4" class="fm"/>
+  <rect x="622" y="442" width="510" height="110" rx="6" class="ds"/>
+  <rect x="636" y="452" width="22" height="22" rx="4" class="fm"/>
+  <line x1="668" y1="460" x2="820" y2="460" class="lh"/>
+  <line x1="668" y1="472" x2="900" y2="472" class="lh" stroke-width="1"/>
+  <rect x="636" y="484" width="22" height="22" rx="4" class="fm"/>
+  <line x1="668" y1="492" x2="800" y2="492" class="lh"/>
+  <line x1="668" y1="504" x2="860" y2="504" class="lh" stroke-width="1"/>
+  <rect x="636" y="516" width="22" height="22" rx="4" class="fm"/>
+  <line x1="668" y1="524" x2="840" y2="524" class="lh"/>
+  <line x1="636" y1="568" x2="1148" y2="568" class="lh"/>
+  <line x1="636" y1="582" x2="1090" y2="582" class="lh"/>
+  <line x1="618" y1="712" x2="1158" y2="712" class="lh" stroke-width="1"/>
+  <line x1="618" y1="722" x2="820" y2="722" class="lh"/>
+  <line x1="1132" y1="722" x2="1158" y2="722" class="lh"/>
+  <path d="M 6 6 L 6 20 L 20 20" class="sk"/><path d="M 1194 6 L 1194 20 L 1180 20" class="sk"/>
+  <path d="M 6 774 L 6 760 L 20 760" class="sk"/><path d="M 1194 774 L 1194 760 L 1180 760" class="sk"/>
+</svg>
