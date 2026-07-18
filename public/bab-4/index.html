@@ -9,14 +9,15 @@
   <script defer src="https://unpkg.com/alpinejs@3/dist/cdn.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
     :root {
       --bg-dark: #0a0a0f;
       --card-bg: #12121a;
-      --accent-purple: #a78bfa;
-      --accent-teal: #2dd4bf;
+      --accent-yellow: #facc15;
+      --accent-red: #ef4444;
     }
 
     body { 
@@ -60,7 +61,7 @@
 
     .page.--hard { 
       background: linear-gradient(135deg, #0f172a, #12121a); 
-      border: 2px solid var(--accent-purple); 
+      border: 2px solid var(--accent-yellow); 
     }
     
     .mascot { 
@@ -75,7 +76,7 @@
       filter: drop-shadow(0 4px 15px rgba(0,0,0,0.5)); 
       border-radius: 50%; 
       border: 3px solid #12121a;
-      box-shadow: 0 0 15px rgba(45, 212, 191, 0.3);
+      box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.3);
       background-color: #1a1a2e;
     }
     
@@ -113,7 +114,7 @@
       transition: all 0.3s ease;
     }
     .topic-card:hover {
-      border-color: var(--accent-teal);
+      border-color: var(--accent-red);
       background: rgba(26, 26, 46, 0.8);
       transform: translateX(5px);
     }
@@ -131,17 +132,21 @@
           x-transition:leave-start="scale-100 opacity-100"
           x-transition:leave-end="scale-50 opacity-0"
           class="bg-[#1a1a2e] border-2 rounded-3xl p-8 text-center shadow-[0_0_60px_rgba(0,0,0,0.6)]"
-          :class="isFeedbackCorrect ? 'border-teal-400 shadow-teal-500/20' : 'border-red-400 shadow-red-500/20'">
+          :class="isFeedbackCorrect ? 'border-red-400 shadow-red-500/20' : 'border-red-400 shadow-red-500/20'">
         
         <template x-if="isFeedbackCorrect">
-           <div class="w-40 h-40 mx-auto mb-6 rounded-full border-4 border-teal-400 bg-cover bg-no-repeat" style="background-image: url('/assets/bab1_scene.png'); background-size: cover; background-position: center;"></div>
+           <div class="w-40 h-40 mx-auto drop-shadow-[0_10px_30px_rgba(255,255,255,0.1)] rounded-full border-4 border-[#12121a] flex items-center justify-center bg-gray-900 overflow-hidden">
+               <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_q5pk6p1k.json" background="transparent" speed="1" style="width: 150px; height: 150px;" loop autoplay></lottie-player>
+            </div>
         </template>
         <template x-if="!isFeedbackCorrect">
-           <div class="w-40 h-40 mx-auto mb-6 rounded-full border-4 border-red-400 bg-cover bg-no-repeat grayscale opacity-80" style="background-image: url('/assets/bab1_scene.png'); background-size: cover; background-position: center;"></div>
+           <div class="w-40 h-40 mx-auto drop-shadow-[0_10px_30px_rgba(255,255,255,0.1)] rounded-full border-4 border-[#12121a] flex items-center justify-center bg-gray-900 overflow-hidden">
+               <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_q5pk6p1k.json" background="transparent" speed="1" style="width: 150px; height: 150px;" loop autoplay></lottie-player>
+            </div>
         </template>
         
         <h3 class="text-3xl font-sora font-black mb-2" 
-            :class="isFeedbackCorrect ? 'text-teal-400' : 'text-red-400'"
+            :class="isFeedbackCorrect ? 'text-red-400' : 'text-red-400'"
             x-text="isFeedbackCorrect ? 'LUAR BIASA! 🎉' : 'COBA LAGI YUK! 😢'"></h3>
         <p class="text-gray-300 text-lg" x-text="isFeedbackCorrect ? 'Kamu memahami materi ini!' : 'Baca lagi materinya pelan-pelan ya!'"></p>
      </div>
@@ -149,9 +154,9 @@
 
   <!-- DETAIL MODAL -->
   <div x-show="showDetailModal" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md">
-     <div @click.away="showDetailModal = false" class="bg-[#1a1a2e] border border-teal-500/50 rounded-2xl w-[90%] max-w-[500px] max-h-[80vh] flex flex-col shadow-2xl">
-        <div class="p-4 border-b border-gray-700 flex justify-between items-center bg-teal-900/20 rounded-t-2xl">
-           <h3 class="font-bold text-teal-400">Review Soal</h3>
+     <div @click.away="showDetailModal = false" class="bg-[#1a1a2e] border border-red-500/50 rounded-2xl w-[90%] max-w-[500px] max-h-[80vh] flex flex-col shadow-2xl">
+        <div class="p-4 border-b border-gray-700 flex justify-between items-center bg-red-900/20 rounded-t-2xl">
+           <h3 class="font-bold text-red-400">Review Soal</h3>
            <button @click="showDetailModal = false" class="text-gray-400 hover:text-white font-bold text-xl">&times;</button>
         </div>
         <div class="p-6 overflow-y-auto">
@@ -161,10 +166,10 @@
                  <div class="space-y-3">
                     <template x-for="(opt, idx) in activeDetail.opts">
                        <button @click="jawabDariDetail(idx)" 
-                               :class="activeDetail.dijawab ? (idx === activeDetail.ans ? 'bg-teal-600 border-teal-400 text-white' : (idx === activeDetail.userAns ? 'bg-red-600 border-red-400 text-white' : 'opacity-50 border-gray-700')) : 'bg-gray-800 hover:bg-gray-700 border-gray-600'"
+                               :class="activeDetail.dijawab ? (idx === activeDetail.ans ? 'bg-red-600 border-red-400 text-white' : (idx === activeDetail.userAns ? 'bg-red-600 border-red-400 text-white' : 'opacity-50 border-gray-700')) : 'bg-gray-800 hover:bg-gray-700 border-gray-600'"
                                class="w-full text-left p-4 rounded-xl border transition flex gap-3 items-start"
                                :disabled="activeDetail.dijawab">
-                          <span class="font-bold text-teal-400 mt-0.5" x-text="['A','B','C','D','E'][idx] + '.'"></span>
+                          <span class="font-bold text-red-400 mt-0.5" x-text="['A','B','C','D','E'][idx] + '.'"></span>
                           <span class="text-sm text-gray-200" x-text="opt"></span>
                        </button>
                     </template>
@@ -177,13 +182,13 @@
 
   <!-- NAVIGATION -->
   <div class="w-full max-w-[900px] flex justify-between items-center mb-6 px-4 z-10">
-     <a href="/" class="text-purple-400 hover:text-purple-300 transition font-semibold flex items-center gap-2 bg-purple-900/20 px-4 py-2 rounded-full border border-purple-500/30 shadow-lg">
+     <a href="/" class="text-yellow-400 hover:text-yellow-300 transition font-semibold flex items-center gap-2 bg-yellow-900/20 px-4 py-2 rounded-full border border-yellow-500/30 shadow-lg">
        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
        Beranda
      </a>
      <div class="flex gap-4">
-       <button id="btn-prev" class="px-6 py-2.5 rounded-full bg-[#12121a] border border-gray-600 hover:border-purple-400 hover:text-purple-400 text-white text-sm font-bold transition shadow-xl hover:shadow-purple-500/10">← Prev</button>
-       <button id="btn-next" class="px-6 py-2.5 rounded-full bg-[#12121a] border border-gray-600 hover:border-teal-400 hover:text-teal-400 text-white text-sm font-bold transition shadow-xl hover:shadow-teal-500/10">Next →</button>
+       <button id="btn-prev" class="px-6 py-2.5 rounded-full bg-[#12121a] border border-gray-600 hover:border-yellow-400 hover:text-yellow-400 text-white text-sm font-bold transition shadow-xl hover:shadow-yellow-500/10">← Prev</button>
+       <button id="btn-next" class="px-6 py-2.5 rounded-full bg-[#12121a] border border-gray-600 hover:border-red-400 hover:text-red-400 text-white text-sm font-bold transition shadow-xl hover:shadow-red-500/10">Next →</button>
      </div>
   </div>
   
@@ -193,11 +198,11 @@
     <!-- HALAMAN 1: COVER -->
     <div class="page --hard">
       <div class="page-wrapper items-center justify-center text-center">
-        <div class="text-[10px] font-bold text-teal-400 mb-8 bg-teal-400/10 px-5 py-2 rounded-full border border-teal-400/20 tracking-widest uppercase">SMAN 1 PALEMBANG • KELAS X</div>
-        <h1 class="text-8xl font-sora font-black text-transparent bg-clip-text bg-gradient-to-br from-purple-400 to-teal-400 mb-6 drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)]">Bab 4</h1>
+        <div class="text-[10px] font-bold text-red-400 mb-8 bg-red-400/10 px-5 py-2 rounded-full border border-red-400/20 tracking-widest uppercase">SMAN 1 PALEMBANG • KELAS X</div>
+        <h1 class="text-8xl font-sora font-black text-transparent bg-clip-text bg-gradient-to-br from-yellow-400 to-red-400 mb-6 drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)]">Bab 4</h1>
         <h2 class="text-3xl font-sora font-bold text-gray-200 mb-12 max-w-[400px] leading-tight">Integrasi Prompt Engineering & Design Thinking</h2>
         
-        <div class="w-64 h-64 mx-auto drop-shadow-[0_10px_40px_rgba(167,139,250,0.2)] rounded-full border-4 border-[#12121a] bg-cover bg-center ring-4 ring-teal-500/20" style="background-image: url('/assets/bab1_scene.png');"></div>
+        <div class="w-64 h-64 mx-auto drop-shadow-[0_10px_40px_rgba(167,139,250,0.2)] rounded-full border-4 border-[#12121a] bg-cover bg-center ring-4 ring-red-500/20" style="background-image: url('/assets/bab1_scene.png');"></div>
         <p class="mt-12 text-xs font-bold text-gray-500 animate-pulse tracking-[0.2em] uppercase italic">Pecahkan Masalah dengan Kecerdasan Buatan</p>
       </div>
     </div>
@@ -206,7 +211,7 @@
     <div class="page --hard">
        <div class="page-wrapper items-center justify-center">
           <div class="w-48 h-48 bg-cover bg-center animate-bounce opacity-80" style="background-image: url('/assets/boy_sma.png');"></div>
-          <p class="text-purple-400 font-bold mt-8 tracking-widest uppercase text-xs">Ayo Mulai Belajar!</p>
+          <p class="text-yellow-400 font-bold mt-8 tracking-widest uppercase text-xs">Ayo Mulai Belajar!</p>
        </div>
     </div>
 
@@ -214,31 +219,31 @@
     <div class="page">
       <div class="page-wrapper">
         <div class="page-content animate-content">
-          <h2 class="text-2xl font-sora font-bold text-purple-400 mb-6 border-b-2 border-purple-500/20 pb-3 uppercase tracking-tighter">Tujuan Pembelajaran</h2>
+          <h2 class="text-2xl font-sora font-bold text-yellow-400 mb-6 border-b-2 border-yellow-500/20 pb-3 uppercase tracking-tighter">Tujuan Pembelajaran</h2>
           <div class="space-y-4 mb-10">
              <div class="flex gap-4 items-start">
-                <span class="w-7 h-7 bg-purple-500/20 text-purple-400 rounded-lg flex items-center justify-center text-xs font-black flex-shrink-0">01</span>
+                <span class="w-7 h-7 bg-yellow-500/20 text-yellow-400 rounded-lg flex items-center justify-center text-xs font-black flex-shrink-0">01</span>
                 <p class="text-[11px] text-gray-300 leading-relaxed text-justify">Memahami konsep dan tahapan <b>Design Thinking</b> dalam penyelesaian masalah nyata.</p>
              </div>
              <div class="flex gap-4 items-start">
-                <span class="w-7 h-7 bg-purple-500/20 text-purple-400 rounded-lg flex items-center justify-center text-xs font-black flex-shrink-0">02</span>
+                <span class="w-7 h-7 bg-yellow-500/20 text-yellow-400 rounded-lg flex items-center justify-center text-xs font-black flex-shrink-0">02</span>
                 <p class="text-[11px] text-gray-300 leading-relaxed text-justify">Menguasai teknik <b>Prompt Engineering</b> untuk memaksimalkan potensi Kecerdasan Artifisial (KA).</p>
              </div>
              <div class="flex gap-4 items-start">
-                <span class="w-7 h-7 bg-purple-500/20 text-purple-400 rounded-lg flex items-center justify-center text-xs font-black flex-shrink-0">03</span>
+                <span class="w-7 h-7 bg-yellow-500/20 text-yellow-400 rounded-lg flex items-center justify-center text-xs font-black flex-shrink-0">03</span>
                 <p class="text-[11px] text-gray-300 leading-relaxed text-justify">Mampu mengintegrasikan KA ke dalam proses desain untuk menciptakan solusi inovatif.</p>
              </div>
           </div>
           
-          <h3 class="text-sm font-sora font-bold text-teal-400 mb-3 uppercase tracking-widest">Kata Kunci</h3>
+          <h3 class="text-sm font-sora font-bold text-red-400 mb-3 uppercase tracking-widest">Kata Kunci</h3>
           <div class="flex flex-wrap gap-2 mb-10">
-             <span class="bg-teal-900/20 text-teal-300 text-[10px] px-3 py-1.5 rounded-lg border border-teal-500/30 font-bold">Design Thinking</span>
-             <span class="bg-teal-900/20 text-teal-300 text-[10px] px-3 py-1.5 rounded-lg border border-teal-500/30 font-bold">Prompting</span>
-             <span class="bg-teal-900/20 text-teal-300 text-[10px] px-3 py-1.5 rounded-lg border border-teal-500/30 font-bold">Empathy</span>
-             <span class="bg-teal-900/20 text-teal-300 text-[10px] px-3 py-1.5 rounded-lg border border-teal-500/30 font-bold">Prototype</span>
+             <span class="bg-red-900/20 text-red-300 text-[10px] px-3 py-1.5 rounded-lg border border-red-500/30 font-bold">Design Thinking</span>
+             <span class="bg-red-900/20 text-red-300 text-[10px] px-3 py-1.5 rounded-lg border border-red-500/30 font-bold">Prompting</span>
+             <span class="bg-red-900/20 text-red-300 text-[10px] px-3 py-1.5 rounded-lg border border-red-500/30 font-bold">Empathy</span>
+             <span class="bg-red-900/20 text-red-300 text-[10px] px-3 py-1.5 rounded-lg border border-red-500/30 font-bold">Prototype</span>
           </div>
 
-          <h3 class="text-md font-sora font-bold text-purple-400 mb-4 border-b-2 border-purple-500/20 pb-2">Apersepsi</h3>
+          <h3 class="text-md font-sora font-bold text-yellow-400 mb-4 border-b-2 border-yellow-500/20 pb-2">Apersepsi</h3>
           <p class="text-[12px] text-gray-300 leading-relaxed text-justify italic">"Pernahkah kamu menghadapi masalah yang sulit dipecahkan? Kadang kita bingung harus mulai dari mana. Dengan Design Thinking, kita belajar berpikir sistematis, dan dengan Prompt Engineering, kita punya asisten cerdas bernama AI untuk membantu mewujudkan ide kita."</p>
         </div>
         <div class="page-footer"><span>Bab 4: Prompt & Design Thinking</span><span>1</span></div>
@@ -249,13 +254,13 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-xl font-sora font-bold text-teal-400 mb-6 border-l-4 border-teal-500 pl-4 uppercase">A. Pengenalan Design Thinking</h2>
+             <h2 class="text-xl font-sora font-bold text-red-400 mb-6 border-l-4 border-red-500 pl-4 uppercase">A. Pengenalan Design Thinking</h2>
              <p class="text-[12px] text-gray-200 mb-6 leading-relaxed text-justify">
                 <strong>Design Thinking</strong> adalah pendekatan inovasi yang berpusat pada manusia (<i>human-centered</i>) untuk menyelesaikan masalah yang kompleks.
              </p>
              
-             <div class="bg-teal-900/10 p-6 rounded-2xl border border-teal-500/20 shadow-inner">
-                <h4 class="text-xs font-bold text-teal-400 mb-4 uppercase tracking-[0.2em]">Fokus Utama:</h4>
+             <div class="bg-red-900/10 p-6 rounded-2xl border border-red-500/20 shadow-inner">
+                <h4 class="text-xs font-bold text-red-400 mb-4 uppercase tracking-[0.2em]">Fokus Utama:</h4>
                 <div class="space-y-4">
                    <div class="flex gap-4">
                       <div class="text-2xl">👤</div>
@@ -282,18 +287,18 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-md font-bold text-purple-400 mb-6 uppercase tracking-widest">Elemen Penting</h3>
+             <h3 class="text-md font-bold text-yellow-400 mb-6 uppercase tracking-widest">Elemen Penting</h3>
              
              <div class="space-y-4">
-                <div class="topic-card border-l-4 border-purple-500">
+                <div class="topic-card border-l-4 border-yellow-500">
                    <h4 class="text-xs font-bold text-white mb-1">Iterative (Berulang)</h4>
                    <p class="text-[9px] text-gray-400">Proses ini tidak sekali jadi. Kita terus menguji dan memperbaiki solusi sampai benar-benar tepat.</p>
                 </div>
-                <div class="topic-card border-l-4 border-purple-500">
+                <div class="topic-card border-l-4 border-yellow-500">
                    <h4 class="text-xs font-bold text-white mb-1">Collaborative (Kerja Sama)</h4>
                    <p class="text-[9px] text-gray-400">Melibatkan berbagai sudut pandang tim untuk menghasilkan solusi yang paling inovatif.</p>
                 </div>
-                <div class="topic-card border-l-4 border-purple-500">
+                <div class="topic-card border-l-4 border-yellow-500">
                    <h4 class="text-xs font-bold text-white mb-1">Prototype Driven</h4>
                    <p class="text-[9px] text-gray-400">Lebih baik menunjukkan prototipe daripada sekadar menjelaskan ide dalam kata-kata.</p>
                 </div>
@@ -311,15 +316,15 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-xl font-sora font-bold text-teal-400 mb-8 text-center uppercase tracking-tighter">5 Tahapan Design Thinking</h2>
+             <h2 class="text-xl font-sora font-bold text-red-400 mb-8 text-center uppercase tracking-tighter">5 Tahapan Design Thinking</h2>
              
              <div class="flex flex-col items-center gap-2">
                 <div class="w-full flex justify-between items-center px-4">
-                   <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-xs font-black shadow-[0_0_15px_rgba(167,139,250,0.5)]">1</div>
+                   <div class="w-12 h-12 bg-yellow-600 rounded-full flex items-center justify-center text-xs font-black shadow-[0_0_15px_rgba(167,139,250,0.5)]">1</div>
                    <div class="flex-grow h-0.5 bg-gray-700"></div>
-                   <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-xs font-black shadow-[0_0_15px_rgba(167,139,250,0.5)]">2</div>
+                   <div class="w-12 h-12 bg-yellow-600 rounded-full flex items-center justify-center text-xs font-black shadow-[0_0_15px_rgba(167,139,250,0.5)]">2</div>
                    <div class="flex-grow h-0.5 bg-gray-700"></div>
-                   <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-xs font-black shadow-[0_0_15px_rgba(167,139,250,0.5)]">3</div>
+                   <div class="w-12 h-12 bg-yellow-600 rounded-full flex items-center justify-center text-xs font-black shadow-[0_0_15px_rgba(167,139,250,0.5)]">3</div>
                 </div>
                 <div class="w-full flex justify-between text-[8px] font-bold text-gray-400 uppercase tracking-tighter px-2">
                    <span>Empathize</span>
@@ -328,9 +333,9 @@
                 </div>
                 
                 <div class="w-[60%] flex justify-between items-center mt-6">
-                   <div class="w-12 h-12 bg-teal-600 rounded-full flex items-center justify-center text-xs font-black shadow-[0_0_15px_rgba(45,212,191,0.5)]">4</div>
+                   <div class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center text-xs font-black shadow-[0_0_15px_rgba(var(--primary-rgb),0.5)]">4</div>
                    <div class="flex-grow h-0.5 bg-gray-700"></div>
-                   <div class="w-12 h-12 bg-teal-600 rounded-full flex items-center justify-center text-xs font-black shadow-[0_0_15px_rgba(45,212,191,0.5)]">5</div>
+                   <div class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center text-xs font-black shadow-[0_0_15px_rgba(var(--primary-rgb),0.5)]">5</div>
                 </div>
                 <div class="w-[60%] flex justify-between text-[8px] font-bold text-gray-400 uppercase tracking-tighter">
                    <span>Prototype</span>
@@ -350,13 +355,13 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-md font-bold text-purple-400 mb-6 uppercase tracking-widest border-b border-purple-500/30 pb-2">Tahap 1: Empathize</h3>
+             <h3 class="text-md font-bold text-yellow-400 mb-6 uppercase tracking-widest border-b border-yellow-500/30 pb-2">Tahap 1: Empathize</h3>
              <p class="text-[11px] mb-6 text-gray-300 leading-relaxed text-justify">
                 Membangun empati terhadap pengguna untuk memahami kebutuhan, keluhan, dan harapan mereka secara mendalam.
              </p>
              
              <div class="bg-[#1a1a2e] p-5 rounded-2xl border border-gray-700 mb-6">
-                <h4 class="text-xs font-bold text-teal-400 mb-3 uppercase">Cara Melakukan:</h4>
+                <h4 class="text-xs font-bold text-red-400 mb-3 uppercase">Cara Melakukan:</h4>
                 <ul class="text-[10px] text-gray-400 space-y-3">
                    <li><b class="text-white">Observasi:</b> Amati bagaimana pengguna berinteraksi dengan masalah.</li>
                    <li><b class="text-white">Wawancara:</b> Tanya langsung apa yang mereka rasakan.</li>
@@ -374,12 +379,12 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-md font-bold text-purple-400 mb-6 uppercase tracking-widest border-b border-purple-500/30 pb-2">Tahap 2: Define</h3>
+             <h3 class="text-md font-bold text-yellow-400 mb-6 uppercase tracking-widest border-b border-yellow-500/30 pb-2">Tahap 2: Define</h3>
              <p class="text-[11px] mb-6 text-gray-300 leading-relaxed text-justify">
                 Menyusun semua informasi hasil empati untuk merumuskan <strong>Pernyataan Masalah</strong> yang jelas dan ringkas.
              </p>
              
-             <div class="topic-card bg-purple-900/10">
+             <div class="topic-card bg-yellow-900/10">
                 <h4 class="text-xs font-bold text-white mb-2 uppercase">Proses:</h4>
                 <ol class="list-decimal pl-5 text-[9px] text-gray-400 space-y-2">
                    <li>Kumpulkan hasil wawancara.</li>
@@ -388,7 +393,7 @@
                 </ol>
              </div>
              
-             <div class="mt-8 p-4 bg-teal-900/20 rounded-xl border border-teal-500/20">
+             <div class="mt-8 p-4 bg-red-900/20 rounded-xl border border-red-500/20">
                 <p class="text-[10px] text-gray-200"><b>Problem Statement:</b> "Siswa SMA kesulitan memahami aljabar karena materi terasa abstrak dan tidak ada kaitannya dengan kehidupan sehari-hari."</p>
              </div>
           </div>
@@ -400,7 +405,7 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-md font-bold text-purple-400 mb-6 uppercase tracking-widest border-b border-purple-500/30 pb-2">Tahap 3: Ideate</h3>
+             <h3 class="text-md font-bold text-yellow-400 mb-6 uppercase tracking-widest border-b border-yellow-500/30 pb-2">Tahap 3: Ideate</h3>
              <p class="text-[11px] mb-6 text-gray-300 leading-relaxed text-justify">
                 Waktunya mengeluarkan semua ide kreatif! Jangan takut ide terdengar aneh, karena dari sana inovasi muncul.
              </p>
@@ -428,12 +433,12 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-md font-bold text-teal-400 mb-6 uppercase tracking-widest border-b border-teal-500/30 pb-2">Tahap 4: Prototype</h3>
+             <h3 class="text-md font-bold text-red-400 mb-6 uppercase tracking-widest border-b border-red-500/30 pb-2">Tahap 4: Prototype</h3>
              <p class="text-[11px] mb-6 text-gray-300 leading-relaxed text-justify">
                 Mewujudkan ide ke dalam bentuk fisik atau digital yang bisa diuji coba secara nyata.
              </p>
              
-             <div class="topic-card border-l-4 border-teal-500">
+             <div class="topic-card border-l-4 border-red-500">
                 <h4 class="text-xs font-bold text-white mb-2">Contoh 1: Video Mini Drama</h4>
                 <ul class="text-[9px] text-gray-400 list-disc pl-5 space-y-1">
                    <li>Tulis naskah pendek (2-3 menit).</li>
@@ -451,17 +456,17 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <div class="topic-card border-l-4 border-purple-500 mt-4">
+             <div class="topic-card border-l-4 border-yellow-500 mt-4">
                 <h4 class="text-xs font-bold text-white mb-2">Contoh 2: Kartu Permainan</h4>
                 <p class="text-[9px] text-gray-400 mb-2">Membuat kartu "Timbangan Aljabar" untuk memvisualisasikan persamaan matematika.</p>
                 <div class="flex gap-2">
-                   <span class="bg-purple-900/30 text-[8px] px-2 py-1 rounded border border-purple-500/20">Kartu Persamaan</span>
-                   <span class="bg-purple-900/30 text-[8px] px-2 py-1 rounded border border-purple-500/20">Papan Timbangan</span>
-                   <span class="bg-purple-900/30 text-[8px] px-2 py-1 rounded border border-purple-500/20">Kartu Variabel X</span>
+                   <span class="bg-yellow-900/30 text-[8px] px-2 py-1 rounded border border-yellow-500/20">Kartu Persamaan</span>
+                   <span class="bg-yellow-900/30 text-[8px] px-2 py-1 rounded border border-yellow-500/20">Papan Timbangan</span>
+                   <span class="bg-yellow-900/30 text-[8px] px-2 py-1 rounded border border-yellow-500/20">Kartu Variabel X</span>
                 </div>
              </div>
              
-             <div class="mt-12 bg-teal-900/10 p-5 rounded-2xl border border-teal-500/20">
+             <div class="mt-12 bg-red-900/10 p-5 rounded-2xl border border-red-500/20">
                 <p class="text-[10px] text-gray-300"><b>Tujuan Prototipe:</b> Bukan membuat produk sempurna, tapi membuat sesuatu yang cukup bagus untuk DIUJI COBA.</p>
              </div>
           </div>
@@ -473,10 +478,10 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <div class="topic-card border-l-4 border-teal-500 mt-4">
+             <div class="topic-card border-l-4 border-red-500 mt-4">
                 <h4 class="text-xs font-bold text-white mb-2">Contoh 3: Program Python</h4>
                 <p class="text-[9px] text-gray-400 mb-3">Membuat simulasi timbangan aljabar dengan kode program sederhana.</p>
-                <div class="bg-black/50 p-4 rounded-lg font-mono text-[8px] text-teal-300 border border-gray-700">
+                <div class="bg-black/50 p-4 rounded-lg font-mono text-[8px] text-red-300 border border-gray-700">
                    if sisi_kiri == sisi_kanan:<br>
                    &nbsp;&nbsp;print("Timbangan Seimbang!")<br>
                    elif sisi_kiri > sisi_kanan:<br>
@@ -494,17 +499,17 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-md font-bold text-teal-400 mb-6 uppercase tracking-widest border-b border-teal-500/30 pb-2">Tahap 5: Test</h3>
+             <h3 class="text-md font-bold text-red-400 mb-6 uppercase tracking-widest border-b border-red-500/30 pb-2">Tahap 5: Test</h3>
              <p class="text-[11px] mb-8 text-gray-300 leading-relaxed text-justify">
                 Tahap terakhir untuk menguji prototipe dengan pengguna nyata agar mendapatkan umpan balik (<i>feedback</i>).
              </p>
              
              <div class="bg-[#1a1a2e] p-6 rounded-2xl border border-gray-700">
-                <h4 class="text-xs font-bold text-purple-400 mb-4 uppercase">Daftar Pertanyaan Evaluasi:</h4>
+                <h4 class="text-xs font-bold text-yellow-400 mb-4 uppercase">Daftar Pertanyaan Evaluasi:</h4>
                 <ul class="text-[10px] text-gray-400 space-y-4">
-                   <li class="flex gap-3"><span class="text-teal-400">❓</span> "Apakah solusi ini mudah dipahami?"</li>
-                   <li class="flex gap-3"><span class="text-teal-400">❓</span> "Bagian mana yang paling membantumu?"</li>
-                   <li class="flex gap-3"><span class="text-teal-400">❓</span> "Apa saranmu agar solusi ini lebih baik?"</li>
+                   <li class="flex gap-3"><span class="text-red-400">❓</span> "Apakah solusi ini mudah dipahami?"</li>
+                   <li class="flex gap-3"><span class="text-red-400">❓</span> "Bagian mana yang paling membantumu?"</li>
+                   <li class="flex gap-3"><span class="text-red-400">❓</span> "Apa saranmu agar solusi ini lebih baik?"</li>
                 </ul>
              </div>
              
@@ -518,18 +523,18 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-xl font-sora font-bold text-purple-400 mb-6 border-l-4 border-purple-500 pl-4 uppercase">B. Prompt Engineering</h2>
+             <h2 class="text-xl font-sora font-bold text-yellow-400 mb-6 border-l-4 border-yellow-500 pl-4 uppercase">B. Prompt Engineering</h2>
              <p class="text-[11px] mb-8 text-gray-300 leading-relaxed text-justify">
                 <strong>Prompt Engineering</strong> adalah seni menyusun instruksi yang tepat agar Kecerdasan Artifisial (KA) memberikan hasil yang sesuai harapan kita.
              </p>
              
-             <div class="topic-card border-dashed border-2 border-teal-500/30">
+             <div class="topic-card border-dashed border-2 border-red-500/30">
                 <h4 class="text-xs font-bold text-white mb-4 uppercase">Rumus Prompt Bagus:</h4>
                 <div class="flex flex-col gap-3">
-                   <div class="bg-teal-900/20 p-2 rounded text-[10px]"><b class="text-teal-400">Peran:</b> "Kamu adalah seorang guru sejarah..."</div>
-                   <div class="bg-teal-900/20 p-2 rounded text-[10px]"><b class="text-teal-400">Tugas:</b> "...jelaskan tentang Revolusi Prancis..."</div>
-                   <div class="bg-teal-900/20 p-2 rounded text-[10px]"><b class="text-teal-400">Audiens:</b> "...untuk anak kelas X SMA..."</div>
-                   <div class="bg-teal-900/20 p-2 rounded text-[10px]"><b class="text-teal-400">Gaya:</b> "...dengan bahasa yang santai."</div>
+                   <div class="bg-red-900/20 p-2 rounded text-[10px]"><b class="text-red-400">Peran:</b> "Kamu adalah seorang guru sejarah..."</div>
+                   <div class="bg-red-900/20 p-2 rounded text-[10px]"><b class="text-red-400">Tugas:</b> "...jelaskan tentang Revolusi Prancis..."</div>
+                   <div class="bg-red-900/20 p-2 rounded text-[10px]"><b class="text-red-400">Audiens:</b> "...untuk anak kelas X SMA..."</div>
+                   <div class="bg-red-900/20 p-2 rounded text-[10px]"><b class="text-red-400">Gaya:</b> "...dengan bahasa yang santai."</div>
                 </div>
              </div>
           </div>
@@ -541,7 +546,7 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-md font-bold text-teal-400 mb-6 uppercase tracking-widest">Teknik Prompting</h3>
+             <h3 class="text-md font-bold text-red-400 mb-6 uppercase tracking-widest">Teknik Prompting</h3>
              
              <div class="space-y-6">
                 <div class="bg-[#1a1a2e] p-4 rounded-xl border border-gray-700">
@@ -567,7 +572,7 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <div class="bg-[#1a1a2e] p-4 rounded-xl border border-purple-500/30 mt-4">
+             <div class="bg-[#1a1a2e] p-4 rounded-xl border border-yellow-500/30 mt-4">
                 <h4 class="text-xs font-bold text-white mb-2 uppercase">3. Chain-of-Thought (CoT)</h4>
                 <p class="text-[10px] text-gray-400 mb-3 italic">"Meminta AI berpikir langkah demi langkah."</p>
                 <p class="text-[9px] bg-black/40 p-2 rounded text-gray-300 leading-relaxed mb-4">
@@ -575,7 +580,7 @@
                 </p>
              </div>
              
-             <div class="mt-12 bg-teal-900/10 p-6 rounded-2xl border border-teal-500/20 text-center">
+             <div class="mt-12 bg-red-900/10 p-6 rounded-2xl border border-red-500/20 text-center">
                 <p class="text-[11px] text-gray-200 font-bold mb-2 uppercase tracking-widest">Hasil Maksimal:</p>
                 <p class="text-[10px] text-gray-400">Semakin spesifik instruksimu, semakin akurat jawaban AI-nya!</p>
              </div>
@@ -588,7 +593,7 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-xl font-sora font-bold text-teal-400 mb-6 border-l-4 border-teal-500 pl-4 uppercase">C. Integrasi Strategis</h2>
+             <h2 class="text-xl font-sora font-bold text-red-400 mb-6 border-l-4 border-red-500 pl-4 uppercase">C. Integrasi Strategis</h2>
              <p class="text-[12px] text-gray-200 mb-8 leading-relaxed text-justify">
                 Bagaimana kita menggabungkan keduanya? Kita menggunakan <b>Design Thinking</b> untuk merancang APA yang dibutuhkan, dan <b>Prompt Engineering</b> untuk MENGHASILKANNYA melalui AI.
              </p>
@@ -616,7 +621,7 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-md font-bold text-purple-400 mb-6 uppercase tracking-widest text-center">Proyek 1: Puisi Digital</h3>
+             <h3 class="text-md font-bold text-yellow-400 mb-6 uppercase tracking-widest text-center">Proyek 1: Puisi Digital</h3>
              
              <div class="space-y-4">
                 <div class="topic-card">
@@ -638,10 +643,10 @@
        <div class="page-wrapper">
           <div class="page-content animate-content">
              <div class="space-y-4 mt-4">
-                <div class="topic-card border-dashed border-2 border-teal-500/30">
-                   <h4 class="text-xs font-bold text-teal-400 mb-2">3. Ideate & Prompting</h4>
+                <div class="topic-card border-dashed border-2 border-red-500/30">
+                   <h4 class="text-xs font-bold text-red-400 mb-2">3. Ideate & Prompting</h4>
                    <p class="text-[9px] text-gray-400 mb-2">Buat prompt terstruktur untuk AI:</p>
-                   <p class="text-[8px] bg-black/40 p-2 rounded text-teal-300 italic">"Buatkan puisi 4 bait dari sudut pandang anak desa tentang impian punya perpustakaan, gunakan bahasa sederhana dan puitis."</p>
+                   <p class="text-[8px] bg-black/40 p-2 rounded text-red-300 italic">"Buatkan puisi 4 bait dari sudut pandang anak desa tentang impian punya perpustakaan, gunakan bahasa sederhana dan puitis."</p>
                 </div>
                 <div class="topic-card">
                    <h4 class="text-xs font-bold text-white mb-2">4. Prototype & Test</h4>
@@ -657,7 +662,7 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-xl font-sora font-bold text-teal-400 mb-6 border-l-4 border-teal-500 pl-4 uppercase">D. Merancang Sistem KA</h2>
+             <h2 class="text-xl font-sora font-bold text-red-400 mb-6 border-l-4 border-red-500 pl-4 uppercase">D. Merancang Sistem KA</h2>
              <p class="text-[11px] mb-6 text-gray-300 leading-relaxed text-justify">
                 Merancang sistem berarti membangun alur logika bagaimana AI akan membantu manusia menyelesaikan masalahnya.
              </p>
@@ -679,11 +684,11 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-md font-bold text-purple-400 mb-6 uppercase tracking-widest text-center">Proyek 2: Membuat Chatbot</h3>
+             <h3 class="text-md font-bold text-yellow-400 mb-6 uppercase tracking-widest text-center">Proyek 2: Membuat Chatbot</h3>
              <p class="text-[10px] text-gray-400 mb-6 text-center">Kita akan menggunakan Google AI Studio dan Python untuk membuat asisten cerdas.</p>
              
              <div class="bg-[#1a1a2e] p-5 rounded-2xl border border-gray-700">
-                <h4 class="text-xs font-bold text-teal-400 mb-3 uppercase">Langkah 1: API Key</h4>
+                <h4 class="text-xs font-bold text-red-400 mb-3 uppercase">Langkah 1: API Key</h4>
                 <ul class="text-[9px] text-gray-400 space-y-3">
                    <li>1. Buka <b>aistudio.google.com</b>.</li>
                    <li>2. Klik <b>Get API Key</b>.</li>
@@ -700,8 +705,8 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h4 class="text-xs font-bold text-teal-400 mb-3 uppercase mt-4">Langkah 2: Google Colab</h4>
-             <div class="bg-black/50 p-4 rounded-xl border border-gray-700 font-mono text-[8px] text-teal-300 leading-relaxed overflow-x-auto">
+             <h4 class="text-xs font-bold text-red-400 mb-3 uppercase mt-4">Langkah 2: Google Colab</h4>
+             <div class="bg-black/50 p-4 rounded-xl border border-gray-700 font-mono text-[8px] text-red-300 leading-relaxed overflow-x-auto">
                 !pip install google-generativeai<br><br>
                 import google.generativeai as genai<br>
                 genai.configure(api_key="ISI_API_KEY_KAMU")<br><br>
@@ -710,7 +715,7 @@
                 print(response.text)
              </div>
              
-             <div class="mt-10 bg-purple-900/10 p-4 rounded-xl border border-purple-500/20 text-center">
+             <div class="mt-10 bg-yellow-900/10 p-4 rounded-xl border border-yellow-500/20 text-center">
                 <p class="text-[10px] text-gray-300 font-bold uppercase tracking-widest">Selamat! Chatbot kamu sudah hidup!</p>
              </div>
           </div>
@@ -777,13 +782,13 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-2xl font-sora font-bold text-teal-400 mb-6 border-b-2 border-teal-500/20 pb-3 uppercase tracking-tighter">Rangkuman</h2>
+             <h2 class="text-2xl font-sora font-bold text-red-400 mb-6 border-b-2 border-red-500/20 pb-3 uppercase tracking-tighter">Rangkuman</h2>
              <div class="space-y-4 bg-[#1a1a2e] p-6 rounded-2xl border border-gray-700 shadow-xl">
-                <p class="text-[11px] text-gray-300 leading-relaxed"><span class="text-teal-400 font-black">●</span> Design Thinking fokus pada EMPATI manusia untuk mencari solusi.</p>
-                <p class="text-[11px] text-gray-300 leading-relaxed"><span class="text-teal-400 font-black">●</span> 5 Tahap: Empathize, Define, Ideate, Prototype, Test.</p>
-                <p class="text-[11px] text-gray-300 leading-relaxed"><span class="text-teal-400 font-black">●</span> Prompt Engineering adalah cara kita memberi instruksi pada AI.</p>
-                <p class="text-[11px] text-gray-300 leading-relaxed"><span class="text-teal-400 font-black">●</span> Integrasi keduanya mempercepat proses inovasi dan pembuatan produk digital.</p>
-                <p class="text-[11px] text-gray-300 leading-relaxed"><span class="text-teal-400 font-black">●</span> AI hanyalah alat; kreativitas dan etika tetap ada pada MANUSIA.</p>
+                <p class="text-[11px] text-gray-300 leading-relaxed"><span class="text-red-400 font-black">●</span> Design Thinking fokus pada EMPATI manusia untuk mencari solusi.</p>
+                <p class="text-[11px] text-gray-300 leading-relaxed"><span class="text-red-400 font-black">●</span> 5 Tahap: Empathize, Define, Ideate, Prototype, Test.</p>
+                <p class="text-[11px] text-gray-300 leading-relaxed"><span class="text-red-400 font-black">●</span> Prompt Engineering adalah cara kita memberi instruksi pada AI.</p>
+                <p class="text-[11px] text-gray-300 leading-relaxed"><span class="text-red-400 font-black">●</span> Integrasi keduanya mempercepat proses inovasi dan pembuatan produk digital.</p>
+                <p class="text-[11px] text-gray-300 leading-relaxed"><span class="text-red-400 font-black">●</span> AI hanyalah alat; kreativitas dan etika tetap ada pada MANUSIA.</p>
              </div>
           </div>
           <div class="page-footer"><span>Bab 4: Prompt & Design Thinking</span><span>23</span></div>
@@ -795,19 +800,19 @@
        <div class="page-wrapper">
           <div class="page-content animate-content relative">
              <div class="flex justify-between items-end mb-6 border-b border-gray-700 pb-3">
-                <h2 class="text-xl font-sora font-bold text-purple-400 uppercase tracking-widest">Latihan</h2>
-                <div class="text-[11px] font-bold px-3 py-1.5 bg-purple-900/30 rounded-full border border-purple-500/50">Skor: <span x-text="latihanScore" class="text-purple-400"></span></div>
+                <h2 class="text-xl font-sora font-bold text-yellow-400 uppercase tracking-widest">Latihan</h2>
+                <div class="text-[11px] font-bold px-3 py-1.5 bg-yellow-900/30 rounded-full border border-yellow-500/50">Skor: <span x-text="latihanScore" class="text-yellow-400"></span></div>
              </div>
              
              <div class="space-y-4">
                 <template x-for="(soal, index) in latihan">
                    <div class="bg-gray-800/30 p-4 rounded-xl border border-gray-700/50">
-                      <p class="text-[11px] font-medium mb-3 leading-snug text-gray-200 cursor-pointer hover:text-purple-300 transition" @click.stop="openDetail('latihan', index)" x-html="(index+1) + '. ' + soal.q"></p>
+                      <p class="text-[11px] font-medium mb-3 leading-snug text-gray-200 cursor-pointer hover:text-yellow-300 transition" @click.stop="openDetail('latihan', index)" x-html="(index+1) + '. ' + soal.q"></p>
                       <div class="grid grid-cols-1 gap-2">
                          <template x-for="(opt, oidx) in soal.opts">
                             <button @click="jawabLatihan(index, oidx)" 
                                     :class="getBtnClass(index, oidx, 'latihan')"
-                                    class="text-[10px] text-left p-2.5 rounded-lg border border-gray-600 hover:border-purple-400 transition"
+                                    class="text-[10px] text-left p-2.5 rounded-lg border border-gray-600 hover:border-yellow-400 transition"
                                     :disabled="soal.dijawab">
                                <span class="font-bold text-gray-400 mr-2" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
                                <span x-text="opt"></span>
@@ -818,9 +823,9 @@
                 </template>
              </div>
              
-             <div x-show="latihanSelesai" x-transition class="absolute inset-0 bg-[#12121a]/95 backdrop-blur flex flex-col items-center justify-center rounded-3xl border-4 border-purple-500 z-10 shadow-2xl">
+             <div x-show="latihanSelesai" x-transition class="absolute inset-0 bg-[#12121a]/95 backdrop-blur flex flex-col items-center justify-center rounded-3xl border-4 border-yellow-500 z-10 shadow-2xl">
                 <div class="text-6xl mb-4">💡</div>
-                <h3 class="font-black font-sora text-purple-400 mb-2 text-2xl uppercase">Latihan Tuntas!</h3>
+                <h3 class="font-black font-sora text-yellow-400 mb-2 text-2xl uppercase">Latihan Tuntas!</h3>
                 <p class="text-7xl font-black text-white" x-text="latihanScore"></p>
                 <p class="text-xs mt-8 text-gray-400">Lanjut ke halaman berikutnya untuk Ujian Akhir Bab</p>
              </div>
@@ -834,19 +839,19 @@
        <div class="page-wrapper">
           <div class="page-content animate-content relative">
              <div class="flex justify-between items-end mb-6 border-b border-gray-700 pb-3">
-                <h2 class="text-xl font-sora font-bold text-teal-400 uppercase tracking-widest">Ujian Kompetensi</h2>
-                <div class="text-[11px] font-bold px-3 py-1.5 bg-teal-900/30 rounded-full border border-teal-500/50">Skor: <span x-text="ujianScore" class="text-teal-400"></span></div>
+                <h2 class="text-xl font-sora font-bold text-red-400 uppercase tracking-widest">Ujian Kompetensi</h2>
+                <div class="text-[11px] font-bold px-3 py-1.5 bg-red-900/30 rounded-full border border-red-500/50">Skor: <span x-text="ujianScore" class="text-red-400"></span></div>
              </div>
              
              <div class="space-y-4">
                 <template x-for="(soal, index) in ujian">
                    <div class="bg-gray-800/30 p-4 rounded-xl border border-gray-700/50">
-                      <p class="text-[11px] font-medium mb-3 leading-snug text-gray-200 cursor-pointer hover:text-teal-300 transition" @click.stop="openDetail('ujian', index)" x-html="(index+1) + '. ' + soal.q"></p>
+                      <p class="text-[11px] font-medium mb-3 leading-snug text-gray-200 cursor-pointer hover:text-red-300 transition" @click.stop="openDetail('ujian', index)" x-html="(index+1) + '. ' + soal.q"></p>
                       <div class="grid grid-cols-1 gap-2">
                          <template x-for="(opt, oidx) in soal.opts">
                             <button @click="jawabUjian(index, oidx)" 
                                     :class="getBtnClass(index, oidx, 'ujian')"
-                                    class="text-[10px] text-left p-2.5 rounded-lg border border-gray-600 hover:border-teal-400 transition"
+                                    class="text-[10px] text-left p-2.5 rounded-lg border border-gray-600 hover:border-red-400 transition"
                                     :disabled="soal.dijawab">
                                <span class="font-bold text-gray-400 mr-2" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
                                <span x-text="opt"></span>
@@ -857,9 +862,9 @@
                 </template>
              </div>
              
-             <div x-show="ujianSelesai" x-transition class="absolute inset-0 bg-[#0a0a0f]/98 backdrop-blur flex flex-col items-center justify-center rounded-3xl border-4 border-teal-400 z-20 shadow-[0_0_100px_rgba(45,212,191,0.2)]">
+             <div x-show="ujianSelesai" x-transition class="absolute inset-0 bg-[#0a0a0f]/98 backdrop-blur flex flex-col items-center justify-center rounded-3xl border-4 border-red-400 z-20 shadow-[0_0_100px_rgba(var(--primary-rgb),0.2)]">
                 <div class="text-7xl mb-6">🏆</div>
-                <h3 class="font-black font-sora text-teal-400 mb-2 text-3xl uppercase tracking-tighter">Bab 4 Berhasil!</h3>
+                <h3 class="font-black font-sora text-red-400 mb-2 text-3xl uppercase tracking-tighter">Bab 4 Berhasil!</h3>
                 <p class="text-sm text-gray-400 mb-8 uppercase tracking-[0.4em]">Skor Kompetensi:</p>
                 <div class="text-9xl font-black text-white" x-text="ujianScore"></div>
                 <p class="text-[10px] mt-12 text-gray-500 animate-pulse tracking-widest font-bold">Terima kasih telah belajar bersama kami</p>
@@ -872,13 +877,13 @@
     <!-- HALAMAN 28: PENUTUP -->
     <div class="page --hard">
        <div class="page-wrapper items-center justify-center text-center">
-          <div class="absolute inset-0 bg-gradient-to-t from-purple-900/10 to-transparent"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-yellow-900/10 to-transparent"></div>
           <h1 class="text-5xl font-sora font-black text-white mb-16 relative z-10 tracking-[0.2em] uppercase">Selesai</h1>
           <div class="relative mb-16 z-10">
-             <div class="w-32 h-32 mx-auto bg-teal-500/20 rounded-full flex items-center justify-center text-5xl animate-bounce border-2 border-teal-500/30">🎯</div>
+             <div class="w-32 h-32 mx-auto bg-red-500/20 rounded-full flex items-center justify-center text-5xl animate-bounce border-2 border-red-500/30">🎯</div>
           </div>
           <p class="text-md text-gray-300 max-w-sm px-4 leading-relaxed relative z-10">Keren! Kamu sekarang sudah paham bagaimana menggunakan <b>AI</b> untuk memecahkan masalah secara kreatif.</p>
-          <div class="mt-16 text-[12px] font-black text-teal-400 bg-teal-400/10 px-10 py-4 rounded-full border border-teal-400/30 relative z-10 tracking-[0.3em] uppercase">Kemendikbudristek 2025</div>
+          <div class="mt-16 text-[12px] font-black text-red-400 bg-red-400/10 px-10 py-4 rounded-full border border-red-400/30 relative z-10 tracking-[0.3em] uppercase">Kemendikbudristek 2025</div>
        </div>
     </div>
 
@@ -895,7 +900,9 @@
       pageFlip.loadFromHTML(document.querySelectorAll('.page'));
       setTimeout(() => { fb.classList.add('initialized'); }, 100);
       document.querySelectorAll('.page:not(.--hard) .page-wrapper').forEach(p => {
-         p.insertAdjacentHTML('beforeend', '<div class="mascot bg-cover" style="background-image: url(/assets/bab1_scene.png); background-size: cover; background-position: center;"></div>');
+         p.insertAdjacentHTML('beforeend', '<div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_q5pk6p1k.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>');
       });
 
       document.getElementById('btn-prev').addEventListener('click', () => pageFlip.flipPrev());
@@ -974,7 +981,7 @@
         triggerFeedback(correct) {
            this.isFeedbackCorrect = correct;
            this.showFeedback = true;
-           if(correct) { confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#2dd4bf', '#a78bfa', '#fcd34d'] }); }
+           if(correct) { confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#ef4444', '#facc15', '#fcd34d'] }); }
            setTimeout(() => { this.showFeedback = false; }, 2000);
         },
         
@@ -997,7 +1004,7 @@
         getBtnClass(idx, optIdx, tipe) {
            let soal = tipe === 'latihan' ? this.latihan[idx] : this.ujian[idx];
            if(!soal.dijawab) return '';
-           if(optIdx === soal.ans) return 'bg-teal-600 border-teal-400 text-white font-bold';
+           if(optIdx === soal.ans) return 'bg-red-600 border-red-400 text-white font-bold';
            if(optIdx === soal.userAns) return 'bg-red-600/80 border-red-500 text-white';
            return 'opacity-30';
         },

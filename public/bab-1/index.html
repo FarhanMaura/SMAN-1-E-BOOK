@@ -11,6 +11,7 @@
    <script defer src="https://unpkg.com/alpinejs@3/dist/cdn.min.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
 
    <link
       href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
@@ -233,8 +234,117 @@
 <body x-data="quizApp()" class="bg-pattern relative">
 
    <!-- Animasi Luar Kiri & Kanan (Luar Kertas) -->
-   <div id="animasi-luar-kiri" style="position: fixed; left: 3%; bottom: 5%; width: 340px; height: 400px; bottom: 0; z-index: 5; pointer-events: none;"></div>
-   <div id="animasi-luar-kanan" style="position: fixed; right: 3%; bottom: 5%; width: 340px; height: 400px; bottom: 0; z-index: 5; pointer-events: none;"></div>
+   <div id="animasi-luar-kiri" style="position: fixed; left: 1%; bottom: 2%; width: 360px; height: 400px; z-index: 5; pointer-events: none;"></div>
+   <div id="animasi-luar-kanan" style="position: fixed; right: 1%; bottom: 2%; width: 360px; height: 400px; z-index: 5; pointer-events: none; transform: scaleX(-1);"></div>
+
+   <script>
+      // =====================================================
+      // LOTTIE MANAGER - Load JSON & strip background layers
+      // =====================================================
+      const bab1LottieUrls = [
+         "/assets/student-anim.json",
+         "https://assets3.lottiefiles.com/packages/lf20_sk5h1kfn.json",
+         "https://assets5.lottiefiles.com/packages/lf20_5e7wgehs.json",
+         "https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json",
+         "https://assets7.lottiefiles.com/packages/lf20_khzniaya.json",
+         "https://assets3.lottiefiles.com/packages/lf20_rwq6ciql.json",
+         "/assets/student-anim.json"
+      ];
+
+      let bab1LeftAnim = null;
+      let bab1RightAnim = null;
+      const bab1LeftCont  = document.getElementById('animasi-luar-kiri');
+      const bab1RightCont = document.getElementById('animasi-luar-kanan');
+
+      function stripBgLayersBab1(data) {
+         if (!data || !data.layers) return data;
+         data.layers = data.layers.filter(layer => layer.ty !== 1);
+         return data;
+      }
+
+      async function loadBab1LottieAnim(container, url, existingAnim) {
+         try {
+            const res = await fetch(url);
+            if (!res.ok) return existingAnim;
+            const rawData = await res.json();
+            const cleanData = stripBgLayersBab1(rawData);
+            if (existingAnim) existingAnim.destroy();
+            container.innerHTML = '';
+            return lottie.loadAnimation({
+               container, renderer: 'svg', loop: true, autoplay: true, animationData: cleanData
+            });
+         } catch(e) { return existingAnim; }
+      }
+
+      window.changeBab1LottieOnFlip = async function(pageIndex) {
+         const url1 = bab1LottieUrls[pageIndex % bab1LottieUrls.length];
+         const url2 = bab1LottieUrls[(pageIndex + 1) % bab1LottieUrls.length];
+         bab1LeftAnim  = await loadBab1LottieAnim(bab1LeftCont,  url1, bab1LeftAnim);
+         bab1RightAnim = await loadBab1LottieAnim(bab1RightCont, url2, bab1RightAnim);
+      };
+
+      document.addEventListener('DOMContentLoaded', async () => {
+         bab1LeftAnim  = await loadBab1LottieAnim(bab1LeftCont,  bab1LottieUrls[0], bab1LeftAnim);
+         bab1RightAnim = await loadBab1LottieAnim(bab1RightCont, bab1LottieUrls[1], bab1RightAnim);
+      });
+   </script>
+
+   <!-- Sound Toggle (BGM + SFX) -->
+   <button id="sound-toggle-bab1" onclick="toggleSoundBab1()" title="Toggle Musik & Suara"
+      style="position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 50; display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1.2rem; border-radius: 999px; background: rgba(15,15,25,0.8); border: 1px solid rgba(255,255,255,0.15); color: #cbd5e1; font-size: 0.75rem; font-weight: 600; cursor: pointer; backdrop-filter: blur(10px); transition: all 0.3s ease; font-family: 'Plus Jakarta Sans', sans-serif;">
+      <span id="sound-icon-bab1">🔔</span>
+      <span id="sound-label-bab1">Musik &amp; Suara Aktif</span>
+   </button>
+
+   <script>
+      let bab1SoundMuted = false;
+      const bab1Btn   = document.getElementById('sound-toggle-bab1');
+      const bab1Icon  = document.getElementById('sound-icon-bab1');
+      const bab1Label = document.getElementById('sound-label-bab1');
+
+      // --- BGM (looping background music) ---
+      const bab1Bgm = new Audio('/assets/bgm.mp3');
+      bab1Bgm.loop    = true;
+      bab1Bgm.volume  = 0.3;
+      bab1Bgm.preload = 'auto';
+
+      // --- SFX (page flip sound) ---
+      const bab1FlipAudio = new Audio('/assets/flip-sound.mp3');
+      bab1FlipAudio.preload = 'auto';
+      bab1FlipAudio.volume  = 0.6;
+
+      let bab1BgmStarted = false;
+      function tryStartBab1Bgm() {
+         if (bab1BgmStarted || bab1SoundMuted) return;
+         bab1Bgm.play().then(() => { bab1BgmStarted = true; }).catch(() => {});
+      }
+      document.addEventListener('click', tryStartBab1Bgm, { once: true });
+
+      function playBab1FlipSound() {
+         if (bab1SoundMuted) return;
+         tryStartBab1Bgm();
+         bab1FlipAudio.currentTime = 0;
+         bab1FlipAudio.play().catch(() => {});
+      }
+
+      function toggleSoundBab1() {
+         bab1SoundMuted = !bab1SoundMuted;
+         if (bab1SoundMuted) {
+            bab1Bgm.pause();
+            bab1Icon.textContent  = '🔕';
+            bab1Label.textContent = 'Musik Mati';
+            bab1Btn.style.borderColor = 'rgba(239,68,68,0.5)';
+            bab1Btn.style.color = '#f87171';
+         } else {
+            bab1Bgm.play().catch(() => {});
+            bab1BgmStarted = true;
+            bab1Icon.textContent  = '🔔';
+            bab1Label.textContent = 'Musik & Suara Aktif';
+            bab1Btn.style.borderColor = 'rgba(255,255,255,0.15)';
+            bab1Btn.style.color = '#cbd5e1';
+         }
+      }
+   </script>
 
    <!-- Global Feedback Modal -->
    <div x-show="showFeedback" x-transition.opacity
@@ -331,9 +441,8 @@
             <h2 class="text-xl font-sora font-bold text-gray-200 mb-4">Berpikir Komputasional</h2>
 
             <!-- Cover Image -->
-            <div
-               class="w-40 h-40 mx-auto drop-shadow-[0_10px_30px_rgba(255,255,255,0.1)] rounded-full border-4 border-[#12121a] bg-cover bg-center"
-               style="background-image: url('/assets/bab1_scene.png'); background-size: cover; background-position: center;">
+            <div class="w-40 h-40 mx-auto drop-shadow-[0_10px_30px_rgba(255,255,255,0.1)] rounded-full border-4 border-[#12121a] flex items-center justify-center bg-gray-900 overflow-hidden">
+               <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_sk5h1kfn.json" background="transparent" speed="1" style="width: 150px; height: 150px;" loop autoplay></lottie-player>
             </div>
 
             <!-- Animasi Robot di Cover -->
@@ -346,9 +455,7 @@
       <!-- HALAMAN 2: Kosong / Balik Cover -->
       <div class="page --hard">
          <div class="page-wrapper items-center justify-center">
-            <div
-               class="w-28 h-28 bg-cover bg-center animate-bounce opacity-80 drop-shadow-[0_0_15px_rgba(167,139,250,0.5)]"
-               style="background-image: url('/assets/boy_sma.png');"></div>
+            <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_sk5h1kfn.json" background="transparent" speed="1" style="width: 150px; height: 150px; filter: drop-shadow(0 0 15px rgba(167,139,250,0.5));" loop autoplay></lottie-player>
             
          </div>
       </div>
@@ -922,7 +1029,7 @@
          }
 
          // Hook flip event
-         pageFlip.on('flip', function () {
+         pageFlip.on('flip', function (e) {
             // Re-trigger entrance animations
             document.querySelectorAll('.page-content').forEach(p => {
                p.classList.remove('animate-content');
@@ -934,6 +1041,17 @@
             }, 50);
 
             setTimeout(updateHalamanAktif, 80);
+
+            // Suara kertas balik halaman
+            if (typeof playBab1FlipSound === 'function') {
+               playBab1FlipSound();
+            }
+
+            // Ubah animasi luar kiri & kanan saat flip
+            const pageIndex = (e.data !== undefined) ? e.data : pageFlip.getCurrentPageIndex();
+            if (typeof window.changeBab1LottieOnFlip === 'function') {
+               window.changeBab1LottieOnFlip(pageIndex);
+            }
          });
 
          // Inisialisasi pertama

@@ -9,6 +9,7 @@
   <script defer src="https://unpkg.com/alpinejs@3/dist/cdn.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/book-style.css">
 </head>
@@ -105,6 +106,138 @@
      <button id="btn-next-mobile" class="pointer-events-auto px-6 py-3 rounded-full bg-[#1a1a2e] border border-gray-600 text-white text-sm font-bold shadow-2xl">Next →</button>
   </div>
   
+  <!-- Animasi Luar Kiri & Kanan (Luar Kertas) -->
+  <div id="animasi-luar-kiri" style="position: fixed; left: 1%; bottom: 2%; width: 360px; height: 400px; z-index: 5; pointer-events: none;" class="hidden xl:block"></div>
+  <div id="animasi-luar-kanan" style="position: fixed; right: 1%; bottom: 2%; width: 360px; height: 400px; z-index: 5; pointer-events: none; transform: scaleX(-1);" class="hidden xl:block"></div>
+
+
+  <!-- Sound Toggle Button (BGM + SFX) -->
+  <button id="sound-toggle" onclick="toggleSound()" title="Toggle Musik & Suara"
+    style="position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 50; display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1.2rem; border-radius: 999px; background: rgba(15,15,25,0.8); border: 1px solid rgba(255,255,255,0.15); color: #cbd5e1; font-size: 0.75rem; font-weight: 600; cursor: pointer; backdrop-filter: blur(10px); transition: all 0.3s ease; font-family: 'Plus Jakarta Sans', sans-serif;" class="hidden xl:flex">
+    <span id="sound-icon">🔔</span>
+    <span id="sound-label">Musik &amp; Suara Aktif</span>
+  </button>
+
+  <script>
+    // =====================================================
+    // LOTTIE MANAGER - Load JSON & strip background layers
+    // =====================================================
+    const lottieUrls = [
+      // Study/learning themed animations (local + CDN)
+      "/assets/student-anim.json",              // karakter mahasiswi belajar (local)
+      "https://assets3.lottiefiles.com/packages/lf20_sk5h1kfn.json",   // karakter belajar
+      "https://assets5.lottiefiles.com/packages/lf20_5e7wgehs.json",   // karakter study
+      "https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json",   // karakter membaca
+      "https://assets7.lottiefiles.com/packages/lf20_khzniaya.json",   // karakter belajar 2
+      "https://assets3.lottiefiles.com/packages/lf20_rwq6ciql.json",   // karakter study 3
+      "/assets/student-anim.json"               // loop kembali ke student
+    ];
+
+    let leftAnim = null;
+    let rightAnim = null;
+    const leftContainer = document.getElementById('animasi-luar-kiri');
+    const rightContainer = document.getElementById('animasi-luar-kanan');
+
+    // Strip all solid-color background layers (ty===1) from lottie JSON
+    function stripBgLayers(data) {
+      if (!data || !data.layers) return data;
+      // Remove solid fill layers (ty=1) - these are background rectangles
+      data.layers = data.layers.filter(layer => layer.ty !== 1);
+      return data;
+    }
+
+    async function loadLottieAnim(container, url, existingAnim) {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) return existingAnim;
+        const rawData = await res.json();
+        const cleanData = stripBgLayers(rawData);
+
+        if (existingAnim) existingAnim.destroy();
+        container.innerHTML = '';
+
+        return lottie.loadAnimation({
+          container: container,
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+          animationData: cleanData
+        });
+      } catch (e) {
+        return existingAnim;
+      }
+    }
+
+    // Initial load
+    document.addEventListener('DOMContentLoaded', async () => {
+      leftAnim  = await loadLottieAnim(leftContainer,  lottieUrls[0], leftAnim);
+      rightAnim = await loadLottieAnim(rightContainer, lottieUrls[1], rightAnim);
+    });
+
+    // Called from book-loader.js on page flip
+    window.changeLottieOnFlip = async function(pageIndex) {
+      const url1 = lottieUrls[pageIndex % lottieUrls.length];
+      const url2 = lottieUrls[(pageIndex + 1) % lottieUrls.length];
+      leftAnim  = await loadLottieAnim(leftContainer,  url1, leftAnim);
+      rightAnim = await loadLottieAnim(rightContainer, url2, rightAnim);
+    };
+
+    // =====================================================
+    // BGM + SFX MANAGER
+    // BGM = looping background music (lofi)
+    // SFX = page flip sound effect
+    // =====================================================
+    let soundMuted = false;
+    const btn   = document.getElementById('sound-toggle');
+    const icon  = document.getElementById('sound-icon');
+    const label = document.getElementById('sound-label');
+
+    // --- BGM (Background Music, looping) ---
+    const bgmAudio = new Audio('/assets/bgm.mp3');
+    bgmAudio.loop   = true;
+    bgmAudio.volume = 0.3;
+    bgmAudio.preload = 'auto';
+
+    // --- SFX (Page Flip Sound) ---
+    const flipAudio = new Audio('/assets/flip-sound.mp3');
+    flipAudio.volume  = 0.6;
+    flipAudio.preload = 'auto';
+
+    // Auto-start BGM on first user interaction (required by browser policy)
+    let bgmStarted = false;
+    function tryStartBgm() {
+      if (bgmStarted || soundMuted) return;
+      bgmAudio.play().then(() => { bgmStarted = true; }).catch(() => {});
+    }
+    document.addEventListener('click', tryStartBgm, { once: true });
+
+    // Called by book-loader.js on every page flip event
+    window.playFlipSound = function() {
+      if (soundMuted) return;
+      tryStartBgm();
+      flipAudio.currentTime = 0;
+      flipAudio.play().catch(() => {});
+    };
+
+    function toggleSound() {
+      soundMuted = !soundMuted;
+      if (soundMuted) {
+        bgmAudio.pause();
+        icon.textContent  = '🔕';
+        label.textContent = 'Musik Mati';
+        btn.style.borderColor = 'rgba(239,68,68,0.5)';
+        btn.style.color = '#f87171';
+      } else {
+        bgmAudio.play().catch(() => {});
+        bgmStarted = true;
+        icon.textContent  = '🔔';
+        label.textContent = 'Musik & Suara Aktif';
+        btn.style.borderColor = 'rgba(255,255,255,0.15)';
+        btn.style.color = '#cbd5e1';
+      }
+    }
+  </script>
+
   <div class="flipbook-wrapper">
      <div id="flipbook" class="flipbook">
         <!-- Pages will be injected here dynamically by book-loader.js -->

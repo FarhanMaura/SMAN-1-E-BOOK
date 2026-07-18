@@ -9,9 +9,11 @@
   <script defer src="https://unpkg.com/alpinejs@3/dist/cdn.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
+    :root { --primary-rgb: 16, 185, 129; }
     body { background-color: #0a0a0f; font-family: 'Plus Jakarta Sans', sans-serif; color: #e2e8f0; overflow: hidden; margin: 0; padding: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh;}
     h1, h2, h3, .font-sora { font-family: 'Sora', sans-serif; }
     
@@ -96,10 +98,14 @@
           :class="isFeedbackCorrect ? 'border-rose-400 shadow-rose-500/20' : 'border-red-400 shadow-red-500/20'">
         
         <template x-if="isFeedbackCorrect">
-           <div class="w-40 h-40 mx-auto mb-6 rounded-full border-4 border-rose-400 bg-cover bg-no-repeat" style="background-image: url('/assets/bab3_scene.png'); background-size: cover; background-position: center;"></div>
+           <div class="w-40 h-40 mx-auto drop-shadow-[0_10px_30px_rgba(255,255,255,0.1)] rounded-full border-4 border-[#12121a] flex items-center justify-center bg-gray-900 overflow-hidden">
+               <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_a1hzz2q2.json" background="transparent" speed="1" style="width: 150px; height: 150px;" loop autoplay></lottie-player>
+            </div>
         </template>
         <template x-if="!isFeedbackCorrect">
-           <div class="w-40 h-40 mx-auto mb-6 rounded-full border-4 border-red-400 bg-cover bg-no-repeat grayscale opacity-80" style="background-image: url('/assets/bab3_scene.png'); background-size: cover; background-position: center;"></div>
+           <div class="w-40 h-40 mx-auto drop-shadow-[0_10px_30px_rgba(255,255,255,0.1)] rounded-full border-4 border-[#12121a] flex items-center justify-center bg-gray-900 overflow-hidden">
+               <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_a1hzz2q2.json" background="transparent" speed="1" style="width: 150px; height: 150px;" loop autoplay></lottie-player>
+            </div>
         </template>
         
         <h3 class="text-3xl font-sora font-black mb-2" :class="isFeedbackCorrect ? 'text-rose-400' : 'text-red-400'" x-text="isFeedbackCorrect ? 'BENAR SEKALI! 🎉' : 'YAH, SALAH! 😢'"></h3>
@@ -115,7 +121,7 @@
      </a>
      <div class="flex gap-3">
        <button id="btn-prev" class="px-6 py-2 rounded-full bg-[#12121a] border border-gray-600 hover:border-rose-400 hover:text-rose-400 text-white text-sm font-bold transition shadow-lg">← Prev</button>
-       <button id="btn-next" class="px-6 py-2 rounded-full bg-[#12121a] border border-gray-600 hover:border-purple-400 hover:text-purple-400 text-white text-sm font-bold transition shadow-lg">Next →</button>
+       <button id="btn-next" class="px-6 py-2 rounded-full bg-[#12121a] border border-gray-600 hover:border-orange-400 hover:text-orange-400 text-white text-sm font-bold transition shadow-lg">Next →</button>
      </div>
   </div>
   
@@ -186,7 +192,9 @@
              </div>
           </div>
           <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>3</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab3_scene.png'); background-size: cover; background-position: center;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_a1hzz2q2.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -242,7 +250,9 @@
              <p class="text-[10px] text-gray-300 text-justify mb-2">Selain mengenali kata (Speech-to-Text), AI bidang suara juga menangani <strong>NLP (Natural Language Processing)</strong> agar mesin memahami <em>makna</em> kalimat, seperti pada Siri atau Google Assistant.</p>
           </div>
           <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>5</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab3_scene.png'); background-size: 250%; background-position: center top;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_a1hzz2q2.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -261,7 +271,7 @@
                    <h4 class="text-[11px] font-bold text-white">2. Kamera Tilang Elektronik (ETLE)</h4>
                    <p class="text-[10px] text-gray-400">Computer vision di lampu merah mengenali pelat nomor kendaraan secara otomatis menggunakan teknologi OCR (Optical Character Recognition) dan mendeteksi apakah pengemudi tidak memakai sabuk pengaman.</p>
                 </li>
-                <li class="bg-gray-800 p-3 rounded-lg border-l-4 border-purple-500">
+                <li class="bg-gray-800 p-3 rounded-lg border-l-4 border-orange-500">
                    <h4 class="text-[11px] font-bold text-white">3. Google Translate Speech</h4>
                    <p class="text-[10px] text-gray-400">Mengenali suara ucapan manusia, mengubahnya menjadi teks, menganalisis struktur bahasa asal, dan merangkainya ulang ke dalam bahasa tujuan secara real-time.</p>
                 </li>
@@ -289,7 +299,9 @@
              </div>
           </div>
           <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>7</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab3_scene.png'); background-size: 250%; background-position: center top;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_a1hzz2q2.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -297,14 +309,14 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-xs font-bold text-purple-400 mb-1">3. Machine Learning Engineer</h3>
+             <h3 class="text-xs font-bold text-orange-400 mb-1">3. Machine Learning Engineer</h3>
              <p class="text-[10px] text-gray-300 text-justify mb-4">Bertugas mengambil model algoritma yang dibuat oleh Data Scientist, lalu menulis kode program yang kuat dan efisien agar model tersebut bisa dijalankan di aplikasi secara nyata (Production) melayani jutaan pengguna.</p>
              
-             <h3 class="text-xs font-bold text-teal-400 mb-1">4. AI Researcher</h3>
+             <h3 class="text-xs font-bold text-green-400 mb-1">4. AI Researcher</h3>
              <p class="text-[10px] text-gray-300 text-justify mb-4">Ilmuwan murni yang bekerja di lab penelitian (seperti Google Brain atau OpenAI). Fokus mereka adalah menemukan algoritma baru yang lebih cerdas, bukan langsung membuat aplikasi komersial.</p>
              
-             <div class="bg-purple-900/20 border-l-4 border-purple-500 p-3 rounded shadow">
-                <h3 class="text-[11px] font-bold text-purple-300 mb-1">Apakah Profesi ini Menjanjikan?</h3>
+             <div class="bg-orange-900/20 border-l-4 border-orange-500 p-3 rounded shadow">
+                <h3 class="text-[11px] font-bold text-orange-300 mb-1">Apakah Profesi ini Menjanjikan?</h3>
                 <p class="text-[10px] text-gray-400 text-justify">Sangat! Di era revolusi industri 4.0 dan Society 5.0, data disebut sebagai "The New Oil". Kebutuhan akan talenta AI di Indonesia maupun dunia sangat tinggi dan bergaji besar.</p>
              </div>
           </div>
@@ -332,7 +344,9 @@
              </div>
           </div>
           <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>9</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab3_scene.png'); background-size: 250%; background-position: center top;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_a1hzz2q2.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -360,7 +374,7 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-sm font-bold text-teal-400 mb-2">Soft Skills (Non-Teknis)</h3>
+             <h3 class="text-sm font-bold text-green-400 mb-2">Soft Skills (Non-Teknis)</h3>
              <p class="text-[11px] mb-3 text-gray-300 text-justify">Di era di mana AI bisa menulis kode sendiri, Soft Skills menjadi pembeda utama yang tidak bisa digantikan oleh mesin.</p>
              
              <div class="grid gap-2">
@@ -379,7 +393,9 @@
              </div>
           </div>
           <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>11</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab3_scene.png'); background-size: 250%; background-position: center top;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_a1hzz2q2.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -387,11 +403,11 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-purple-400 mb-4">Perspektif Karier di Masa Depan</h2>
+             <h2 class="text-lg font-sora font-bold text-orange-400 mb-4">Perspektif Karier di Masa Depan</h2>
              
-             <div class="bg-purple-900/20 p-4 border border-purple-500/50 rounded-xl text-center shadow-lg mb-4">
+             <div class="bg-orange-900/20 p-4 border border-orange-500/50 rounded-xl text-center shadow-lg mb-4">
                 <div class="text-3xl mb-2">🌐</div>
-                <h3 class="font-bold text-purple-300 text-sm mb-2">Society 5.0</h3>
+                <h3 class="font-bold text-orange-300 text-sm mb-2">Society 5.0</h3>
                 <p class="text-[10px] text-gray-300 text-justify">Perspektif karier tidak lagi menempatkan manusia sebagai "operator mesin", melainkan kolaborator. Di era Society 5.0, ruang maya dan ruang fisik terintegrasi. Manusia berfokus pada kreativitas dan empati, sementara AI menangani pekerjaan repetitif dan kalkulasi berat.</p>
              </div>
              
@@ -408,20 +424,22 @@
              <h2 class="text-lg font-sora font-bold text-rose-400 mb-4">D. Dampak Pemanfaatan KA</h2>
              <p class="text-[11px] mb-3 text-gray-300 text-justify">Seperti teknologi besar lainnya, Kecerdasan Artifisial membawa disrupsi massif. Disrupsi ini menghasilkan dampak positif yang sangat mempermudah hidup, namun juga dampak negatif yang perlu diwaspadai.</p>
              
-             <h3 class="text-sm font-bold text-teal-400 mb-2 mt-4">Dampak Positif</h3>
+             <h3 class="text-sm font-bold text-green-400 mb-2 mt-4">Dampak Positif</h3>
              <ul class="text-[10px] text-gray-400 space-y-3">
-                <li class="bg-teal-900/20 p-2 rounded border-l-2 border-teal-500">
+                <li class="bg-green-900/20 p-2 rounded border-l-2 border-green-500">
                    <strong class="text-white block mb-1">1. Otomatisasi Pekerjaan Berbahaya</strong>
                    Robot cerdas dapat diutus ke dalam reaktor nuklir, kedalaman laut, atau area bencana untuk menyelamatkan korban tanpa mempertaruhkan nyawa manusia.
                 </li>
-                <li class="bg-teal-900/20 p-2 rounded border-l-2 border-teal-500">
+                <li class="bg-green-900/20 p-2 rounded border-l-2 border-green-500">
                    <strong class="text-white block mb-1">2. Revolusi Bidang Kesehatan (Medis)</strong>
                    Computer Vision mampu mendeteksi pola kanker dari foto X-Ray lebih awal dan lebih akurat daripada mata dokter spesialis, sehingga nyawa pasien lebih cepat diselamatkan.
                 </li>
              </ul>
           </div>
           <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>13</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab3_scene.png'); background-size: 250%; background-position: center top;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_a1hzz2q2.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -429,18 +447,18 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-sm font-bold text-teal-400 mb-2">Dampak Positif Lanjutan</h3>
+             <h3 class="text-sm font-bold text-green-400 mb-2">Dampak Positif Lanjutan</h3>
              
              <ul class="text-[10px] text-gray-400 space-y-3">
-                <li class="bg-teal-900/20 p-2 rounded border-l-2 border-teal-500">
+                <li class="bg-green-900/20 p-2 rounded border-l-2 border-green-500">
                    <strong class="text-white block mb-1">3. Personalisasi Pendidikan</strong>
                    Tutor AI dapat menganalisis kelemahan belajar seorang siswa SMA dan menyusun kurikulum/latihan soal khusus yang kecepatannya menyesuaikan daya tangkap siswa tersebut.
                 </li>
-                <li class="bg-teal-900/20 p-2 rounded border-l-2 border-teal-500">
+                <li class="bg-green-900/20 p-2 rounded border-l-2 border-green-500">
                    <strong class="text-white block mb-1">4. Efisiensi Industri & Pertanian</strong>
                    Sistem AI pertanian memantau cuaca dan kondisi tanah secara real-time via satelit, memberi tahu petani kapan waktu yang tepat menabur benih untuk panen maksimal.
                 </li>
-                <li class="bg-teal-900/20 p-2 rounded border-l-2 border-teal-500">
+                <li class="bg-green-900/20 p-2 rounded border-l-2 border-green-500">
                    <strong class="text-white block mb-1">5. Aksesibilitas bagi Disabilitas</strong>
                    Teknologi pembaca layar, pengenal objek untuk tunanetra, dan transkripsi suara real-time untuk tunarungu memberikan kesetaraan hidup bagi penyandang disabilitas.
                 </li>
@@ -468,7 +486,9 @@
              </div>
           </div>
           <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>15</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab3_scene.png'); background-size: 250%; background-position: center top;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_a1hzz2q2.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -503,7 +523,9 @@
              <p class="text-[10px] text-gray-400 text-justify">Tanpa panduan etika yang disepakati secara global, pengembang AI bebas menanamkan keputusan subjektif yang berpotensi merugikan nyawa atau hak publik.</p>
           </div>
           <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>17</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab3_scene.png'); background-size: 250%; background-position: center top;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_a1hzz2q2.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -540,10 +562,10 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-sm font-bold text-teal-400 mb-3">Regulasi Hukum Nasional & Global</h3>
+             <h3 class="text-sm font-bold text-green-400 mb-3">Regulasi Hukum Nasional & Global</h3>
              <p class="text-[10px] text-gray-300 text-justify mb-3">Prinsip etika harus dilegalkan dalam bentuk hukum yang mengikat.</p>
              
-             <div class="bg-[#1a1a2e] border-t-2 border-teal-500 p-3 rounded mb-3 shadow">
+             <div class="bg-[#1a1a2e] border-t-2 border-green-500 p-3 rounded mb-3 shadow">
                 <h4 class="text-[11px] font-bold text-white mb-1">Di Indonesia</h4>
                 <p class="text-[10px] text-gray-400 text-justify">Saat ini diatur secara implisit melalui <strong>UU ITE</strong> (Informasi dan Transaksi Elektronik) terkait distribusi konten hoax/deepfake, serta <strong>UU Pelindungan Data Pribadi (PDP)</strong> untuk membatasi pengambilan data masyarakat untuk dilatih ke AI tanpa izin.</p>
              </div>
@@ -554,7 +576,9 @@
              </div>
           </div>
           <div class="page-footer"><span>Bab 3 Literasi & Etika AI</span><span>19</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab3_scene.png'); background-size: 250%; background-position: center top;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_a1hzz2q2.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -656,15 +680,15 @@
     <div class="page">
        <div class="page-wrapper items-center justify-center text-center">
           <div class="page-content animate-content w-full flex flex-col items-center justify-center mt-12">
-             <div class="p-8 bg-gradient-to-b from-purple-900/40 to-transparent border-2 border-purple-500/50 rounded-2xl w-full max-w-[280px] shadow-[0_0_40px_rgba(167,139,250,0.15)] relative overflow-hidden">
-                <div class="absolute -right-6 -top-6 w-20 h-20 bg-teal-500/20 rounded-full blur-xl"></div>
-                <div class="absolute -left-6 -bottom-6 w-20 h-20 bg-purple-500/20 rounded-full blur-xl"></div>
+             <div class="p-8 bg-gradient-to-b from-orange-900/40 to-transparent border-2 border-orange-500/50 rounded-2xl w-full max-w-[280px] shadow-[0_0_40px_rgba(167,139,250,0.15)] relative overflow-hidden">
+                <div class="absolute -right-6 -top-6 w-20 h-20 bg-green-500/20 rounded-full blur-xl"></div>
+                <div class="absolute -left-6 -bottom-6 w-20 h-20 bg-orange-500/20 rounded-full blur-xl"></div>
                 
-                <div class="w-16 h-16 mx-auto mb-4 bg-purple-600 rounded-full flex items-center justify-center text-3xl shadow-lg border-4 border-[#12121a] relative z-10">⚖️</div>
+                <div class="w-16 h-16 mx-auto mb-4 bg-orange-600 rounded-full flex items-center justify-center text-3xl shadow-lg border-4 border-[#12121a] relative z-10">⚖️</div>
                 <h2 class="text-2xl font-sora font-black text-white mb-2 relative z-10">Uji Kompetensi</h2>
-                <div class="h-1 w-12 bg-purple-400 mx-auto mb-4 rounded relative z-10"></div>
+                <div class="h-1 w-12 bg-orange-400 mx-auto mb-4 rounded relative z-10"></div>
                 <p class="text-xs text-gray-300 mb-6 leading-relaxed relative z-10">Saatnya menguji pemahamanmu tentang literasi teknis dan etika AI yang berdampak luas di masyarakat.</p>
-                <p class="text-[9px] text-purple-300 font-bold uppercase tracking-widest animate-pulse relative z-10">Buka halaman untuk mulai</p>
+                <p class="text-[9px] text-orange-300 font-bold uppercase tracking-widest animate-pulse relative z-10">Buka halaman untuk mulai</p>
              </div>
           </div>
           <div class="page-footer mt-auto w-full"><span>Bab 3 Literasi & Etika AI</span><span>23</span></div>
@@ -676,19 +700,19 @@
        <div class="page-wrapper">
           <div class="page-content animate-content relative">
              <div class="flex justify-between items-end mb-4 border-b border-gray-700 pb-2">
-                <h2 class="text-lg font-sora font-bold text-purple-400">Ujian Kompetensi (1/2)</h2>
-                <div class="text-[10px] font-bold px-2 py-1 bg-purple-900/30 rounded border border-purple-500/50">Skor: <span x-text="ujianScore" class="text-purple-400"></span></div>
+                <h2 class="text-lg font-sora font-bold text-orange-400">Ujian Kompetensi (1/2)</h2>
+                <div class="text-[10px] font-bold px-2 py-1 bg-orange-900/30 rounded border border-orange-500/50">Skor: <span x-text="ujianScore" class="text-orange-400"></span></div>
              </div>
              
              <div class="space-y-3">
                 <template x-for="(soal, index) in ujian.slice(0, 5)">
-                   <div class="bg-gray-800/40 p-2.5 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-colors">
-                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-purple-300 transition line-clamp-3" @click.stop="openDetail('ujian', index)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+1) + '. ' + soal.q"></p>
+                   <div class="bg-gray-800/40 p-2.5 rounded-lg border border-gray-700/50 hover:border-orange-500/30 transition-colors">
+                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-orange-300 transition line-clamp-3" @click.stop="openDetail('ujian', index)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+1) + '. ' + soal.q"></p>
                       <div class="grid grid-cols-1 gap-1.5">
                          <template x-for="(opt, oidx) in soal.opts">
                             <button @click="jawabUjian(index, oidx)" 
                                     :class="getBtnClass(index, oidx, 'ujian')"
-                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-purple-400 hover:bg-gray-700 transition whitespace-normal break-words"
+                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-orange-400 hover:bg-gray-700 transition whitespace-normal break-words"
                                     :disabled="soal.dijawab">
                                <span class="font-bold text-gray-400 mr-1" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
                                <span x-text="opt"></span>
@@ -708,19 +732,19 @@
        <div class="page-wrapper">
           <div class="page-content animate-content relative">
              <div class="flex justify-between items-end mb-4 border-b border-gray-700 pb-2">
-                <h2 class="text-lg font-sora font-bold text-purple-400">Ujian Kompetensi (2/2)</h2>
-                <div class="text-[10px] font-bold px-2 py-1 bg-purple-900/30 rounded border border-purple-500/50">Skor: <span x-text="ujianScore" class="text-purple-400"></span></div>
+                <h2 class="text-lg font-sora font-bold text-orange-400">Ujian Kompetensi (2/2)</h2>
+                <div class="text-[10px] font-bold px-2 py-1 bg-orange-900/30 rounded border border-orange-500/50">Skor: <span x-text="ujianScore" class="text-orange-400"></span></div>
              </div>
              
              <div class="space-y-3">
                 <template x-for="(soal, index) in ujian.slice(5, 10)">
-                   <div class="bg-gray-800/40 p-2.5 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-colors">
-                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-purple-300 transition line-clamp-3" @click.stop="openDetail('ujian', index + 5)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+6) + '. ' + soal.q"></p>
+                   <div class="bg-gray-800/40 p-2.5 rounded-lg border border-gray-700/50 hover:border-orange-500/30 transition-colors">
+                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-orange-300 transition line-clamp-3" @click.stop="openDetail('ujian', index + 5)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+6) + '. ' + soal.q"></p>
                       <div class="grid grid-cols-1 gap-1.5">
                          <template x-for="(opt, oidx) in soal.opts">
                             <button @click="jawabUjian(index + 5, oidx)" 
                                     :class="getBtnClass(index + 5, oidx, 'ujian')"
-                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-purple-400 hover:bg-gray-700 transition whitespace-normal break-words"
+                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-orange-400 hover:bg-gray-700 transition whitespace-normal break-words"
                                     :disabled="soal.dijawab">
                                <span class="font-bold text-gray-400 mr-1" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
                                <span x-text="opt"></span>
@@ -731,9 +755,9 @@
                 </template>
              </div>
              
-             <div x-show="ujianSelesai" x-transition class="absolute inset-0 bg-[#12121a]/95 backdrop-blur-sm flex flex-col items-center justify-center rounded-lg border-2 border-purple-500 z-20 shadow-2xl">
+             <div x-show="ujianSelesai" x-transition class="absolute inset-0 bg-[#12121a]/95 backdrop-blur-sm flex flex-col items-center justify-center rounded-lg border-2 border-orange-500 z-20 shadow-2xl">
                 <div class="text-5xl mb-3">🏆</div>
-                <h3 class="font-sora font-bold text-xl text-purple-400 mb-1">Bab 3 Selesai!</h3>
+                <h3 class="font-sora font-bold text-xl text-orange-400 mb-1">Bab 3 Selesai!</h3>
                 <p class="text-xs text-gray-300 mb-4">Nilai Akhir Kompetensi Kamu</p>
                 <div class="text-5xl font-black text-white mb-6" x-text="ujianScore"></div>
                 <p class="text-[10px] text-gray-400 animate-pulse">Geser ke halaman penutup</p>
@@ -753,7 +777,7 @@
           <svg viewBox="0 0 100 100" class="w-40 h-40 mx-auto mb-10 opacity-70 relative z-10 drop-shadow-[0_0_15px_rgba(244,63,94,0.4)]">
              <path d="M 20 20 L 80 20 L 80 80 L 20 80 Z" fill="none" stroke="#fb7185" stroke-width="3"/>
              <path d="M 40 40 L 60 40 M 40 50 L 60 50 M 40 60 L 50 60" stroke="#fb7185" stroke-width="3" stroke-linecap="round"/>
-             <circle cx="70" cy="70" r="15" fill="#a78bfa"/>
+             <circle cx="70" cy="70" r="15" fill="#fb923c"/>
              <path d="M 65 70 L 68 75 L 75 65" stroke="#12121a" stroke-width="3" fill="none" stroke-linecap="round"/>
           </svg>
           
@@ -924,7 +948,7 @@
         triggerFeedback(correct) {
            this.isFeedbackCorrect = correct;
            this.showFeedback = true;
-           if(correct) { confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#f43f5e', '#a78bfa', '#fcd34d'] }); }
+           if(correct) { confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#f43f5e', '#fb923c', '#fcd34d'] }); }
            setTimeout(() => { this.showFeedback = false; }, 2000);
         },
         jawabLatihan(idx, optIdx) {

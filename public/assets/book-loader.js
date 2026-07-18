@@ -299,7 +299,20 @@ document.addEventListener('DOMContentLoaded', async () => {
          }, 100);
       };
 
-      window.pageFlip.on('flip', () => triggerAnimation());
+      window.pageFlip.on('flip', (e) => {
+         triggerAnimation();
+         
+         // Suara kertas balik halaman
+         if (typeof window.playFlipSound === 'function') {
+            window.playFlipSound();
+         }
+
+         // Ubah animasi luar kiri dan kanan berdasarkan halaman
+         const pageIndex = (e.data !== undefined) ? e.data : window.pageFlip.getCurrentPageIndex();
+         if (typeof window.changeLottieOnFlip === 'function') {
+            window.changeLottieOnFlip(pageIndex);
+         }
+      });
       setTimeout(triggerAnimation, 500);
    }, 300);
    

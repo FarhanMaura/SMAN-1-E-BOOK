@@ -9,30 +9,32 @@
   <script defer src="https://unpkg.com/alpinejs@3/dist/cdn.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
+    :root { --primary-rgb: 59, 130, 246; }
     body { background-color: #0a0a0f; font-family: 'Plus Jakarta Sans', sans-serif; color: #e2e8f0; overflow: hidden; margin: 0; padding: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh;}
     h1, h2, h3, .font-sora { font-family: 'Sora', sans-serif; }
     
-    .flipbook { width: 900px; height: 600px; box-shadow: 0 0 50px rgba(45, 212, 191, 0.15); display: none; }
+    .flipbook { width: 900px; height: 600px; box-shadow: 0 0 50px rgba(var(--primary-rgb), 0.15); display: none; }
     .flipbook.initialized { display: block; animation: bookFadeIn 1s ease-out forwards; }
     
-    .page { background-color: #12121a; border: 1px solid rgba(45, 212, 191, 0.2); overflow: hidden; position: relative; }
+    .page { background-color: #12121a; border: 1px solid rgba(var(--primary-rgb), 0.2); overflow: hidden; position: relative; }
     .page-wrapper { width: 100%; height: 100%; padding: 2rem; display: flex; flex-direction: column; }
     .page-content { flex-grow: 1; overflow-y: auto; padding-right: 5px; }
     .page-content::-webkit-scrollbar { width: 3px; }
-    .page-content::-webkit-scrollbar-thumb { background: rgba(45, 212, 191, 0.5); border-radius: 4px; }
+    .page-content::-webkit-scrollbar-thumb { background: rgba(var(--primary-rgb), 0.5); border-radius: 4px; }
     .page-footer { height: 25px; display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: #64748b; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; margin-top: 10px;}
-    .page.--hard { background: linear-gradient(135deg, #0f172a, #12121a); border: 2px solid #2dd4bf; }
+    .page.--hard { background: linear-gradient(135deg, #0f172a, #12121a); border: 2px solid #3b82f6; }
     
-    .mascot { position: absolute; bottom: 45px; right: 25px; width: 60px; height: 60px; opacity: 0.95; z-index: 5; pointer-events: none; filter: drop-shadow(0 5px 15px rgba(167,139,250,0.3)); border-radius: 50%; border: 2px solid #a78bfa; background-color: #e2e8f0; }
+    .mascot { position: absolute; bottom: 45px; right: 25px; width: 60px; height: 60px; opacity: 0.95; z-index: 5; pointer-events: none; filter: drop-shadow(0 5px 15px rgba(167,139,250,0.3)); border-radius: 50%; border: 2px solid #f472b6; background-color: #e2e8f0; }
     
     .shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
     @keyframes shake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
     @keyframes bookFadeIn { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
     
-    .bg-pattern { background-image: radial-gradient(rgba(45, 212, 191, 0.08) 1px, transparent 1px); background-size: 24px 24px; }
+    .bg-pattern { background-image: radial-gradient(rgba(var(--primary-rgb), 0.08) 1px, transparent 1px); background-size: 24px 24px; }
     
     .animate-content > * { opacity: 0; animation: fadeInUp 0.5s ease-out forwards; }
     .animate-content > *:nth-child(1) { animation-delay: 0.1s; }
@@ -64,26 +66,30 @@
           x-transition:leave-start="scale-100 opacity-100"
           x-transition:leave-end="scale-50 opacity-0"
           class="bg-[#1a1a2e] border-2 rounded-3xl p-8 text-center shadow-[0_0_60px_rgba(0,0,0,0.6)]"
-          :class="isFeedbackCorrect ? 'border-teal-400 shadow-teal-500/20' : 'border-red-400 shadow-red-500/20'">
+          :class="isFeedbackCorrect ? 'border-blue-400 shadow-blue-500/20' : 'border-red-400 shadow-red-500/20'">
         
         <!-- Avatar Feedback -->
         <template x-if="isFeedbackCorrect">
-           <div class="w-40 h-40 mx-auto mb-6 rounded-full border-4 border-teal-400 bg-cover bg-no-repeat" style="background-image: url('/assets/bab2_scene.png'); background-size: cover; background-position: center;"></div>
+           <div class="w-40 h-40 mx-auto drop-shadow-[0_10px_30px_rgba(255,255,255,0.1)] rounded-full border-4 border-[#12121a] flex items-center justify-center bg-gray-900 overflow-hidden">
+               <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json" background="transparent" speed="1" style="width: 150px; height: 150px;" loop autoplay></lottie-player>
+            </div>
         </template>
         <template x-if="!isFeedbackCorrect">
-           <div class="w-40 h-40 mx-auto mb-6 rounded-full border-4 border-red-400 bg-cover bg-no-repeat grayscale opacity-80" style="background-image: url('/assets/bab2_scene.png'); background-size: cover; background-position: center;"></div>
+           <div class="w-40 h-40 mx-auto drop-shadow-[0_10px_30px_rgba(255,255,255,0.1)] rounded-full border-4 border-[#12121a] flex items-center justify-center bg-gray-900 overflow-hidden">
+               <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json" background="transparent" speed="1" style="width: 150px; height: 150px;" loop autoplay></lottie-player>
+            </div>
         </template>
         
-        <h3 class="text-3xl font-sora font-black mb-2" :class="isFeedbackCorrect ? 'text-teal-400' : 'text-red-400'" x-text="isFeedbackCorrect ? 'BENAR SEKALI! 🎉' : 'YAH, SALAH! 😢'"></h3>
+        <h3 class="text-3xl font-sora font-black mb-2" :class="isFeedbackCorrect ? 'text-blue-400' : 'text-red-400'" x-text="isFeedbackCorrect ? 'BENAR SEKALI! 🎉' : 'YAH, SALAH! 😢'"></h3>
         <p class="text-gray-300 text-lg" x-text="isFeedbackCorrect ? '+10 Poin ditambahkan!' : 'Ayo baca lagi materinya dengan teliti!'"></p>
      </div>
   </div>
 
   <!-- Detail Soal Modal -->
   <div x-show="showDetailModal" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md">
-     <div @click.away="showDetailModal = false" class="bg-[#1a1a2e] border border-teal-500/50 rounded-2xl w-[90%] max-w-[500px] max-h-[80vh] flex flex-col shadow-2xl">
-        <div class="p-4 border-b border-gray-700 flex justify-between items-center bg-teal-900/20 rounded-t-2xl">
-           <h3 class="font-bold text-teal-400">Detail Soal</h3>
+     <div @click.away="showDetailModal = false" class="bg-[#1a1a2e] border border-blue-500/50 rounded-2xl w-[90%] max-w-[500px] max-h-[80vh] flex flex-col shadow-2xl">
+        <div class="p-4 border-b border-gray-700 flex justify-between items-center bg-blue-900/20 rounded-t-2xl">
+           <h3 class="font-bold text-blue-400">Detail Soal</h3>
            <button @click="showDetailModal = false" class="text-gray-400 hover:text-white font-bold text-xl">&times;</button>
         </div>
         <div class="p-6 overflow-y-auto">
@@ -93,10 +99,10 @@
                  <div class="space-y-3">
                     <template x-for="(opt, idx) in activeDetail.opts">
                        <button @click="jawabDariDetail(idx)" 
-                               :class="activeDetail.dijawab ? (idx === activeDetail.ans ? 'bg-teal-600 border-teal-400 text-white' : (idx === activeDetail.userAns ? 'bg-red-600 border-red-400 text-white' : 'opacity-50 border-gray-700')) : 'bg-gray-800 hover:bg-gray-700 border-gray-600'"
+                               :class="activeDetail.dijawab ? (idx === activeDetail.ans ? 'bg-blue-600 border-blue-400 text-white' : (idx === activeDetail.userAns ? 'bg-red-600 border-red-400 text-white' : 'opacity-50 border-gray-700')) : 'bg-gray-800 hover:bg-gray-700 border-gray-600'"
                                class="w-full text-left p-4 rounded-xl border transition flex gap-3 items-start"
                                :disabled="activeDetail.dijawab">
-                          <span class="font-bold text-teal-400 mt-0.5" x-text="['A','B','C','D'][idx] + '.'"></span>
+                          <span class="font-bold text-blue-400 mt-0.5" x-text="['A','B','C','D'][idx] + '.'"></span>
                           <span class="text-sm text-gray-200" x-text="opt"></span>
                        </button>
                     </template>
@@ -109,13 +115,13 @@
 
   <!-- Header/Controls -->
   <div class="w-full max-w-[900px] flex justify-between items-center mb-6 px-4 z-10">
-     <a href="/" class="text-teal-400 hover:text-teal-300 transition font-semibold flex items-center gap-2 bg-teal-900/20 px-4 py-2 rounded-full border border-teal-500/30">
+     <a href="/" class="text-blue-400 hover:text-blue-300 transition font-semibold flex items-center gap-2 bg-blue-900/20 px-4 py-2 rounded-full border border-blue-500/30">
        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
        Kembali ke Beranda
      </a>
      <div class="flex gap-3">
-       <button id="btn-prev" class="px-6 py-2 rounded-full bg-[#12121a] border border-gray-600 hover:border-teal-400 hover:text-teal-400 text-white text-sm font-bold transition shadow-lg">← Prev</button>
-       <button id="btn-next" class="px-6 py-2 rounded-full bg-[#12121a] border border-gray-600 hover:border-purple-400 hover:text-purple-400 text-white text-sm font-bold transition shadow-lg">Next →</button>
+       <button id="btn-prev" class="px-6 py-2 rounded-full bg-[#12121a] border border-gray-600 hover:border-blue-400 hover:text-blue-400 text-white text-sm font-bold transition shadow-lg">← Prev</button>
+       <button id="btn-next" class="px-6 py-2 rounded-full bg-[#12121a] border border-gray-600 hover:border-pink-400 hover:text-pink-400 text-white text-sm font-bold transition shadow-lg">Next →</button>
      </div>
   </div>
   
@@ -125,8 +131,8 @@
     <!-- HALAMAN 1: Cover (Hard) -->
     <div class="page --hard">
       <div class="page-wrapper items-center justify-center text-center">
-        <div class="text-[10px] font-bold text-purple-400 mb-6 bg-purple-400/10 px-4 py-1.5 rounded-full border border-purple-400/20 tracking-widest">SMAN 1 PALEMBANG KELAS X</div>
-        <h1 class="text-6xl font-sora font-black text-transparent bg-clip-text bg-gradient-to-br from-teal-400 to-purple-400 mb-4 drop-shadow-lg">Bab 2</h1>
+        <div class="text-[10px] font-bold text-pink-400 mb-6 bg-pink-400/10 px-4 py-1.5 rounded-full border border-pink-400/20 tracking-widest">SMAN 1 PALEMBANG KELAS X</div>
+        <h1 class="text-6xl font-sora font-black text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-pink-400 mb-4 drop-shadow-lg">Bab 2</h1>
         <h2 class="text-2xl font-sora font-bold text-gray-200 mb-8">Algoritma & Pemrograman Lanjut</h2>
         
         <!-- Ilustrasi Cover -->
@@ -140,12 +146,12 @@
     <div class="page">
       <div class="page-wrapper">
         <div class="page-content animate-content">
-          <h2 class="text-xl font-sora font-bold text-teal-400 mb-5 border-b border-gray-700 pb-2">Apersepsi</h2>
+          <h2 class="text-xl font-sora font-bold text-blue-400 mb-5 border-b border-gray-700 pb-2">Apersepsi</h2>
           <p class="mb-4 text-xs text-gray-300 text-justify leading-relaxed">Setiap hari tanpa kamu sadari, kamu menjalankan aktivitas algoritma, seperti menentukan rute ke sekolah atau mengatur jadwal. Sistem komputer bekerja dengan cara yang sama, mengikuti instruksi yang disebut <b>algoritma</b> yang ditulis dalam <b>bahasa pemrograman</b> tertentu.</p>
           <p class="mb-5 text-xs text-gray-300 text-justify leading-relaxed">Dengan memahami pemrograman, kamu dapat menciptakan solusi cerdas, mulai dari aplikasi sederhana hingga teknologi yang kompleks seperti robot asisten pribadi.</p>
           
-          <div class="bg-teal-900/20 border-l-4 border-teal-500 p-4 rounded-r mb-4">
-            <h3 class="font-bold text-teal-300 text-sm mb-1">Tujuan Pembelajaran</h3>
+          <div class="bg-blue-900/20 border-l-4 border-blue-500 p-4 rounded-r mb-4">
+            <h3 class="font-bold text-blue-300 text-sm mb-1">Tujuan Pembelajaran</h3>
             <ul class="text-[11px] text-gray-400 list-disc pl-4 space-y-1">
                <li>Menerapkan pemrograman berbasis teks.</li>
                <li>Menerapkan debugging (analisis kesalahan).</li>
@@ -156,10 +162,10 @@
           <div class="bg-gray-800/50 p-3 rounded border border-gray-700">
              <h3 class="font-bold text-gray-200 text-[11px] mb-2">Kata Kunci:</h3>
              <div class="flex flex-wrap gap-2">
-                <span class="text-[9px] bg-purple-900/50 text-purple-300 px-2 py-1 rounded">Algoritma</span>
-                <span class="text-[9px] bg-purple-900/50 text-purple-300 px-2 py-1 rounded">Pemrograman</span>
-                <span class="text-[9px] bg-purple-900/50 text-purple-300 px-2 py-1 rounded">Flowchart</span>
-                <span class="text-[9px] bg-purple-900/50 text-purple-300 px-2 py-1 rounded">Debugging</span>
+                <span class="text-[9px] bg-pink-900/50 text-pink-300 px-2 py-1 rounded">Algoritma</span>
+                <span class="text-[9px] bg-pink-900/50 text-pink-300 px-2 py-1 rounded">Pemrograman</span>
+                <span class="text-[9px] bg-pink-900/50 text-pink-300 px-2 py-1 rounded">Flowchart</span>
+                <span class="text-[9px] bg-pink-900/50 text-pink-300 px-2 py-1 rounded">Debugging</span>
              </div>
           </div>
         </div>
@@ -171,16 +177,18 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-purple-400 mb-4">A. Algoritma Dasar</h2>
+             <h2 class="text-lg font-sora font-bold text-pink-400 mb-4">A. Algoritma Dasar</h2>
              <p class="text-xs mb-3 text-justify text-gray-300">Algoritma merupakan langkah-langkah logis yang disusun secara sistematis untuk menyelesaikan masalah atau mencapai tujuan tertentu. Konsep algoritma ini telah kamu pelajari pada fase sebelumnya, seperti cara memahami dan menuliskan urutan instruksi sederhana.</p>
              <p class="text-xs mb-3 text-justify text-gray-300">Algoritma tidak terbatas pada bidang ilmu komputer saja, tetapi prinsip algoritma dapat diterapkan pada berbagai disiplin ilmu, termasuk matematika, teknik, bahkan proses pengambilan keputusan dalam kehidupan sehari-hari (seperti resep masakan).</p>
              
-             <div class="mt-5 bg-[#1a1a2e] border-l-4 border-purple-500 p-3 rounded-r">
+             <div class="mt-5 bg-[#1a1a2e] border-l-4 border-pink-500 p-3 rounded-r">
                 <p class="text-[11px] text-gray-400 text-justify">Desain algoritma perlu disusun dengan terstruktur dan sistematis dari permasalahan yang jelas sampai dengan solusi yang tepat, sehingga algoritma mudah dipahami oleh mesin dan manusia.</p>
              </div>
           </div>
           <div class="page-footer"><span>Bab 2 Algoritma & Pemrograman</span><span>3</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab2_scene.png'); background-size: cover; background-position: center;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -188,7 +196,7 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-teal-400 mb-4">Bentuk Penyajian Algoritma</h2>
+             <h2 class="text-lg font-sora font-bold text-blue-400 mb-4">Bentuk Penyajian Algoritma</h2>
              <p class="text-xs mb-3 text-gray-300">Untuk memudahkan pemahaman, bentuk algoritma dapat disajikan dalam berbagai format:</p>
              
              <ul class="text-[11px] text-gray-400 space-y-4">
@@ -197,12 +205,14 @@
                 <li><strong class="text-white block mb-1">3. Flowchart:</strong> Diagram alir menggunakan simbol grafis standar untuk merepresentasikan alur logika secara visual.</li>
              </ul>
              
-             <div class="mt-5 p-2 bg-teal-900/30 border border-teal-500/50 rounded text-center">
-                <span class="text-[10px] text-teal-200">Menyajikan algoritma dalam bentuk tersebut mempermudah pemahaman solusi secara logis sebelum menerapkan ke bahasa pemrograman.</span>
+             <div class="mt-5 p-2 bg-blue-900/30 border border-blue-500/50 rounded text-center">
+                <span class="text-[10px] text-blue-200">Menyajikan algoritma dalam bentuk tersebut mempermudah pemahaman solusi secara logis sebelum menerapkan ke bahasa pemrograman.</span>
              </div>
           </div>
           <div class="page-footer"><span>Bab 2 Algoritma & Pemrograman</span><span>4</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab2_scene.png'); background-size: cover; background-position: center;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -210,12 +220,12 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-purple-400 mb-4">Simbol Standar Flowchart</h2>
+             <h2 class="text-lg font-sora font-bold text-pink-400 mb-4">Simbol Standar Flowchart</h2>
              <p class="text-[11px] mb-4 text-gray-300">Penting untuk mengetahui bentuk simbol dasar flowchart untuk menyusun alur logika.</p>
              
              <div class="grid grid-cols-1 gap-3 text-[10px]">
                 <div class="flex items-center gap-3 bg-gray-800 p-2 rounded border border-gray-600">
-                   <div class="w-12 h-6 bg-teal-500 rounded-full flex-shrink-0 flex items-center justify-center text-white text-[8px] font-bold">Oval</div>
+                   <div class="w-12 h-6 bg-blue-500 rounded-full flex-shrink-0 flex items-center justify-center text-white text-[8px] font-bold">Oval</div>
                    <div class="text-gray-300"><strong>Terminator:</strong> Menandakan Titik Awal (Start) dan Akhir (End) dari program.</div>
                 </div>
                 <div class="flex items-center gap-3 bg-gray-800 p-2 rounded border border-gray-600">
@@ -223,7 +233,7 @@
                    <div class="text-gray-300"><strong>Data (I/O):</strong> Mewakili proses Input data atau Output hasil.</div>
                 </div>
                 <div class="flex items-center gap-3 bg-gray-800 p-2 rounded border border-gray-600">
-                   <div class="w-12 h-6 bg-purple-500 flex-shrink-0 flex items-center justify-center text-white text-[8px] font-bold">Persegi</div>
+                   <div class="w-12 h-6 bg-pink-500 flex-shrink-0 flex items-center justify-center text-white text-[8px] font-bold">Persegi</div>
                    <div class="text-gray-300"><strong>Proses:</strong> Menunjukkan proses komputasi atau eksekusi perintah (contoh: perhitungan).</div>
                 </div>
                 <div class="flex items-center gap-3 bg-gray-800 p-2 rounded border border-gray-600">
@@ -233,7 +243,9 @@
              </div>
           </div>
           <div class="page-footer"><span>Bab 2 Algoritma & Pemrograman</span><span>5</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab2_scene.png'); background-size: cover; background-position: center;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
     
@@ -241,9 +253,9 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-teal-400 mb-4">Studi Kasus: Langkah Menuju Sekolah</h2>
+             <h2 class="text-lg font-sora font-bold text-blue-400 mb-4">Studi Kasus: Langkah Menuju Sekolah</h2>
              
-             <div class="bg-[#1a1a2e] border border-teal-500/50 rounded-lg p-3 mb-4 shadow-lg shadow-teal-900/20">
+             <div class="bg-[#1a1a2e] border border-blue-500/50 rounded-lg p-3 mb-4 shadow-lg shadow-blue-900/20">
                 <h3 class="text-[11px] font-bold text-white mb-2">Bentuk Naratif:</h3>
                 <p class="text-[10px] text-gray-400 text-justify mb-2">Setiap pagi kamu pergi ke sekolah. Biasanya kamu bangun pukul 05.00. Jika bangun tepat waktu, maka sarapan dengan tenang dan berangkat jalan kaki. Tapi jika terlambat, harus memilih naik sepeda (jika ada) atau berlari (jika tidak ada).</p>
              </div>
@@ -271,12 +283,12 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-purple-400 mb-4">Studi Kasus: Bentuk Flowchart</h2>
+             <h2 class="text-lg font-sora font-bold text-pink-400 mb-4">Studi Kasus: Bentuk Flowchart</h2>
              <p class="text-[11px] text-gray-300 mb-3">Ini adalah representasi visual dari Pseudocode sebelumnya.</p>
              
              <!-- ASCII Flowchart Simulation -->
              <div class="flex flex-col items-center text-[8px] font-mono mt-2 bg-gray-800/50 p-4 rounded-xl border border-gray-700">
-                <div class="px-4 py-1 bg-teal-600 rounded-full text-white">Start</div>
+                <div class="px-4 py-1 bg-blue-600 rounded-full text-white">Start</div>
                 <div class="h-4 border-l border-gray-400"></div>
                 
                 <div class="px-2 py-1 bg-yellow-600 transform rotate-0 text-center text-white border border-yellow-400">Bangun Tepat Waktu?</div>
@@ -294,15 +306,15 @@
                       <div class="px-2 py-1 bg-yellow-600 text-white text-center border border-yellow-400 mb-1">Sepeda Tersedia?</div>
                       <div class="text-[7px] text-gray-400 mb-1">Ya &nbsp;&nbsp;&nbsp;&nbsp; Tidak</div>
                       <div class="flex gap-1">
-                         <div class="px-1 py-1 bg-purple-600 text-white">Naik Sepeda</div>
-                         <div class="px-1 py-1 bg-purple-600 text-white">Lari</div>
+                         <div class="px-1 py-1 bg-pink-600 text-white">Naik Sepeda</div>
+                         <div class="px-1 py-1 bg-pink-600 text-white">Lari</div>
                       </div>
                    </div>
                    
                    <!-- Right (Ya) -->
                    <div class="flex flex-col items-center">
-                      <div class="px-2 py-1 bg-purple-600 text-white mb-2">Sarapan</div>
-                      <div class="px-2 py-1 bg-purple-600 text-white">Jalan Kaki</div>
+                      <div class="px-2 py-1 bg-pink-600 text-white mb-2">Sarapan</div>
+                      <div class="px-2 py-1 bg-pink-600 text-white">Jalan Kaki</div>
                    </div>
                 </div>
                 
@@ -312,7 +324,7 @@
                    <div class="w-1/2 border-b border-r border-gray-400 h-4 rounded-br"></div>
                 </div>
                 <div class="h-4 border-l border-gray-400"></div>
-                <div class="px-4 py-1 bg-teal-600 rounded-full text-white">End</div>
+                <div class="px-4 py-1 bg-blue-600 rounded-full text-white">End</div>
              </div>
           </div>
           <div class="page-footer"><span>Bab 2 Algoritma & Pemrograman</span><span>7</span></div>
@@ -323,10 +335,10 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-teal-400 mb-4 leading-snug">B. Implementasi Logika dalam Flowchart</h2>
+             <h2 class="text-lg font-sora font-bold text-blue-400 mb-4 leading-snug">B. Implementasi Logika dalam Flowchart</h2>
              <p class="text-[11px] mb-4 text-gray-300 text-justify">Logika pemrograman adalah landasan utama untuk menyelesaikan persoalan melalui kode. Pemahaman logika mempercepat penulisan program dan optimasi. Terdapat beberapa jenis logika pemrograman.</p>
              
-             <div class="bg-[#1a1a2e] border-l-2 border-teal-500 p-3 rounded mb-4">
+             <div class="bg-[#1a1a2e] border-l-2 border-blue-500 p-3 rounded mb-4">
                 <h3 class="text-sm font-bold text-white mb-1">1. Logika Urutan (Sequence Logic)</h3>
                 <p class="text-[10px] text-gray-400 text-justify">Instruksi secara berurutan dari atas ke bawah. Setiap pernyataan dieksekusi satu per satu tanpa percabangan.</p>
                 <div class="code-block text-[9px] mt-2">
@@ -338,7 +350,9 @@ Output(Rata)</div>
              </div>
           </div>
           <div class="page-footer"><span>Bab 2 Algoritma & Pemrograman</span><span>8</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab2_scene.png'); background-size: cover; background-position: center;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -346,12 +360,12 @@ Output(Rata)</div>
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <div class="bg-[#1a1a2e] border-l-2 border-purple-500 p-3 rounded mb-4">
+             <div class="bg-[#1a1a2e] border-l-2 border-pink-500 p-3 rounded mb-4">
                 <h3 class="text-sm font-bold text-white mb-1">2. Logika Seleksi / Percabangan</h3>
                 <p class="text-[10px] text-gray-400 text-justify">Logika yang digunakan untuk membuat keputusan berdasarkan kondisi (seperti IF, IF-ELSE, atau SWITCH-CASE). Operator logika aritmatika, perbandingan, dan boolean digunakan untuk mengevaluasi kondisi.</p>
              </div>
              
-             <h4 class="text-xs font-bold text-purple-300 mb-2">Pengondisian Bertingkat (Nested If)</h4>
+             <h4 class="text-xs font-bold text-pink-300 mb-2">Pengondisian Bertingkat (Nested If)</h4>
              <p class="text-[10px] text-gray-300 text-justify mb-3">Sebuah struktur pengondisian di mana satu pernyataan IF berada di dalam blok IF atau ELSE lainnya. Ini memungkinkan pengambilan keputusan yang sangat kompleks dan bertingkat.</p>
              
              <div class="code-block text-[9px]">
@@ -364,7 +378,9 @@ Output(Rata)</div>
 <span class="keyword">ENDIF</span></div>
           </div>
           <div class="page-footer"><span>Bab 2 Algoritma & Pemrograman</span><span>9</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab2_scene.png'); background-size: cover; background-position: center;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -372,7 +388,7 @@ Output(Rata)</div>
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-teal-400 mb-4">Contoh Prediksi Nilai Akhir</h2>
+             <h2 class="text-lg font-sora font-bold text-blue-400 mb-4">Contoh Prediksi Nilai Akhir</h2>
              <p class="text-[10px] text-gray-300 mb-2">Penerapan struktur <i>Nested If (Else-If)</i> untuk menentukan predikat ujian.</p>
              
              <div class="code-block text-[9px] mb-3">
@@ -407,12 +423,12 @@ Output(Rata)</div>
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <div class="bg-[#1a1a2e] border-l-2 border-teal-500 p-3 rounded mb-4">
+             <div class="bg-[#1a1a2e] border-l-2 border-blue-500 p-3 rounded mb-4">
                 <h3 class="text-sm font-bold text-white mb-1">3. Logika Perulangan (Looping)</h3>
                 <p class="text-[10px] text-gray-400 text-justify">Logika ini digunakan untuk mengeksekusi blok kode secara berulang selama kondisi tertentu terpenuhi. Struktur perulangan sangat penting untuk efisiensi kode. Contohnya: FOR, WHILE DO, REPEAT UNTIL.</p>
              </div>
              
-             <h4 class="text-xs font-bold text-teal-300 mb-2">Pengulangan Bersarang (Nested Loop)</h4>
+             <h4 class="text-xs font-bold text-blue-300 mb-2">Pengulangan Bersarang (Nested Loop)</h4>
              <p class="text-[10px] text-gray-300 text-justify mb-3">Struktur kontrol yang terdiri dari satu pengulangan (loop) di dalam pengulangan lainnya. Saat loop luar berjalan sekali, loop dalam akan berjalan sepenuhnya sebelum loop luar pindah ke iterasi berikutnya.</p>
              
              <div class="code-block text-[9px]">
@@ -423,7 +439,9 @@ Output(Rata)</div>
 <span class="keyword">ENDFOR</span></div>
           </div>
           <div class="page-footer"><span>Bab 2 Algoritma & Pemrograman</span><span>11</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab2_scene.png'); background-size: cover; background-position: center;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -431,7 +449,7 @@ Output(Rata)</div>
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-purple-400 mb-4">Contoh Nested Loop</h2>
+             <h2 class="text-lg font-sora font-bold text-pink-400 mb-4">Contoh Nested Loop</h2>
              <p class="text-[10px] text-gray-300 mb-3">Contoh sederhana pengulangan bersarang adalah mencetak tabel perkalian (1 hingga 3 dikali 1 hingga 5).</p>
              
              <div class="code-block text-[9px] mb-4">
@@ -459,7 +477,7 @@ Output(Rata)</div>
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-teal-400 mb-4">4. Algoritma Pencarian (Searching)</h2>
+             <h2 class="text-lg font-sora font-bold text-blue-400 mb-4">4. Algoritma Pencarian (Searching)</h2>
              
              <h3 class="text-sm font-bold text-white mb-1">a. Sequential Search (Linear)</h3>
              <p class="text-[10px] text-gray-300 text-justify mb-3">Algoritma pencarian paling sederhana. Bekerja dengan cara memeriksa elemen satu per satu, dari awal sampai akhir. Pencarian berhenti jika data ditemukan. Keuntungannya: data tidak perlu terurut. Kerugiannya: lambat untuk data besar.</p>
@@ -475,12 +493,14 @@ posisi = -1
    <span class="keyword">ENDIF</span>
 <span class="keyword">ENDFOR</span></div>
 
-             <div class="bg-teal-900/20 p-2 border-l-2 border-teal-500 rounded text-[9px] text-teal-100">
+             <div class="bg-blue-900/20 p-2 border-l-2 border-blue-500 rounded text-[9px] text-blue-100">
                Contoh: Jika mencari nilai 10, program akan mengecek A[0] (salah), A[1] (salah), lalu A[2] (Benar!).
              </div>
           </div>
           <div class="page-footer"><span>Bab 2 Algoritma & Pemrograman</span><span>13</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab2_scene.png'); background-size: cover; background-position: center;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -488,7 +508,7 @@ posisi = -1
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-sm font-bold text-purple-400 mb-2">b. Binary Search</h3>
+             <h3 class="text-sm font-bold text-pink-400 mb-2">b. Binary Search</h3>
              <p class="text-[10px] text-gray-300 text-justify mb-3">Algoritma pencarian yang efisien, TAPI syaratnya <b>data harus sudah diurutkan</b>. Bekerja dengan membagi array menjadi dua bagian lalu membandingkan nilai yang dicari dengan elemen tengah.</p>
              
              <div class="code-block text-[8px] mb-4">
@@ -518,14 +538,14 @@ posisi = -1
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-teal-400 mb-4">Perbandingan Pencarian</h2>
+             <h2 class="text-lg font-sora font-bold text-blue-400 mb-4">Perbandingan Pencarian</h2>
              
-             <div class="border border-teal-500/30 rounded-lg overflow-hidden mt-4 shadow-lg shadow-teal-900/20">
+             <div class="border border-blue-500/30 rounded-lg overflow-hidden mt-4 shadow-lg shadow-blue-900/20">
                 <table class="w-full text-[10px] text-left">
                    <tr>
                       <th class="p-2 border-b border-r border-gray-700 bg-gray-800 text-white">Aspek</th>
-                      <th class="p-2 border-b border-r border-gray-700 bg-teal-900/50 text-teal-300">Sequential Search</th>
-                      <th class="p-2 border-b border-gray-700 bg-purple-900/50 text-purple-300">Binary Search</th>
+                      <th class="p-2 border-b border-r border-gray-700 bg-blue-900/50 text-blue-300">Sequential Search</th>
+                      <th class="p-2 border-b border-gray-700 bg-pink-900/50 text-pink-300">Binary Search</th>
                    </tr>
                    <tr>
                       <td class="p-2 border-b border-r border-gray-700 font-bold text-gray-300">Syarat Data</td>
@@ -546,7 +566,9 @@ posisi = -1
              </div>
           </div>
           <div class="page-footer"><span>Bab 2 Algoritma & Pemrograman</span><span>15</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab2_scene.png'); background-size: cover; background-position: center;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -554,7 +576,7 @@ posisi = -1
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-purple-400 mb-4">5. Algoritma Pengurutan (Sorting)</h2>
+             <h2 class="text-lg font-sora font-bold text-pink-400 mb-4">5. Algoritma Pengurutan (Sorting)</h2>
              
              <h3 class="text-sm font-bold text-white mb-2">a. Selection Sort</h3>
              <p class="text-[10px] text-gray-300 text-justify mb-3">Algoritma sederhana yang bekerja dengan cara mencari nilai terkecil/terbesar dari data yang belum terurut, lalu menukarnya ke posisi paling awal. Proses ini diulangi untuk sisa data.</p>
@@ -579,7 +601,7 @@ posisi = -1
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-sm font-bold text-teal-400 mb-2">b. Insertion Sort</h3>
+             <h3 class="text-sm font-bold text-blue-400 mb-2">b. Insertion Sort</h3>
              <p class="text-[10px] text-gray-300 text-justify mb-3">Bekerja seperti seseorang menyusun kartu di tangan saat bermain remi. Setiap elemen dipilih satu per satu dan disisipkan pada posisi yang sesuai dalam bagian data yang sudah terurut di sebelah kirinya.</p>
              
              <div class="bg-gray-800 p-3 rounded border border-gray-700 text-[9px] font-mono text-gray-300">
@@ -594,7 +616,9 @@ posisi = -1
              </div>
           </div>
           <div class="page-footer"><span>Bab 2 Algoritma & Pemrograman</span><span>17</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab2_scene.png'); background-size: cover; background-position: center;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -602,12 +626,12 @@ posisi = -1
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-purple-400 mb-4">C. Algoritma Terstruktur</h2>
+             <h2 class="text-lg font-sora font-bold text-pink-400 mb-4">C. Algoritma Terstruktur</h2>
              
              <h3 class="text-sm font-bold text-white mb-2">1. Array</h3>
              <p class="text-[10px] text-gray-300 text-justify mb-3">Struktur data adalah cara mengatur dan menyimpan data secara efisien. Salah satu bentuk yang paling dasar adalah Array. Array menyimpan sekumpulan nilai dengan tipe data yang sama dalam satu variabel.</p>
              
-             <div class="bg-[#1a1a2e] border-l-4 border-purple-500 p-3 mb-4 rounded-r">
+             <div class="bg-[#1a1a2e] border-l-4 border-pink-500 p-3 mb-4 rounded-r">
                 <p class="text-[10px] text-gray-400 mb-2">Setiap elemen dalam Array dipanggil menggunakan Indeks unik yang dimulai dari 0.</p>
                 <div class="code-block text-[9px]">
 <span class="keyword">Kamus</span>
@@ -632,11 +656,11 @@ Jumlah = A[1] + A[3]  <span class="comment">// 2 + 4 = 6</span></div>
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-sm font-bold text-teal-400 mb-2">2. Algoritma Rule Based</h3>
+             <h3 class="text-sm font-bold text-blue-400 mb-2">2. Algoritma Rule Based</h3>
              <p class="text-[10px] text-gray-300 text-justify mb-3">Algoritma berbasis aturan (Rule Based) adalah bentuk pengambilan keputusan paling dasar dalam Kecerdasan Artifisial (KA). Sistem ini bekerja murni berdasarkan aturan yang ditulis manusia (If-Then atau Nested If).</p>
              
-             <div class="bg-teal-900/20 border border-teal-500/50 p-3 rounded-lg shadow-lg">
-                <h4 class="font-bold text-teal-300 text-xs mb-2">Sistem Pakar Diagnosa Kesehatan</h4>
+             <div class="bg-blue-900/20 border border-blue-500/50 p-3 rounded-lg shadow-lg">
+                <h4 class="font-bold text-blue-300 text-xs mb-2">Sistem Pakar Diagnosa Kesehatan</h4>
                 <div class="code-block text-[8px] mb-2">
 <span class="keyword">IF</span> suhu > 37.5 <span class="keyword">THEN</span>
    <span class="keyword">IF</span> batuk == "ya" <span class="keyword">THEN</span>
@@ -651,7 +675,9 @@ Jumlah = A[1] + A[3]  <span class="comment">// 2 + 4 = 6</span></div>
              </div>
           </div>
           <div class="page-footer"><span>Bab 2 Algoritma & Pemrograman</span><span>19</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab2_scene.png'); background-size: cover; background-position: center;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -659,20 +685,20 @@ Jumlah = A[1] + A[3]  <span class="comment">// 2 + 4 = 6</span></div>
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-purple-400 mb-4">3. Machine Learning (AI)</h2>
+             <h2 class="text-lg font-sora font-bold text-pink-400 mb-4">3. Machine Learning (AI)</h2>
              <p class="text-[10px] text-gray-300 mb-3 text-justify">Berbeda dengan Rule-Based, algoritma ML dapat "belajar" menemukan pola dari data secara mandiri untuk membuat prediksi tanpa perlu di-program eksplisit satu per satu.</p>
              
              <h3 class="text-sm font-bold text-white mb-1 mt-4">a. Decision Tree</h3>
-             <p class="text-[10px] text-gray-400 text-justify mb-2">Algoritma berbasis struktur Pohon Keputusan. Titik cabang disebut <span class="text-purple-300">Node</span>, sedangkan hasil kesimpulan ada di ujung cabang (<span class="text-purple-300">Leaf Node</span>).</p>
+             <p class="text-[10px] text-gray-400 text-justify mb-2">Algoritma berbasis struktur Pohon Keputusan. Titik cabang disebut <span class="text-pink-300">Node</span>, sedangkan hasil kesimpulan ada di ujung cabang (<span class="text-pink-300">Leaf Node</span>).</p>
              
              <div class="bg-[#1a1a2e] p-3 rounded border border-gray-700 text-center flex flex-col items-center">
                 <p class="text-[10px] font-bold text-gray-200 mb-2">Klasifikasi Hewan</p>
-                <div class="w-32 h-6 bg-purple-600 rounded text-white text-[9px] flex items-center justify-center mb-1">Bertulang Belakang?</div>
+                <div class="w-32 h-6 bg-pink-600 rounded text-white text-[9px] flex items-center justify-center mb-1">Bertulang Belakang?</div>
                 <div class="flex gap-4 text-[9px]">
                    <div class="flex flex-col items-center">
                       <div class="w-px h-3 bg-gray-500"></div>
                       <span class="text-green-400">Ya</span>
-                      <div class="w-20 h-6 bg-teal-600 rounded text-white flex items-center justify-center mt-1">Menyusui?</div>
+                      <div class="w-20 h-6 bg-blue-600 rounded text-white flex items-center justify-center mt-1">Menyusui?</div>
                       <div class="flex gap-2">
                          <div class="mt-1 text-yellow-300">Mamalia</div>
                       </div>
@@ -693,7 +719,7 @@ Jumlah = A[1] + A[3]  <span class="comment">// 2 + 4 = 6</span></div>
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-sm font-bold text-teal-400 mb-2">b. Linear Regression</h3>
+             <h3 class="text-sm font-bold text-blue-400 mb-2">b. Linear Regression</h3>
              <p class="text-[10px] text-gray-300 text-justify mb-3">Algoritma ini memprediksi suatu nilai kontinu berdasarkan hubungan sebab-akibat dua variabel: X (Independen) dan Y (Dependen).</p>
              
              <div class="bg-gray-800 p-3 rounded border border-gray-700 text-center">
@@ -714,7 +740,9 @@ Jumlah = A[1] + A[3]  <span class="comment">// 2 + 4 = 6</span></div>
              </div>
           </div>
           <div class="page-footer"><span>Bab 2 Algoritma & Pemrograman</span><span>21</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab2_scene.png'); background-size: cover; background-position: center;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -722,7 +750,7 @@ Jumlah = A[1] + A[3]  <span class="comment">// 2 + 4 = 6</span></div>
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-purple-400 mb-4">Contoh Prediksi Regresi Linear</h2>
+             <h2 class="text-lg font-sora font-bold text-pink-400 mb-4">Contoh Prediksi Regresi Linear</h2>
              <p class="text-[10px] text-gray-300 mb-2 text-justify">Prediksi Berat Badan (Y) berdasarkan Tinggi Badan (X).</p>
              
              <table class="w-full text-[9px] text-center mb-4 border border-gray-700 bg-gray-800">
@@ -732,7 +760,7 @@ Jumlah = A[1] + A[3]  <span class="comment">// 2 + 4 = 6</span></div>
                 <tr><td class="p-1">170 cm</td><td class="p-1">60 kg</td></tr>
              </table>
              
-             <div class="bg-[#1a1a2e] p-3 rounded-lg border-l-2 border-purple-500 text-[9px] text-gray-400">
+             <div class="bg-[#1a1a2e] p-3 rounded-lg border-l-2 border-pink-500 text-[9px] text-gray-400">
                 <p>1. AI menghitung Rata-rata X dan Y.</p>
                 <p>2. AI menghitung Kemiringan (Slope/b) dan Konstan (Intercept/a).</p>
                 <p>3. Jika Tinggi baru 175 cm dimasukkan ke rumus Y = a + bX</p>
@@ -747,7 +775,7 @@ Jumlah = A[1] + A[3]  <span class="comment">// 2 + 4 = 6</span></div>
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-sm font-bold text-teal-400 mb-2">c. K-Means Clustering</h3>
+             <h3 class="text-sm font-bold text-blue-400 mb-2">c. K-Means Clustering</h3>
              <p class="text-[10px] text-gray-300 text-justify mb-4">Algoritma yang mengelompokkan data tak berlabel menjadi beberapa klaster berdasarkan kemiripan jaraknya ke titik pusat (Sentroid).</p>
              
              <div class="bg-gray-800 p-3 rounded border border-gray-700 flex justify-between items-center mb-4">
@@ -759,7 +787,7 @@ Jumlah = A[1] + A[3]  <span class="comment">// 2 + 4 = 6</span></div>
                    <div class="w-1.5 h-1.5 bg-gray-500 rounded-full absolute bottom-4 right-4"></div>
                 </div>
                 
-                <span class="text-[9px] font-bold text-teal-400">K-Means ➔</span>
+                <span class="text-[9px] font-bold text-blue-400">K-Means ➔</span>
                 
                 <!-- Clustered Data -->
                 <div class="relative w-16 h-16 border border-gray-600 bg-gray-900 rounded">
@@ -775,7 +803,9 @@ Jumlah = A[1] + A[3]  <span class="comment">// 2 + 4 = 6</span></div>
              <p class="text-[9px] text-gray-400">Jarak kemiripan dihitung menggunakan Rumus Phytagoras antara titik data dengan Sentroid.</p>
           </div>
           <div class="page-footer"><span>Bab 2 Algoritma & Pemrograman</span><span>23</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab2_scene.png'); background-size: cover; background-position: center;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -783,17 +813,17 @@ Jumlah = A[1] + A[3]  <span class="comment">// 2 + 4 = 6</span></div>
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-purple-400 mb-4">Contoh K-Means Clustering</h2>
+             <h2 class="text-lg font-sora font-bold text-pink-400 mb-4">Contoh K-Means Clustering</h2>
              <p class="text-[10px] text-gray-300 text-justify mb-2">Mengelompokkan teman berdasarkan Hobi Olahraga dan Musik (Nilai 1=Suka, 0=Tidak).</p>
              
              <table class="w-full text-[9px] text-center mb-3 border border-gray-700 bg-gray-800">
                 <tr><th class="border-b border-gray-600 p-1">Teman</th><th class="border-b border-gray-600 p-1">Olahraga</th><th class="border-b border-gray-600 p-1">Musik</th></tr>
-                <tr><td class="p-1 text-teal-300">A</td><td class="p-1">1</td><td class="p-1">1</td></tr>
+                <tr><td class="p-1 text-blue-300">A</td><td class="p-1">1</td><td class="p-1">1</td></tr>
                 <tr><td class="p-1">B</td><td class="p-1">1</td><td class="p-1">0</td></tr>
-                <tr><td class="p-1 text-purple-300">C</td><td class="p-1">0</td><td class="p-1">1</td></tr>
+                <tr><td class="p-1 text-pink-300">C</td><td class="p-1">0</td><td class="p-1">1</td></tr>
              </table>
              
-             <div class="bg-[#1a1a2e] p-3 rounded-lg border-l-2 border-purple-500 text-[9px] text-gray-400">
+             <div class="bg-[#1a1a2e] p-3 rounded-lg border-l-2 border-pink-500 text-[9px] text-gray-400">
                 <p>1. Tentukan jumlah klaster (K=2).</p>
                 <p>2. Pilih Teman A sebagai Sentroid C1, dan Teman C sebagai Sentroid C2.</p>
                 <p>3. Hitung jarak Teman B ke C1 dan C2 dengan phytagoras.</p>
@@ -808,11 +838,11 @@ Jumlah = A[1] + A[3]  <span class="comment">// 2 + 4 = 6</span></div>
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-sm font-bold text-teal-400 mb-2">d. Naive Bayes</h3>
+             <h3 class="text-sm font-bold text-blue-400 mb-2">d. Naive Bayes</h3>
              <p class="text-[10px] text-gray-300 text-justify mb-4">Metode untuk klasifikasi atau prediksi yang didasarkan pada Teorema Bayes (Probabilitas bersyarat). Ia menghitung kemungkinan suatu kejadian terjadi berdasarkan informasi lampau.</p>
              
-             <div class="bg-teal-900/20 p-3 rounded border border-teal-500/50 mb-4 shadow-lg text-center">
-                <p class="font-bold text-teal-300 text-xs mb-2">Rumus Naive Bayes</p>
+             <div class="bg-blue-900/20 p-3 rounded border border-blue-500/50 mb-4 shadow-lg text-center">
+                <p class="font-bold text-blue-300 text-xs mb-2">Rumus Naive Bayes</p>
                 <div class="text-[10px] bg-[#12121a] p-2 rounded inline-block text-white font-mono">
                    P(A|B) = P(A ∩ B) / P(B)
                 </div>
@@ -825,7 +855,9 @@ Jumlah = A[1] + A[3]  <span class="comment">// 2 + 4 = 6</span></div>
              </ul>
           </div>
           <div class="page-footer"><span>Bab 2 Algoritma & Pemrograman</span><span>25</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab2_scene.png'); background-size: cover; background-position: center;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -833,17 +865,17 @@ Jumlah = A[1] + A[3]  <span class="comment">// 2 + 4 = 6</span></div>
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-purple-400 mb-4">Contoh Naive Bayes</h2>
+             <h2 class="text-lg font-sora font-bold text-pink-400 mb-4">Contoh Naive Bayes</h2>
              <p class="text-[10px] text-gray-300 text-justify mb-2">Menebak Buah baru (Ukuran=Kecil, Rasa=Manis) dari data tabel sejarah.</p>
              
-             <div class="bg-[#1a1a2e] p-3 rounded-lg border-l-2 border-purple-500 text-[8px] text-gray-400">
+             <div class="bg-[#1a1a2e] p-3 rounded-lg border-l-2 border-pink-500 text-[8px] text-gray-400">
                 <p class="mb-1"><strong class="text-white">Probabilitas Apel:</strong></p>
                 <p>P(Apel|Kecil,Manis) = P(Apel) * P(Kecil|Apel) * P(Manis|Apel)</p>
-                <p class="mb-2 text-purple-300">= 0.33 * 0.33 * 0.67 = 0.072</p>
+                <p class="mb-2 text-pink-300">= 0.33 * 0.33 * 0.67 = 0.072</p>
                 
                 <p class="mb-1"><strong class="text-white">Probabilitas Anggur:</strong></p>
                 <p>P(Anggur|Kecil,Manis) = P(Anggur) * P(Kecil|Anggur) * P(Manis|Anggur)</p>
-                <p class="mb-2 text-teal-300">= 0.33 * 0.67 * 1 = 0.22</p>
+                <p class="mb-2 text-blue-300">= 0.33 * 0.67 * 1 = 0.22</p>
                 
                 <div class="bg-gray-800 p-2 rounded border border-gray-600">
                    <strong class="text-white">Kesimpulan:</strong> Karena probabilitas Anggur (0.22) lebih besar dari Apel (0.072), AI memprediksi buah tersebut adalah <strong>Anggur</strong>!
@@ -858,15 +890,15 @@ Jumlah = A[1] + A[3]  <span class="comment">// 2 + 4 = 6</span></div>
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-teal-400 mb-4">D. Pengenalan Pemrograman Teks</h2>
+             <h2 class="text-lg font-sora font-bold text-blue-400 mb-4">D. Pengenalan Pemrograman Teks</h2>
              <p class="text-[11px] text-gray-300 text-justify mb-3">Pemrograman tekstual adalah penulisan instruksi secara manual menggunakan sintaks dan aturan spesifik. Berbeda dari pemrograman visual (Blok <i>drag-and-drop</i>), pemrograman tekstual jauh lebih fleksibel dan digunakan profesional.</p>
              
-             <div class="border border-teal-500/30 rounded-lg overflow-hidden mt-4 shadow-lg shadow-teal-900/20">
+             <div class="border border-blue-500/30 rounded-lg overflow-hidden mt-4 shadow-lg shadow-blue-900/20">
                 <table class="w-full text-[9px] text-left">
                    <tr>
                       <th class="p-2 border-b border-r border-gray-700 bg-gray-800 text-white">Aspek</th>
-                      <th class="p-2 border-b border-r border-gray-700 bg-teal-900/50 text-teal-300">Teks (C, Python)</th>
-                      <th class="p-2 border-b border-gray-700 bg-purple-900/50 text-purple-300">Visual (Scratch)</th>
+                      <th class="p-2 border-b border-r border-gray-700 bg-blue-900/50 text-blue-300">Teks (C, Python)</th>
+                      <th class="p-2 border-b border-gray-700 bg-pink-900/50 text-pink-300">Visual (Scratch)</th>
                    </tr>
                    <tr>
                       <td class="p-2 border-b border-r border-gray-700 font-bold text-gray-300">Cara</td>
@@ -887,7 +919,9 @@ Jumlah = A[1] + A[3]  <span class="comment">// 2 + 4 = 6</span></div>
              </div>
           </div>
           <div class="page-footer"><span>Bab 2 Algoritma & Pemrograman</span><span>27</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab2_scene.png'); background-size: cover; background-position: center;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -895,14 +929,14 @@ Jumlah = A[1] + A[3]  <span class="comment">// 2 + 4 = 6</span></div>
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-sm font-bold text-purple-400 mb-4">Siklus Eksekusi Pemrograman</h3>
+             <h3 class="text-sm font-bold text-pink-400 mb-4">Siklus Eksekusi Pemrograman</h3>
              
              <div class="space-y-4 relative">
                 <!-- Line -->
                 <div class="absolute left-6 top-4 bottom-4 w-1 bg-gray-700 z-0"></div>
                 
                 <div class="flex gap-4 relative z-10 items-center">
-                   <div class="w-12 h-12 bg-gray-800 rounded-full border-2 border-purple-500 flex items-center justify-center flex-shrink-0 shadow-lg">1</div>
+                   <div class="w-12 h-12 bg-gray-800 rounded-full border-2 border-pink-500 flex items-center justify-center flex-shrink-0 shadow-lg">1</div>
                    <div>
                       <h4 class="text-xs font-bold text-white">Source Code</h4>
                       <p class="text-[9px] text-gray-400">Menulis kode program dengan bahasa manusia (C++, Python).</p>
@@ -918,7 +952,7 @@ Jumlah = A[1] + A[3]  <span class="comment">// 2 + 4 = 6</span></div>
                 </div>
                 
                 <div class="flex gap-4 relative z-10 items-center">
-                   <div class="w-12 h-12 bg-teal-900 rounded-full border-2 border-teal-500 flex items-center justify-center flex-shrink-0 shadow-lg">3</div>
+                   <div class="w-12 h-12 bg-blue-900 rounded-full border-2 border-blue-500 flex items-center justify-center flex-shrink-0 shadow-lg">3</div>
                    <div>
                       <h4 class="text-xs font-bold text-white">Execute & Output</h4>
                       <p class="text-[9px] text-gray-400">Komputer menjalankan file eksekutabel dan menampilkan hasil di layar.</p>
@@ -934,7 +968,7 @@ Jumlah = A[1] + A[3]  <span class="comment">// 2 + 4 = 6</span></div>
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-teal-400 mb-4">Tool Pemrograman Teks</h2>
+             <h2 class="text-lg font-sora font-bold text-blue-400 mb-4">Tool Pemrograman Teks</h2>
              <p class="text-[11px] text-gray-300 text-justify mb-4">Kamu tidak perlu menginstal aplikasi berat. Gunakan Cloud IDE (Integrated Development Environment) di browser.</p>
              
              <div class="space-y-4">
@@ -953,7 +987,9 @@ Jumlah = A[1] + A[3]  <span class="comment">// 2 + 4 = 6</span></div>
              </div>
           </div>
           <div class="page-footer"><span>Bab 2 Algoritma & Pemrograman</span><span>29</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab2_scene.png'); background-size: cover; background-position: center;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -961,13 +997,13 @@ Jumlah = A[1] + A[3]  <span class="comment">// 2 + 4 = 6</span></div>
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-purple-400 mb-4">E. Sintaks Dasar Pemrograman</h2>
+             <h2 class="text-lg font-sora font-bold text-pink-400 mb-4">E. Sintaks Dasar Pemrograman</h2>
              <p class="text-[10px] text-gray-300 text-justify mb-3">Setiap bahasa memiliki aturan sintaks (tata bahasa) sendiri.</p>
              
              <h3 class="text-sm font-bold text-white mb-2">1. Bahasa C</h3>
              <ul class="text-[9px] text-gray-400 list-disc pl-4 space-y-1 mb-2">
-                <li>Harus punya fungsi <span class="font-mono text-purple-300">main()</span></li>
-                <li>Setiap baris wajib diakhiri titik koma (<span class="font-mono text-purple-300">;</span>)</li>
+                <li>Harus punya fungsi <span class="font-mono text-pink-300">main()</span></li>
+                <li>Setiap baris wajib diakhiri titik koma (<span class="font-mono text-pink-300">;</span>)</li>
                 <li><i>Case-sensitive</i> (huruf besar/kecil berbeda)</li>
              </ul>
              
@@ -987,7 +1023,7 @@ Jumlah = A[1] + A[3]  <span class="comment">// 2 + 4 = 6</span></div>
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-sm font-bold text-teal-400 mb-2">2. Bahasa Python</h3>
+             <h3 class="text-sm font-bold text-blue-400 mb-2">2. Bahasa Python</h3>
              <p class="text-[10px] text-gray-300 text-justify mb-3">Bahasa tingkat tinggi yang paling simpel & populer untuk AI.</p>
              
              <ul class="text-[9px] text-gray-400 list-disc pl-4 space-y-1 mb-2">
@@ -1001,14 +1037,16 @@ Jumlah = A[1] + A[3]  <span class="comment">// 2 + 4 = 6</span></div>
 nama = input(<span class="string">"Masukkan nama: "</span>)
 print(<span class="string">"Selamat datang"</span>, nama)</div>
 
-             <div class="bg-teal-900/20 p-2 border border-teal-500/50 rounded-lg text-[9px] text-teal-100">
+             <div class="bg-blue-900/20 p-2 border border-blue-500/50 rounded-lg text-[9px] text-blue-100">
                 <b>Konversi Tipe Data:</b><br>
                 <span class="font-mono">int("123")</span> ➔ Mengubah teks jadi angka bulat.<br>
                 <span class="font-mono">float("1.5")</span> ➔ Mengubah teks jadi pecahan.<br>
              </div>
           </div>
           <div class="page-footer"><span>Bab 2 Algoritma & Pemrograman</span><span>31</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab2_scene.png'); background-size: cover; background-position: center;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -1016,13 +1054,13 @@ print(<span class="string">"Selamat datang"</span>, nama)</div>
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-sm font-bold text-purple-400 mb-2">3. Bahasa Java</h3>
+             <h3 class="text-sm font-bold text-pink-400 mb-2">3. Bahasa Java</h3>
              <p class="text-[10px] text-gray-300 text-justify mb-3">Bahasa berbasis Class (Object Oriented) yang berjalan di berbagai platform.</p>
              
              <ul class="text-[9px] text-gray-400 list-disc pl-4 space-y-1 mb-2">
-                <li>Semua kode harus di dalam <span class="font-mono text-purple-300">class</span>.</li>
+                <li>Semua kode harus di dalam <span class="font-mono text-pink-300">class</span>.</li>
                 <li>Nama file harus sama dengan nama class (cth: Halo.java).</li>
-                <li>Wajib fungsi <span class="font-mono text-purple-300">main</span> dan titik koma (;).</li>
+                <li>Wajib fungsi <span class="font-mono text-pink-300">main</span> dan titik koma (;).</li>
              </ul>
              
              <div class="code-block text-[8px] mb-3">
@@ -1042,7 +1080,7 @@ print(<span class="string">"Selamat datang"</span>, nama)</div>
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-lg font-sora font-bold text-teal-400 mb-4">F. Analisis Kesalahan (Debugging)</h2>
+             <h2 class="text-lg font-sora font-bold text-blue-400 mb-4">F. Analisis Kesalahan (Debugging)</h2>
              <p class="text-[10px] text-gray-300 mb-3 text-justify">Debugging adalah proses mencari, menemukan, dan memperbaiki bug (kesalahan) dalam program.</p>
              
              <div class="bg-red-900/20 border-l-2 border-red-500 p-3 rounded mb-4">
@@ -1057,7 +1095,9 @@ pint(<span class="string">"Halo"</span>)</div>
              </div>
           </div>
           <div class="page-footer"><span>Bab 2 Algoritma & Pemrograman</span><span>33</span></div>
-          <div class="mascot bg-cover" style="background-image: url('/assets/bab2_scene.png'); background-size: cover; background-position: center;"></div>
+          <div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+               <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            </div>
        </div>
     </div>
 
@@ -1093,19 +1133,19 @@ print(<span class="string">"Nilai: "</span> + 100) </div>
        <div class="page-wrapper">
           <div class="page-content animate-content relative">
              <div class="flex justify-between items-end mb-4 border-b border-gray-700 pb-2">
-                <h2 class="text-lg font-sora font-bold text-teal-400">Latihan Dasar (1/2)</h2>
-                <div class="text-[10px] font-bold px-2 py-1 bg-gray-800 rounded border border-teal-500/50">Skor: <span x-text="latihanScore" class="text-teal-400"></span></div>
+                <h2 class="text-lg font-sora font-bold text-blue-400">Latihan Dasar (1/2)</h2>
+                <div class="text-[10px] font-bold px-2 py-1 bg-gray-800 rounded border border-blue-500/50">Skor: <span x-text="latihanScore" class="text-blue-400"></span></div>
              </div>
              
              <div class="space-y-3">
                 <template x-for="(soal, index) in latihan.slice(0, 5)">
                    <div class="bg-gray-800/40 p-2.5 rounded-lg border border-gray-700/50">
-                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-teal-300 transition line-clamp-3" @click.stop="openDetail('latihan', index)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+1) + '. ' + soal.q"></p>
+                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-blue-300 transition line-clamp-3" @click.stop="openDetail('latihan', index)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+1) + '. ' + soal.q"></p>
                       <div class="grid grid-cols-1 gap-1.5">
                          <template x-for="(opt, oidx) in soal.opts">
                             <button @click="jawabLatihan(index, oidx)" 
                                     :class="getBtnClass(index, oidx, 'latihan')"
-                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-teal-400 hover:bg-gray-700 transition whitespace-normal break-words"
+                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-blue-400 hover:bg-gray-700 transition whitespace-normal break-words"
                                     :disabled="soal.dijawab">
                                <span class="font-bold text-gray-400 mr-1" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
                                <span x-text="opt"></span>
@@ -1125,19 +1165,19 @@ print(<span class="string">"Nilai: "</span> + 100) </div>
        <div class="page-wrapper">
           <div class="page-content animate-content relative">
              <div class="flex justify-between items-end mb-4 border-b border-gray-700 pb-2">
-                <h2 class="text-lg font-sora font-bold text-teal-400">Latihan Dasar (2/2)</h2>
-                <div class="text-[10px] font-bold px-2 py-1 bg-gray-800 rounded border border-teal-500/50">Skor: <span x-text="latihanScore" class="text-teal-400"></span></div>
+                <h2 class="text-lg font-sora font-bold text-blue-400">Latihan Dasar (2/2)</h2>
+                <div class="text-[10px] font-bold px-2 py-1 bg-gray-800 rounded border border-blue-500/50">Skor: <span x-text="latihanScore" class="text-blue-400"></span></div>
              </div>
              
              <div class="space-y-3">
                 <template x-for="(soal, index) in latihan.slice(5, 10)">
                    <div class="bg-gray-800/40 p-2.5 rounded-lg border border-gray-700/50">
-                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-teal-300 transition line-clamp-3" @click.stop="openDetail('latihan', index + 5)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+6) + '. ' + soal.q"></p>
+                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-blue-300 transition line-clamp-3" @click.stop="openDetail('latihan', index + 5)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+6) + '. ' + soal.q"></p>
                       <div class="grid grid-cols-1 gap-1.5">
                          <template x-for="(opt, oidx) in soal.opts">
                             <button @click="jawabLatihan(index + 5, oidx)" 
                                     :class="getBtnClass(index + 5, oidx, 'latihan')"
-                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-teal-400 hover:bg-gray-700 transition whitespace-normal break-words"
+                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-blue-400 hover:bg-gray-700 transition whitespace-normal break-words"
                                     :disabled="soal.dijawab">
                                <span class="font-bold text-gray-400 mr-1" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
                                <span x-text="opt"></span>
@@ -1156,15 +1196,15 @@ print(<span class="string">"Nilai: "</span> + 100) </div>
     <div class="page">
        <div class="page-wrapper items-center justify-center text-center">
           <div class="page-content animate-content w-full flex flex-col items-center justify-center mt-12">
-             <div class="p-8 bg-gradient-to-b from-purple-900/40 to-transparent border-2 border-purple-500/50 rounded-2xl w-full max-w-[280px] shadow-[0_0_40px_rgba(167,139,250,0.15)] relative overflow-hidden">
-                <div class="absolute -right-6 -top-6 w-20 h-20 bg-teal-500/20 rounded-full blur-xl"></div>
-                <div class="absolute -left-6 -bottom-6 w-20 h-20 bg-purple-500/20 rounded-full blur-xl"></div>
+             <div class="p-8 bg-gradient-to-b from-pink-900/40 to-transparent border-2 border-pink-500/50 rounded-2xl w-full max-w-[280px] shadow-[0_0_40px_rgba(167,139,250,0.15)] relative overflow-hidden">
+                <div class="absolute -right-6 -top-6 w-20 h-20 bg-blue-500/20 rounded-full blur-xl"></div>
+                <div class="absolute -left-6 -bottom-6 w-20 h-20 bg-pink-500/20 rounded-full blur-xl"></div>
                 
-                <div class="w-16 h-16 mx-auto mb-4 bg-purple-600 rounded-full flex items-center justify-center text-3xl shadow-lg border-4 border-[#12121a] relative z-10">💻</div>
+                <div class="w-16 h-16 mx-auto mb-4 bg-pink-600 rounded-full flex items-center justify-center text-3xl shadow-lg border-4 border-[#12121a] relative z-10">💻</div>
                 <h2 class="text-2xl font-sora font-black text-white mb-2 relative z-10">Ujian Kompetensi</h2>
-                <div class="h-1 w-12 bg-purple-400 mx-auto mb-4 rounded relative z-10"></div>
+                <div class="h-1 w-12 bg-pink-400 mx-auto mb-4 rounded relative z-10"></div>
                 <p class="text-xs text-gray-300 mb-6 leading-relaxed relative z-10">Kamu siap menjadi Programmer! Terdapat 10 soal uji kompetensi dari materi Flowchart hingga Debugging. Buktikan logikamu!</p>
-                <p class="text-[9px] text-purple-300 font-bold uppercase tracking-widest animate-pulse relative z-10">Buka halaman untuk mulai</p>
+                <p class="text-[9px] text-pink-300 font-bold uppercase tracking-widest animate-pulse relative z-10">Buka halaman untuk mulai</p>
              </div>
           </div>
           <div class="page-footer mt-auto w-full"><span>Bab 2 Algoritma & Pemrograman</span><span>36</span></div>
@@ -1176,19 +1216,19 @@ print(<span class="string">"Nilai: "</span> + 100) </div>
        <div class="page-wrapper">
           <div class="page-content animate-content relative">
              <div class="flex justify-between items-end mb-4 border-b border-gray-700 pb-2">
-                <h2 class="text-lg font-sora font-bold text-purple-400">Ujian Kompetensi (1/2)</h2>
-                <div class="text-[10px] font-bold px-2 py-1 bg-purple-900/30 rounded border border-purple-500/50">Skor: <span x-text="ujianScore" class="text-purple-400"></span></div>
+                <h2 class="text-lg font-sora font-bold text-pink-400">Ujian Kompetensi (1/2)</h2>
+                <div class="text-[10px] font-bold px-2 py-1 bg-pink-900/30 rounded border border-pink-500/50">Skor: <span x-text="ujianScore" class="text-pink-400"></span></div>
              </div>
              
              <div class="space-y-3">
                 <template x-for="(soal, index) in ujian.slice(0, 5)">
-                   <div class="bg-gray-800/40 p-2.5 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-colors">
-                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-purple-300 transition line-clamp-3" @click.stop="openDetail('ujian', index)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+1) + '. ' + soal.q"></p>
+                   <div class="bg-gray-800/40 p-2.5 rounded-lg border border-gray-700/50 hover:border-pink-500/30 transition-colors">
+                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-pink-300 transition line-clamp-3" @click.stop="openDetail('ujian', index)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+1) + '. ' + soal.q"></p>
                       <div class="grid grid-cols-1 gap-1.5">
                          <template x-for="(opt, oidx) in soal.opts">
                             <button @click="jawabUjian(index, oidx)" 
                                     :class="getBtnClass(index, oidx, 'ujian')"
-                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-purple-400 hover:bg-gray-700 transition whitespace-normal break-words"
+                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-pink-400 hover:bg-gray-700 transition whitespace-normal break-words"
                                     :disabled="soal.dijawab">
                                <span class="font-bold text-gray-400 mr-1" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
                                <span x-text="opt"></span>
@@ -1208,19 +1248,19 @@ print(<span class="string">"Nilai: "</span> + 100) </div>
        <div class="page-wrapper">
           <div class="page-content animate-content relative">
              <div class="flex justify-between items-end mb-4 border-b border-gray-700 pb-2">
-                <h2 class="text-lg font-sora font-bold text-purple-400">Ujian Kompetensi (2/2)</h2>
-                <div class="text-[10px] font-bold px-2 py-1 bg-purple-900/30 rounded border border-purple-500/50">Skor: <span x-text="ujianScore" class="text-purple-400"></span></div>
+                <h2 class="text-lg font-sora font-bold text-pink-400">Ujian Kompetensi (2/2)</h2>
+                <div class="text-[10px] font-bold px-2 py-1 bg-pink-900/30 rounded border border-pink-500/50">Skor: <span x-text="ujianScore" class="text-pink-400"></span></div>
              </div>
              
              <div class="space-y-3">
                 <template x-for="(soal, index) in ujian.slice(5, 10)">
-                   <div class="bg-gray-800/40 p-2.5 rounded-lg border border-gray-700/50 hover:border-purple-500/30 transition-colors">
-                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-purple-300 transition line-clamp-3" @click.stop="openDetail('ujian', index + 5)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+6) + '. ' + soal.q"></p>
+                   <div class="bg-gray-800/40 p-2.5 rounded-lg border border-gray-700/50 hover:border-pink-500/30 transition-colors">
+                      <p class="text-[10px] font-medium mb-2 leading-snug text-gray-200 cursor-pointer hover:text-pink-300 transition line-clamp-3" @click.stop="openDetail('ujian', index + 5)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+6) + '. ' + soal.q"></p>
                       <div class="grid grid-cols-1 gap-1.5">
                          <template x-for="(opt, oidx) in soal.opts">
                             <button @click="jawabUjian(index + 5, oidx)" 
                                     :class="getBtnClass(index + 5, oidx, 'ujian')"
-                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-purple-400 hover:bg-gray-700 transition whitespace-normal break-words"
+                                    class="text-[9px] text-left p-1.5 rounded border border-gray-600 hover:border-pink-400 hover:bg-gray-700 transition whitespace-normal break-words"
                                     :disabled="soal.dijawab">
                                <span class="font-bold text-gray-400 mr-1" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
                                <span x-text="opt"></span>
@@ -1231,9 +1271,9 @@ print(<span class="string">"Nilai: "</span> + 100) </div>
                 </template>
              </div>
              
-             <div x-show="ujianSelesai" x-transition class="absolute inset-0 bg-[#12121a]/95 backdrop-blur-sm flex flex-col items-center justify-center rounded-lg border-2 border-purple-500 z-20 shadow-2xl">
+             <div x-show="ujianSelesai" x-transition class="absolute inset-0 bg-[#12121a]/95 backdrop-blur-sm flex flex-col items-center justify-center rounded-lg border-2 border-pink-500 z-20 shadow-2xl">
                 <div class="text-5xl mb-3">🏆</div>
-                <h3 class="font-sora font-bold text-xl text-purple-400 mb-1">Bab 2 Selesai!</h3>
+                <h3 class="font-sora font-bold text-xl text-pink-400 mb-1">Bab 2 Selesai!</h3>
                 <p class="text-xs text-gray-300 mb-4">Nilai Akhir Kompetensi Kamu</p>
                 <div class="text-5xl font-black text-white mb-6" x-text="ujianScore"></div>
                 <p class="text-[10px] text-gray-400 animate-pulse">Geser ke halaman penutup</p>
@@ -1250,16 +1290,16 @@ print(<span class="string">"Nilai: "</span> + 100) </div>
           
           <h1 class="text-3xl font-sora font-bold text-gray-300 mb-8 relative z-10">Tamat</h1>
           
-          <svg viewBox="0 0 100 100" class="w-40 h-40 mx-auto mb-10 opacity-70 relative z-10 drop-shadow-[0_0_15px_rgba(45,212,191,0.4)]">
-             <path d="M 20 20 L 80 20 L 80 80 L 20 80 Z" fill="none" stroke="#2dd4bf" stroke-width="3"/>
-             <path d="M 40 40 L 60 40 M 40 50 L 60 50 M 40 60 L 50 60" stroke="#2dd4bf" stroke-width="3" stroke-linecap="round"/>
-             <circle cx="70" cy="70" r="15" fill="#a78bfa"/>
+          <svg viewBox="0 0 100 100" class="w-40 h-40 mx-auto mb-10 opacity-70 relative z-10 drop-shadow-[0_0_15px_rgba(var(--primary-rgb),0.4)]">
+             <path d="M 20 20 L 80 20 L 80 80 L 20 80 Z" fill="none" stroke="#3b82f6" stroke-width="3"/>
+             <path d="M 40 40 L 60 40 M 40 50 L 60 50 M 40 60 L 50 60" stroke="#3b82f6" stroke-width="3" stroke-linecap="round"/>
+             <circle cx="70" cy="70" r="15" fill="#f472b6"/>
              <path d="M 65 70 L 68 75 L 75 65" stroke="#12121a" stroke-width="3" fill="none" stroke-linecap="round"/>
           </svg>
           
           <p class="text-sm text-gray-400 mb-12 relative z-10">Kamu berhasil menyelesaikan Bab 2.<br>Lanjutkan ke Bab selanjutnya!</p>
           
-          <div class="text-[10px] font-bold text-purple-400 bg-purple-900/20 px-4 py-2 rounded-full border border-purple-500/30 relative z-10">
+          <div class="text-[10px] font-bold text-pink-400 bg-pink-900/20 px-4 py-2 rounded-full border border-pink-500/30 relative z-10">
              Penerbit Kemendikbudristek 2025
           </div>
        </div>
@@ -1414,7 +1454,7 @@ print(<span class="string">"Nilai: "</span> + 100) </div>
         triggerFeedback(correct) {
            this.isFeedbackCorrect = correct;
            this.showFeedback = true;
-           if(correct) { confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#2dd4bf', '#a78bfa', '#fcd34d'] }); }
+           if(correct) { confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#3b82f6', '#f472b6', '#fcd34d'] }); }
            setTimeout(() => { this.showFeedback = false; }, 2000);
         },
         
@@ -1437,7 +1477,7 @@ print(<span class="string">"Nilai: "</span> + 100) </div>
         getBtnClass(idx, optIdx, tipe) {
            let soal = tipe === 'latihan' ? this.latihan[idx] : this.ujian[idx];
            if(!soal.dijawab) return '';
-           if(optIdx === soal.ans) return tipe==='latihan' ? 'bg-teal-600 border-teal-400 text-white font-bold' : 'bg-purple-600 border-purple-400 text-white font-bold';
+           if(optIdx === soal.ans) return tipe==='latihan' ? 'bg-blue-600 border-blue-400 text-white font-bold' : 'bg-pink-600 border-pink-400 text-white font-bold';
            if(optIdx === soal.userAns) return 'bg-red-600/80 border-red-500 text-white';
            return 'opacity-30';
         },

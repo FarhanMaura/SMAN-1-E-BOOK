@@ -164,3 +164,11 @@ h1, h2, h3, .font-sora { font-family: 'Sora', sans-serif; }
   background: var(--bg-dark);
   z-index: 9999;
 }
+
+/* Chapter specific RGB values for dynamic styling */
+.page[data-bab="1"] { --primary-rgb: 45, 212, 191; }
+.page[data-bab="2"] { --primary-rgb: 59, 130, 246; }
+.page[data-bab="3"] { --primary-rgb: 16, 185, 129; }
+.page[data-bab="4"] { --primary-rgb: 239, 68, 68; }
+.page[data-bab="5"] { --primary-rgb: 99, 102, 241; }
+.page[data-bab="6"] { --primary-rgb: 6, 182, 212; }
