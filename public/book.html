@@ -10,6 +10,7 @@
   <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/book-style.css">
 </head>
@@ -74,7 +75,7 @@
 
   <!-- Navigation Bar Top -->
   <div class="fixed top-4 w-full px-6 flex justify-between items-center z-40 pointer-events-none">
-     <a href="/" onclick="playClickSound()" class="pointer-events-auto text-slate-700 hover:text-teal-600 transition-all duration-200 font-bold text-sm flex items-center gap-2 bg-white/85 backdrop-blur-md px-5 py-2.5 rounded-full border border-slate-200 shadow-md hover:shadow-lg hover:border-slate-300">
+     <a href="/" class="pointer-events-auto text-slate-700 hover:text-teal-600 transition-all duration-200 font-bold text-sm flex items-center gap-2 bg-white/90 backdrop-blur-md px-5 py-2.5 rounded-full border border-slate-200 shadow-md hover:shadow-lg hover:border-slate-300">
        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
        Kembali
      </a>
@@ -82,22 +83,22 @@
      <div class="flex gap-3 pointer-events-auto">
        <!-- Table of Contents Dropdown -->
        <div class="relative" x-data="{ openToc: false }">
-          <button @click="openToc = !openToc; playClickSound()" class="px-5 py-2.5 rounded-full bg-white/85 backdrop-blur-md border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-700 text-sm font-bold transition-all shadow-md flex items-center gap-2">
+          <button @click="openToc = !openToc" class="px-5 py-2.5 rounded-full bg-white/90 backdrop-blur-md border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-700 text-sm font-bold transition-all shadow-md flex items-center gap-2">
              <svg class="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
              Daftar Isi
           </button>
           <div x-show="openToc" @click.away="openToc = false" x-transition class="absolute right-0 mt-3 w-72 bg-white/95 backdrop-blur-xl border border-slate-200 rounded-3xl shadow-2xl shadow-slate-900/10 overflow-hidden py-2.5 z-50">
-             <button @click="goToChapter(1); openToc = false; playClickSound()" class="w-full text-left px-5 py-3 text-sm text-slate-700 hover:bg-teal-50 hover:text-teal-700 font-medium transition border-b border-slate-100 flex items-center justify-between"><span>Bab 1: Informatika &amp; Keterampilan</span> <span class="text-xs bg-teal-100 text-teal-700 font-bold px-2 py-0.5 rounded-full">Hal 1</span></button>
-             <button @click="goToChapter(2); openToc = false; playClickSound()" class="w-full text-left px-5 py-3 text-sm text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 font-medium transition border-b border-slate-100 flex items-center justify-between"><span>Bab 2: Berpikir Komputasional</span> <span class="text-xs bg-indigo-100 text-indigo-700 font-bold px-2 py-0.5 rounded-full">Bab 2</span></button>
-             <button @click="goToChapter(3); openToc = false; playClickSound()" class="w-full text-left px-5 py-3 text-sm text-slate-700 hover:bg-rose-50 hover:text-rose-700 font-medium transition border-b border-slate-100 flex items-center justify-between"><span>Bab 3: Literasi &amp; Etika AI</span> <span class="text-xs bg-rose-100 text-rose-700 font-bold px-2 py-0.5 rounded-full">Bab 3</span></button>
-             <button @click="goToChapter(4); openToc = false; playClickSound()" class="w-full text-left px-5 py-3 text-sm text-slate-700 hover:bg-amber-50 hover:text-amber-700 font-medium transition border-b border-slate-100 flex items-center justify-between"><span>Bab 4: Prompt Engineering</span> <span class="text-xs bg-amber-100 text-amber-700 font-bold px-2 py-0.5 rounded-full">Bab 4</span></button>
-             <button @click="goToChapter(5); openToc = false; playClickSound()" class="w-full text-left px-5 py-3 text-sm text-slate-700 hover:bg-sky-50 hover:text-sky-700 font-medium transition border-b border-slate-100 flex items-center justify-between"><span>Bab 5: Kreativitas Konten</span> <span class="text-xs bg-sky-100 text-sky-700 font-bold px-2 py-0.5 rounded-full">Bab 5</span></button>
-             <button @click="goToChapter(6); openToc = false; playClickSound()" class="w-full text-left px-5 py-3 text-sm text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 font-medium transition flex items-center justify-between"><span>Bab 6: Pengelolaan Informasi</span> <span class="text-xs bg-emerald-100 text-emerald-700 font-bold px-2 py-0.5 rounded-full">Bab 6</span></button>
+             <button @click="goToChapter(1); openToc = false" class="w-full text-left px-5 py-3 text-sm text-slate-700 hover:bg-teal-50 hover:text-teal-700 font-medium transition border-b border-slate-100 flex items-center justify-between"><span>Bab 1: Informatika &amp; Keterampilan</span> <span class="text-xs bg-teal-100 text-teal-700 font-bold px-2 py-0.5 rounded-full">Hal 1</span></button>
+             <button @click="goToChapter(2); openToc = false" class="w-full text-left px-5 py-3 text-sm text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 font-medium transition border-b border-slate-100 flex items-center justify-between"><span>Bab 2: Berpikir Komputasional</span> <span class="text-xs bg-indigo-100 text-indigo-700 font-bold px-2 py-0.5 rounded-full">Bab 2</span></button>
+             <button @click="goToChapter(3); openToc = false" class="w-full text-left px-5 py-3 text-sm text-slate-700 hover:bg-rose-50 hover:text-rose-700 font-medium transition border-b border-slate-100 flex items-center justify-between"><span>Bab 3: Literasi &amp; Etika AI</span> <span class="text-xs bg-rose-100 text-rose-700 font-bold px-2 py-0.5 rounded-full">Bab 3</span></button>
+             <button @click="goToChapter(4); openToc = false" class="w-full text-left px-5 py-3 text-sm text-slate-700 hover:bg-amber-50 hover:text-amber-700 font-medium transition border-b border-slate-100 flex items-center justify-between"><span>Bab 4: Prompt Engineering</span> <span class="text-xs bg-amber-100 text-amber-700 font-bold px-2 py-0.5 rounded-full">Bab 4</span></button>
+             <button @click="goToChapter(5); openToc = false" class="w-full text-left px-5 py-3 text-sm text-slate-700 hover:bg-sky-50 hover:text-sky-700 font-medium transition border-b border-slate-100 flex items-center justify-between"><span>Bab 5: Kreativitas Konten</span> <span class="text-xs bg-sky-100 text-sky-700 font-bold px-2 py-0.5 rounded-full">Bab 5</span></button>
+             <button @click="goToChapter(6); openToc = false" class="w-full text-left px-5 py-3 text-sm text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 font-medium transition flex items-center justify-between"><span>Bab 6: Pengelolaan Informasi</span> <span class="text-xs bg-emerald-100 text-emerald-700 font-bold px-2 py-0.5 rounded-full">Bab 6</span></button>
           </div>
        </div>
        
-       <button id="btn-prev" class="px-5 py-2.5 rounded-full bg-white/85 backdrop-blur-md border border-slate-200 hover:border-teal-400 hover:text-teal-600 text-slate-700 text-sm font-bold transition-all shadow-md hidden md:block">← Prev</button>
-       <button id="btn-next" class="px-5 py-2.5 rounded-full bg-white/85 backdrop-blur-md border border-slate-200 hover:border-indigo-400 hover:text-indigo-600 text-slate-700 text-sm font-bold transition-all shadow-md hidden md:block">Next →</button>
+       <button id="btn-prev" class="px-5 py-2.5 rounded-full bg-white/90 backdrop-blur-md border border-slate-200 hover:border-teal-400 hover:text-teal-600 text-slate-700 text-sm font-bold transition-all shadow-md hidden md:block">← Prev</button>
+       <button id="btn-next" class="px-5 py-2.5 rounded-full bg-white/90 backdrop-blur-md border border-slate-200 hover:border-indigo-400 hover:text-indigo-600 text-slate-700 text-sm font-bold transition-all shadow-md hidden md:block">Next →</button>
      </div>
   </div>
 
@@ -106,9 +107,9 @@
      <button id="btn-next-mobile" class="pointer-events-auto px-6 py-3 rounded-full bg-white border border-slate-300 text-slate-800 text-sm font-bold shadow-xl">Next →</button>
   </div>
   
-  <!-- Animasi Luar Kiri & Kanan (Luar Kertas) -->
-  <div id="animasi-luar-kiri" style="position: fixed; left: 1%; bottom: 2%; width: 360px; height: 400px; z-index: 5; pointer-events: none;" class="hidden xl:block"></div>
-  <div id="animasi-luar-kanan" style="position: fixed; right: 1%; bottom: 2%; width: 360px; height: 400px; z-index: 5; pointer-events: none; transform: scaleX(-1);" class="hidden xl:block"></div>
+  <!-- Animasi Luar Kiri & Kanan (Luar Kertas - Hanya di Layar Sangat Lebar & Tidak Menghalangi) -->
+  <div id="animasi-luar-kiri" style="position: fixed; left: 10px; bottom: 10px; width: 220px; height: 250px; z-index: 1; pointer-events: none;" class="hidden 2xl:block opacity-80"></div>
+  <div id="animasi-luar-kanan" style="position: fixed; right: 10px; bottom: 10px; width: 220px; height: 250px; z-index: 1; pointer-events: none; transform: scaleX(-1);" class="hidden 2xl:block opacity-80"></div>
 
   <!-- Sound Toggle Button (BGM + SFX) -->
   <button id="sound-toggle" onclick="toggleSound()" title="Toggle Musik & Suara"
@@ -198,7 +199,7 @@
     flipSamples.forEach(audio => { audio.volume = 0.6; audio.preload = 'auto'; });
     let sampleIdx = 0;
 
-    // --- Web Audio API Procedural Paper Rustle Synthesizer (Instant 0-Latency SFX) ---
+    // --- Ultra-Realistic Procedural Paper Flip Synthesizer ---
     let audioCtx = null;
 
     function initAudioContext() {
@@ -219,53 +220,67 @@
       if (!audioCtx) return;
 
       try {
-        const bufferSize = audioCtx.sampleRate * 0.18; // 180ms paper swoop
+        const now = audioCtx.currentTime;
+        const duration = 0.18; // 180ms paper flip duration
+        const bufferSize = audioCtx.sampleRate * duration;
         const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
         const data = buffer.getChannelData(0);
 
-        // Generate filtered white noise with soft envelope
+        // Generate textured white noise for paper surface friction
         for (let i = 0; i < bufferSize; i++) {
-          data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 1.8);
+          const t = i / bufferSize;
+          // Smooth bell envelope with crisp friction curve
+          const env = Math.sin(t * Math.PI) * Math.pow(1 - t, 0.4);
+          data[i] = (Math.random() * 2 - 1) * env;
         }
 
         const noise = audioCtx.createBufferSource();
         noise.buffer = buffer;
 
-        // Bandpass filter to simulate crisp paper friction
+        // Bandpass filter for authentic paper swooshing resonance (1500Hz -> 500Hz sweep)
         const filter = audioCtx.createBiquadFilter();
         filter.type = 'bandpass';
-        filter.frequency.setValueAtTime(1200, audioCtx.currentTime);
-        filter.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.15);
-        filter.Q.setValueAtTime(1.5, audioCtx.currentTime);
+        filter.frequency.setValueAtTime(1500, now);
+        filter.frequency.exponentialRampToValueAtTime(500, now + duration);
+        filter.Q.setValueAtTime(1.6, now);
+
+        // Highpass filter to strip unwanted low hums
+        const hpFilter = audioCtx.createBiquadFilter();
+        hpFilter.type = 'highpass';
+        hpFilter.frequency.setValueAtTime(350, now);
 
         const gain = audioCtx.createGain();
-        gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.17);
+        gain.gain.setValueAtTime(0.01, now);
+        gain.gain.linearRampToValueAtTime(0.35, now + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
 
         noise.connect(filter);
-        filter.connect(gain);
+        filter.connect(hpFilter);
+        hpFilter.connect(gain);
         gain.connect(audioCtx.destination);
 
-        noise.start();
+        noise.start(now);
       } catch(e) {}
     }
 
     window.playClickSound = function() {
+      // Soft tactile click for UI buttons (not page flips)
       if (soundMuted) return;
       initAudioContext();
       if (!audioCtx) return;
       try {
+        const now = audioCtx.currentTime;
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(600, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.05);
-        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(400, now);
+        osc.frequency.exponentialRampToValueAtTime(150, now + 0.03);
+        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
         osc.connect(gain);
         gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.05);
+        osc.start(now);
+        osc.stop(now + 0.03);
       } catch(e) {}
     };
 
@@ -281,17 +296,8 @@
     window.playFlipSound = function() {
       if (soundMuted) return;
       tryStartBgm();
-
-      // Trigger instant procedural rustle
+      // Organic paper turn sound only (no bell chime / tone overlay)
       playPaperRustleSound();
-
-      // Alternate audio sample playback
-      try {
-        const audio = flipSamples[sampleIdx];
-        sampleIdx = (sampleIdx + 1) % flipSamples.length;
-        audio.currentTime = 0;
-        audio.play().catch(() => {});
-      } catch(e) {}
     };
 
     function toggleSound() {

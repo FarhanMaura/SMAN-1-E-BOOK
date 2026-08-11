@@ -233,6 +233,7 @@
          background: rgba(18, 18, 26, 0.7);
       }
    </style>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </head>
 
 <body x-data="quizApp()" class="bg-pattern relative">
@@ -357,12 +358,12 @@
          x-transition:enter-start="scale-50 opacity-0" x-transition:enter-end="scale-100 opacity-100"
          x-transition:leave="transition ease-in duration-200" x-transition:leave-start="scale-100 opacity-100"
          x-transition:leave-end="scale-50 opacity-0"
-         class="bg-[#1a1a2e] border-2 rounded-3xl p-8 text-center shadow-[0_0_60px_rgba(0,0,0,0.6)]"
+         class="bg-slate-50 border border-slate-200 shadow-sm border-2 rounded-3xl p-8 text-center shadow-[0_0_60px_rgba(0,0,0,0.6)]"
          :class="isFeedbackCorrect ? 'border-teal-400 shadow-teal-500/20' : 'border-red-400 shadow-red-500/20'">
 
          <template x-if="isFeedbackCorrect">
-            <div class="w-40 h-40 mx-auto mb-6 rounded-full border-4 border-teal-400 bg-cover bg-no-repeat"
-               style="background-image: url('/assets/bab1_scene.png'); background-size: cover; background-position: center;">
+            <div class="w-44 h-44 mx-auto drop-shadow-xl rounded-full border-4 border-teal-400 bg-gradient-to-br from-teal-50 to-indigo-50 shadow-teal-500/15 flex items-center justify-center overflow-hidden my-3 shadow-lg">
+               <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_sk5h1kfn.json" background="transparent" speed="1" style="width: 150px; height: 150px;" loop autoplay></lottie-player>
             </div>
          </template>
          <template x-if="!isFeedbackCorrect">
@@ -372,9 +373,9 @@
             </div>
          </template>
 
-         <h3 class="text-3xl font-sora font-black mb-2" :class="isFeedbackCorrect ? 'text-teal-400' : 'text-red-400'"
+         <h3 class="text-3xl font-sora font-black mb-2" :class="isFeedbackCorrect ? 'text-teal-700' : 'text-red-400'"
             x-text="isFeedbackCorrect ? 'BENAR SEKALI! 🎉' : 'YAH, SALAH! 😢'"></h3>
-         <p class="text-gray-300 text-lg"
+         <p class="text-slate-700 text-lg"
             x-text="isFeedbackCorrect ? '+10 Poin ditambahkan!' : 'Ayo baca lagi materinya dengan teliti!'"></p>
       </div>
    </div>
@@ -383,24 +384,24 @@
    <div x-show="showDetailModal" x-transition.opacity
       class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md">
       <div @click.away="showDetailModal = false"
-         class="bg-[#1a1a2e] border border-teal-500/50 rounded-2xl w-[90%] max-w-[500px] max-h-[80vh] flex flex-col shadow-2xl">
-         <div class="p-4 border-b border-gray-700 flex justify-between items-center bg-teal-900/20 rounded-t-2xl">
-            <h3 class="font-bold text-teal-400">Detail Soal</h3>
+         class="bg-slate-50 border border-slate-200 shadow-sm border border-teal-500/50 rounded-2xl w-[90%] max-w-[500px] max-h-[80vh] flex flex-col shadow-2xl">
+         <div class="p-4 border-b border-gray-700 flex justify-between items-center bg-teal-50/60 border border-teal-200 rounded-t-2xl">
+            <h3 class="font-bold text-teal-700">Detail Soal</h3>
             <button @click="showDetailModal = false"
-               class="text-gray-400 hover:text-white font-bold text-xl">&times;</button>
+               class="text-slate-600 hover:text-slate-900 font-bold text-xl">&times;</button>
          </div>
          <div class="p-6 overflow-y-auto">
             <template x-if="activeDetail">
                <div>
-                  <p class="text-sm text-white mb-6 leading-relaxed" x-html="activeDetail.q"></p>
+                  <p class="text-sm text-slate-900 mb-6 leading-relaxed" x-html="activeDetail.q"></p>
                   <div class="space-y-3">
                      <template x-for="(opt, idx) in activeDetail.opts">
                         <button @click="jawabDariDetail(idx)"
-                           :class="activeDetail.dijawab ? (idx === activeDetail.ans ? 'bg-teal-600 border-teal-400 text-white' : (idx === activeDetail.userAns ? 'bg-red-600 border-red-400 text-white' : 'opacity-50 border-gray-700')) : 'bg-gray-800 hover:bg-gray-700 border-gray-600'"
+                           :class="activeDetail.dijawab ? (idx === activeDetail.ans ? 'bg-teal-600 border-teal-400 text-slate-900' : (idx === activeDetail.userAns ? 'bg-red-600 border-red-400 text-slate-900' : 'opacity-50 border-gray-700')) : 'bg-slate-100 border border-slate-200 hover:bg-gray-700 border-gray-600'"
                            class="w-full text-left p-4 rounded-xl border transition flex gap-3 items-start"
                            :disabled="activeDetail.dijawab">
-                           <span class="font-bold text-teal-400 mt-0.5" x-text="['A','B','C','D'][idx] + '.'"></span>
-                           <span class="text-sm text-gray-200" x-text="opt"></span>
+                           <span class="font-bold text-teal-700 mt-0.5" x-text="['A','B','C','D'][idx] + '.'"></span>
+                           <span class="text-sm text-slate-800" x-text="opt"></span>
                         </button>
                      </template>
                   </div>
@@ -413,7 +414,7 @@
    <!-- Header/Controls -->
    <div class="w-full max-w-[900px] flex justify-between items-center mb-4 px-4 z-10">
       <a href="/"
-         class="text-purple-400 hover:text-purple-300 transition font-semibold flex items-center gap-2 bg-purple-900/20 px-4 py-2 rounded-full border border-purple-500/30 text-sm">
+         class="text-purple-700 hover:text-purple-800 transition font-semibold flex items-center gap-2 bg-purple-50/60 border border-purple-200 px-4 py-2 rounded-full border border-purple-500/30 text-sm">
          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18">
             </path>
@@ -422,10 +423,10 @@
       </a>
       <div class="flex gap-3">
          <button id="btn-prev"
-            class="px-5 py-1.5 rounded-full bg-[#12121a] border border-gray-600 hover:border-purple-400 hover:text-purple-400 text-white text-sm font-bold transition shadow-lg">←
+            class="px-5 py-1.5 rounded-full bg-slate-100 border border-slate-200 shadow-sm border border-gray-600 hover:border-purple-400 hover:text-purple-700 text-slate-900 text-sm font-bold transition shadow-lg">←
             Prev</button>
          <button id="btn-next"
-            class="px-5 py-1.5 rounded-full bg-[#12121a] border border-gray-600 hover:border-teal-400 hover:text-teal-400 text-white text-sm font-bold transition shadow-lg">Next
+            class="px-5 py-1.5 rounded-full bg-slate-100 border border-slate-200 shadow-sm border border-gray-600 hover:border-teal-400 hover:text-teal-700 text-slate-900 text-sm font-bold transition shadow-lg">Next
             →</button>
       </div>
    </div>
@@ -437,22 +438,22 @@
       <div class="page --hard">
          <div class="page-wrapper items-center justify-center text-center">
             <div
-               class="text-[10px] font-bold text-teal-400 mb-3 bg-teal-400/10 px-4 py-1.5 rounded-full border border-teal-400/20 tracking-widest">
+               class="text-[10px] font-bold text-teal-700 mb-3 bg-teal-50 border-teal-300 text-teal-800 px-4 py-1.5 rounded-full border border-teal-400/20 tracking-widest">
                SMAN 1 PALEMBANG KELAS X</div>
             <h1
                class="text-6xl font-sora font-black text-transparent bg-clip-text bg-gradient-to-br from-purple-400 to-teal-400 mb-2 drop-shadow-lg">
                Bab 1</h1>
-            <h2 class="text-xl font-sora font-bold text-gray-200 mb-4">Berpikir Komputasional</h2>
+            <h2 class="text-xl font-sora font-bold text-slate-800 mb-4">Berpikir Komputasional</h2>
 
             <!-- Cover Image -->
-            <div class="w-40 h-40 mx-auto drop-shadow-[0_10px_30px_rgba(255,255,255,0.1)] rounded-full border-4 border-[#12121a] flex items-center justify-center bg-gray-900 overflow-hidden">
+            <div class="w-44 h-44 mx-auto drop-shadow-xl rounded-full border-4 border-teal-400 bg-gradient-to-br from-teal-50 to-indigo-50 shadow-teal-500/15 flex items-center justify-center overflow-hidden my-3 shadow-lg">
                <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_sk5h1kfn.json" background="transparent" speed="1" style="width: 150px; height: 150px;" loop autoplay></lottie-player>
             </div>
 
             <!-- Animasi Robot di Cover -->
             
 
-            <p class="mt-2 text-[10px] font-semibold text-gray-500 animate-pulse">Geser / Klik Next untuk membuka</p>
+            <p class="mt-2 text-[10px] font-semibold text-slate-500 animate-pulse">Geser / Klik Next untuk membuka</p>
          </div>
       </div>
 
@@ -468,18 +469,18 @@
       <div class="page">
          <div class="page-wrapper">
             <div class="page-content animate-content">
-               <h2 class="text-xl font-sora font-bold text-purple-400 mb-3 border-b border-gray-700 pb-2">Apersepsi</h2>
-               <p class="mb-2 text-xs text-gray-300 leading-loose text-justify">Dalam kehidupan sehari-hari, pernahkah
+               <h2 class="text-xl font-sora font-bold text-purple-700 mb-3 border-b border-gray-700 pb-2">Apersepsi</h2>
+               <p class="mb-2 text-xs text-slate-700 leading-loose text-justify">Dalam kehidupan sehari-hari, pernahkah
                   kamu menemukan permasalahan yang kompleks atau pernahkah kamu merasa kebingungan untuk mulai mengurai
                   dan menyelesaikan suatu masalah?</p>
-               <p class="mb-2 text-xs text-gray-300 leading-loose text-justify">Dengan pendekatan berpikir
+               <p class="mb-2 text-xs text-slate-700 leading-loose text-justify">Dengan pendekatan berpikir
                   komputasional, kamu akan terbiasa berpikir kritis dan kreatif, sistematis layaknya ilmuwan komputer,
                   menganalisis masalah yang kompleks dan strategi pemecahannya, serta berkolaborasi untuk menemukan
                   solusi yang efisien, efektif, dan optimal untuk dijalankan oleh manusia maupun mesin.</p>
                <div
                   class="bg-gradient-to-r from-purple-900/40 to-transparent border-l-4 border-purple-500 p-3 rounded-r">
-                  <h3 class="font-bold text-white text-xs mb-1">Tujuan Pembelajaran</h3>
-                  <p class="text-[10px] text-gray-400 leading-relaxed">Menerapkan penyelesaian masalah kompleks dalam
+                  <h3 class="font-bold text-slate-900 text-xs mb-1">Tujuan Pembelajaran</h3>
+                  <p class="text-[10px] text-slate-600 leading-relaxed">Menerapkan penyelesaian masalah kompleks dalam
                      kehidupan sehari-hari dengan pendekatan berpikir komputasional.</p>
                </div>
             </div>
@@ -492,35 +493,35 @@
       <div class="page">
          <div class="page-wrapper">
             <div class="page-content animate-content">
-               <h2 class="text-lg font-sora font-bold text-teal-400 mb-2 leading-snug">A. Penerapan Berpikir
+               <h2 class="text-lg font-sora font-bold text-teal-700 mb-2 leading-snug">A. Penerapan Berpikir
                   Komputasional dalam Keseharian</h2>
-               <p class="text-xs mb-2 text-justify text-gray-300">Berpikir komputasional penting karena dapat membantumu
+               <p class="text-xs mb-2 text-justify text-slate-700">Berpikir komputasional penting karena dapat membantumu
                   menghadapi masalah kompleks dengan cara yang lebih terstruktur. Kamu dapat memecah masalah menjadi
                   bagian kecil, mencari pola, memilah informasi penting, lalu menyusun langkah penyelesaian.</p>
-               <p class="text-xs mb-2 text-justify text-gray-300">Masalah kompleks sulit diselesaikan langsung karena
+               <p class="text-xs mb-2 text-justify text-slate-700">Masalah kompleks sulit diselesaikan langsung karena
                   melibatkan banyak langkah. Contohnya, merancang rute untuk mengurangi kemacetan kota.</p>
 
                <div class="border border-teal-500/30 rounded-lg overflow-hidden shadow-lg shadow-teal-900/20">
                   <div
-                     class="bg-teal-900/60 p-2 text-center text-[10px] font-bold text-teal-300 border-b border-teal-500/30">
+                     class="bg-teal-50 border border-teal-200 p-2 text-center text-[10px] font-bold text-teal-800 border-b border-teal-500/30">
                      Masalah Sederhana vs Kompleks</div>
                   <table class="w-full text-[9px] text-left">
                      <tr>
-                        <th class="p-1.5 border-b border-r border-gray-700 bg-gray-800">Sederhana</th>
-                        <th class="p-1.5 border-b border-gray-700 bg-gray-800">Kompleks</th>
+                        <th class="p-1.5 border-b border-r border-gray-700 bg-slate-100 border border-slate-200">Sederhana</th>
+                        <th class="p-1.5 border-b border-gray-700 bg-slate-100 border border-slate-200">Kompleks</th>
                      </tr>
                      <tr>
-                        <td class="p-1.5 border-b border-r border-gray-700 text-gray-300">Langkah penyelesaian langsung
+                        <td class="p-1.5 border-b border-r border-gray-700 text-slate-700">Langkah penyelesaian langsung
                         </td>
-                        <td class="p-1.5 border-b border-gray-700 text-gray-300">Perlu analisis & strategi</td>
+                        <td class="p-1.5 border-b border-gray-700 text-slate-700">Perlu analisis & strategi</td>
                      </tr>
                      <tr>
-                        <td class="p-1.5 border-b border-r border-gray-700 text-gray-300">Penyebab tunggal & jelas</td>
-                        <td class="p-1.5 border-b border-gray-700 text-gray-300">Penyebab banyak & saling terkait</td>
+                        <td class="p-1.5 border-b border-r border-gray-700 text-slate-700">Penyebab tunggal & jelas</td>
+                        <td class="p-1.5 border-b border-gray-700 text-slate-700">Penyebab banyak & saling terkait</td>
                      </tr>
                      <tr>
-                        <td class="p-1.5 border-r border-gray-700 text-teal-400">Cth: Printer tidak aktif</td>
-                        <td class="p-1.5 text-teal-400">Cth: Sistem pencatatan tidak efektif</td>
+                        <td class="p-1.5 border-r border-gray-700 text-teal-700">Cth: Printer tidak aktif</td>
+                        <td class="p-1.5 text-teal-700">Cth: Sistem pencatatan tidak efektif</td>
                      </tr>
                   </table>
                </div>
@@ -534,20 +535,20 @@
       <div class="page">
          <div class="page-wrapper">
             <div class="page-content animate-content">
-               <h2 class="text-lg font-sora font-bold text-purple-400 mb-2">B. Analisis Masalah</h2>
-               <p class="text-xs mb-2 text-justify text-gray-300">Berpikir kritis merupakan keterampilan abad ke-21. Ini
+               <h2 class="text-lg font-sora font-bold text-purple-700 mb-2">B. Analisis Masalah</h2>
+               <p class="text-xs mb-2 text-justify text-slate-700">Berpikir kritis merupakan keterampilan abad ke-21. Ini
                   membuatmu memiliki kemampuan menganalisis informasi secara objektif, mengidentifikasi bias, dan
                   membuat keputusan tepat.</p>
 
-               <div class="bg-purple-900/20 border border-purple-500/30 rounded-lg p-3">
-                  <h3 class="font-bold text-xs text-purple-300 mb-2 flex items-center gap-2"><span
+               <div class="bg-purple-50/60 border border-purple-200 border border-purple-500/30 rounded-lg p-3">
+                  <h3 class="font-bold text-xs text-purple-800 mb-2 flex items-center gap-2"><span
                         class="text-base">📝</span> Studi Kasus Analisis</h3>
-                  <p class="text-[10px] text-gray-300 text-justify mb-2 leading-relaxed">Dela mengalami penurunan
+                  <p class="text-[10px] text-slate-700 text-justify mb-2 leading-relaxed">Dela mengalami penurunan
                      drastis pada nilai Matematika dan Bahasa Inggris. Padahal itu mata pelajaran favoritnya. Usut punya
                      usut, Dela baru saja mengikuti ekstrakurikuler baru yang menyita waktu, dan sering bermain ponsel
                      hingga larut malam.</p>
-                  <div class="text-[10px] text-gray-400 bg-gray-900/50 p-2 rounded">
-                     <p class="font-bold text-white mb-1">Penerapan:</p>
+                  <div class="text-[10px] text-slate-600 bg-slate-100 border border-slate-200 p-2 rounded">
+                     <p class="font-bold text-slate-900 mb-1">Penerapan:</p>
                      <p><strong>Dekomposisi:</strong> Pelajaran apa saja yang turun?</p>
                      <p><strong>Mencari Pola:</strong> Kapan penurunan mulai terjadi?</p>
                      <p><strong>Akar Masalah:</strong> Kurang istirahat dan manajemen waktu.</p>
@@ -563,48 +564,48 @@
       <div class="page">
          <div class="page-wrapper">
             <div class="page-content animate-content">
-               <h2 class="text-lg font-sora font-bold text-teal-400 mb-2">C. Simulasi Penyelesaian Masalah</h2>
-               <p class="text-xs mb-2 text-gray-300">Mari kita terapkan pada: <strong>Rute Tercepat ke Sekolah</strong>.
+               <h2 class="text-lg font-sora font-bold text-teal-700 mb-2">C. Simulasi Penyelesaian Masalah</h2>
+               <p class="text-xs mb-2 text-slate-700">Mari kita terapkan pada: <strong>Rute Tercepat ke Sekolah</strong>.
                </p>
 
                <div class="space-y-1.5">
                   <div class="flex gap-2">
                      <div
-                        class="w-6 h-6 rounded bg-teal-900/50 border border-teal-500 text-teal-300 flex items-center justify-center font-bold flex-shrink-0 text-xs">
+                        class="w-6 h-6 rounded bg-teal-50 border border-teal-200 border border-teal-500 text-teal-800 flex items-center justify-center font-bold flex-shrink-0 text-xs">
                         1</div>
                      <div>
-                        <h4 class="text-xs font-bold text-white mb-0.5">Dekomposisi</h4>
-                        <p class="text-[9px] text-gray-400">Memecah masalah: Di mana lokasi rumah? Di mana sekolah? Apa
+                        <h4 class="text-xs font-bold text-slate-900 mb-0.5">Dekomposisi</h4>
+                        <p class="text-[9px] text-slate-600">Memecah masalah: Di mana lokasi rumah? Di mana sekolah? Apa
                            saja rute yang tersedia?</p>
                      </div>
                   </div>
                   <div class="flex gap-2">
                      <div
-                        class="w-6 h-6 rounded bg-teal-900/50 border border-teal-500 text-teal-300 flex items-center justify-center font-bold flex-shrink-0 text-xs">
+                        class="w-6 h-6 rounded bg-teal-50 border border-teal-200 border border-teal-500 text-teal-800 flex items-center justify-center font-bold flex-shrink-0 text-xs">
                         2</div>
                      <div>
-                        <h4 class="text-xs font-bold text-white mb-0.5">Pattern Recognition</h4>
-                        <p class="text-[9px] text-gray-400">Mengenali pola: Jalan utama sering macet pagi hari. Jalan
+                        <h4 class="text-xs font-bold text-slate-900 mb-0.5">Pattern Recognition</h4>
+                        <p class="text-[9px] text-slate-600">Mengenali pola: Jalan utama sering macet pagi hari. Jalan
                            pintas sepi tapi jaraknya lebih jauh.</p>
                      </div>
                   </div>
                   <div class="flex gap-2">
                      <div
-                        class="w-6 h-6 rounded bg-teal-900/50 border border-teal-500 text-teal-300 flex items-center justify-center font-bold flex-shrink-0 text-xs">
+                        class="w-6 h-6 rounded bg-teal-50 border border-teal-200 border border-teal-500 text-teal-800 flex items-center justify-center font-bold flex-shrink-0 text-xs">
                         3</div>
                      <div>
-                        <h4 class="text-xs font-bold text-white mb-0.5">Abstraksi</h4>
-                        <p class="text-[9px] text-gray-400">Fokus pada bobot jarak dan waktu tempuh. Abaikan detail yang
+                        <h4 class="text-xs font-bold text-slate-900 mb-0.5">Abstraksi</h4>
+                        <p class="text-[9px] text-slate-600">Fokus pada bobot jarak dan waktu tempuh. Abaikan detail yang
                            tak relevan seperti warna rumah di pinggir jalan.</p>
                      </div>
                   </div>
                   <div class="flex gap-2">
                      <div
-                        class="w-6 h-6 rounded bg-teal-900/50 border border-teal-500 text-teal-300 flex items-center justify-center font-bold flex-shrink-0 text-xs">
+                        class="w-6 h-6 rounded bg-teal-50 border border-teal-200 border border-teal-500 text-teal-800 flex items-center justify-center font-bold flex-shrink-0 text-xs">
                         4</div>
                      <div>
-                        <h4 class="text-xs font-bold text-white mb-0.5">Algoritma</h4>
-                        <p class="text-[9px] text-gray-400">Menyusun langkah berurutan atau menggunakan algoritma
+                        <h4 class="text-xs font-bold text-slate-900 mb-0.5">Algoritma</h4>
+                        <p class="text-[9px] text-slate-600">Menyusun langkah berurutan atau menggunakan algoritma
                            Dijkstra/A-Star di Google Maps.</p>
                      </div>
                   </div>
@@ -619,22 +620,22 @@
       <div class="page">
          <div class="page-wrapper">
             <div class="page-content animate-content">
-               <h2 class="text-lg font-sora font-bold text-purple-400 mb-2 leading-snug">D. Integrasi Kecerdasan
+               <h2 class="text-lg font-sora font-bold text-purple-700 mb-2 leading-snug">D. Integrasi Kecerdasan
                   Artifisial (KA)</h2>
-               <p class="text-xs mb-2 text-justify text-gray-300">Berpikir komputasional dapat diintegrasikan dengan AI
+               <p class="text-xs mb-2 text-justify text-slate-700">Berpikir komputasional dapat diintegrasikan dengan AI
                   untuk menghasilkan solusi efisien. Ada 4 kategori utama penerapannya:</p>
 
                <div class="space-y-2">
-                  <div class="bg-[#1a1a2e] p-2 rounded-lg border-l-2 border-purple-500">
-                     <h3 class="text-xs font-bold text-white mb-0.5">1. Perception (Sensory)</h3>
-                     <p class="text-[9px] text-gray-400 text-justify">Pengumpulan dan pemrosesan data dari lingkungan.
+                  <div class="bg-slate-50 border border-slate-200 shadow-sm p-2 rounded-lg border-l-2 border-purple-500">
+                     <h3 class="text-xs font-bold text-slate-900 mb-0.5">1. Perception (Sensory)</h3>
+                     <p class="text-[9px] text-slate-600 text-justify">Pengumpulan dan pemrosesan data dari lingkungan.
                         <strong>Pendekatan KA:</strong> Menggunakan API lalu lintas (Google Maps, Waze) untuk
                         mengumpulkan data real-time kecepatan kendaraan dan kemacetan jalan.
                      </p>
                   </div>
-                  <div class="bg-[#1a1a2e] p-2 rounded-lg border-l-2 border-purple-500">
-                     <h3 class="text-xs font-bold text-white mb-0.5">2. Data Representation</h3>
-                     <p class="text-[9px] text-gray-400 text-justify">Pengorganisasian data agar diproses efisien.
+                  <div class="bg-slate-50 border border-slate-200 shadow-sm p-2 rounded-lg border-l-2 border-purple-500">
+                     <h3 class="text-xs font-bold text-slate-900 mb-0.5">2. Data Representation</h3>
+                     <p class="text-[9px] text-slate-600 text-justify">Pengorganisasian data agar diproses efisien.
                         <strong>Pendekatan KA:</strong> Data lalu lintas direpresentasikan sebagai graf berbobot. Node
                         adalah persimpangan, Edge adalah ruas jalan, dan Bobot adalah waktu tempuh.
                      </p>
@@ -651,24 +652,24 @@
          <div class="page-wrapper">
             <div class="page-content animate-content">
                <div class="space-y-2 mb-3">
-                  <div class="bg-[#1a1a2e] p-2 rounded-lg border-l-2 border-purple-500">
-                     <h3 class="text-xs font-bold text-white mb-0.5">3. Reasoning</h3>
-                     <p class="text-[9px] text-gray-400 text-justify">Pengambilan keputusan berdasarkan data.
+                  <div class="bg-slate-50 border border-slate-200 shadow-sm p-2 rounded-lg border-l-2 border-purple-500">
+                     <h3 class="text-xs font-bold text-slate-900 mb-0.5">3. Reasoning</h3>
+                     <p class="text-[9px] text-slate-600 text-justify">Pengambilan keputusan berdasarkan data.
                         <strong>Pendekatan KA:</strong> Menerapkan algoritma Dijkstra atau A* untuk mencari rute
                         tercepat dengan bobot dinamis. Menggunakan <i>rule-based reasoning</i> untuk menghindari area
                         rawan banjir.
                      </p>
                   </div>
-                  <div class="bg-[#1a1a2e] p-2 rounded-lg border-l-2 border-purple-500">
-                     <h3 class="text-xs font-bold text-white mb-0.5">4. Learning</h3>
-                     <p class="text-[9px] text-gray-400 text-justify">Meningkatkan kinerja seiring waktu (Machine
+                  <div class="bg-slate-50 border border-slate-200 shadow-sm p-2 rounded-lg border-l-2 border-purple-500">
+                     <h3 class="text-xs font-bold text-slate-900 mb-0.5">4. Learning</h3>
+                     <p class="text-[9px] text-slate-600 text-justify">Meningkatkan kinerja seiring waktu (Machine
                         Learning). <strong>Pendekatan KA:</strong> Sistem belajar bahwa rute jalan arteri selalu macet
                         pada pukul 06.30, sehingga besok sistem merekomendasikan rute alternatif lebih awal.</p>
                   </div>
                </div>
 
-               <h3 class="text-sm font-sora font-bold text-teal-400 mb-1">Kasus Terintegrasi</h3>
-               <p class="text-[9px] text-gray-300 text-justify">Siswa berangkat jam 06.30. AI mengumpulkan cuaca &
+               <h3 class="text-sm font-sora font-bold text-teal-700 mb-1">Kasus Terintegrasi</h3>
+               <p class="text-[9px] text-slate-700 text-justify">Siswa berangkat jam 06.30. AI mengumpulkan cuaca &
                   kemacetan (Perception), membuat graf rute (Data Rep), menghitung A* untuk pilih jalan paling cepat
                   (Reasoning), lalu mencatat waktu tibanya untuk memperbaiki prediksi besok (Learning).</p>
             </div>
@@ -679,12 +680,12 @@
 
       <!-- HALAMAN 9: Peta Konsep -->
       <div class="page">
-         <div class="page-wrapper bg-[#1a1a2e]/30">
+         <div class="page-wrapper bg-slate-50/80 border border-slate-200">
             <div class="page-content animate-content flex flex-col items-center justify-center h-full text-center">
-               <h2 class="text-xl font-sora font-bold text-teal-400 mb-3">Peta Konsep</h2>
+               <h2 class="text-xl font-sora font-bold text-teal-700 mb-3">Peta Konsep</h2>
 
                <div
-                  class="w-full max-w-[200px] bg-gradient-to-r from-teal-600 to-purple-600 p-2 rounded-xl font-bold text-white shadow-lg mb-3 text-sm">
+                  class="w-full max-w-[200px] bg-gradient-to-r from-teal-600 to-purple-600 p-2 rounded-xl font-bold text-slate-900 shadow-lg mb-3 text-sm">
                   Berpikir Komputasional
                </div>
 
@@ -698,22 +699,22 @@
                </div>
 
                <div class="flex justify-between w-full max-w-[260px] gap-1.5 text-[8px] font-bold">
-                  <div class="flex-1 bg-gray-800 py-2 px-0.5 rounded border border-gray-600 shadow text-center">
+                  <div class="flex-1 bg-slate-100 border border-slate-200 py-2 px-0.5 rounded border border-gray-600 shadow text-center">
                      Dekomposisi</div>
-                  <div class="flex-1 bg-gray-800 py-2 px-0.5 rounded border border-gray-600 shadow text-center">
+                  <div class="flex-1 bg-slate-100 border border-slate-200 py-2 px-0.5 rounded border border-gray-600 shadow text-center">
                      Pengenalan<br>Pola</div>
-                  <div class="flex-1 bg-gray-800 py-2 px-0.5 rounded border border-gray-600 shadow text-center">
+                  <div class="flex-1 bg-slate-100 border border-slate-200 py-2 px-0.5 rounded border border-gray-600 shadow text-center">
                      Abstraksi</div>
-                  <div class="flex-1 bg-gray-800 py-2 px-0.5 rounded border border-gray-600 shadow text-center">
+                  <div class="flex-1 bg-slate-100 border border-slate-200 py-2 px-0.5 rounded border border-gray-600 shadow text-center">
                      Algoritma</div>
                </div>
 
                <div class="w-0.5 h-5 bg-gray-600 my-2"></div>
 
                <div
-                  class="w-full max-w-[240px] border-2 border-teal-500 bg-[#12121a] p-2 rounded-xl text-[10px] font-semibold shadow-[0_0_20px_rgba(45,212,191,0.2)]">
-                  <span class="text-gray-400">Integrasi Kecerdasan Artifisial</span><br>
-                  <span class="text-teal-400 block mt-1 font-bold text-[9px]">Perception • Representation<br>Reasoning •
+                  class="w-full max-w-[240px] border-2 border-teal-500 bg-slate-100 border border-slate-200 shadow-sm p-2 rounded-xl text-[10px] font-semibold shadow-[0_0_20px_rgba(45,212,191,0.2)]">
+                  <span class="text-slate-600">Integrasi Kecerdasan Artifisial</span><br>
+                  <span class="text-teal-700 block mt-1 font-bold text-[9px]">Perception • Representation<br>Reasoning •
                      Learning</span>
                </div>
             </div>
@@ -727,15 +728,15 @@
          <div class="page-wrapper">
             <div class="page-content animate-content relative">
                <div class="flex justify-between items-end mb-2 border-b border-gray-700 pb-1.5">
-                  <h2 class="text-lg font-sora font-bold text-purple-400">Latihan Dasar (1/2)</h2>
-                  <div class="text-[9px] font-bold px-2 py-0.5 bg-purple-900/30 rounded border border-purple-500/50">
-                     Skor: <span x-text="latihanScore" class="text-purple-400"></span></div>
+                  <h2 class="text-lg font-sora font-bold text-purple-700">Latihan Dasar (1/2)</h2>
+                  <div class="text-[9px] font-bold px-2 py-0.5 bg-purple-50/80 border border-purple-200 rounded border border-purple-500/50">
+                     Skor: <span x-text="latihanScore" class="text-purple-700"></span></div>
                </div>
 
                <div class="space-y-1.5">
                   <template x-for="(soal, index) in latihan.slice(0, 5)">
-                     <div class="bg-gray-800/30 p-1.5 rounded-lg border border-gray-700/50">
-                        <p class="text-[9px] font-medium mb-1 leading-snug text-gray-200 cursor-pointer hover:text-purple-300 transition line-clamp-3"
+                     <div class="bg-slate-50 border border-slate-200 p-1.5 rounded-lg border border-gray-700/50">
+                        <p class="text-[9px] font-medium mb-1 leading-snug text-slate-800 cursor-pointer hover:text-purple-800 transition line-clamp-3"
                            @click.stop="openDetail('latihan', index)" @mousedown.stop @touchstart.stop @pointerdown.stop
                            x-html="(index+1) + '. ' + soal.q"></p>
                         <div class="grid grid-cols-2 gap-1">
@@ -743,7 +744,7 @@
                               <button @click="jawabLatihan(index, oidx)" :class="getBtnClass(index, oidx, 'latihan')"
                                  class="text-[8px] text-left p-1 rounded border border-gray-600 hover:border-purple-400 hover:bg-gray-700 transition whitespace-normal break-words"
                                  :disabled="soal.dijawab">
-                                 <span class="font-bold text-gray-400 mr-0.5"
+                                 <span class="font-bold text-slate-600 mr-0.5"
                                     x-text="['A','B','C','D','E'][oidx] + '.'"></span>
                                  <span x-text="opt"></span>
                               </button>
@@ -763,15 +764,15 @@
          <div class="page-wrapper">
             <div class="page-content animate-content relative">
                <div class="flex justify-between items-end mb-2 border-b border-gray-700 pb-1.5">
-                  <h2 class="text-lg font-sora font-bold text-purple-400">Latihan Dasar (2/2)</h2>
-                  <div class="text-[9px] font-bold px-2 py-0.5 bg-purple-900/30 rounded border border-purple-500/50">
-                     Skor: <span x-text="latihanScore" class="text-purple-400"></span></div>
+                  <h2 class="text-lg font-sora font-bold text-purple-700">Latihan Dasar (2/2)</h2>
+                  <div class="text-[9px] font-bold px-2 py-0.5 bg-purple-50/80 border border-purple-200 rounded border border-purple-500/50">
+                     Skor: <span x-text="latihanScore" class="text-purple-700"></span></div>
                </div>
 
                <div class="space-y-1.5">
                   <template x-for="(soal, index) in latihan.slice(5, 10)">
-                     <div class="bg-gray-800/30 p-1.5 rounded-lg border border-gray-700/50">
-                        <p class="text-[9px] font-medium mb-1 leading-snug text-gray-200 cursor-pointer hover:text-purple-300 transition line-clamp-3"
+                     <div class="bg-slate-50 border border-slate-200 p-1.5 rounded-lg border border-gray-700/50">
+                        <p class="text-[9px] font-medium mb-1 leading-snug text-slate-800 cursor-pointer hover:text-purple-800 transition line-clamp-3"
                            @click.stop="openDetail('latihan', index + 5)" @mousedown.stop @touchstart.stop
                            @pointerdown.stop x-html="(index+6) + '. ' + soal.q"></p>
                         <div class="grid grid-cols-2 gap-1">
@@ -780,7 +781,7 @@
                                  :class="getBtnClass(index + 5, oidx, 'latihan')"
                                  class="text-[8px] text-left p-1 rounded border border-gray-600 hover:border-purple-400 hover:bg-gray-700 transition whitespace-normal break-words"
                                  :disabled="soal.dijawab">
-                                 <span class="font-bold text-gray-400 mr-0.5"
+                                 <span class="font-bold text-slate-600 mr-0.5"
                                     x-text="['A','B','C','D','E'][oidx] + '.'"></span>
                                  <span x-text="opt"></span>
                               </button>
@@ -792,12 +793,12 @@
 
                <!-- Latihan Finish Overlay -->
                <div x-show="latihanSelesai" x-transition
-                  class="absolute inset-0 bg-[#12121a]/90 backdrop-blur flex flex-col items-center justify-center rounded-lg border-2 border-purple-500 z-10 shadow-2xl">
+                  class="absolute inset-0 bg-slate-100 border border-slate-200 shadow-sm/90 backdrop-blur flex flex-col items-center justify-center rounded-lg border-2 border-purple-500 z-10 shadow-2xl">
                   <div class="text-4xl mb-2">💯</div>
-                  <h3 class="font-bold font-sora text-purple-400 mb-0.5 text-lg">Latihan Selesai!</h3>
-                  <p class="text-xs text-gray-300">Skor Dasar Kamu:</p>
-                  <p class="text-3xl font-black text-white mt-1" x-text="latihanScore"></p>
-                  <p class="text-[9px] mt-3 text-gray-400">Geser ke halaman berikutnya untuk Ujian</p>
+                  <h3 class="font-bold font-sora text-purple-700 mb-0.5 text-lg">Latihan Selesai!</h3>
+                  <p class="text-xs text-slate-700">Skor Dasar Kamu:</p>
+                  <p class="text-3xl font-black text-slate-900 mt-1" x-text="latihanScore"></p>
+                  <p class="text-[9px] mt-3 text-slate-600">Geser ke halaman berikutnya untuk Ujian</p>
                </div>
             </div>
             
@@ -815,14 +816,14 @@
                   <div class="absolute -left-6 -bottom-6 w-16 h-16 bg-purple-500/20 rounded-full blur-xl"></div>
 
                   <div
-                     class="w-14 h-14 mx-auto mb-3 bg-teal-600 rounded-full flex items-center justify-center text-2xl shadow-lg border-4 border-[#12121a] relative z-10">
+                     class="w-14 h-14 mx-auto mb-3 bg-teal-600 rounded-full flex items-center justify-center text-2xl shadow-lg border-4 border-slate-200 relative z-10">
                      🎓</div>
-                  <h2 class="text-xl font-sora font-black text-white mb-1 relative z-10">Ujian Kompetensi</h2>
+                  <h2 class="text-xl font-sora font-black text-slate-900 mb-1 relative z-10">Ujian Kompetensi</h2>
                   <div class="h-0.5 w-10 bg-teal-400 mx-auto mb-3 rounded relative z-10"></div>
-                  <p class="text-[10px] text-gray-300 mb-4 leading-relaxed relative z-10">Selamat! Kamu telah menguasai
+                  <p class="text-[10px] text-slate-700 mb-4 leading-relaxed relative z-10">Selamat! Kamu telah menguasai
                      fondasi Berpikir Komputasional. Saatnya menguji analisis tingkat lanjutmu dalam soal studi kasus.
                   </p>
-                  <p class="text-[8px] text-teal-300 font-bold uppercase tracking-widest animate-pulse relative z-10">
+                  <p class="text-[8px] text-teal-800 font-bold uppercase tracking-widest animate-pulse relative z-10">
                      Buka halaman untuk mulai</p>
                </div>
             </div>
@@ -836,17 +837,17 @@
          <div class="page-wrapper">
             <div class="page-content animate-content relative">
                <div class="flex justify-between items-end mb-2 border-b border-gray-700 pb-1.5">
-                  <h2 class="text-lg font-sora font-bold text-teal-400">Ujian Analitis (1/2)</h2>
-                  <div class="text-[9px] font-bold px-2 py-0.5 bg-teal-900/30 rounded border border-teal-500/50">Skor:
-                     <span x-text="ujianScore" class="text-teal-400"></span>
+                  <h2 class="text-lg font-sora font-bold text-teal-700">Ujian Analitis (1/2)</h2>
+                  <div class="text-[9px] font-bold px-2 py-0.5 bg-teal-50/80 border border-teal-200 rounded border border-teal-500/50">Skor:
+                     <span x-text="ujianScore" class="text-teal-700"></span>
                   </div>
                </div>
 
                <div class="space-y-1.5">
                   <template x-for="(soal, index) in ujian.slice(0, 5)">
                      <div
-                        class="bg-gray-800/30 p-1.5 rounded-lg border border-gray-700/50 hover:border-teal-500/30 transition-colors">
-                        <p class="text-[9px] font-medium mb-1 leading-snug text-gray-200 cursor-pointer hover:text-teal-300 transition line-clamp-3"
+                        class="bg-slate-50 border border-slate-200 p-1.5 rounded-lg border border-gray-700/50 hover:border-teal-500/30 transition-colors">
+                        <p class="text-[9px] font-medium mb-1 leading-snug text-slate-800 cursor-pointer hover:text-teal-800 transition line-clamp-3"
                            @click.stop="openDetail('ujian', index)" @mousedown.stop @touchstart.stop @pointerdown.stop
                            x-html="(index+1) + '. ' + soal.q"></p>
                         <div class="grid grid-cols-2 gap-1">
@@ -854,7 +855,7 @@
                               <button @click="jawabUjian(index, oidx)" :class="getBtnClass(index, oidx, 'ujian')"
                                  class="text-[8px] text-left p-1 rounded border border-gray-600 hover:border-teal-400 hover:bg-gray-700 transition whitespace-normal break-words"
                                  :disabled="soal.dijawab">
-                                 <span class="font-bold text-gray-400 mr-0.5"
+                                 <span class="font-bold text-slate-600 mr-0.5"
                                     x-text="['A','B','C','D','E'][oidx] + '.'"></span>
                                  <span x-text="opt"></span>
                               </button>
@@ -874,17 +875,17 @@
          <div class="page-wrapper">
             <div class="page-content animate-content relative">
                <div class="flex justify-between items-end mb-2 border-b border-gray-700 pb-1.5">
-                  <h2 class="text-lg font-sora font-bold text-teal-400">Ujian Analitis (2/2)</h2>
-                  <div class="text-[9px] font-bold px-2 py-0.5 bg-teal-900/30 rounded border border-teal-500/50">Skor:
-                     <span x-text="ujianScore" class="text-teal-400"></span>
+                  <h2 class="text-lg font-sora font-bold text-teal-700">Ujian Analitis (2/2)</h2>
+                  <div class="text-[9px] font-bold px-2 py-0.5 bg-teal-50/80 border border-teal-200 rounded border border-teal-500/50">Skor:
+                     <span x-text="ujianScore" class="text-teal-700"></span>
                   </div>
                </div>
 
                <div class="space-y-1.5">
                   <template x-for="(soal, index) in ujian.slice(5, 10)">
                      <div
-                        class="bg-gray-800/30 p-1.5 rounded-lg border border-gray-700/50 hover:border-teal-500/30 transition-colors">
-                        <p class="text-[9px] font-medium mb-1 leading-snug text-gray-200 cursor-pointer hover:text-teal-300 transition line-clamp-3"
+                        class="bg-slate-50 border border-slate-200 p-1.5 rounded-lg border border-gray-700/50 hover:border-teal-500/30 transition-colors">
+                        <p class="text-[9px] font-medium mb-1 leading-snug text-slate-800 cursor-pointer hover:text-teal-800 transition line-clamp-3"
                            @click.stop="openDetail('ujian', index + 5)" @mousedown.stop @touchstart.stop
                            @pointerdown.stop x-html="(index+6) + '. ' + soal.q"></p>
                         <div class="grid grid-cols-2 gap-1">
@@ -893,7 +894,7 @@
                                  :class="getBtnClass(index + 5, oidx, 'ujian')"
                                  class="text-[8px] text-left p-1 rounded border border-gray-600 hover:border-teal-400 hover:bg-gray-700 transition whitespace-normal break-words"
                                  :disabled="soal.dijawab">
-                                 <span class="font-bold text-gray-400 mr-0.5"
+                                 <span class="font-bold text-slate-600 mr-0.5"
                                     x-text="['A','B','C','D','E'][oidx] + '.'"></span>
                                  <span x-text="opt"></span>
                               </button>
@@ -905,12 +906,12 @@
 
                <!-- Ujian Finish Overlay -->
                <div x-show="ujianSelesai" x-transition
-                  class="absolute inset-0 bg-[#12121a]/95 backdrop-blur-sm flex flex-col items-center justify-center rounded-lg border-2 border-teal-500 z-20 shadow-2xl">
+                  class="absolute inset-0 bg-slate-100 border border-slate-200 shadow-sm/95 backdrop-blur-sm flex flex-col items-center justify-center rounded-lg border-2 border-teal-500 z-20 shadow-2xl">
                   <div class="text-4xl mb-2">🏆</div>
-                  <h3 class="font-sora font-bold text-lg text-teal-400 mb-0.5">Bab 1 Selesai!</h3>
-                  <p class="text-xs text-gray-300 mb-3">Nilai Akhir Kompetensi Kamu</p>
-                  <div class="text-4xl font-black text-white mb-4" x-text="ujianScore"></div>
-                  <p class="text-[9px] text-gray-400 animate-pulse">Geser ke halaman penutup</p>
+                  <h3 class="font-sora font-bold text-lg text-teal-700 mb-0.5">Bab 1 Selesai!</h3>
+                  <p class="text-xs text-slate-700 mb-3">Nilai Akhir Kompetensi Kamu</p>
+                  <div class="text-4xl font-black text-slate-900 mb-4" x-text="ujianScore"></div>
+                  <p class="text-[9px] text-slate-600 animate-pulse">Geser ke halaman penutup</p>
                </div>
             </div>
             
@@ -936,7 +937,7 @@
                class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0icmdiYSgxNjcsIDEzOSLCAyNTAsIDAuMikiLz48L3N2Zz4=')] opacity-50">
             </div>
 
-            <h1 class="text-2xl font-sora font-bold text-gray-300 mb-3 relative z-10">Tamat</h1>
+            <h1 class="text-2xl font-sora font-bold text-slate-700 mb-3 relative z-10">Tamat</h1>
 
             <svg viewBox="0 0 100 100"
                class="w-28 h-28 mx-auto mb-4 opacity-70 relative z-10 drop-shadow-[0_0_15px_rgba(45,212,191,0.4)]">
@@ -947,11 +948,11 @@
                <path d="M 65 70 L 68 75 L 75 65" stroke="#12121a" stroke-width="3" fill="none" stroke-linecap="round" />
             </svg>
 
-            <p class="text-xs text-gray-400 mb-4 relative z-10">Terima kasih telah membaca E-Modul ini.<br>Semoga ilmu
+            <p class="text-xs text-slate-600 mb-4 relative z-10">Terima kasih telah membaca E-Modul ini.<br>Semoga ilmu
                yang didapat bermanfaat!</p>
 
             <div
-               class="text-[9px] font-bold text-teal-400 bg-teal-900/20 px-4 py-1.5 rounded-full border border-teal-500/30 relative z-10">
+               class="text-[9px] font-bold text-teal-700 bg-teal-50/60 border border-teal-200 px-4 py-1.5 rounded-full border border-teal-500/30 relative z-10">
                Penerbit Kemendikbudristek 2025
             </div>
 
@@ -1226,8 +1227,8 @@
             getBtnClass(idx, optIdx, tipe) {
                let soal = tipe === 'latihan' ? this.latihan[idx] : this.ujian[idx];
                if (!soal.dijawab) return '';
-               if (optIdx === soal.ans) return 'bg-teal-600 border-teal-400 text-white font-bold';
-               if (optIdx === soal.userAns) return 'bg-red-600/80 border-red-500 text-white';
+               if (optIdx === soal.ans) return 'bg-teal-600 border-teal-400 text-slate-900 font-bold';
+               if (optIdx === soal.userAns) return 'bg-red-600/80 border-red-500 text-slate-900';
                return 'opacity-30';
             },
             checkLatihan() {

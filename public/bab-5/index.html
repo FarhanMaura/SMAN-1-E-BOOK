@@ -132,46 +132,46 @@
           x-transition:leave="transition ease-in duration-200"
           x-transition:leave-start="scale-100 opacity-100"
           x-transition:leave-end="scale-50 opacity-0"
-          class="bg-[#1a1a2e] border-2 rounded-3xl p-8 text-center shadow-[0_0_60px_rgba(0,0,0,0.6)]"
+          class="bg-slate-50 border border-slate-200 shadow-sm border-2 rounded-3xl p-8 text-center shadow-[0_0_60px_rgba(0,0,0,0.6)]"
           :class="isFeedbackCorrect ? 'border-indigo-400 shadow-indigo-500/20' : 'border-red-400 shadow-red-500/20'">
         
         <template x-if="isFeedbackCorrect">
-           <div class="w-40 h-40 mx-auto drop-shadow-[0_10px_30px_rgba(255,255,255,0.1)] rounded-full border-4 border-[#12121a] flex items-center justify-center bg-gray-900 overflow-hidden">
+           <div class="w-44 h-44 mx-auto drop-shadow-xl rounded-full border-4 border-indigo-400 bg-gradient-to-br from-indigo-50 to-purple-50 shadow-indigo-500/15 flex items-center justify-center overflow-hidden my-3 shadow-lg">
                <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_5e7wgehs.json" background="transparent" speed="1" style="width: 150px; height: 150px;" loop autoplay></lottie-player>
             </div>
         </template>
         <template x-if="!isFeedbackCorrect">
-           <div class="w-40 h-40 mx-auto drop-shadow-[0_10px_30px_rgba(255,255,255,0.1)] rounded-full border-4 border-[#12121a] flex items-center justify-center bg-gray-900 overflow-hidden">
+           <div class="w-44 h-44 mx-auto drop-shadow-xl rounded-full border-4 border-indigo-400 bg-gradient-to-br from-indigo-50 to-purple-50 shadow-indigo-500/15 flex items-center justify-center overflow-hidden my-3 shadow-lg">
                <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_5e7wgehs.json" background="transparent" speed="1" style="width: 150px; height: 150px;" loop autoplay></lottie-player>
             </div>
         </template>
         
         <h3 class="text-3xl font-sora font-black mb-2" 
-            :class="isFeedbackCorrect ? 'text-indigo-400' : 'text-red-400'"
+            :class="isFeedbackCorrect ? 'text-indigo-700' : 'text-red-400'"
             x-text="isFeedbackCorrect ? 'KEREN BANGET! 🎉' : 'YAH, COBA LAGI! 😢'"></h3>
-        <p class="text-gray-300 text-lg" x-text="isFeedbackCorrect ? 'Jawabanmu benar!' : 'Jangan menyerah, baca lagi yuk!'"></p>
+        <p class="text-slate-700 text-lg" x-text="isFeedbackCorrect ? 'Jawabanmu benar!' : 'Jangan menyerah, baca lagi yuk!'"></p>
      </div>
   </div>
 
   <!-- DETAIL MODAL -->
   <div x-show="showDetailModal" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md">
-     <div @click.away="showDetailModal = false" class="bg-[#1a1a2e] border border-rose-500/50 rounded-2xl w-[90%] max-w-[500px] max-h-[80vh] flex flex-col shadow-2xl">
+     <div @click.away="showDetailModal = false" class="bg-slate-50 border border-slate-200 shadow-sm border border-rose-500/50 rounded-2xl w-[90%] max-w-[500px] max-h-[80vh] flex flex-col shadow-2xl">
         <div class="p-4 border-b border-gray-700 flex justify-between items-center bg-rose-900/20 rounded-t-2xl">
-           <h3 class="font-bold text-rose-400">Detail Pertanyaan</h3>
-           <button @click="showDetailModal = false" class="text-gray-400 hover:text-white font-bold text-xl">&times;</button>
+           <h3 class="font-bold text-rose-700">Detail Pertanyaan</h3>
+           <button @click="showDetailModal = false" class="text-slate-600 hover:text-slate-900 font-bold text-xl">&times;</button>
         </div>
         <div class="p-6 overflow-y-auto">
            <template x-if="activeDetail">
               <div>
-                 <p class="text-sm text-white mb-6 leading-relaxed" x-html="activeDetail.q"></p>
+                 <p class="text-sm text-slate-900 mb-6 leading-relaxed" x-html="activeDetail.q"></p>
                  <div class="space-y-3">
                     <template x-for="(opt, idx) in activeDetail.opts">
                        <button @click="jawabDariDetail(idx)" 
-                               :class="activeDetail.dijawab ? (idx === activeDetail.ans ? 'bg-rose-600 border-rose-400 text-white' : (idx === activeDetail.userAns ? 'bg-red-600 border-red-400 text-white' : 'opacity-50 border-gray-700')) : 'bg-gray-800 hover:bg-gray-700 border-gray-600'"
+                               :class="activeDetail.dijawab ? (idx === activeDetail.ans ? 'bg-rose-600 border-rose-400 text-slate-900' : (idx === activeDetail.userAns ? 'bg-red-600 border-red-400 text-slate-900' : 'opacity-50 border-gray-700')) : 'bg-slate-100 border border-slate-200 hover:bg-gray-700 border-gray-600'"
                                class="w-full text-left p-4 rounded-xl border transition flex gap-3 items-start"
                                :disabled="activeDetail.dijawab">
-                          <span class="font-bold text-rose-400 mt-0.5" x-text="['A','B','C','D','E'][idx] + '.'"></span>
-                          <span class="text-sm text-gray-200" x-text="opt"></span>
+                          <span class="font-bold text-rose-700 mt-0.5" x-text="['A','B','C','D','E'][idx] + '.'"></span>
+                          <span class="text-sm text-slate-800" x-text="opt"></span>
                        </button>
                     </template>
                  </div>
@@ -183,13 +183,13 @@
 
   <!-- NAVIGATION -->
   <div class="w-full max-w-[900px] flex justify-between items-center mb-6 px-4 z-10">
-     <a href="/" class="text-indigo-400 hover:text-indigo-300 transition font-semibold flex items-center gap-2 bg-indigo-900/20 px-4 py-2 rounded-full border border-indigo-500/30 shadow-lg">
+     <a href="/" class="text-indigo-700 hover:text-indigo-300 transition font-semibold flex items-center gap-2 bg-indigo-900/20 px-4 py-2 rounded-full border border-indigo-500/30 shadow-lg">
        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
        Beranda
      </a>
      <div class="flex gap-4">
-       <button id="btn-prev" class="px-6 py-2.5 rounded-full bg-[#12121a] border border-gray-600 hover:border-indigo-400 hover:text-indigo-400 text-white text-sm font-bold transition shadow-xl hover:shadow-indigo-500/10">← Prev</button>
-       <button id="btn-next" class="px-6 py-2.5 rounded-full bg-[#12121a] border border-gray-600 hover:border-rose-400 hover:text-rose-400 text-white text-sm font-bold transition shadow-xl hover:shadow-rose-500/10">Next →</button>
+       <button id="btn-prev" class="px-6 py-2.5 rounded-full bg-slate-100 border border-slate-200 shadow-sm border border-gray-600 hover:border-indigo-400 hover:text-indigo-700 text-slate-900 text-sm font-bold transition shadow-xl hover:shadow-indigo-500/10">← Prev</button>
+       <button id="btn-next" class="px-6 py-2.5 rounded-full bg-slate-100 border border-slate-200 shadow-sm border border-gray-600 hover:border-rose-400 hover:text-rose-700 text-slate-900 text-sm font-bold transition shadow-xl hover:shadow-rose-500/10">Next →</button>
      </div>
   </div>
   
@@ -199,12 +199,12 @@
     <!-- HALAMAN 1: COVER -->
     <div class="page --hard">
       <div class="page-wrapper items-center justify-center text-center">
-        <div class="text-[10px] font-bold text-rose-400 mb-8 bg-rose-400/10 px-5 py-2 rounded-full border border-rose-400/20 tracking-widest uppercase">SMAN 1 PALEMBANG • KELAS X</div>
+        <div class="text-[10px] font-bold text-rose-700 mb-8 bg-rose-400/10 px-5 py-2 rounded-full border border-rose-400/20 tracking-widest uppercase">SMAN 1 PALEMBANG • KELAS X</div>
         <h1 class="text-8xl font-sora font-black text-transparent bg-clip-text bg-gradient-to-br from-indigo-400 to-rose-400 mb-6 drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)]">Bab 5</h1>
-        <h2 class="text-3xl font-sora font-bold text-gray-200 mb-12 max-w-[350px] leading-tight">Kreativitas dan Etika Produksi Konten</h2>
+        <h2 class="text-3xl font-sora font-bold text-slate-800 mb-12 max-w-[350px] leading-tight">Kreativitas dan Etika Produksi Konten</h2>
         
-        <div class="w-64 h-64 mx-auto drop-shadow-[0_10px_40px_rgba(167,139,250,0.2)] rounded-full border-4 border-[#12121a] bg-cover bg-center ring-4 ring-rose-500/20" style="background-image: url('/assets/bab2_scene.png'); background-size: cover; background-position: center;"></div>
-        <p class="mt-12 text-xs font-bold text-gray-500 animate-pulse tracking-[0.2em] uppercase italic">Jadilah Kreator yang Beretika</p>
+        <div class="w-64 h-64 mx-auto drop-shadow-[0_10px_40px_rgba(167,139,250,0.2)] rounded-full border-4 border-slate-200 bg-cover bg-center ring-4 ring-rose-500/20" style="background-image: url('/assets/bab2_scene.png'); background-size: cover; background-position: center;"></div>
+        <p class="mt-12 text-xs font-bold text-slate-500 animate-pulse tracking-[0.2em] uppercase italic">Jadilah Kreator yang Beretika</p>
       </div>
     </div>
     
@@ -212,7 +212,7 @@
     <div class="page --hard">
        <div class="page-wrapper items-center justify-center">
           <div class="w-48 h-48 bg-cover bg-center animate-bounce opacity-80 drop-shadow-[0_0_20px_rgba(var(--primary-rgb),0.6)]" style="background-image: url('/assets/girl_sma.png');"></div>
-          <p class="text-indigo-400 font-bold mt-8 tracking-widest uppercase text-xs">Siap Berkreasi Digital?</p>
+          <p class="text-indigo-700 font-bold mt-8 tracking-widest uppercase text-xs">Siap Berkreasi Digital?</p>
        </div>
     </div>
 
@@ -220,23 +220,23 @@
     <div class="page">
       <div class="page-wrapper">
         <div class="page-content animate-content">
-          <h2 class="text-2xl font-sora font-bold text-indigo-400 mb-6 border-b-2 border-indigo-500/20 pb-3">Tujuan Pembelajaran</h2>
+          <h2 class="text-2xl font-sora font-bold text-indigo-700 mb-6 border-b-2 border-indigo-500/20 pb-3">Tujuan Pembelajaran</h2>
           <div class="space-y-4 mb-8">
              <div class="flex gap-3 items-start">
-                <span class="w-6 h-6 bg-indigo-500/20 text-indigo-400 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">1</span>
-                <p class="text-xs text-gray-300 leading-relaxed text-justify">Memahami konsep multimedia dan elemen-elemen penyusunnya.</p>
+                <span class="w-6 h-6 bg-indigo-500/20 text-indigo-700 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">1</span>
+                <p class="text-xs text-slate-700 leading-relaxed text-justify">Memahami konsep multimedia dan elemen-elemen penyusunnya.</p>
              </div>
              <div class="flex gap-3 items-start">
-                <span class="w-6 h-6 bg-indigo-500/20 text-indigo-400 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">2</span>
-                <p class="text-xs text-gray-300 leading-relaxed text-justify">Mengenali hak cipta dan berbagai jenis lisensi digital (Creative Commons).</p>
+                <span class="w-6 h-6 bg-indigo-500/20 text-indigo-700 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">2</span>
+                <p class="text-xs text-slate-700 leading-relaxed text-justify">Mengenali hak cipta dan berbagai jenis lisensi digital (Creative Commons).</p>
              </div>
              <div class="flex gap-3 items-start">
-                <span class="w-6 h-6 bg-indigo-500/20 text-indigo-400 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">3</span>
-                <p class="text-xs text-gray-300 leading-relaxed text-justify">Mampu memproduksi konten digital dengan etika dan rasa tanggung jawab.</p>
+                <span class="w-6 h-6 bg-indigo-500/20 text-indigo-700 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">3</span>
+                <p class="text-xs text-slate-700 leading-relaxed text-justify">Mampu memproduksi konten digital dengan etika dan rasa tanggung jawab.</p>
              </div>
           </div>
           
-          <h3 class="text-sm font-sora font-bold text-rose-400 mb-3 uppercase tracking-widest">Kata Kunci</h3>
+          <h3 class="text-sm font-sora font-bold text-rose-700 mb-3 uppercase tracking-widest">Kata Kunci</h3>
           <div class="flex flex-wrap gap-2 mb-8">
              <span class="bg-rose-900/20 text-rose-300 text-[10px] px-3 py-1.5 rounded-lg border border-rose-500/30 font-bold">Multimedia</span>
              <span class="bg-rose-900/20 text-rose-300 text-[10px] px-3 py-1.5 rounded-lg border border-rose-500/30 font-bold">Hak Cipta</span>
@@ -244,8 +244,8 @@
              <span class="bg-rose-900/20 text-rose-300 text-[10px] px-3 py-1.5 rounded-lg border border-rose-500/30 font-bold">Jejak Digital</span>
           </div>
 
-          <h2 class="text-2xl font-sora font-bold text-indigo-400 mb-4 border-b-2 border-indigo-500/20 pb-3 mt-6">Apersepsi</h2>
-          <p class="mb-5 text-[12px] text-gray-300 leading-relaxed text-justify italic">"Bayangkan kamu menghabiskan waktu berjam-jam membuat desain poster yang keren, lalu seseorang mengambilnya tanpa izin dan mengakuinya sebagai miliknya. Bagaimana perasaanmu? Di bab ini, kita akan belajar bagaimana berkreasi tanpa melanggar hak orang lain."</p>
+          <h2 class="text-2xl font-sora font-bold text-indigo-700 mb-4 border-b-2 border-indigo-500/20 pb-3 mt-6">Apersepsi</h2>
+          <p class="mb-5 text-[12px] text-slate-700 leading-relaxed text-justify italic">"Bayangkan kamu menghabiskan waktu berjam-jam membuat desain poster yang keren, lalu seseorang mengambilnya tanpa izin dan mengakuinya sebagai miliknya. Bagaimana perasaanmu? Di bab ini, kita akan belajar bagaimana berkreasi tanpa melanggar hak orang lain."</p>
         </div>
         <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>1</span></div>
       </div>
@@ -255,31 +255,31 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-xl font-sora font-bold text-rose-400 mb-6 border-l-4 border-rose-500 pl-4">A. Konsep Multimedia</h2>
-             <p class="text-[12px] text-gray-200 mb-6 leading-relaxed text-justify">
+             <h2 class="text-xl font-sora font-bold text-rose-700 mb-6 border-l-4 border-rose-500 pl-4">A. Konsep Multimedia</h2>
+             <p class="text-[12px] text-slate-800 mb-6 leading-relaxed text-justify">
                 <strong>Multimedia</strong> adalah kombinasi dari berbagai elemen media untuk menyampaikan informasi secara lebih menarik dan interaktif.
              </p>
              
-             <h4 class="text-xs font-bold text-indigo-400 mb-4 uppercase tracking-widest">Elemen Multimedia:</h4>
+             <h4 class="text-xs font-bold text-indigo-700 mb-4 uppercase tracking-widest">Elemen Multimedia:</h4>
              <div class="grid grid-cols-2 gap-4 mb-6">
-                <div class="bg-[#1a1a2e] p-3 rounded-xl border border-gray-800 text-center">
+                <div class="bg-slate-50 border border-slate-200 shadow-sm p-3 rounded-xl border border-gray-800 text-center">
                    <div class="text-xl mb-1">📝</div>
-                   <span class="text-[9px] font-bold text-white">Teks</span>
+                   <span class="text-[9px] font-bold text-slate-900">Teks</span>
                 </div>
-                <div class="bg-[#1a1a2e] p-3 rounded-xl border border-gray-800 text-center">
+                <div class="bg-slate-50 border border-slate-200 shadow-sm p-3 rounded-xl border border-gray-800 text-center">
                    <div class="text-xl mb-1">🖼️</div>
-                   <span class="text-[9px] font-bold text-white">Gambar</span>
+                   <span class="text-[9px] font-bold text-slate-900">Gambar</span>
                 </div>
-                <div class="bg-[#1a1a2e] p-3 rounded-xl border border-gray-800 text-center">
+                <div class="bg-slate-50 border border-slate-200 shadow-sm p-3 rounded-xl border border-gray-800 text-center">
                    <div class="text-xl mb-1">🔊</div>
-                   <span class="text-[9px] font-bold text-white">Audio</span>
+                   <span class="text-[9px] font-bold text-slate-900">Audio</span>
                 </div>
-                <div class="bg-[#1a1a2e] p-3 rounded-xl border border-gray-800 text-center">
+                <div class="bg-slate-50 border border-slate-200 shadow-sm p-3 rounded-xl border border-gray-800 text-center">
                    <div class="text-xl mb-1">🎬</div>
-                   <span class="text-[9px] font-bold text-white">Video</span>
+                   <span class="text-[9px] font-bold text-slate-900">Video</span>
                 </div>
              </div>
-             <p class="text-[10px] text-gray-400 italic text-center">"Gabungan elemen-elemen ini membuat pesan lebih mudah diingat!"</p>
+             <p class="text-[10px] text-slate-600 italic text-center">"Gabungan elemen-elemen ini membuat pesan lebih mudah diingat!"</p>
           </div>
           <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>2</span></div>
        </div>
@@ -289,20 +289,20 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-md font-bold text-indigo-400 mb-6">Mengapa Multimedia Penting?</h3>
+             <h3 class="text-md font-bold text-indigo-700 mb-6">Mengapa Multimedia Penting?</h3>
              
              <div class="space-y-4">
                 <div class="topic-card">
-                   <h4 class="text-xs font-bold text-white mb-2 uppercase">1. Meningkatkan Pemahaman</h4>
-                   <p class="text-[10px] text-gray-400">Otak manusia memproses informasi visual 60.000 kali lebih cepat daripada teks.</p>
+                   <h4 class="text-xs font-bold text-slate-900 mb-2 uppercase">1. Meningkatkan Pemahaman</h4>
+                   <p class="text-[10px] text-slate-600">Otak manusia memproses informasi visual 60.000 kali lebih cepat daripada teks.</p>
                 </div>
                 <div class="topic-card">
-                   <h4 class="text-xs font-bold text-white mb-2 uppercase">2. Menarik Perhatian</h4>
-                   <p class="text-[10px] text-gray-400">Konten dengan gambar dan video 2x lebih mungkin dibagikan di media sosial.</p>
+                   <h4 class="text-xs font-bold text-slate-900 mb-2 uppercase">2. Menarik Perhatian</h4>
+                   <p class="text-[10px] text-slate-600">Konten dengan gambar dan video 2x lebih mungkin dibagikan di media sosial.</p>
                 </div>
                 <div class="topic-card">
-                   <h4 class="text-xs font-bold text-white mb-2 uppercase">3. Interaktivitas</h4>
-                   <p class="text-[10px] text-gray-400">Memungkinkan pengguna untuk terlibat langsung dengan konten (seperti flipbook ini!).</p>
+                   <h4 class="text-xs font-bold text-slate-900 mb-2 uppercase">3. Interaktivitas</h4>
+                   <p class="text-[10px] text-slate-600">Memungkinkan pengguna untuk terlibat langsung dengan konten (seperti flipbook ini!).</p>
                 </div>
              </div>
           </div>
@@ -314,19 +314,19 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-xl font-sora font-bold text-indigo-400 mb-6 border-l-4 border-indigo-500 pl-4">B. Hak Cipta & Lisensi</h2>
+             <h2 class="text-xl font-sora font-bold text-indigo-700 mb-6 border-l-4 border-indigo-500 pl-4">B. Hak Cipta & Lisensi</h2>
              <div class="bg-gradient-to-br from-red-900/20 to-transparent p-6 rounded-2xl border border-red-500/30 mb-8">
-                <p class="text-[11px] text-gray-200 leading-relaxed text-justify">
+                <p class="text-[11px] text-slate-800 leading-relaxed text-justify">
                    <strong>Hak Cipta</strong> adalah hak eksklusif pencipta atas karyanya yang timbul secara otomatis setelah suatu ciptaan diwujudkan dalam bentuk nyata.
                 </p>
              </div>
              
-             <h3 class="text-md font-bold text-rose-400 mb-4">Lisensi Digital</h3>
-             <p class="text-[11px] text-gray-300 mb-4 text-justify">Lisensi adalah izin yang diberikan oleh pemegang hak cipta kepada orang lain untuk menggunakan karyanya dengan aturan tertentu.</p>
+             <h3 class="text-md font-bold text-rose-700 mb-4">Lisensi Digital</h3>
+             <p class="text-[11px] text-slate-700 mb-4 text-justify">Lisensi adalah izin yang diberikan oleh pemegang hak cipta kepada orang lain untuk menggunakan karyanya dengan aturan tertentu.</p>
              
-             <div class="bg-[#1a1a2e] p-4 rounded-xl border border-gray-700">
-                <p class="text-[10px] text-indigo-400 font-bold uppercase mb-2 tracking-widest">Ingat!</p>
-                <p class="text-[10px] text-gray-400 italic">"Tidak semua yang ada di internet adalah GRATIS untuk digunakan sembarangan."</p>
+             <div class="bg-slate-50 border border-slate-200 shadow-sm p-4 rounded-xl border border-gray-700">
+                <p class="text-[10px] text-indigo-700 font-bold uppercase mb-2 tracking-widest">Ingat!</p>
+                <p class="text-[10px] text-slate-600 italic">"Tidak semua yang ada di internet adalah GRATIS untuk digunakan sembarangan."</p>
              </div>
           </div>
           <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>4</span></div>
@@ -337,20 +337,20 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-md font-bold text-rose-400 mb-6 uppercase tracking-tighter">Jenis Lisensi Creative Commons (CC)</h3>
+             <h3 class="text-md font-bold text-rose-700 mb-6 uppercase tracking-tighter">Jenis Lisensi Creative Commons (CC)</h3>
              
              <div class="space-y-4">
                 <div class="topic-card border-l-4 border-indigo-500">
-                   <h4 class="text-xs font-bold text-white mb-1">CC BY (Atribusi)</h4>
-                   <p class="text-[9px] text-gray-400">Bebas digunakan selama mencantumkan nama pencipta.</p>
+                   <h4 class="text-xs font-bold text-slate-900 mb-1">CC BY (Atribusi)</h4>
+                   <p class="text-[9px] text-slate-600">Bebas digunakan selama mencantumkan nama pencipta.</p>
                 </div>
                 <div class="topic-card border-l-4 border-indigo-500">
-                   <h4 class="text-xs font-bold text-white mb-1">CC BY-SA (Berbagi Serupa)</h4>
-                   <p class="text-[9px] text-gray-400">Harus dibagikan dengan lisensi yang sama jika diubah.</p>
+                   <h4 class="text-xs font-bold text-slate-900 mb-1">CC BY-SA (Berbagi Serupa)</h4>
+                   <p class="text-[9px] text-slate-600">Harus dibagikan dengan lisensi yang sama jika diubah.</p>
                 </div>
                 <div class="topic-card border-l-4 border-indigo-500">
-                   <h4 class="text-xs font-bold text-white mb-1">CC BY-ND (Tanpa Modifikasi)</h4>
-                   <p class="text-[9px] text-gray-400">Boleh dibagikan tapi TIDAK boleh diubah isinya.</p>
+                   <h4 class="text-xs font-bold text-slate-900 mb-1">CC BY-ND (Tanpa Modifikasi)</h4>
+                   <p class="text-[9px] text-slate-600">Boleh dibagikan tapi TIDAK boleh diubah isinya.</p>
                 </div>
              </div>
           </div>
@@ -364,21 +364,21 @@
           <div class="page-content animate-content">
              <div class="space-y-4 mt-4">
                 <div class="topic-card border-l-4 border-rose-500">
-                   <h4 class="text-xs font-bold text-white mb-1">CC BY-NC (Non-Komersial)</h4>
-                   <p class="text-[9px] text-gray-400">Tidak boleh digunakan untuk tujuan mencari keuntungan uang.</p>
+                   <h4 class="text-xs font-bold text-slate-900 mb-1">CC BY-NC (Non-Komersial)</h4>
+                   <p class="text-[9px] text-slate-600">Tidak boleh digunakan untuk tujuan mencari keuntungan uang.</p>
                 </div>
                 <div class="topic-card border-l-4 border-rose-500">
-                   <h4 class="text-xs font-bold text-white mb-1">CC BY-NC-SA</h4>
-                   <p class="text-[9px] text-gray-400">Non-komersial dan harus berbagi dengan lisensi yang sama.</p>
+                   <h4 class="text-xs font-bold text-slate-900 mb-1">CC BY-NC-SA</h4>
+                   <p class="text-[9px] text-slate-600">Non-komersial dan harus berbagi dengan lisensi yang sama.</p>
                 </div>
                 <div class="topic-card border-l-4 border-red-500">
-                   <h4 class="text-xs font-bold text-white mb-1">CC BY-NC-ND</h4>
-                   <p class="text-[9px] text-gray-400">Lisensi paling ketat. Hanya boleh dibagikan tanpa diubah & non-komersial.</p>
+                   <h4 class="text-xs font-bold text-slate-900 mb-1">CC BY-NC-ND</h4>
+                   <p class="text-[9px] text-slate-600">Lisensi paling ketat. Hanya boleh dibagikan tanpa diubah & non-komersial.</p>
                 </div>
              </div>
              
-             <div class="mt-8 text-center bg-gray-900/40 p-4 rounded-xl border border-gray-700">
-                <p class="text-[10px] text-gray-400 italic">"Gunakan situs seperti <u>search.creativecommons.org</u> untuk mencari aset gratis yang aman."</p>
+             <div class="mt-8 text-center bg-slate-50 border border-slate-200/40 p-4 rounded-xl border border-gray-700">
+                <p class="text-[10px] text-slate-600 italic">"Gunakan situs seperti <u>search.creativecommons.org</u> untuk mencari aset gratis yang aman."</p>
              </div>
           </div>
           <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>6</span></div>
@@ -389,24 +389,24 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-xl font-sora font-bold text-rose-400 mb-6 border-l-4 border-rose-500 pl-4 uppercase">C. Etika Produksi Konten</h2>
-             <p class="text-[11px] mb-6 text-gray-300 leading-relaxed text-justify">
+             <h2 class="text-xl font-sora font-bold text-rose-700 mb-6 border-l-4 border-rose-500 pl-4 uppercase">C. Etika Produksi Konten</h2>
+             <p class="text-[11px] mb-6 text-slate-700 leading-relaxed text-justify">
                 Etika adalah "kompas moral" saat kita beraktivitas di dunia digital. Sebagai kreator, kita punya tanggung jawab besar.
              </p>
              
              <h4 class="text-xs font-bold text-red-400 mb-3 uppercase tracking-widest">Pelanggaran Etika Umum:</h4>
              <div class="grid grid-cols-1 gap-4">
                 <div class="bg-red-900/10 p-3 rounded-lg border border-red-500/20">
-                   <p class="text-[10px] text-white font-bold">1. Plagiarisme</p>
-                   <p class="text-[9px] text-gray-400">Mengambil karya orang lain tanpa izin atau sumber.</p>
+                   <p class="text-[10px] text-slate-900 font-bold">1. Plagiarisme</p>
+                   <p class="text-[9px] text-slate-600">Mengambil karya orang lain tanpa izin atau sumber.</p>
                 </div>
                 <div class="bg-red-900/10 p-3 rounded-lg border border-red-500/20">
-                   <p class="text-[10px] text-white font-bold">2. Pelanggaran Privasi</p>
-                   <p class="text-[9px] text-gray-400">Menyebarkan data pribadi atau foto orang lain tanpa izin.</p>
+                   <p class="text-[10px] text-slate-900 font-bold">2. Pelanggaran Privasi</p>
+                   <p class="text-[9px] text-slate-600">Menyebarkan data pribadi atau foto orang lain tanpa izin.</p>
                 </div>
                 <div class="bg-red-900/10 p-3 rounded-lg border border-red-500/20">
-                   <p class="text-[10px] text-white font-bold">3. Disinformasi (Hoaks)</p>
-                   <p class="text-[9px] text-gray-400">Membuat atau menyebarkan berita bohong.</p>
+                   <p class="text-[10px] text-slate-900 font-bold">3. Disinformasi (Hoaks)</p>
+                   <p class="text-[9px] text-slate-600">Membuat atau menyebarkan berita bohong.</p>
                 </div>
              </div>
           </div>
@@ -418,20 +418,20 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-md font-bold text-indigo-400 mb-8 uppercase tracking-widest text-center">Tanggung Jawab Kreator</h3>
+             <h3 class="text-md font-bold text-indigo-700 mb-8 uppercase tracking-widest text-center">Tanggung Jawab Kreator</h3>
              
              <div class="flex flex-col gap-6">
-                <div class="flex gap-4 items-center bg-[#1a1a2e] p-4 rounded-2xl border border-gray-700">
+                <div class="flex gap-4 items-center bg-slate-50 border border-slate-200 shadow-sm p-4 rounded-2xl border border-gray-700">
                    <div class="text-3xl">🤝</div>
-                   <p class="text-[10px] text-gray-300"><b>Menghormati:</b> Selalu hargai karya dan privasi orang lain di media sosial.</p>
+                   <p class="text-[10px] text-slate-700"><b>Menghormati:</b> Selalu hargai karya dan privasi orang lain di media sosial.</p>
                 </div>
-                <div class="flex gap-4 items-center bg-[#1a1a2e] p-4 rounded-2xl border border-gray-700">
+                <div class="flex gap-4 items-center bg-slate-50 border border-slate-200 shadow-sm p-4 rounded-2xl border border-gray-700">
                    <div class="text-3xl">🛡️</div>
-                   <p class="text-[10px] text-gray-300"><b>Melindungi:</b> Tidak menyebarkan konten yang memicu kebencian (SARA).</p>
+                   <p class="text-[10px] text-slate-700"><b>Melindungi:</b> Tidak menyebarkan konten yang memicu kebencian (SARA).</p>
                 </div>
-                <div class="flex gap-4 items-center bg-[#1a1a2e] p-4 rounded-2xl border border-gray-700">
+                <div class="flex gap-4 items-center bg-slate-50 border border-slate-200 shadow-sm p-4 rounded-2xl border border-gray-700">
                    <div class="text-3xl">✅</div>
-                   <p class="text-[10px] text-gray-300"><b>Validasi:</b> Memastikan informasi yang dibagikan adalah benar dan bermanfaat.</p>
+                   <p class="text-[10px] text-slate-700"><b>Validasi:</b> Memastikan informasi yang dibagikan adalah benar dan bermanfaat.</p>
                 </div>
              </div>
           </div>
@@ -443,8 +443,8 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-xl font-sora font-bold text-indigo-400 mb-6 border-l-4 border-indigo-500 pl-4 uppercase">D. Proses Pembuatan Konten</h2>
-             <p class="text-[11px] mb-8 text-gray-300 leading-relaxed text-justify">
+             <h2 class="text-xl font-sora font-bold text-indigo-700 mb-6 border-l-4 border-indigo-500 pl-4 uppercase">D. Proses Pembuatan Konten</h2>
+             <p class="text-[11px] mb-8 text-slate-700 leading-relaxed text-justify">
                 Saat ini banyak aplikasi yang memudahkan kita membuat konten multimedia. Salah satu yang terpopuler adalah <strong>Canva</strong>.
              </p>
              
@@ -453,8 +453,8 @@
              </div>
              
              <div class="bg-indigo-900/20 p-5 rounded-2xl border border-indigo-500/30">
-                <h4 class="text-xs font-bold text-white mb-2 uppercase">Kelebihan Canva:</h4>
-                <ul class="text-[10px] text-gray-400 list-disc pl-5 space-y-2">
+                <h4 class="text-xs font-bold text-slate-900 mb-2 uppercase">Kelebihan Canva:</h4>
+                <ul class="text-[10px] text-slate-600 list-disc pl-5 space-y-2">
                    <li>Mudah digunakan (Drag & Drop).</li>
                    <li>Ribuan template siap pakai.</li>
                    <li>Bisa kolaborasi tim secara real-time.</li>
@@ -470,16 +470,16 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-md font-bold text-rose-400 mb-6 uppercase">Langkah 1: Memulai Proyek</h3>
-             <ol class="list-decimal pl-5 text-[11px] text-gray-300 space-y-4 text-justify">
-                <li>Buka <code class="text-indigo-400">canva.com</code> dan login (disarankan pakai akun belajar.id).</li>
+             <h3 class="text-md font-bold text-rose-700 mb-6 uppercase">Langkah 1: Memulai Proyek</h3>
+             <ol class="list-decimal pl-5 text-[11px] text-slate-700 space-y-4 text-justify">
+                <li>Buka <code class="text-indigo-700">canva.com</code> dan login (disarankan pakai akun belajar.id).</li>
                 <li>Klik tombol <b>"Create a design"</b> atau pilih menu <b>"Video"</b> untuk proyek multimedia.</li>
                 <li>Pilih jenis ukuran (Video YouTube, Instagram Reel, atau TikTok).</li>
                 <li>Gunakan kolom pencarian template untuk mencari inspirasi tema yang sesuai dengan materimu.</li>
              </ol>
              
-             <div class="mt-12 bg-gray-900/50 p-4 rounded-xl border border-dashed border-gray-600 text-center">
-                <p class="text-[9px] text-gray-500 uppercase tracking-widest font-black">Area Kerja Canva</p>
+             <div class="mt-12 bg-slate-100 border border-slate-200 p-4 rounded-xl border border-dashed border-gray-600 text-center">
+                <p class="text-[9px] text-slate-500 uppercase tracking-widest font-black">Area Kerja Canva</p>
              </div>
           </div>
           <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>10</span></div>
@@ -490,18 +490,18 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-md font-bold text-indigo-400 mb-6 uppercase">Langkah 2: Menambah Elemen</h3>
+             <h3 class="text-md font-bold text-indigo-700 mb-6 uppercase">Langkah 2: Menambah Elemen</h3>
              
              <div class="space-y-6">
                 <div class="topic-card">
-                   <h4 class="text-xs font-bold text-white mb-2">A. Elemen Teks</h4>
-                   <p class="text-[10px] text-gray-400 mb-2">Pilih menu <b>"Text"</b> di sebelah kiri. Pilih <i>Heading</i> untuk judul besar dan <i>Body text</i> untuk penjelasan.</p>
-                   <p class="text-[9px] text-indigo-400 italic">Tips: Gunakan maksimal 2 jenis font agar desain tidak berantakan.</p>
+                   <h4 class="text-xs font-bold text-slate-900 mb-2">A. Elemen Teks</h4>
+                   <p class="text-[10px] text-slate-600 mb-2">Pilih menu <b>"Text"</b> di sebelah kiri. Pilih <i>Heading</i> untuk judul besar dan <i>Body text</i> untuk penjelasan.</p>
+                   <p class="text-[9px] text-indigo-700 italic">Tips: Gunakan maksimal 2 jenis font agar desain tidak berantakan.</p>
                 </div>
                 
                 <div class="topic-card">
-                   <h4 class="text-xs font-bold text-white mb-2">B. Elemen Gambar/Grafis</h4>
-                   <p class="text-[10px] text-gray-400">Pilih menu <b>"Elements"</b>. Masukkan kata kunci (misal: "Sekolah", "Teknologi"). Kamu bisa pilih <i>Graphics</i> (kartun) atau <i>Photos</i> (nyata).</p>
+                   <h4 class="text-xs font-bold text-slate-900 mb-2">B. Elemen Gambar/Grafis</h4>
+                   <p class="text-[10px] text-slate-600">Pilih menu <b>"Elements"</b>. Masukkan kata kunci (misal: "Sekolah", "Teknologi"). Kamu bisa pilih <i>Graphics</i> (kartun) atau <i>Photos</i> (nyata).</p>
                 </div>
              </div>
           </div>
@@ -513,16 +513,16 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-md font-bold text-rose-400 mb-6 uppercase">Langkah 3: Menambah Audio</h3>
-             <p class="text-[11px] mb-6 text-gray-300 text-justify">Audio membuat video jadi "hidup". Kamu bisa menambah musik latar atau narasi suara.</p>
+             <h3 class="text-md font-bold text-rose-700 mb-6 uppercase">Langkah 3: Menambah Audio</h3>
+             <p class="text-[11px] mb-6 text-slate-700 text-justify">Audio membuat video jadi "hidup". Kamu bisa menambah musik latar atau narasi suara.</p>
              
              <div class="bg-rose-900/10 p-5 rounded-2xl border border-rose-500/20 mb-8">
-                <h4 class="text-xs font-bold text-rose-400 mb-2">Fitur AI Voice:</h4>
-                <p class="text-[10px] text-gray-400 mb-3 text-justify">Canva memiliki fitur "Text to Speech" yang bisa mengubah tulisanmu menjadi suara manusia secara otomatis!</p>
+                <h4 class="text-xs font-bold text-rose-700 mb-2">Fitur AI Voice:</h4>
+                <p class="text-[10px] text-slate-600 mb-3 text-justify">Canva memiliki fitur "Text to Speech" yang bisa mengubah tulisanmu menjadi suara manusia secara otomatis!</p>
                 <code class="text-[9px] bg-black/50 p-2 rounded block text-center text-rose-300">Apps > AI Voice > Ketik Teks > Pilih Suara</code>
              </div>
              
-             <p class="text-[9px] text-gray-500 italic text-center">"Pastikan volume musik latar tidak menutupi suara narasi utamamu."</p>
+             <p class="text-[9px] text-slate-500 italic text-center">"Pastikan volume musik latar tidak menutupi suara narasi utamamu."</p>
           </div>
           <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>12</span></div>
        </div>
@@ -532,24 +532,24 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-md font-bold text-indigo-400 mb-6 uppercase">Langkah 4: Animasi & Transisi</h3>
-             <p class="text-[11px] mb-8 text-gray-300 text-justify">Animasi membuat elemen bergerak, sedangkan transisi membuat perpindahan antar halaman jadi halus.</p>
+             <h3 class="text-md font-bold text-indigo-700 mb-6 uppercase">Langkah 4: Animasi & Transisi</h3>
+             <p class="text-[11px] mb-8 text-slate-700 text-justify">Animasi membuat elemen bergerak, sedangkan transisi membuat perpindahan antar halaman jadi halus.</p>
              
              <div class="grid grid-cols-2 gap-4 mb-8">
-                <div class="bg-[#1a1a2e] p-4 rounded-xl border border-gray-800 text-center">
+                <div class="bg-slate-50 border border-slate-200 shadow-sm p-4 rounded-xl border border-gray-800 text-center">
                    <div class="text-2xl mb-2">✨</div>
-                   <p class="text-[10px] font-bold text-white uppercase">Animate</p>
-                   <p class="text-[8px] text-gray-500">Gunakan untuk TEKS atau GAMBAR.</p>
+                   <p class="text-[10px] font-bold text-slate-900 uppercase">Animate</p>
+                   <p class="text-[8px] text-slate-500">Gunakan untuk TEKS atau GAMBAR.</p>
                 </div>
-                <div class="bg-[#1a1a2e] p-4 rounded-xl border border-gray-800 text-center">
+                <div class="bg-slate-50 border border-slate-200 shadow-sm p-4 rounded-xl border border-gray-800 text-center">
                    <div class="text-2xl mb-2">🎞️</div>
-                   <p class="text-[10px] font-bold text-white uppercase">Transition</p>
-                   <p class="text-[8px] text-gray-500">Klik di ANTARA dua slide.</p>
+                   <p class="text-[10px] font-bold text-slate-900 uppercase">Transition</p>
+                   <p class="text-[8px] text-slate-500">Klik di ANTARA dua slide.</p>
                 </div>
              </div>
              
              <div class="bg-indigo-900/20 p-4 rounded-xl border border-indigo-500/20">
-                <p class="text-[10px] text-gray-300 leading-relaxed"><b>AI Magic Animate:</b> Fitur sekali klik yang akan menganimasikan seluruh desainmu secara cerdas!</p>
+                <p class="text-[10px] text-slate-700 leading-relaxed"><b>AI Magic Animate:</b> Fitur sekali klik yang akan menganimasikan seluruh desainmu secara cerdas!</p>
              </div>
           </div>
           <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>13</span></div>
@@ -560,20 +560,20 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-md font-bold text-rose-400 mb-6 uppercase">Langkah Akhir: Publikasi</h3>
-             <p class="text-[11px] mb-6 text-gray-300">Setelah konten selesai, klik tombol <b>"Share"</b> di pojok kanan atas.</p>
+             <h3 class="text-md font-bold text-rose-700 mb-6 uppercase">Langkah Akhir: Publikasi</h3>
+             <p class="text-[11px] mb-6 text-slate-700">Setelah konten selesai, klik tombol <b>"Share"</b> di pojok kanan atas.</p>
              
              <div class="space-y-4">
                 <div class="topic-card flex justify-between items-center">
-                   <span class="text-[10px] font-bold text-white uppercase">Format Video</span>
+                   <span class="text-[10px] font-bold text-slate-900 uppercase">Format Video</span>
                    <span class="bg-indigo-600 text-[9px] px-2 py-0.5 rounded font-black">MP4 (Recommended)</span>
                 </div>
                 <div class="topic-card flex justify-between items-center">
-                   <span class="text-[10px] font-bold text-white uppercase">Link Berbagi</span>
+                   <span class="text-[10px] font-bold text-slate-900 uppercase">Link Berbagi</span>
                    <span class="bg-rose-600 text-[9px] px-2 py-0.5 rounded font-black">VIEW ONLY</span>
                 </div>
                 <div class="topic-card flex justify-between items-center">
-                   <span class="text-[10px] font-bold text-white uppercase">Cetak Kode QR</span>
+                   <span class="text-[10px] font-bold text-slate-900 uppercase">Cetak Kode QR</span>
                    <span class="bg-gray-600 text-[9px] px-2 py-0.5 rounded font-black">GENERATE QR</span>
                 </div>
              </div>
@@ -586,15 +586,15 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-xl font-sora font-bold text-indigo-400 mb-6 border-l-4 border-indigo-500 pl-4 uppercase">E. Keamanan Digital</h2>
-             <h3 class="text-md font-bold text-white mb-3">Jejak Digital</h3>
-             <p class="text-[11px] text-gray-300 mb-8 leading-relaxed text-justify">
+             <h2 class="text-xl font-sora font-bold text-indigo-700 mb-6 border-l-4 border-indigo-500 pl-4 uppercase">E. Keamanan Digital</h2>
+             <h3 class="text-md font-bold text-slate-900 mb-3">Jejak Digital</h3>
+             <p class="text-[11px] text-slate-700 mb-8 leading-relaxed text-justify">
                 <strong>Jejak Digital</strong> adalah rekaman aktivitasmu di internet (postingan, komentar, riwayat pencarian). Jejak ini <u>SULIT DIHAPUS</u> dan bisa berpengaruh pada masa depanmu (beasiswa/pekerjaan).
              </p>
              
              <div class="bg-red-900/10 p-5 rounded-2xl border border-red-500/30">
                 <h4 class="text-xs font-bold text-red-400 mb-2 uppercase">Tips Menjaga Jejak:</h4>
-                <ul class="text-[10px] text-gray-400 space-y-2">
+                <ul class="text-[10px] text-slate-600 space-y-2">
                    <li>Pikirkan dulu sebelum membagikan (THINK).</li>
                    <li>Jangan membagikan data pribadi (Alamat, NIK, NISN).</li>
                    <li>Gunakan pengaturan privasi akun secara bijak.</li>
@@ -609,28 +609,28 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h3 class="text-md font-bold text-rose-400 mb-8 text-center uppercase tracking-widest">Melindungi Karya Kamu</h3>
+             <h3 class="text-md font-bold text-rose-700 mb-8 text-center uppercase tracking-widest">Melindungi Karya Kamu</h3>
              
              <div class="grid grid-cols-1 gap-6">
                 <div class="topic-card flex gap-4">
                    <div class="text-3xl">🌊</div>
                    <div>
-                      <h4 class="text-xs font-bold text-white uppercase">Gunakan Watermark</h4>
-                      <p class="text-[9px] text-gray-500">Tambahkan nama atau logomu di sudut karya agar tidak mudah diklaim orang lain.</p>
+                      <h4 class="text-xs font-bold text-slate-900 uppercase">Gunakan Watermark</h4>
+                      <p class="text-[9px] text-slate-500">Tambahkan nama atau logomu di sudut karya agar tidak mudah diklaim orang lain.</p>
                    </div>
                 </div>
                 
                 <div class="topic-card flex gap-4">
                    <div class="text-3xl">🔒</div>
                    <div>
-                      <h4 class="text-xs font-bold text-white uppercase">Pengaturan Akses</h4>
-                      <p class="text-[9px] text-gray-500">Saat berbagi link Google Drive/Canva, pastikan aksesnya "Commenter" atau "Viewer" saja.</p>
+                      <h4 class="text-xs font-bold text-slate-900 uppercase">Pengaturan Akses</h4>
+                      <p class="text-[9px] text-slate-500">Saat berbagi link Google Drive/Canva, pastikan aksesnya "Commenter" atau "Viewer" saja.</p>
                    </div>
                 </div>
              </div>
              
              <div class="mt-12 bg-indigo-900/10 p-5 rounded-2xl border border-indigo-500/20 text-center italic">
-                <p class="text-[10px] text-gray-300">"Kreativitas bukan hanya soal menciptakan, tapi juga soal menjaga apa yang sudah diciptakan."</p>
+                <p class="text-[10px] text-slate-700">"Kreativitas bukan hanya soal menciptakan, tapi juga soal menjaga apa yang sudah diciptakan."</p>
              </div>
           </div>
           <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>16</span></div>
@@ -641,12 +641,12 @@
     <div class="page">
        <div class="page-wrapper">
           <div class="page-content animate-content">
-             <h2 class="text-2xl font-sora font-bold text-rose-400 mb-6 border-b-2 border-rose-500/20 pb-3 uppercase tracking-tighter">Rangkuman</h2>
-             <div class="space-y-4 bg-[#1a1a2e] p-6 rounded-2xl border border-gray-700 shadow-xl">
-                <p class="text-[11px] text-gray-300 leading-relaxed"><span class="text-indigo-400 font-black">●</span> Multimedia adalah perpaduan teks, gambar, audio, dan video yang interaktif.</p>
-                <p class="text-[11px] text-gray-300 leading-relaxed"><span class="text-indigo-400 font-black">●</span> Selalu cantumkan sumber dan perhatikan jenis lisensi CC saat menggunakan aset internet.</p>
-                <p class="text-[11px] text-gray-300 leading-relaxed"><span class="text-indigo-400 font-black">●</span> Canva adalah alat bantu praktis untuk memproduksi konten multimedia secara profesional.</p>
-                <p class="text-[11px] text-gray-300 leading-relaxed"><span class="text-indigo-400 font-black">●</span> Jejak digital harus dijaga dengan tidak membagikan informasi pribadi secara sembarangan.</p>
+             <h2 class="text-2xl font-sora font-bold text-rose-700 mb-6 border-b-2 border-rose-500/20 pb-3 uppercase tracking-tighter">Rangkuman</h2>
+             <div class="space-y-4 bg-slate-50 border border-slate-200 shadow-sm p-6 rounded-2xl border border-gray-700 shadow-xl">
+                <p class="text-[11px] text-slate-700 leading-relaxed"><span class="text-indigo-700 font-black">●</span> Multimedia adalah perpaduan teks, gambar, audio, dan video yang interaktif.</p>
+                <p class="text-[11px] text-slate-700 leading-relaxed"><span class="text-indigo-700 font-black">●</span> Selalu cantumkan sumber dan perhatikan jenis lisensi CC saat menggunakan aset internet.</p>
+                <p class="text-[11px] text-slate-700 leading-relaxed"><span class="text-indigo-700 font-black">●</span> Canva adalah alat bantu praktis untuk memproduksi konten multimedia secara profesional.</p>
+                <p class="text-[11px] text-slate-700 leading-relaxed"><span class="text-indigo-700 font-black">●</span> Jejak digital harus dijaga dengan tidak membagikan informasi pribadi secara sembarangan.</p>
              </div>
           </div>
           <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>17</span></div>
@@ -658,21 +658,21 @@
        <div class="page-wrapper">
           <div class="page-content animate-content relative">
              <div class="flex justify-between items-end mb-6 border-b border-gray-700 pb-3">
-                <h2 class="text-xl font-sora font-bold text-indigo-400 uppercase tracking-widest">Latihan</h2>
-                <div class="text-[11px] font-bold px-3 py-1.5 bg-indigo-900/30 rounded-full border border-indigo-500/50">Skor: <span x-text="latihanScore" class="text-indigo-400"></span></div>
+                <h2 class="text-xl font-sora font-bold text-indigo-700 uppercase tracking-widest">Latihan</h2>
+                <div class="text-[11px] font-bold px-3 py-1.5 bg-indigo-900/30 rounded-full border border-indigo-500/50">Skor: <span x-text="latihanScore" class="text-indigo-700"></span></div>
              </div>
              
              <div class="space-y-4">
                 <template x-for="(soal, index) in latihan">
-                   <div class="bg-gray-800/30 p-4 rounded-xl border border-gray-700/50">
-                      <p class="text-[11px] font-medium mb-3 leading-snug text-gray-200 cursor-pointer hover:text-indigo-300 transition" @click.stop="openDetail('latihan', index)" x-html="(index+1) + '. ' + soal.q"></p>
+                   <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl border border-gray-700/50">
+                      <p class="text-[11px] font-medium mb-3 leading-snug text-slate-800 cursor-pointer hover:text-indigo-300 transition" @click.stop="openDetail('latihan', index)" x-html="(index+1) + '. ' + soal.q"></p>
                       <div class="grid grid-cols-1 gap-2">
                          <template x-for="(opt, oidx) in soal.opts">
                             <button @click="jawabLatihan(index, oidx)" 
                                     :class="getBtnClass(index, oidx, 'latihan')"
                                     class="text-[10px] text-left p-2.5 rounded-lg border border-gray-600 hover:border-indigo-400 hover:bg-gray-700 transition"
                                     :disabled="soal.dijawab">
-                               <span class="font-bold text-gray-400 mr-2" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
+                               <span class="font-bold text-slate-600 mr-2" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
                                <span x-text="opt"></span>
                             </button>
                          </template>
@@ -681,10 +681,10 @@
                 </template>
              </div>
              
-             <div x-show="latihanSelesai" x-transition class="absolute inset-0 bg-[#12121a]/95 backdrop-blur flex flex-col items-center justify-center rounded-3xl border-4 border-indigo-500 z-10">
-                <h3 class="font-black font-sora text-indigo-400 mb-2 text-2xl uppercase">Hasil Latihan</h3>
-                <p class="text-6xl font-black text-white" x-text="latihanScore"></p>
-                <p class="text-xs mt-8 text-gray-500">Geser ke halaman berikutnya untuk Ujian!</p>
+             <div x-show="latihanSelesai" x-transition class="absolute inset-0 bg-slate-100 border border-slate-200 shadow-sm/95 backdrop-blur flex flex-col items-center justify-center rounded-3xl border-4 border-indigo-500 z-10">
+                <h3 class="font-black font-sora text-indigo-700 mb-2 text-2xl uppercase">Hasil Latihan</h3>
+                <p class="text-6xl font-black text-slate-900" x-text="latihanScore"></p>
+                <p class="text-xs mt-8 text-slate-500">Geser ke halaman berikutnya untuk Ujian!</p>
              </div>
           </div>
           <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>18</span></div>
@@ -696,21 +696,21 @@
        <div class="page-wrapper">
           <div class="page-content animate-content relative">
              <div class="flex justify-between items-end mb-6 border-b border-gray-700 pb-3">
-                <h2 class="text-xl font-sora font-bold text-rose-400 uppercase tracking-widest">Ujian Kompetensi</h2>
-                <div class="text-[11px] font-bold px-3 py-1.5 bg-rose-900/30 rounded-full border border-rose-500/50">Skor: <span x-text="ujianScore" class="text-rose-400"></span></div>
+                <h2 class="text-xl font-sora font-bold text-rose-700 uppercase tracking-widest">Ujian Kompetensi</h2>
+                <div class="text-[11px] font-bold px-3 py-1.5 bg-rose-900/30 rounded-full border border-rose-500/50">Skor: <span x-text="ujianScore" class="text-rose-700"></span></div>
              </div>
              
              <div class="space-y-4">
                 <template x-for="(soal, index) in ujian">
-                   <div class="bg-gray-800/30 p-4 rounded-xl border border-gray-700/50">
-                      <p class="text-[11px] font-medium mb-3 leading-snug text-gray-200 cursor-pointer hover:text-rose-300 transition" @click.stop="openDetail('ujian', index)" x-html="(index+1) + '. ' + soal.q"></p>
+                   <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl border border-gray-700/50">
+                      <p class="text-[11px] font-medium mb-3 leading-snug text-slate-800 cursor-pointer hover:text-rose-300 transition" @click.stop="openDetail('ujian', index)" x-html="(index+1) + '. ' + soal.q"></p>
                       <div class="grid grid-cols-1 gap-2">
                          <template x-for="(opt, oidx) in soal.opts">
                             <button @click="jawabUjian(index, oidx)" 
                                     :class="getBtnClass(index, oidx, 'ujian')"
                                     class="text-[10px] text-left p-2.5 rounded-lg border border-gray-600 hover:border-rose-400 hover:bg-gray-700 transition"
                                     :disabled="soal.dijawab">
-                               <span class="font-bold text-gray-400 mr-2" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
+                               <span class="font-bold text-slate-600 mr-2" x-text="['A','B','C','D','E'][oidx] + '.'"></span>
                                <span x-text="opt"></span>
                             </button>
                          </template>
@@ -721,9 +721,9 @@
              
              <div x-show="ujianSelesai" x-transition class="absolute inset-0 bg-[#0a0a0f]/98 backdrop-blur-xl flex flex-col items-center justify-center rounded-3xl border-4 border-rose-500 z-20">
                 <div class="text-6xl mb-6">🎖️</div>
-                <h3 class="font-black font-sora text-rose-400 mb-2 text-2xl uppercase">Bab 5 Selesai!</h3>
-                <p class="text-xs text-gray-400 mb-6 uppercase tracking-widest">Skor Akhir:</p>
-                <div class="text-7xl font-black text-white" x-text="ujianScore"></div>
+                <h3 class="font-black font-sora text-rose-700 mb-2 text-2xl uppercase">Bab 5 Selesai!</h3>
+                <p class="text-xs text-slate-600 mb-6 uppercase tracking-widest">Skor Akhir:</p>
+                <div class="text-7xl font-black text-slate-900" x-text="ujianScore"></div>
              </div>
           </div>
           <div class="page-footer"><span>Bab 5: Kreativitas Konten</span><span>19</span></div>
@@ -733,10 +733,10 @@
     <!-- HALAMAN 22: PENUTUP -->
     <div class="page --hard">
        <div class="page-wrapper items-center justify-center text-center">
-          <h1 class="text-4xl font-sora font-black text-white mb-12 tracking-widest uppercase">FINISH</h1>
+          <h1 class="text-4xl font-sora font-black text-slate-900 mb-12 tracking-widest uppercase">FINISH</h1>
           <div class="w-32 h-32 mx-auto mb-12 bg-rose-500/20 rounded-full flex items-center justify-center text-5xl animate-pulse">✨</div>
-          <p class="text-md text-gray-300 max-w-sm px-4 leading-relaxed">Selamat! Kamu telah menyelesaikan <b>Bab 5: Kreativitas dan Etika Produksi Konten</b>.</p>
-          <div class="mt-12 text-[10px] font-black text-rose-400 bg-rose-400/10 px-8 py-3 rounded-full border border-rose-400/30 tracking-[0.3em] uppercase">Kemendikbudristek 2025</div>
+          <p class="text-md text-slate-700 max-w-sm px-4 leading-relaxed">Selamat! Kamu telah menyelesaikan <b>Bab 5: Kreativitas dan Etika Produksi Konten</b>.</p>
+          <div class="mt-12 text-[10px] font-black text-rose-700 bg-rose-400/10 px-8 py-3 rounded-full border border-rose-400/30 tracking-[0.3em] uppercase">Kemendikbudristek 2025</div>
        </div>
     </div>
 
@@ -753,7 +753,7 @@
       pageFlip.loadFromHTML(document.querySelectorAll('.page'));
       setTimeout(() => { fb.classList.add('initialized'); }, 100);
       document.querySelectorAll('.page:not(.--hard) .page-wrapper').forEach(p => {
-         p.insertAdjacentHTML('beforeend', '<div class="mascot flex items-center justify-center overflow-hidden bg-gray-900">
+         p.insertAdjacentHTML('beforeend', '<div class="mascot flex items-center justify-center overflow-hidden bg-slate-100 border-2 border-slate-300 shadow-md">
                <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_5e7wgehs.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
             </div>');
       });
@@ -857,8 +857,8 @@
         getBtnClass(idx, optIdx, tipe) {
            let soal = tipe === 'latihan' ? this.latihan[idx] : this.ujian[idx];
            if(!soal.dijawab) return '';
-           if(optIdx === soal.ans) return 'bg-indigo-600 border-indigo-400 text-white font-bold';
-           if(optIdx === soal.userAns) return 'bg-red-600/80 border-red-500 text-white';
+           if(optIdx === soal.ans) return 'bg-indigo-600 border-indigo-400 text-slate-900 font-bold';
+           if(optIdx === soal.userAns) return 'bg-red-600/80 border-red-500 text-slate-900';
            return 'opacity-30';
         },
         checkLatihan() {

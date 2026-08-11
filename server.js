@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const PORT = process.env.PORT || 3000;
+let PORT = parseInt(process.env.PORT, 10) || 3000;
 
 // Serve static files from /public
 app.use(express.static(path.join(__dirname, 'public')));
@@ -22,12 +22,25 @@ app.get('/book', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'book.html'));
 });
 
-app.listen(PORT, () => {
-  console.log(`\n🚀 Flipbook KKA SMA Kelas 10 berjalan di: http://localhost:${PORT}`);
-  console.log(`\n📖 BUKU LENGKAP: http://localhost:${PORT}/book`);
-  console.log(`\n📚 Daftar Bab (Terpisah):`);
-  for (let i = 1; i <= 6; i++) {
-    console.log(`   Bab ${i}: http://localhost:${PORT}/bab-${i}`);
-  }
-  console.log('\n');
-});
+function startServer(portToUse) {
+  const server = app.listen(portToUse, () => {
+    console.log(`\n🚀 Flipbook KKA SMA Kelas 10 berjalan di: http://localhost:${portToUse}`);
+    console.log(`📖 BUKU LENGKAP: http://localhost:${portToUse}/book`);
+    console.log(`📚 Daftar Bab (Terpisah):`);
+    for (let i = 1; i <= 6; i++) {
+      console.log(`   Bab ${i}: http://localhost:${portToUse}/bab-${i}`);
+    }
+    console.log('\n');
+  });
+
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      console.warn(`⚠️ Port ${portToUse} sedang digunakan. Mencoba port ${portToUse + 1}...`);
+      startServer(portToUse + 1);
+    } else {
+      console.error(err);
+    }
+  });
+}
+
+startServer(PORT);
