@@ -86,9 +86,9 @@ document.addEventListener('alpine:init', () => {
       getBtnClass(bab, idx, optIdx, tipe) {
          let soal = tipe === 'latihan' ? this.chapters[bab].latihan[idx] : this.chapters[bab].ujian[idx];
          if(!soal || !soal.dijawab) return '';
-         if(optIdx === soal.ans) return 'bg-teal-600 border-teal-400 text-white font-bold';
-         if(optIdx === soal.userAns) return 'bg-red-600/80 border-red-500 text-white';
-         return 'opacity-30';
+         if(optIdx === soal.ans) return 'bg-teal-600 border-teal-600 text-white font-bold shadow-md shadow-teal-600/20';
+         if(optIdx === soal.userAns) return 'bg-rose-600 border-rose-600 text-white font-bold shadow-md shadow-rose-600/20';
+         return 'opacity-40';
       },
 
       checkLatihan(bab) {
@@ -119,6 +119,9 @@ document.addEventListener('alpine:init', () => {
                const index = pages.indexOf(targetPage);
                if (index !== -1) {
                   window.pageFlip.turnToPage(index);
+                  if (typeof window.playFlipSound === 'function') {
+                     window.playFlipSound();
+                  }
                }
             }
          }
@@ -225,8 +228,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
    // Hide loader
    const loader = document.getElementById('loader');
-   loader.style.opacity = '0';
-   setTimeout(() => loader.style.display = 'none', 500);
+   if (loader) {
+      loader.style.opacity = '0';
+      setTimeout(() => {
+         loader.style.display = 'none';
+         if (typeof window.playFlipSound === 'function') {
+            window.playFlipSound();
+         }
+      }, 500);
+   }
 
    // Wait for Alpine to render the templates before initializing StPageFlip
    setTimeout(() => {
@@ -268,7 +278,7 @@ document.addEventListener('DOMContentLoaded', async () => {
          maxWidth: 1000,
          minHeight: 420,
          maxHeight: 1350,
-         maxShadowOpacity: 0.5,
+         maxShadowOpacity: 0.3,
          showCover: true,
          mobileScrollSupport: true,
          usePortrait: true 
@@ -279,11 +289,18 @@ document.addEventListener('DOMContentLoaded', async () => {
       // Reveal with animation
       setTimeout(() => { flipbookEl.classList.add('initialized'); }, 200);
 
-      // Bind Navigation Buttons
-      document.getElementById('btn-prev').addEventListener('click', () => window.pageFlip.flipPrev());
-      document.getElementById('btn-next').addEventListener('click', () => window.pageFlip.flipNext());
-      document.getElementById('btn-prev-mobile').addEventListener('click', () => window.pageFlip.flipPrev());
-      document.getElementById('btn-next-mobile').addEventListener('click', () => window.pageFlip.flipNext());
+      // Helper function for flip sound
+      const triggerFlipAudio = () => {
+         if (typeof window.playFlipSound === 'function') {
+            window.playFlipSound();
+         }
+      };
+
+      // Bind Navigation Buttons with sound
+      document.getElementById('btn-prev')?.addEventListener('click', () => { window.pageFlip.flipPrev(); triggerFlipAudio(); });
+      document.getElementById('btn-next')?.addEventListener('click', () => { window.pageFlip.flipNext(); triggerFlipAudio(); });
+      document.getElementById('btn-prev-mobile')?.addEventListener('click', () => { window.pageFlip.flipPrev(); triggerFlipAudio(); });
+      document.getElementById('btn-next-mobile')?.addEventListener('click', () => { window.pageFlip.flipNext(); triggerFlipAudio(); });
 
       // Handle Content Animations
       const triggerAnimation = () => {
@@ -301,11 +318,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       window.pageFlip.on('flip', (e) => {
          triggerAnimation();
-         
-         // Suara kertas balik halaman
-         if (typeof window.playFlipSound === 'function') {
-            window.playFlipSound();
-         }
+         triggerFlipAudio();
 
          // Ubah animasi luar kiri dan kanan berdasarkan halaman
          const pageIndex = (e.data !== undefined) ? e.data : window.pageFlip.getCurrentPageIndex();
@@ -313,6 +326,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             window.changeLottieOnFlip(pageIndex);
          }
       });
+
+      window.pageFlip.on('changeState', (e) => {
+         if (e.data === 'flipping') {
+            triggerFlipAudio();
+         }
+      });
+
       setTimeout(triggerAnimation, 500);
    }, 300);
    

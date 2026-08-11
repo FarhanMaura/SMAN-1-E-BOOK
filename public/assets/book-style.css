@@ -1,16 +1,19 @@
 :root {
-  --bg-dark: #0a0a0f;
-  --card-bg: #12121a;
-  --accent-teal: #2dd4bf;
-  --accent-purple: #a78bfa;
-  --accent-rose: #fb7185;
-  --accent-orange: #fb923c;
+  --bg-dark: #f1f5f9;
+  --card-bg: #ffffff;
+  --text-main: #000000;
+  --text-muted: #1e293b;
+  --accent-teal: #0d9488;
+  --accent-purple: #7c3aed;
+  --accent-rose: #e11d48;
+  --accent-orange: #ea580c;
+  --border-soft: #e2e8f0;
 }
 
 body { 
   background-color: var(--bg-dark); 
   font-family: 'Plus Jakarta Sans', sans-serif; 
-  color: #e2e8f0; 
+  color: #000000; 
   overflow: hidden; 
   margin: 0; 
   padding: 0; 
@@ -23,50 +26,17 @@ body {
 
 h1, h2, h3, .font-sora { font-family: 'Sora', sans-serif; }
 
-/* Responsive Flipbook Container */
-.flipbook-wrapper {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-}
-
-.flipbook { 
-  width: 100%;
-  height: auto;
-  max-width: 900px;
-  max-height: 85vh;
-  aspect-ratio: 900 / 600;
-  margin: 0 auto;
-  box-shadow: 0 0 50px rgba(45, 212, 191, 0.15); 
-  opacity: 0;
-  visibility: hidden;
-}
-.flipbook.initialized { 
-  visibility: visible; 
-  animation: bookFadeIn 1s ease-out forwards; 
-}
-
-@media (max-width: 768px) {
-  .flipbook-wrapper {
-    padding: 5px;
-    align-items: flex-start;
-    padding-top: 5rem; /* space for navbar */
-  }
-  .flipbook {
-    max-width: 450px;
-    aspect-ratio: 450 / 600;
-  }
-}
-
+/* Force crisp black text for readability on book pages */
 .page { 
   background-color: var(--card-bg); 
-  border: 1px solid rgba(255, 255, 255, 0.05); 
+  border: 1px solid var(--border-soft); 
+  border-radius: 18px;
   overflow: hidden; 
   position: relative; 
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.02);
+  color: #000000 !important;
 }
+
 .page-wrapper { 
   width: 100%; 
   height: 100%; 
@@ -82,9 +52,34 @@ h1, h2, h3, .font-sora { font-family: 'Sora', sans-serif; }
   }
 }
 
-.page-content { flex-grow: 1; overflow-y: auto; padding-right: 8px; }
-.page-content::-webkit-scrollbar { width: 4px; }
-.page-content::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+.page-content { 
+  flex-grow: 1; 
+  overflow-y: auto; 
+  padding-right: 8px; 
+  color: #000000 !important;
+}
+
+/* Force all paragraphs, lists, and span text inside book pages to be solid black */
+.page-content p, 
+.page-content li, 
+.page-content td, 
+.page-content th,
+.page-content span:not(.tag):not(.badge):not(.font-bold) {
+  color: #000000 !important;
+  font-weight: 500;
+}
+
+.page-content h1, 
+.page-content h2, 
+.page-content h3, 
+.page-content h4 {
+  color: #0f172a !important;
+  font-weight: 800;
+}
+
+.page-content::-webkit-scrollbar { width: 5px; }
+.page-content::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+.page-content::-webkit-scrollbar-track { background: transparent; }
 
 .page-footer { 
   height: 30px; 
@@ -92,20 +87,60 @@ h1, h2, h3, .font-sora { font-family: 'Sora', sans-serif; }
   justify-content: space-between; 
   align-items: center; 
   font-size: 0.75rem; 
-  color: #64748b; 
-  border-top: 1px solid rgba(255,255,255,0.05); 
+  color: #1e293b !important; 
+  border-top: 1px solid #e2e8f0; 
   padding-top: 12px; 
   margin-top: 15px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
-/* Custom hard pages */
-.page.--hard-1 { background: linear-gradient(135deg, #0f172a, #12121a); border: 2px solid var(--accent-teal); }
-.page.--hard-2 { background: linear-gradient(135deg, #1e1b4b, #12121a); border: 2px solid var(--accent-purple); }
-.page.--hard-3 { background: linear-gradient(135deg, #2a0a18, #12121a); border: 2px solid var(--accent-rose); }
-.page.--hard-4 { background: linear-gradient(135deg, #0f172a, #12121a); border: 2px solid var(--accent-purple); }
-.page.--hard-5 { background: linear-gradient(135deg, #0f172a, #12121a); border: 2px solid var(--accent-teal); }
-.page.--hard-6 { background: linear-gradient(135deg, #0f172a, #12121a); border: 2px solid var(--accent-purple); }
+/* Responsive Flipbook Container */
+.flipbook-wrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+
+.flipbook { 
+  width: 100%;
+  height: auto;
+  max-width: 900px;
+  max-height: 85vh;
+  aspect-ratio: 900 / 600;
+  margin: 0 auto;
+  box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.12), 0 10px 20px -5px rgba(15, 23, 42, 0.06); 
+  border-radius: 20px;
+  opacity: 0;
+  visibility: hidden;
+}
+.flipbook.initialized { 
+  visibility: visible; 
+  animation: bookFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+}
+
+@media (max-width: 768px) {
+  .flipbook-wrapper {
+    padding: 8px;
+    align-items: flex-start;
+    padding-top: 5rem;
+  }
+  .flipbook {
+    max-width: 450px;
+    aspect-ratio: 450 / 600;
+    border-radius: 16px;
+  }
+}
+
+/* Custom hard pages with soft pastel gradients & smooth borders */
+.page.--hard-1 { background: linear-gradient(135deg, #e0e7ff, #f8fafc); border: 2px solid #a5b4fc; border-radius: 20px; }
+.page.--hard-2 { background: linear-gradient(135deg, #ede9fe, #f8fafc); border: 2px solid #c4b5fd; border-radius: 20px; }
+.page.--hard-3 { background: linear-gradient(135deg, #ffe4e6, #f8fafc); border: 2px solid #fecdd3; border-radius: 20px; }
+.page.--hard-4 { background: linear-gradient(135deg, #fef3c7, #f8fafc); border: 2px solid #fde68a; border-radius: 20px; }
+.page.--hard-5 { background: linear-gradient(135deg, #e0f2fe, #f8fafc); border: 2px solid #bae6fd; border-radius: 20px; }
+.page.--hard-6 { background: linear-gradient(135deg, #ccfbf1, #f8fafc); border: 2px solid #99f6e4; border-radius: 20px; }
 
 .mascot { 
   position: absolute; 
@@ -116,20 +151,21 @@ h1, h2, h3, .font-sora { font-family: 'Sora', sans-serif; }
   opacity: 0.95; 
   z-index: 10; 
   pointer-events: none; 
-  filter: drop-shadow(0 4px 15px rgba(0,0,0,0.5)); 
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.08)); 
   border-radius: 50%; 
-  border: 3px solid #12121a;
-  background-color: #1a1a2e;
+  border: 3px solid #ffffff;
+  background-color: #f8fafc;
 }
 
 @keyframes bookFadeIn { 
-  from { opacity: 0; transform: scale(0.95) translateY(20px); } 
+  from { opacity: 0; transform: scale(0.97) translateY(15px); } 
   to { opacity: 1; transform: scale(1) translateY(0); } 
 }
 
 .bg-pattern { 
-  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px); 
-  background-size: 30px 30px; 
+  background-color: #f1f5f9;
+  background-image: radial-gradient(rgba(148, 163, 184, 0.15) 1.5px, transparent 1.5px); 
+  background-size: 28px 28px; 
 }
 
 .animate-content > * { opacity: 0; transform: translateY(15px); }
@@ -148,27 +184,31 @@ h1, h2, h3, .font-sora { font-family: 'Sora', sans-serif; }
 }
 
 .topic-card {
-  background: rgba(26, 26, 46, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 1rem;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 16px;
+  padding: 1.2rem;
   margin-bottom: 1rem;
-  transition: all 0.3s ease;
+  color: #000000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .topic-card:hover {
-  background: rgba(26, 26, 46, 0.8);
-  transform: translateX(5px);
+  background: #ffffff;
+  border-color: #94a3b8;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
 }
 
 .loading-overlay {
-  background: var(--bg-dark);
+  background: #f8fafc;
   z-index: 9999;
 }
 
 /* Chapter specific RGB values for dynamic styling */
-.page[data-bab="1"] { --primary-rgb: 45, 212, 191; }
-.page[data-bab="2"] { --primary-rgb: 59, 130, 246; }
-.page[data-bab="3"] { --primary-rgb: 16, 185, 129; }
-.page[data-bab="4"] { --primary-rgb: 239, 68, 68; }
-.page[data-bab="5"] { --primary-rgb: 99, 102, 241; }
-.page[data-bab="6"] { --primary-rgb: 6, 182, 212; }
+.page[data-bab="1"] { --primary-rgb: 13, 148, 136; }
+.page[data-bab="2"] { --primary-rgb: 37, 99, 235; }
+.page[data-bab="3"] { --primary-rgb: 5, 150, 105; }
+.page[data-bab="4"] { --primary-rgb: 225, 29, 72; }
+.page[data-bab="5"] { --primary-rgb: 79, 70, 229; }
+.page[data-bab="6"] { --primary-rgb: 8, 145, 178; }

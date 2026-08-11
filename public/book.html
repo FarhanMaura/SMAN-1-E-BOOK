@@ -13,56 +13,56 @@
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/book-style.css">
 </head>
-<body x-data="globalApp()" class="bg-pattern relative">
+<body x-data="globalApp()" class="bg-pattern relative text-slate-800">
 
   <!-- Loading Screen -->
-  <div id="loader" class="loading-overlay fixed inset-0 flex flex-col items-center justify-center transition-opacity duration-500">
-     <div class="text-6xl animate-bounce mb-6 drop-shadow-[0_0_20px_rgba(45,212,191,0.5)]">📚</div>
-     <h2 class="text-2xl font-sora font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-purple-400 mb-2">Menyiapkan Buku...</h2>
-     <p class="text-sm text-gray-400" id="loader-text">Memuat Bab 1...</p>
-     <div class="w-64 h-2 bg-gray-800 rounded-full mt-6 overflow-hidden">
-        <div id="loader-bar" class="h-full bg-gradient-to-r from-teal-400 to-purple-400 w-0 transition-all duration-300"></div>
+  <div id="loader" class="loading-overlay fixed inset-0 flex flex-col items-center justify-center transition-opacity duration-500 bg-slate-50/95 backdrop-blur-xl">
+     <div class="text-6xl animate-bounce mb-6 drop-shadow-[0_10px_20px_rgba(13,148,136,0.2)]">📚</div>
+     <h2 class="text-2xl font-sora font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-indigo-600 mb-2">Menyiapkan Buku...</h2>
+     <p class="text-sm text-slate-500 font-medium" id="loader-text">Memuat Bab 1...</p>
+     <div class="w-64 h-2.5 bg-slate-200 rounded-full mt-6 overflow-hidden p-0.5 border border-slate-300/50">
+        <div id="loader-bar" class="h-full bg-gradient-to-r from-teal-500 to-indigo-500 rounded-full w-0 transition-all duration-300"></div>
      </div>
   </div>
   
   <!-- Global Feedback Modal -->
-  <div x-show="showFeedback" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm pointer-events-none">
+  <div x-show="showFeedback" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-md pointer-events-none">
      <div x-show="showFeedback" 
           x-transition:enter="transition ease-out duration-300"
-          x-transition:enter-start="scale-50 opacity-0"
+          x-transition:enter-start="scale-75 opacity-0"
           x-transition:enter-end="scale-100 opacity-100"
           x-transition:leave="transition ease-in duration-200"
           x-transition:leave-start="scale-100 opacity-100"
-          x-transition:leave-end="scale-50 opacity-0"
-          class="bg-[#1a1a2e] border-2 rounded-3xl p-8 text-center shadow-[0_0_60px_rgba(0,0,0,0.6)]"
-          :class="isFeedbackCorrect ? 'border-teal-400 shadow-teal-500/20' : 'border-red-400 shadow-red-500/20'">
+          x-transition:leave-end="scale-75 opacity-0"
+          class="bg-white/95 border-2 rounded-3xl p-8 text-center shadow-2xl shadow-slate-900/10 border-slate-200 max-w-md w-11/12"
+          :class="isFeedbackCorrect ? 'border-teal-400 shadow-teal-500/15' : 'border-rose-400 shadow-rose-500/15'">
         
         <h3 class="text-3xl font-sora font-black mb-2" 
-            :class="isFeedbackCorrect ? 'text-teal-400' : 'text-red-400'"
+            :class="isFeedbackCorrect ? 'text-teal-600' : 'text-rose-600'"
             x-text="isFeedbackCorrect ? 'LUAR BIASA! 🎉' : 'COBA LAGI YUK! 😢'"></h3>
-        <p class="text-gray-300 text-lg" x-text="isFeedbackCorrect ? '+10 Poin ditambahkan!' : 'Baca lagi materinya pelan-pelan ya!'"></p>
+        <p class="text-slate-600 text-base font-medium" x-text="isFeedbackCorrect ? '+10 Poin ditambahkan!' : 'Baca lagi materinya pelan-pelan ya!'"></p>
      </div>
   </div>
 
   <!-- Global Detail Modal -->
-  <div x-show="showDetailModal" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md">
-     <div @click.away="showDetailModal = false" class="bg-[#1a1a2e] border border-gray-500/50 rounded-2xl w-[90%] max-w-[500px] max-h-[80vh] flex flex-col shadow-2xl">
-        <div class="p-4 border-b border-gray-700 flex justify-between items-center bg-gray-900/40 rounded-t-2xl">
-           <h3 class="font-bold text-gray-200">Review Soal</h3>
-           <button @click="showDetailModal = false" class="text-gray-400 hover:text-white font-bold text-xl">&times;</button>
+  <div x-show="showDetailModal" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-md">
+     <div @click.away="showDetailModal = false" class="bg-white border border-slate-200 rounded-3xl w-[90%] max-w-[520px] max-h-[85vh] flex flex-col shadow-2xl shadow-slate-900/15">
+        <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/80 rounded-t-3xl">
+           <h3 class="font-bold text-slate-800 text-lg">Review Soal</h3>
+           <button @click="showDetailModal = false; playClickSound()" class="w-8 h-8 rounded-full bg-slate-200/60 hover:bg-slate-200 text-slate-500 hover:text-slate-800 font-bold text-lg flex items-center justify-center transition">&times;</button>
         </div>
         <div class="p-6 overflow-y-auto">
            <template x-if="activeDetail">
               <div>
-                 <p class="text-sm text-white mb-6 leading-relaxed" x-html="activeDetail.q"></p>
+                 <p class="text-base text-slate-800 font-medium mb-6 leading-relaxed" x-html="activeDetail.q"></p>
                  <div class="space-y-3">
                     <template x-for="(opt, idx) in activeDetail.opts">
-                       <button @click="jawabDariDetail(idx)" 
-                               :class="activeDetail.dijawab ? (idx === activeDetail.ans ? 'bg-teal-600 border-teal-400 text-white' : (idx === activeDetail.userAns ? 'bg-red-600 border-red-400 text-white' : 'opacity-50 border-gray-700')) : 'bg-gray-800 hover:bg-gray-700 border-gray-600'"
-                               class="w-full text-left p-4 rounded-xl border transition flex gap-3 items-start"
+                       <button @click="jawabDariDetail(idx); playClickSound()" 
+                               :class="activeDetail.dijawab ? (idx === activeDetail.ans ? 'bg-teal-50 border-teal-500 text-teal-800 font-semibold' : (idx === activeDetail.userAns ? 'bg-rose-50 border-rose-400 text-rose-800 font-semibold' : 'opacity-50 border-slate-200')) : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700'"
+                               class="w-full text-left p-4 rounded-2xl border transition-all duration-200 flex gap-3 items-start shadow-sm"
                                :disabled="activeDetail.dijawab">
-                          <span class="font-bold text-teal-400 mt-0.5" x-text="['A','B','C','D','E'][idx] + '.'"></span>
-                          <span class="text-sm text-gray-200" x-text="opt"></span>
+                          <span class="font-bold text-teal-600 mt-0.5" x-text="['A','B','C','D','E'][idx] + '.'"></span>
+                          <span class="text-sm leading-snug" x-text="opt"></span>
                        </button>
                     </template>
                  </div>
@@ -72,48 +72,47 @@
      </div>
   </div>
 
-  <!-- Navigation -->
+  <!-- Navigation Bar Top -->
   <div class="fixed top-4 w-full px-6 flex justify-between items-center z-40 pointer-events-none">
-     <a href="/" class="pointer-events-auto text-white hover:text-teal-300 transition font-semibold flex items-center gap-2 bg-black/40 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/10 shadow-lg">
-       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+     <a href="/" onclick="playClickSound()" class="pointer-events-auto text-slate-700 hover:text-teal-600 transition-all duration-200 font-bold text-sm flex items-center gap-2 bg-white/85 backdrop-blur-md px-5 py-2.5 rounded-full border border-slate-200 shadow-md hover:shadow-lg hover:border-slate-300">
+       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
        Kembali
      </a>
      
-     <div class="flex gap-4 pointer-events-auto">
+     <div class="flex gap-3 pointer-events-auto">
        <!-- Table of Contents Dropdown -->
        <div class="relative" x-data="{ openToc: false }">
-          <button @click="openToc = !openToc" class="px-5 py-2.5 rounded-full bg-black/40 backdrop-blur-md border border-white/10 hover:bg-white/10 text-white text-sm font-bold transition shadow-xl flex items-center gap-2">
-             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+          <button @click="openToc = !openToc; playClickSound()" class="px-5 py-2.5 rounded-full bg-white/85 backdrop-blur-md border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-700 text-sm font-bold transition-all shadow-md flex items-center gap-2">
+             <svg class="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
              Daftar Isi
           </button>
-          <div x-show="openToc" @click.away="openToc = false" x-transition class="absolute right-0 mt-3 w-64 bg-[#1a1a2e]/95 backdrop-blur-lg border border-gray-700 rounded-2xl shadow-2xl overflow-hidden py-2">
-             <button @click="goToChapter(1); openToc = false" class="w-full text-left px-5 py-3 text-sm text-gray-300 hover:bg-white/10 hover:text-teal-400 transition border-b border-gray-700/50">Bab 1: Informatika & Keterampilan Umum</button>
-             <button @click="goToChapter(2); openToc = false" class="w-full text-left px-5 py-3 text-sm text-gray-300 hover:bg-white/10 hover:text-purple-400 transition border-b border-gray-700/50">Bab 2: Berpikir Komputasional</button>
-             <button @click="goToChapter(3); openToc = false" class="w-full text-left px-5 py-3 text-sm text-gray-300 hover:bg-white/10 hover:text-rose-400 transition border-b border-gray-700/50">Bab 3: Literasi & Etika AI</button>
-             <button @click="goToChapter(4); openToc = false" class="w-full text-left px-5 py-3 text-sm text-gray-300 hover:bg-white/10 hover:text-teal-400 transition border-b border-gray-700/50">Bab 4: Prompt Engineering</button>
-             <button @click="goToChapter(5); openToc = false" class="w-full text-left px-5 py-3 text-sm text-gray-300 hover:bg-white/10 hover:text-purple-400 transition border-b border-gray-700/50">Bab 5: Kreativitas Konten</button>
-             <button @click="goToChapter(6); openToc = false" class="w-full text-left px-5 py-3 text-sm text-gray-300 hover:bg-white/10 hover:text-teal-400 transition">Bab 6: Pengelolaan Informasi</button>
+          <div x-show="openToc" @click.away="openToc = false" x-transition class="absolute right-0 mt-3 w-72 bg-white/95 backdrop-blur-xl border border-slate-200 rounded-3xl shadow-2xl shadow-slate-900/10 overflow-hidden py-2.5 z-50">
+             <button @click="goToChapter(1); openToc = false; playClickSound()" class="w-full text-left px-5 py-3 text-sm text-slate-700 hover:bg-teal-50 hover:text-teal-700 font-medium transition border-b border-slate-100 flex items-center justify-between"><span>Bab 1: Informatika &amp; Keterampilan</span> <span class="text-xs bg-teal-100 text-teal-700 font-bold px-2 py-0.5 rounded-full">Hal 1</span></button>
+             <button @click="goToChapter(2); openToc = false; playClickSound()" class="w-full text-left px-5 py-3 text-sm text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 font-medium transition border-b border-slate-100 flex items-center justify-between"><span>Bab 2: Berpikir Komputasional</span> <span class="text-xs bg-indigo-100 text-indigo-700 font-bold px-2 py-0.5 rounded-full">Bab 2</span></button>
+             <button @click="goToChapter(3); openToc = false; playClickSound()" class="w-full text-left px-5 py-3 text-sm text-slate-700 hover:bg-rose-50 hover:text-rose-700 font-medium transition border-b border-slate-100 flex items-center justify-between"><span>Bab 3: Literasi &amp; Etika AI</span> <span class="text-xs bg-rose-100 text-rose-700 font-bold px-2 py-0.5 rounded-full">Bab 3</span></button>
+             <button @click="goToChapter(4); openToc = false; playClickSound()" class="w-full text-left px-5 py-3 text-sm text-slate-700 hover:bg-amber-50 hover:text-amber-700 font-medium transition border-b border-slate-100 flex items-center justify-between"><span>Bab 4: Prompt Engineering</span> <span class="text-xs bg-amber-100 text-amber-700 font-bold px-2 py-0.5 rounded-full">Bab 4</span></button>
+             <button @click="goToChapter(5); openToc = false; playClickSound()" class="w-full text-left px-5 py-3 text-sm text-slate-700 hover:bg-sky-50 hover:text-sky-700 font-medium transition border-b border-slate-100 flex items-center justify-between"><span>Bab 5: Kreativitas Konten</span> <span class="text-xs bg-sky-100 text-sky-700 font-bold px-2 py-0.5 rounded-full">Bab 5</span></button>
+             <button @click="goToChapter(6); openToc = false; playClickSound()" class="w-full text-left px-5 py-3 text-sm text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 font-medium transition flex items-center justify-between"><span>Bab 6: Pengelolaan Informasi</span> <span class="text-xs bg-emerald-100 text-emerald-700 font-bold px-2 py-0.5 rounded-full">Bab 6</span></button>
           </div>
        </div>
        
-       <button id="btn-prev" class="px-6 py-2.5 rounded-full bg-black/40 backdrop-blur-md border border-white/10 hover:border-teal-400 hover:text-teal-400 text-white text-sm font-bold transition shadow-xl hidden md:block">← Prev</button>
-       <button id="btn-next" class="px-6 py-2.5 rounded-full bg-black/40 backdrop-blur-md border border-white/10 hover:border-purple-400 hover:text-purple-400 text-white text-sm font-bold transition shadow-xl hidden md:block">Next →</button>
+       <button id="btn-prev" class="px-5 py-2.5 rounded-full bg-white/85 backdrop-blur-md border border-slate-200 hover:border-teal-400 hover:text-teal-600 text-slate-700 text-sm font-bold transition-all shadow-md hidden md:block">← Prev</button>
+       <button id="btn-next" class="px-5 py-2.5 rounded-full bg-white/85 backdrop-blur-md border border-slate-200 hover:border-indigo-400 hover:text-indigo-600 text-slate-700 text-sm font-bold transition-all shadow-md hidden md:block">Next →</button>
      </div>
   </div>
 
   <div class="fixed bottom-4 w-full px-6 flex justify-between items-center z-40 md:hidden pointer-events-none">
-     <button id="btn-prev-mobile" class="pointer-events-auto px-6 py-3 rounded-full bg-[#1a1a2e] border border-gray-600 text-white text-sm font-bold shadow-2xl">← Prev</button>
-     <button id="btn-next-mobile" class="pointer-events-auto px-6 py-3 rounded-full bg-[#1a1a2e] border border-gray-600 text-white text-sm font-bold shadow-2xl">Next →</button>
+     <button id="btn-prev-mobile" class="pointer-events-auto px-6 py-3 rounded-full bg-white border border-slate-300 text-slate-800 text-sm font-bold shadow-xl">← Prev</button>
+     <button id="btn-next-mobile" class="pointer-events-auto px-6 py-3 rounded-full bg-white border border-slate-300 text-slate-800 text-sm font-bold shadow-xl">Next →</button>
   </div>
   
   <!-- Animasi Luar Kiri & Kanan (Luar Kertas) -->
   <div id="animasi-luar-kiri" style="position: fixed; left: 1%; bottom: 2%; width: 360px; height: 400px; z-index: 5; pointer-events: none;" class="hidden xl:block"></div>
   <div id="animasi-luar-kanan" style="position: fixed; right: 1%; bottom: 2%; width: 360px; height: 400px; z-index: 5; pointer-events: none; transform: scaleX(-1);" class="hidden xl:block"></div>
 
-
   <!-- Sound Toggle Button (BGM + SFX) -->
   <button id="sound-toggle" onclick="toggleSound()" title="Toggle Musik & Suara"
-    style="position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 50; display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1.2rem; border-radius: 999px; background: rgba(15,15,25,0.8); border: 1px solid rgba(255,255,255,0.15); color: #cbd5e1; font-size: 0.75rem; font-weight: 600; cursor: pointer; backdrop-filter: blur(10px); transition: all 0.3s ease; font-family: 'Plus Jakarta Sans', sans-serif;" class="hidden xl:flex">
+    style="position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 50; display: flex; align-items: center; gap: 0.5rem; padding: 0.55rem 1.4rem; border-radius: 9999px; background: rgba(255, 255, 255, 0.9); border: 1px solid #cbd5e1; color: #334155; font-size: 0.8rem; font-weight: 700; cursor: pointer; backdrop-filter: blur(12px); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08); transition: all 0.3s ease; font-family: 'Plus Jakarta Sans', sans-serif;" class="hidden xl:flex">
     <span id="sound-icon">🔔</span>
     <span id="sound-label">Musik &amp; Suara Aktif</span>
   </button>
@@ -123,14 +122,13 @@
     // LOTTIE MANAGER - Load JSON & strip background layers
     // =====================================================
     const lottieUrls = [
-      // Study/learning themed animations (local + CDN)
-      "/assets/student-anim.json",              // karakter mahasiswi belajar (local)
-      "https://assets3.lottiefiles.com/packages/lf20_sk5h1kfn.json",   // karakter belajar
-      "https://assets5.lottiefiles.com/packages/lf20_5e7wgehs.json",   // karakter study
-      "https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json",   // karakter membaca
-      "https://assets7.lottiefiles.com/packages/lf20_khzniaya.json",   // karakter belajar 2
-      "https://assets3.lottiefiles.com/packages/lf20_rwq6ciql.json",   // karakter study 3
-      "/assets/student-anim.json"               // loop kembali ke student
+      "/assets/student-anim.json",
+      "https://assets3.lottiefiles.com/packages/lf20_sk5h1kfn.json",
+      "https://assets5.lottiefiles.com/packages/lf20_5e7wgehs.json",
+      "https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json",
+      "https://assets7.lottiefiles.com/packages/lf20_khzniaya.json",
+      "https://assets3.lottiefiles.com/packages/lf20_rwq6ciql.json",
+      "/assets/student-anim.json"
     ];
 
     let leftAnim = null;
@@ -138,10 +136,8 @@
     const leftContainer = document.getElementById('animasi-luar-kiri');
     const rightContainer = document.getElementById('animasi-luar-kanan');
 
-    // Strip all solid-color background layers (ty===1) from lottie JSON
     function stripBgLayers(data) {
       if (!data || !data.layers) return data;
-      // Remove solid fill layers (ty=1) - these are background rectangles
       data.layers = data.layers.filter(layer => layer.ty !== 1);
       return data;
     }
@@ -168,13 +164,11 @@
       }
     }
 
-    // Initial load
     document.addEventListener('DOMContentLoaded', async () => {
       leftAnim  = await loadLottieAnim(leftContainer,  lottieUrls[0], leftAnim);
       rightAnim = await loadLottieAnim(rightContainer, lottieUrls[1], rightAnim);
     });
 
-    // Called from book-loader.js on page flip
     window.changeLottieOnFlip = async function(pageIndex) {
       const url1 = lottieUrls[pageIndex % lottieUrls.length];
       const url2 = lottieUrls[(pageIndex + 1) % lottieUrls.length];
@@ -183,40 +177,121 @@
     };
 
     // =====================================================
-    // BGM + SFX MANAGER
-    // BGM = looping background music (lofi)
-    // SFX = page flip sound effect
+    // HIGH-FIDELITY ENHANCED BGM & SFX ENGINE
     // =====================================================
     let soundMuted = false;
     const btn   = document.getElementById('sound-toggle');
     const icon  = document.getElementById('sound-icon');
     const label = document.getElementById('sound-label');
 
-    // --- BGM (Background Music, looping) ---
+    // --- Background Music ---
     const bgmAudio = new Audio('/assets/bgm.mp3');
     bgmAudio.loop   = true;
-    bgmAudio.volume = 0.3;
+    bgmAudio.volume = 0.25;
     bgmAudio.preload = 'auto';
 
-    // --- SFX (Page Flip Sound) ---
-    const flipAudio = new Audio('/assets/flip-sound.mp3');
-    flipAudio.volume  = 0.6;
-    flipAudio.preload = 'auto';
+    // --- Audio Samples for Flip ---
+    const flipSamples = [
+      new Audio('/assets/flip-sound.mp3'),
+      new Audio('/assets/flip-sound2.mp3')
+    ];
+    flipSamples.forEach(audio => { audio.volume = 0.6; audio.preload = 'auto'; });
+    let sampleIdx = 0;
 
-    // Auto-start BGM on first user interaction (required by browser policy)
+    // --- Web Audio API Procedural Paper Rustle Synthesizer (Instant 0-Latency SFX) ---
+    let audioCtx = null;
+
+    function initAudioContext() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtx = new AudioContextClass();
+        }
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function playPaperRustleSound() {
+      if (soundMuted) return;
+      initAudioContext();
+      if (!audioCtx) return;
+
+      try {
+        const bufferSize = audioCtx.sampleRate * 0.18; // 180ms paper swoop
+        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+
+        // Generate filtered white noise with soft envelope
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 1.8);
+        }
+
+        const noise = audioCtx.createBufferSource();
+        noise.buffer = buffer;
+
+        // Bandpass filter to simulate crisp paper friction
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(1200, audioCtx.currentTime);
+        filter.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.15);
+        filter.Q.setValueAtTime(1.5, audioCtx.currentTime);
+
+        const gain = audioCtx.createGain();
+        gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.17);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        noise.start();
+      } catch(e) {}
+    }
+
+    window.playClickSound = function() {
+      if (soundMuted) return;
+      initAudioContext();
+      if (!audioCtx) return;
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.05);
+        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.05);
+      } catch(e) {}
+    };
+
     let bgmStarted = false;
     function tryStartBgm() {
       if (bgmStarted || soundMuted) return;
+      initAudioContext();
       bgmAudio.play().then(() => { bgmStarted = true; }).catch(() => {});
     }
     document.addEventListener('click', tryStartBgm, { once: true });
 
-    // Called by book-loader.js on every page flip event
+    // Primary page flip sound function called on page change
     window.playFlipSound = function() {
       if (soundMuted) return;
       tryStartBgm();
-      flipAudio.currentTime = 0;
-      flipAudio.play().catch(() => {});
+
+      // Trigger instant procedural rustle
+      playPaperRustleSound();
+
+      // Alternate audio sample playback
+      try {
+        const audio = flipSamples[sampleIdx];
+        sampleIdx = (sampleIdx + 1) % flipSamples.length;
+        audio.currentTime = 0;
+        audio.play().catch(() => {});
+      } catch(e) {}
     };
 
     function toggleSound() {
@@ -225,22 +300,23 @@
         bgmAudio.pause();
         icon.textContent  = '🔕';
         label.textContent = 'Musik Mati';
-        btn.style.borderColor = 'rgba(239,68,68,0.5)';
-        btn.style.color = '#f87171';
+        btn.style.borderColor = '#fca5a5';
+        btn.style.color = '#e11d48';
       } else {
+        initAudioContext();
         bgmAudio.play().catch(() => {});
         bgmStarted = true;
         icon.textContent  = '🔔';
         label.textContent = 'Musik & Suara Aktif';
-        btn.style.borderColor = 'rgba(255,255,255,0.15)';
-        btn.style.color = '#cbd5e1';
+        btn.style.borderColor = '#cbd5e1';
+        btn.style.color = '#334155';
       }
     }
   </script>
 
   <div class="flipbook-wrapper">
      <div id="flipbook" class="flipbook">
-        <!-- Pages will be injected here dynamically by book-loader.js -->
+        <!-- Pages dynamically injected by book-loader.js -->
      </div>
   </div>
 
