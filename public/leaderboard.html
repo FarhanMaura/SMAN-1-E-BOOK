@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaderboard - Flipbook KKA SMAN 1 Palembang</title>
+  <meta name="description" content="Papan skor terbaik siswa E-Modul Koding dan Kecerdasan Artifisial SMAN 1 Palembang">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --purple: #7c3aed;
+      --teal: #0d9488;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      background-image: radial-gradient(rgba(148,163,184,.15) 1.5px, transparent 1.5px);
+      background-size: 32px 32px;
+    }
+
+    .bg-orb {
+      position: fixed; border-radius: 50%; filter: blur(90px);
+      opacity: 0.1; pointer-events: none; z-index: 0;
+    }
+    .orb1 { width:500px; height:500px; background:#c4b5fd; top:-150px; left:-150px; animation: float1 10s ease-in-out infinite; }
+    .orb2 { width:400px; height:400px; background:#99f6e4; bottom:-100px; right:-100px; animation: float2 12s ease-in-out infinite; }
+    @keyframes float1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(30px,20px)} }
+    @keyframes float2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-20px,-30px)} }
+
+    header {
+      position: relative; z-index: 10;
+      padding: 1.5rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.85); backdrop-filter: blur(16px);
+    }
+
+    .logo {
+      font-family: 'Sora', sans-serif; font-size: 1.3rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--teal), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.85rem; font-weight: 700; color: var(--text-muted);
+      text-decoration: none; padding: 0.5rem 1.2rem;
+      border: 1px solid var(--border); border-radius: 9999px;
+      background: white; transition: all 0.2s;
+    }
+    .back-btn:hover { border-color: var(--teal); color: var(--teal); }
+
+    main {
+      position: relative; z-index: 5;
+      max-width: 900px; margin: 0 auto; padding: 3rem 2rem;
+    }
+
+    .page-title {
+      text-align: center; margin-bottom: 0.8rem;
+      font-family: 'Sora', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800; color: #0f172a;
+    }
+    .page-title span {
+      background: linear-gradient(135deg, var(--teal), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .page-subtitle {
+      text-align: center; color: var(--text-muted); font-size: 1rem;
+      margin-bottom: 2.5rem; font-weight: 500;
+    }
+
+    /* Filter tabs */
+    .filter-bar {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+      justify-content: center; margin-bottom: 2rem;
+    }
+    .filter-btn {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.82rem; font-weight: 700;
+      padding: 0.45rem 1.1rem; border-radius: 9999px;
+      border: 1.5px solid var(--border); background: white;
+      color: var(--text-muted); cursor: pointer; transition: all 0.2s;
+    }
+    .filter-btn:hover { border-color: var(--teal); color: var(--teal); }
+    .filter-btn.active {
+      background: linear-gradient(135deg, var(--teal), var(--purple));
+      border-color: transparent; color: white;
+    }
+
+    /* Stat cards */
+    .stats-row {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem; margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: white; border: 1px solid var(--border);
+      border-radius: 18px; padding: 1.2rem 1.5rem; text-align: center;
+      box-shadow: 0 4px 16px -4px rgba(15,23,42,0.06);
+    }
+    .stat-num {
+      font-family: 'Sora', sans-serif; font-size: 2rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--teal), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-label { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; margin-top: 0.2rem; }
+
+    /* Table */
+    .table-wrap {
+      background: white; border: 1px solid var(--border);
+      border-radius: 24px; overflow: hidden;
+      box-shadow: 0 8px 30px -8px rgba(15,23,42,0.08);
+    }
+
+    .table-header {
+      padding: 1.2rem 1.8rem;
+      background: linear-gradient(135deg, rgba(13,148,136,.06), rgba(124,58,237,.06));
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .table-header h3 {
+      font-family: 'Sora', sans-serif; font-size: 1rem; font-weight: 700;
+    }
+    .refresh-btn {
+      font-size: 0.78rem; font-weight: 700; padding: 0.35rem 0.9rem;
+      border: 1px solid var(--border); border-radius: 9999px;
+      background: white; color: var(--text-muted); cursor: pointer;
+      transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .refresh-btn:hover { border-color: var(--teal); color: var(--teal); }
+
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text-muted);
+      padding: 0.9rem 1.5rem; text-align: left;
+      border-bottom: 1px solid var(--border); background: #f8fafc;
+    }
+    td {
+      padding: 1rem 1.5rem; border-bottom: 1px solid #f1f5f9;
+      font-size: 0.9rem; vertical-align: middle;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #f8fafc; }
+
+    .rank-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px; border-radius: 50%;
+      font-family: 'Sora', sans-serif; font-weight: 800; font-size: 0.85rem;
+    }
+    .rank-1 { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: white; box-shadow: 0 2px 8px rgba(245,158,11,.4); }
+    .rank-2 { background: linear-gradient(135deg, #94a3b8, #64748b); color: white; }
+    .rank-3 { background: linear-gradient(135deg, #a16207, #92400e); color: white; }
+    .rank-other { background: #f1f5f9; color: var(--text-muted); }
+
+    .nama-cell { font-weight: 700; color: #0f172a; }
+    .bab-badge {
+      display: inline-block; font-size: 0.72rem; font-weight: 700;
+      padding: 0.25rem 0.7rem; border-radius: 9999px;
+      background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0;
+    }
+    .tipe-latihan { background:#ccfbf1; color:#0f766e; border-color:#99f6e4; }
+    .tipe-ujian   { background:#ede9fe; color:#6d28d9; border-color:#c4b5fd; }
+
+    .skor-cell {
+      font-family: 'Sora', sans-serif; font-weight: 800; font-size: 1rem;
+    }
+    .skor-100 { color: #059669; }
+    .skor-high { color: #0d9488; }
+    .skor-mid  { color: #d97706; }
+    .skor-low  { color: #dc2626; }
+
+    .empty-state {
+      text-align: center; padding: 4rem 2rem; color: var(--text-muted);
+    }
+    .empty-state .icon { font-size: 3rem; margin-bottom: 1rem; }
+    .empty-state p { font-size: 0.95rem; font-weight: 500; }
+
+    .loading {
+      text-align: center; padding: 3rem; color: var(--text-muted); font-size: 0.95rem;
+    }
+
+    footer {
+      text-align: center; padding: 2.5rem; color: var(--text-muted);
+      font-size: 0.85rem; border-top: 1px solid var(--border);
+      background: rgba(255,255,255,.5); margin-top: 4rem; position: relative; z-index: 5;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-orb orb1"></div>
+  <div class="bg-orb orb2"></div>
+
+  <header>
+    <div class="logo">🏆 Leaderboard</div>
+    <a href="/" class="back-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      Kembali
+    </a>
+  </header>
+
+  <main>
+    <h1 class="page-title">Papan Skor <span>Terbaik</span></h1>
+    <p class="page-subtitle">Rekap nilai latihan & ujian siswa E-Modul KKA Kelas 10 · SMAN 1 Palembang</p>
+
+    <!-- Stats -->
+    <div class="stats-row" id="stats-row">
+      <div class="stat-card">
+        <div class="stat-num" id="stat-total">—</div>
+        <div class="stat-label">Total Pengerjaan</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="stat-avg">—</div>
+        <div class="stat-label">Rata-rata Skor</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="stat-perfect">—</div>
+        <div class="stat-label">Skor Sempurna (100)</div>
+      </div>
+    </div>
+
+    <!-- Filter -->
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="semua" onclick="setFilter('semua', this)">Semua Bab</button>
+      <button class="filter-btn" data-filter="BAB-1" onclick="setFilter('BAB-1', this)">🧠 Bab 1</button>
+      <button class="filter-btn" data-filter="BAB-2" onclick="setFilter('BAB-2', this)">💻 Bab 2</button>
+      <button class="filter-btn" data-filter="BAB-3" onclick="setFilter('BAB-3', this)">🤖 Bab 3</button>
+      <button class="filter-btn" data-filter="BAB-4" onclick="setFilter('BAB-4', this)">✨ Bab 4</button>
+      <button class="filter-btn" data-filter="BAB-5" onclick="setFilter('BAB-5', this)">🎬 Bab 5</button>
+      <button class="filter-btn" data-filter="BAB-6" onclick="setFilter('BAB-6', this)">🗄️ Bab 6</button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap">
+      <div class="table-header">
+        <h3 id="table-title">📊 Semua Bab — Top Skor</h3>
+        <button class="refresh-btn" onclick="loadData()">🔄 Refresh</button>
+      </div>
+      <div id="table-body">
+        <div class="loading">⏳ Memuat data...</div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>📘 E-Modul Koding dan Kecerdasan Artifisial · SMA Kelas 10 · Kurikulum Merdeka</p>
+    <p style="margin-top:0.4rem;opacity:0.65;">SMAN 1 Palembang · Dibuat dengan ❤️ untuk pendidikan Indonesia</p>
+  </footer>
+
+  <script>
+    let allData   = [];
+    let curFilter = 'semua';
+
+    async function loadData() {
+      document.getElementById('table-body').innerHTML = '<div class="loading">⏳ Memuat data...</div>';
+      try {
+        const res  = await fetch('/api/leaderboard');
+        const json = await res.json();
+        if (!json.success) throw new Error(json.error);
+        allData = json.data;
+        updateStats(allData);
+        renderTable(allData, curFilter);
+      } catch (err) {
+        document.getElementById('table-body').innerHTML =
+          `<div class="empty-state"><div class="icon">⚠️</div><p>Gagal memuat data: ${err.message}</p></div>`;
+      }
+    }
+
+    function updateStats(data) {
+      document.getElementById('stat-total').textContent   = data.length;
+      const avg = data.length ? Math.round(data.reduce((s, r) => s + r.skor, 0) / data.length) : 0;
+      document.getElementById('stat-avg').textContent     = avg;
+      document.getElementById('stat-perfect').textContent = data.filter(r => r.skor >= 100).length;
+    }
+
+    function setFilter(filter, btn) {
+      curFilter = filter;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderTable(allData, filter);
+
+      const title = filter === 'semua'
+        ? 'Semua Bab — Top Skor'
+        : `Bab ${filter.replace('BAB-','')} — Top Skor`;
+      document.getElementById('table-title').textContent = '📊 ' + title;
+    }
+
+    function renderTable(data, filter) {
+      const filtered = filter === 'semua' ? data : data.filter(r => r.id_bab === filter);
+
+      if (!filtered.length) {
+        document.getElementById('table-body').innerHTML =
+          `<div class="empty-state"><div class="icon">📭</div><p>Belum ada data skor untuk filter ini.</p></div>`;
+        return;
+      }
+
+      // Sort by skor desc
+      const sorted = [...filtered].sort((a, b) => b.skor - a.skor);
+
+      let rows = sorted.slice(0, 50).map((r, i) => {
+        const rank  = i + 1;
+        const badge = rank <= 3
+          ? `<span class="rank-badge rank-${rank}">${rank === 1 ? '🥇' : rank === 2 ? '🥈' : '🥉'}</span>`
+          : `<span class="rank-badge rank-other">${rank}</span>`;
+
+        const skorClass = r.skor >= 100 ? 'skor-100' : r.skor >= 80 ? 'skor-high' : r.skor >= 60 ? 'skor-mid' : 'skor-low';
+        const tipeClass = r.tipe === 'latihan' ? 'tipe-latihan' : 'tipe-ujian';
+        const tipeLabel = r.tipe === 'latihan' ? '📝 Latihan' : '📋 Ujian';
+
+        const babLabel  = r.judul_bab ? `${r.ikon_bab || ''} ${r.judul_bab}` : r.id_bab;
+        const tgl = new Date(r.created_at).toLocaleDateString('id-ID', { day:'2-digit', month:'short', year:'numeric' });
+
+        return `<tr>
+          <td>${badge}</td>
+          <td><span class="nama-cell">${escHtml(r.nama_siswa)}</span></td>
+          <td><span class="bab-badge">${escHtml(babLabel)}</span></td>
+          <td><span class="bab-badge ${tipeClass}">${tipeLabel}</span></td>
+          <td><span class="skor-cell ${skorClass}">${r.skor}</span></td>
+          <td style="color:var(--text-muted);font-size:0.8rem;">${tgl}</td>
+        </tr>`;
+      }).join('');
+
+      document.getElementById('table-body').innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nama Siswa</th>
+              <th>Bab</th>
+              <th>Tipe</th>
+              <th>Skor</th>
+              <th>Tanggal</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>`;
+    }
+
+    function escHtml(str) {
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // Load on start
+    loadData();
+    // Auto-refresh setiap 30 detik
+    setInterval(loadData, 30000);
+  </script>
+</body>
+</html>

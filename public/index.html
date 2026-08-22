@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flipbook SMAN 1 Palembang - Koding & Kecerdasan Artifisial SMA Kelas 10</title>
-  <meta name="description" content="E-Modul Interaktif Koding dan Kecerdasan Artifisial untuk Siswa SMA Kelas 10 Kurikulum Merdeka">
+  <meta name="description"
+    content="E-Modul Interaktif Koding dan Kecerdasan Artifisial untuk Siswa SMA Kelas 10 Kurikulum Merdeka">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
   <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   <style>
     :root {
@@ -22,8 +26,19 @@
       --text-muted: #64748b;
       --border: #e2e8f0;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       background: var(--bg);
@@ -33,6 +48,7 @@
       background-image: radial-gradient(rgba(148, 163, 184, 0.15) 1.5px, transparent 1.5px);
       background-size: 32px 32px;
     }
+
     /* Background particles */
     .bg-orb {
       position: fixed;
@@ -42,12 +58,70 @@
       pointer-events: none;
       z-index: 0;
     }
-    .orb1 { width: 600px; height: 600px; background: #c4b5fd; top: -200px; left: -200px; animation: float1 10s ease-in-out infinite; }
-    .orb2 { width: 450px; height: 450px; background: #99f6e4; bottom: -100px; right: -100px; animation: float2 12s ease-in-out infinite; }
-    .orb3 { width: 350px; height: 350px; background: #bae6fd; top: 50%; left: 50%; transform: translate(-50%,-50%); animation: float3 14s ease-in-out infinite; }
-    @keyframes float1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(40px,30px)} }
-    @keyframes float2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-30px,-40px)} }
-    @keyframes float3 { 0%,100%{transform:translate(-50%,-50%)} 50%{transform:translate(-45%,-55%)} }
+
+    .orb1 {
+      width: 600px;
+      height: 600px;
+      background: #c4b5fd;
+      top: -200px;
+      left: -200px;
+      animation: float1 10s ease-in-out infinite;
+    }
+
+    .orb2 {
+      width: 450px;
+      height: 450px;
+      background: #99f6e4;
+      bottom: -100px;
+      right: -100px;
+      animation: float2 12s ease-in-out infinite;
+    }
+
+    .orb3 {
+      width: 350px;
+      height: 350px;
+      background: #bae6fd;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: float3 14s ease-in-out infinite;
+    }
+
+    @keyframes float1 {
+
+      0%,
+      100% {
+        transform: translate(0, 0)
+      }
+
+      50% {
+        transform: translate(40px, 30px)
+      }
+    }
+
+    @keyframes float2 {
+
+      0%,
+      100% {
+        transform: translate(0, 0)
+      }
+
+      50% {
+        transform: translate(-30px, -40px)
+      }
+    }
+
+    @keyframes float3 {
+
+      0%,
+      100% {
+        transform: translate(-50%, -50%)
+      }
+
+      50% {
+        transform: translate(-45%, -55%)
+      }
+    }
 
     /* Header */
     header {
@@ -61,6 +135,7 @@
       background: rgba(255, 255, 255, 0.8);
       backdrop-filter: blur(16px);
     }
+
     .logo {
       font-family: 'Sora', sans-serif;
       font-size: 1.4rem;
@@ -69,6 +144,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+
     .badge {
       font-size: 0.8rem;
       background: #f1f5f9;
@@ -86,6 +162,7 @@
       text-align: center;
       padding: 4rem 2rem 3rem;
     }
+
     .hero-tag {
       display: inline-flex;
       align-items: center;
@@ -100,6 +177,7 @@
       margin-bottom: 1.5rem;
       animation: fadeUp 0.6s ease both;
     }
+
     .hero h1 {
       font-family: 'Sora', sans-serif;
       font-size: clamp(2.5rem, 6vw, 4.8rem);
@@ -109,11 +187,13 @@
       margin-bottom: 1.2rem;
       animation: fadeUp 0.6s 0.1s ease both;
     }
+
     .hero h1 span {
       background: linear-gradient(135deg, #0d9488, #7c3aed);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+
     .hero p {
       font-size: 1.15rem;
       color: var(--text-muted);
@@ -123,7 +203,18 @@
       animation: fadeUp 0.6s 0.2s ease both;
       font-weight: 500;
     }
-    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
 
     /* Chapters grid */
     .chapters-section {
@@ -133,6 +224,7 @@
       margin: 0 auto;
       padding: 2rem;
     }
+
     .section-label {
       text-align: center;
       font-family: 'Sora', sans-serif;
@@ -143,11 +235,13 @@
       color: var(--text-muted);
       margin-bottom: 2.5rem;
     }
+
     .chapters-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
       gap: 1.8rem;
     }
+
     .chapter-card {
       position: relative;
       background: var(--surface);
@@ -162,11 +256,13 @@
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       animation: fadeUp 0.6s ease both;
     }
+
     .chapter-card:hover {
       transform: translateY(-8px);
       border-color: #cbd5e1;
       box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.12);
     }
+
     .chapter-card::before {
       content: '';
       position: absolute;
@@ -176,15 +272,22 @@
       transition: opacity 0.3s;
       border-radius: 28px;
     }
-    .chapter-card:hover::before { opacity: 1; }
+
+    .chapter-card:hover::before {
+      opacity: 1;
+    }
+
     .card-glow {
       position: absolute;
-      top: 0; right: 0;
-      width: 150px; height: 150px;
+      top: 0;
+      right: 0;
+      width: 150px;
+      height: 150px;
       border-radius: 50%;
       filter: blur(50px);
       opacity: 0.15;
     }
+
     .card-num {
       font-family: 'Sora', sans-serif;
       font-size: 0.75rem;
@@ -194,10 +297,12 @@
       color: var(--teal);
       margin-bottom: 0.5rem;
     }
+
     .card-icon {
       font-size: 2.6rem;
       margin-bottom: 1rem;
     }
+
     .card-title {
       font-family: 'Sora', sans-serif;
       font-size: 1.2rem;
@@ -206,18 +311,21 @@
       margin-bottom: 0.6rem;
       line-height: 1.35;
     }
+
     .card-desc {
       font-size: 0.88rem;
       color: var(--text-muted);
       line-height: 1.6;
       margin-bottom: 1.5rem;
     }
+
     .card-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 0.4rem;
       margin-bottom: 1.5rem;
     }
+
     .tag {
       font-size: 0.72rem;
       background: #f1f5f9;
@@ -227,16 +335,19 @@
       border-radius: 9999px;
       font-weight: 600;
     }
+
     .card-footer {
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
+
     .card-info {
       font-size: 0.78rem;
       color: var(--text-muted);
       font-weight: 600;
     }
+
     .card-btn {
       display: inline-flex;
       align-items: center;
@@ -250,8 +361,16 @@
       box-shadow: 0 4px 14px rgba(13, 148, 136, 0.25);
       transition: all 0.2s;
     }
-    .card-btn:hover { opacity: 0.9; transform: scale(1.04); }
-    .card-btn svg { width: 14px; height: 14px; }
+
+    .card-btn:hover {
+      opacity: 0.9;
+      transform: scale(1.04);
+    }
+
+    .card-btn svg {
+      width: 14px;
+      height: 14px;
+    }
 
     /* Footer */
     footer {
@@ -267,6 +386,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="bg-orb orb1"></div>
   <div class="bg-orb orb2"></div>
@@ -274,37 +394,45 @@
 
   <header>
     <div class="logo">⚡ SMAN 1 Palembang Flipbook</div>
-    <span class="badge">Kelas 10 · Kurikulum Merdeka</span>
+    <div style="display:flex;align-items:center;gap:1rem;">
+      <a href="/leaderboard" style="font-size:0.82rem;font-weight:700;color:#0d9488;text-decoration:none;display:inline-flex;align-items:center;gap:0.4rem;padding:0.4rem 1rem;border:1px solid #99f6e4;border-radius:9999px;background:#f0fdf9;transition:all 0.2s;" onmouseover="this.style.background='#ccfbf1'" onmouseout="this.style.background='#f0fdf9'">🏆 Leaderboard</a>
+      <span class="badge">Kelas 10 · Kurikulum Merdeka</span>
+    </div>
   </header>
 
   <section class="hero">
-    <div style="display: flex; justify-content: center; margin-bottom: -1rem;">
-      <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_sk5h1kfn.json" background="transparent" speed="1" style="width: 240px; height: 240px;" loop autoplay></lottie-player>
-    </div>
     <div class="hero-tag">
       <span>📚</span> E-Modul Interaktif Terpadu
     </div>
     <h1>Koding &amp; <span>Kecerdasan Artifisial</span></h1>
-    <p>Jelajahi 6 bab materi secara interaktif dengan flipbook digital. Belajar lebih seru dengan soal latihan, animasi, dan ilustrasi keren dalam satu buku lengkap!</p>
-    
+    <p>Jelajahi 6 bab materi secara interaktif dengan flipbook digital. Belajar lebih seru dengan soal latihan, animasi,
+      dan ilustrasi keren dalam satu buku lengkap!</p>
+
     <div style="margin-top: 2rem;">
-       <a href="/book" class="hero-btn" style="display: inline-flex; align-items: center; gap: 0.8rem; background: linear-gradient(135deg, #0d9488, #7c3aed); color: white; font-weight: 800; font-size: 1.1rem; padding: 1rem 2.2rem; border-radius: 9999px; text-decoration: none; box-shadow: 0 10px 30px rgba(13, 148, 136, 0.3); transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 15px 40px rgba(124, 58, 237, 0.35)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 10px 30px rgba(13, 148, 136, 0.3)'">
-          <span style="font-size: 1.3rem;">📖</span> BUKA BUKU LENGKAP
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 20px; height: 20px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-       </a>
+      <a href="/book" class="hero-btn"
+        style="display: inline-flex; align-items: center; gap: 0.8rem; background: linear-gradient(135deg, #0d9488, #7c3aed); color: white; font-weight: 800; font-size: 1.1rem; padding: 1rem 2.2rem; border-radius: 9999px; text-decoration: none; box-shadow: 0 10px 30px rgba(13, 148, 136, 0.3); transition: all 0.3s ease;"
+        onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 15px 40px rgba(124, 58, 237, 0.35)'"
+        onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 10px 30px rgba(13, 148, 136, 0.3)'">
+        <span style="font-size: 1.3rem;">📖</span> BUKA BUKU LENGKAP
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          style="width: 20px; height: 20px;">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      </a>
     </div>
   </section>
 
   <section class="chapters-section">
     <p class="section-label">— Atau Pilih Bab Spesifik —</p>
-    <div class="chapters-grid">
+    <div class="chapters-grid" id="chapters-grid">
 
       <a href="/bab-1" class="chapter-card" style="animation-delay:0.1s">
         <div class="card-glow" style="background:#0d9488"></div>
         <div class="card-num">Bab 01</div>
         <div class="card-icon">🧠</div>
         <div class="card-title">Berpikir Komputasional</div>
-        <div class="card-desc">Pelajari 4 fondasi berpikir komputasional: Dekomposisi, Abstraksi, Pengenalan Pola, dan Algoritma.</div>
+        <div class="card-desc">Pelajari 4 fondasi berpikir komputasional: Dekomposisi, Abstraksi, Pengenalan Pola, dan
+          Algoritma.</div>
         <div class="card-tags">
           <span class="tag">Dekomposisi</span>
           <span class="tag">Abstraksi</span>
@@ -312,7 +440,9 @@
         </div>
         <div class="card-footer">
           <span class="card-info">3 halaman · 20 soal</span>
-          <span class="card-btn">Buka <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <span class="card-btn">Buka <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg></span>
         </div>
       </a>
 
@@ -321,7 +451,8 @@
         <div class="card-num">Bab 02</div>
         <div class="card-icon">💻</div>
         <div class="card-title">Algoritma &amp; Pemrograman Lanjut</div>
-        <div class="card-desc">Flowchart, struktur kontrol, percabangan, perulangan, dan teknik debugging dalam pemrograman.</div>
+        <div class="card-desc">Flowchart, struktur kontrol, percabangan, perulangan, dan teknik debugging dalam
+          pemrograman.</div>
         <div class="card-tags">
           <span class="tag">Flowchart</span>
           <span class="tag">If-Else</span>
@@ -329,7 +460,9 @@
         </div>
         <div class="card-footer">
           <span class="card-info">3 halaman · 20 soal</span>
-          <span class="card-btn">Buka <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <span class="card-btn">Buka <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg></span>
         </div>
       </a>
 
@@ -338,7 +471,8 @@
         <div class="card-num">Bab 03</div>
         <div class="card-icon">🤖</div>
         <div class="card-title">Literasi &amp; Etika Kecerdasan Artifisial</div>
-        <div class="card-desc">Bagaimana AI mengenali gambar dan suara, etika penggunaan AI, bias data, dan karir di bidang AI.</div>
+        <div class="card-desc">Bagaimana AI mengenali gambar dan suara, etika penggunaan AI, bias data, dan karir di
+          bidang AI.</div>
         <div class="card-tags">
           <span class="tag">AI Ethics</span>
           <span class="tag">Bias Data</span>
@@ -346,7 +480,9 @@
         </div>
         <div class="card-footer">
           <span class="card-info">3 halaman · 20 soal</span>
-          <span class="card-btn">Buka <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <span class="card-btn">Buka <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg></span>
         </div>
       </a>
 
@@ -355,7 +491,8 @@
         <div class="card-num">Bab 04</div>
         <div class="card-icon">✨</div>
         <div class="card-title">Prompt Engineering &amp; Design Thinking</div>
-        <div class="card-desc">Cara berkomunikasi efektif dengan AI Generatif dan merancang solusi berbasis desain berpusat pada pengguna.</div>
+        <div class="card-desc">Cara berkomunikasi efektif dengan AI Generatif dan merancang solusi berbasis desain
+          berpusat pada pengguna.</div>
         <div class="card-tags">
           <span class="tag">Prompt</span>
           <span class="tag">LLM</span>
@@ -363,7 +500,9 @@
         </div>
         <div class="card-footer">
           <span class="card-info">3 halaman · 20 soal</span>
-          <span class="card-btn">Buka <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <span class="card-btn">Buka <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg></span>
         </div>
       </a>
 
@@ -372,7 +511,8 @@
         <div class="card-num">Bab 05</div>
         <div class="card-icon">🎬</div>
         <div class="card-title">Kreativitas &amp; Etika Konten Media Sosial</div>
-        <div class="card-desc">Produksi multimedia, etika digital, copyright HAKI, dan tanggung jawab dalam membuat konten.</div>
+        <div class="card-desc">Produksi multimedia, etika digital, copyright HAKI, dan tanggung jawab dalam membuat
+          konten.</div>
         <div class="card-tags">
           <span class="tag">Multimedia</span>
           <span class="tag">HAKI</span>
@@ -380,7 +520,9 @@
         </div>
         <div class="card-footer">
           <span class="card-info">3 halaman · 20 soal</span>
-          <span class="card-btn">Buka <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <span class="card-btn">Buka <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg></span>
         </div>
       </a>
 
@@ -389,7 +531,8 @@
         <div class="card-num">Bab 06</div>
         <div class="card-icon">🗄️</div>
         <div class="card-title">Pengelolaan Informasi Digital</div>
-        <div class="card-desc">Database relasional, perintah SQL dasar CRUD, manajemen server lokal, dan keamanan data.</div>
+        <div class="card-desc">Database relasional, perintah SQL dasar CRUD, manajemen server lokal, dan keamanan data.
+        </div>
         <div class="card-tags">
           <span class="tag">Database</span>
           <span class="tag">SQL</span>
@@ -397,7 +540,9 @@
         </div>
         <div class="card-footer">
           <span class="card-info">3 halaman · 20 soal</span>
-          <span class="card-btn">Buka <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <span class="card-btn">Buka <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg></span>
         </div>
       </a>
 
@@ -410,33 +555,60 @@
   </footer>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const cards = document.querySelectorAll('.chapter-card');
-      
-      cards.forEach(async (card) => {
-        const url = card.getAttribute('href');
-        const infoSpan = card.querySelector('.card-info');
-        
-        try {
-          infoSpan.textContent = 'Menghitung halaman...';
-          
-          const response = await fetch(url);
-          if (!response.ok) throw new Error('Not found');
-          
-          const html = await response.text();
-          
-          const pageMatches = html.match(/<div class="page">/g);
-          const pageCount = pageMatches ? pageMatches.length : 0;
-          
-          infoSpan.innerHTML = `<strong>${pageCount}</strong> halaman · <strong>20</strong> soal`;
-        } catch (error) {
-          infoSpan.textContent = 'Segera Hadir';
-          card.style.opacity = '0.6';
-          card.style.pointerEvents = 'none';
-          card.querySelector('.card-btn').style.display = 'none';
-        }
-      });
+    // Warna glow per bab
+    const glowColors = {
+      'teal':   '#0d9488', 'blue':  '#2563eb', 'green':  '#059669',
+      'red':    '#e11d48', 'indigo':'#4f46e5', 'cyan':   '#0891b2',
+      'purple': '#7c3aed', 'pink':  '#db2777', 'orange': '#ea580c',
+      'yellow': '#ca8a04', 'rose':  '#f43f5e', 'amber':  '#d97706'
+    };
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const grid = document.getElementById('chapters-grid');
+
+      try {
+        const res  = await fetch('/api/bab');
+        const json = await res.json();
+
+        if (!json.success || !json.data.length) throw new Error('Tidak ada data bab.');
+
+        // Kosongkan konten lama (kalau ada)
+        grid.innerHTML = '';
+
+        json.data.forEach((bab, i) => {
+          const delay     = (i + 1) * 0.1;
+          const glowColor = glowColors[bab.warna_tema_primary] || '#0d9488';
+          const babNum    = String(bab.nomor_bab).padStart(2, '0');
+          const href      = `/bab-${bab.nomor_bab}`;
+
+          const card = document.createElement('a');
+          card.href  = href;
+          card.className = 'chapter-card';
+          card.style.animationDelay = `${delay}s`;
+          card.innerHTML = `
+            <div class="card-glow" style="background:${glowColor}"></div>
+            <div class="card-num">Bab ${babNum}</div>
+            <div class="card-icon">${bab.ikon_bab || '📖'}</div>
+            <div class="card-title">${bab.judul_bab}</div>
+            <div class="card-desc">${bab.deskripsi_bab || ''}</div>
+            <div class="card-footer">
+              <span class="card-info"><strong>${bab.jumlah_halaman}</strong> halaman · <strong>${bab.jumlah_soal}</strong> soal</span>
+              <span class="card-btn">Buka
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </span>
+            </div>`;
+          grid.appendChild(card);
+        });
+
+      } catch (err) {
+        console.warn('Gagal load dari DB, fallback ke konten statis:', err.message);
+        // Fallback: tampilkan pesan error ringan
+        grid.innerHTML = `<p style="text-align:center;color:#64748b;grid-column:1/-1;padding:2rem;">⚠️ Gagal memuat data bab. Pastikan server & database berjalan.</p>`;
+      }
     });
   </script>
 </body>
+
 </html>

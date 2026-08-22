@@ -1,194 +1,131 @@
--- ============================================================
--- DATABASE DDL SCRIPT UNTUK FLIPBOOK / SYSTEM MAGANG
--- Berdasarkan ERD (docs/erdsela.drawio.png)
--- Database Engine: MySQL / MariaDB (InnoDB)
--- Charset: utf8mb4 / utf8mb4_unicode_ci
--- ============================================================
+-- ============================================================================
+-- DATABASE SCHEMA FOR FLIPBOOK E-MODUL KKA SMAN 1 PALEMBANG
+-- Dialect: MySQL 8.0+ / MariaDB 10.4+
+-- Versi: 2.0 (Tanpa Login - Skor Anonim)
+-- ============================================================================
 
-CREATE DATABASE IF NOT EXISTS `db_magang` 
-  DEFAULT CHARACTER SET utf8mb4 
+CREATE DATABASE IF NOT EXISTS `db_flipbook_kka`
+  DEFAULT CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
 
-USE `db_magang`;
+USE `db_flipbook_kka`;
 
--- Nonaktifkan pemeriksaan FK saat dropping dan pembuatannya
 SET FOREIGN_KEY_CHECKS = 0;
 
-DROP TABLE IF EXISTS `penilaians`;
-DROP TABLE IF EXISTS `absensis`;
-DROP TABLE IF EXISTS `pesertas`;
-DROP TABLE IF EXISTS `pengajuans`;
-DROP TABLE IF EXISTS `pembimbings`;
-DROP TABLE IF EXISTS `instansis`;
-DROP TABLE IF EXISTS `bidangs`;
-DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `skor_siswa`;
+DROP TABLE IF EXISTS `bab`;
+DROP TABLE IF EXISTS `buku`;
 
 SET FOREIGN_KEY_CHECKS = 1;
 
--- ------------------------------------------------------------
--- 1. TABEL users
--- Deskripsi: Akun pengguna (Admin, Pembimbing, Peserta)
--- ------------------------------------------------------------
-CREATE TABLE `users` (
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL,
-  `email` VARCHAR(255) NOT NULL,
-  `password` VARCHAR(255) NOT NULL,
-  `role` TINYINT UNSIGNED NOT NULL DEFAULT 3 COMMENT '1: Admin, 2: Pembimbing, 3: Peserta',
-  `email_verified_at` TIMESTAMP NULL DEFAULT NULL,
-  `remember_token` VARCHAR(100) NULL DEFAULT NULL,
-  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+-- ============================================================================
+-- 1. TABEL BUKU (E-Book Master)
+-- ============================================================================
+CREATE TABLE `buku` (
+  `id_buku`        VARCHAR(50)  NOT NULL,
+  `judul_buku`     VARCHAR(255) NOT NULL,
+  `mata_pelajaran` VARCHAR(100) NOT NULL,
+  `tingkat_kelas`  VARCHAR(50)  NOT NULL,
+  `kurikulum`      VARCHAR(50)  NOT NULL,
+  `deskripsi`      TEXT         NULL,
+  `total_bab`      INT          NOT NULL DEFAULT 6,
+  `created_at`     TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+  `updated_at`     TIMESTAMP    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_buku`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ============================================================================
+-- 2. TABEL BAB (Chapters)
+-- ============================================================================
+CREATE TABLE `bab` (
+  `id_bab`               VARCHAR(50)  NOT NULL,
+  `id_buku`              VARCHAR(50)  NOT NULL,
+  `nomor_bab`            INT          NOT NULL,
+  `judul_bab`            VARCHAR(255) NOT NULL,
+  `deskripsi_bab`        TEXT         NULL,
+  `ikon_bab`             VARCHAR(20)  NULL,
+  `warna_tema_primary`   VARCHAR(50)  DEFAULT 'teal',
+  `warna_tema_secondary` VARCHAR(50)  DEFAULT 'purple',
+  `lottie_url`           VARCHAR(500) NULL,
+  `jumlah_halaman`       INT          DEFAULT 0,
+  `jumlah_soal`          INT          DEFAULT 20,
+  `created_at`           TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+  `updated_at`           TIMESTAMP    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_bab`),
+  INDEX `idx_bab_buku` (`id_buku`),
+  CONSTRAINT `fk_bab_buku` FOREIGN KEY (`id_buku`)
+    REFERENCES `buku` (`id_buku`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ============================================================================
+-- 3. TABEL SKOR SISWA (Penyimpanan Skor Anonim - Tanpa Login)
+-- ============================================================================
+CREATE TABLE `skor_siswa` (
+  `id`          INT          NOT NULL AUTO_INCREMENT,
+  `nama_siswa`  VARCHAR(100) NOT NULL,
+  `id_bab`      VARCHAR(50)  NOT NULL,
+  `tipe`        ENUM('latihan','ujian') NOT NULL,
+  `skor`        INT          NOT NULL DEFAULT 0,
+  `created_at`  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `users_email_unique` (`email`)
+  INDEX `idx_skor_bab` (`id_bab`),
+  INDEX `idx_skor_nama` (`nama_siswa`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ------------------------------------------------------------
--- 2. TABEL bidangs
--- Deskripsi: Master data bidang/divisi
--- ------------------------------------------------------------
-CREATE TABLE `bidangs` (
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `nama` VARCHAR(255) NOT NULL,
-  `deskripsi` TEXT NULL DEFAULT NULL,
-  `deleted_at` TIMESTAMP NULL DEFAULT NULL,
-  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- ============================================================================
+-- SEED DATA
+-- ============================================================================
 
--- ------------------------------------------------------------
--- 3. TABEL instansis
--- Deskripsi: Master data instansi/sekolah/universitas
--- ------------------------------------------------------------
-CREATE TABLE `instansis` (
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `nama` VARCHAR(255) NOT NULL,
-  `alamat` TEXT NULL DEFAULT NULL,
-  `telp` VARCHAR(255) NULL DEFAULT NULL,
-  `email` VARCHAR(255) NULL DEFAULT NULL,
-  `deleted_at` TIMESTAMP NULL DEFAULT NULL,
-  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- Data Buku
+INSERT INTO `buku` (`id_buku`, `judul_buku`, `mata_pelajaran`, `tingkat_kelas`, `kurikulum`, `deskripsi`, `total_bab`) VALUES
+('BUKU-KKA-10',
+ 'E-Modul Interaktif Koding & Kecerdasan Artifisial SMA Kelas 10',
+ 'Koding dan Kecerdasan Artifisial',
+ '10',
+ 'Kurikulum Merdeka',
+ 'E-Modul interaktif dengan flipbook digital, soal latihan formatif, dan ujian analitis sumatif untuk SMA Kelas 10.',
+ 6);
 
--- ------------------------------------------------------------
--- 4. TABEL pembimbings
--- Deskripsi: Data pembimbing per bidang
--- ------------------------------------------------------------
-CREATE TABLE `pembimbings` (
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` BIGINT UNSIGNED NULL DEFAULT NULL,
-  `bidang_id` BIGINT UNSIGNED NULL DEFAULT NULL,
-  `nip` VARCHAR(255) NULL DEFAULT NULL,
-  `nama` VARCHAR(255) NOT NULL,
-  `no_hp` VARCHAR(255) NULL DEFAULT NULL,
-  `deleted_at` TIMESTAMP NULL DEFAULT NULL,
-  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `pembimbings_user_id_foreign` (`user_id`),
-  KEY `pembimbings_bidang_id_foreign` (`bidang_id`),
-  CONSTRAINT `pembimbings_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `pembimbings_bidang_id_foreign` FOREIGN KEY (`bidang_id`) REFERENCES `bidangs` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- Data Bab (6 Bab)
+INSERT INTO `bab` (`id_bab`, `id_buku`, `nomor_bab`, `judul_bab`, `deskripsi_bab`, `ikon_bab`, `warna_tema_primary`, `warna_tema_secondary`, `lottie_url`, `jumlah_halaman`, `jumlah_soal`) VALUES
+('BAB-1', 'BUKU-KKA-10', 1,
+ 'Berpikir Komputasional',
+ 'Pelajari 4 fondasi berpikir komputasional: Dekomposisi, Abstraksi, Pengenalan Pola, dan Algoritma.',
+ '🧠', 'teal', 'purple',
+ 'https://assets3.lottiefiles.com/packages/lf20_sk5h1kfn.json',
+ 16, 20),
 
--- ------------------------------------------------------------
--- 5. TABEL pengajuans
--- Deskripsi: Data permohonan pengajuan magang
--- ------------------------------------------------------------
-CREATE TABLE `pengajuans` (
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `instansi_id` BIGINT UNSIGNED NULL DEFAULT NULL,
-  `nama_instansi` VARCHAR(255) NULL DEFAULT NULL,
-  `pic_nama` VARCHAR(255) NOT NULL,
-  `pic_email` VARCHAR(255) NOT NULL,
-  `pic_telp` VARCHAR(255) NOT NULL,
-  `jml_peserta` INT NOT NULL,
-  `tgl_mulai` DATE NOT NULL,
-  `tgl_selesai` DATE NOT NULL,
-  `file_surat` VARCHAR(255) NULL DEFAULT NULL,
-  `file_peserta` VARCHAR(255) NULL DEFAULT NULL,
-  `status` VARCHAR(255) NOT NULL DEFAULT 'pending' COMMENT 'pending / approved / rejected',
-  `keterangan` TEXT NULL DEFAULT NULL,
-  `keterangan_reject` TEXT NULL DEFAULT NULL,
-  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `pengajuans_instansi_id_foreign` (`instansi_id`),
-  CONSTRAINT `pengajuans_instansi_id_foreign` FOREIGN KEY (`instansi_id`) REFERENCES `instansis` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+('BAB-2', 'BUKU-KKA-10', 2,
+ 'Algoritma & Pemrograman Lanjut',
+ 'Flowchart, struktur kontrol, percabangan, perulangan, dan teknik debugging dalam pemrograman.',
+ '💻', 'blue', 'pink',
+ 'https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json',
+ 16, 20),
 
--- ------------------------------------------------------------
--- 6. TABEL pesertas
--- Deskripsi: Data peserta magang
--- ------------------------------------------------------------
-CREATE TABLE `pesertas` (
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` BIGINT UNSIGNED NULL DEFAULT NULL,
-  `pengajuan_id` BIGINT UNSIGNED NULL DEFAULT NULL,
-  `instansi_id` BIGINT UNSIGNED NULL DEFAULT NULL,
-  `bidang_id` BIGINT UNSIGNED NULL DEFAULT NULL,
-  `pembimbing_id` BIGINT UNSIGNED NULL DEFAULT NULL,
-  `nim_nisn` VARCHAR(255) NULL DEFAULT NULL,
-  `nama` VARCHAR(255) NOT NULL,
-  `jurusan` VARCHAR(255) NULL DEFAULT NULL,
-  `deleted_at` TIMESTAMP NULL DEFAULT NULL,
-  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `pesertas_user_id_foreign` (`user_id`),
-  KEY `pesertas_pengajuan_id_foreign` (`pengajuan_id`),
-  KEY `pesertas_instansi_id_foreign` (`instansi_id`),
-  KEY `pesertas_bidang_id_foreign` (`bidang_id`),
-  KEY `pesertas_pembimbing_id_foreign` (`pembimbing_id`),
-  CONSTRAINT `pesertas_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `pesertas_pengajuan_id_foreign` FOREIGN KEY (`pengajuan_id`) REFERENCES `pengajuans` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `pesertas_instansi_id_foreign` FOREIGN KEY (`instansi_id`) REFERENCES `instansis` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `pesertas_bidang_id_foreign` FOREIGN KEY (`bidang_id`) REFERENCES `bidangs` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `pesertas_pembimbing_id_foreign` FOREIGN KEY (`pembimbing_id`) REFERENCES `pembimbings` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+('BAB-3', 'BUKU-KKA-10', 3,
+ 'Literasi & Etika Kecerdasan Artifisial',
+ 'Bagaimana AI mengenali gambar dan suara, etika penggunaan AI, bias data, dan karir di bidang AI.',
+ '🤖', 'green', 'orange',
+ 'https://assets5.lottiefiles.com/packages/lf20_5e7wgehs.json',
+ 16, 20),
 
--- ------------------------------------------------------------
--- 7. TABEL absensis
--- Deskripsi: Data presensi / kehadiran harian
--- ------------------------------------------------------------
-CREATE TABLE `absensis` (
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `peserta_id` BIGINT UNSIGNED NOT NULL,
-  `tanggal` DATE NOT NULL,
-  `status` VARCHAR(255) NOT NULL COMMENT 'Hadir / Izin / Sakit / Alpa',
-  `keterangan` TEXT NULL DEFAULT NULL,
-  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `absensis_peserta_id_foreign` (`peserta_id`),
-  CONSTRAINT `absensis_peserta_id_foreign` FOREIGN KEY (`peserta_id`) REFERENCES `pesertas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+('BAB-4', 'BUKU-KKA-10', 4,
+ 'Prompt Engineering & Design Thinking',
+ 'Cara berkomunikasi efektif dengan AI Generatif dan merancang solusi berbasis desain berpusat pada pengguna.',
+ '✨', 'red', 'yellow',
+ 'https://assets7.lottiefiles.com/packages/lf20_khzniaya.json',
+ 16, 20),
 
--- ------------------------------------------------------------
--- 8. TABEL penilaians
--- Deskripsi: Data nilai peserta oleh pembimbing
--- ------------------------------------------------------------
-CREATE TABLE `penilaians` (
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `peserta_id` BIGINT UNSIGNED NOT NULL,
-  `pembimbing_id` BIGINT UNSIGNED NULL DEFAULT NULL,
-  `nilai_angka` DECIMAL(5,2) NULL DEFAULT NULL,
-  `keterangan` TEXT NULL DEFAULT NULL,
-  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `penilaians_peserta_id_foreign` (`peserta_id`),
-  KEY `penilaians_pembimbing_id_foreign` (`pembimbing_id`),
-  CONSTRAINT `penilaians_peserta_id_foreign` FOREIGN KEY (`peserta_id`) REFERENCES `pesertas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `penilaians_pembimbing_id_foreign` FOREIGN KEY (`pembimbing_id`) REFERENCES `pembimbings` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+('BAB-5', 'BUKU-KKA-10', 5,
+ 'Kreativitas & Etika Konten Media Sosial',
+ 'Produksi multimedia, etika digital, copyright HAKI, dan tanggung jawab dalam membuat konten.',
+ '🎬', 'indigo', 'rose',
+ 'https://assets3.lottiefiles.com/packages/lf20_rwq6ciql.json',
+ 16, 20),
 
--- ------------------------------------------------------------
--- DATA SAMPLE (Default Admin User)
--- ------------------------------------------------------------
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `created_at`, `updated_at`) 
-VALUES (1, 'Administrator', 'admin@admin.com', '$2y$12$e0MYzXyjpJS7Pd0RVvHwHe1T9D1tLzS1WqH9L.X.xZ5yGzJz1.O2S', 1, NOW(), NOW())
-ON DUPLICATE KEY UPDATE `id`=`id`;
+('BAB-6', 'BUKU-KKA-10', 6,
+ 'Pengelolaan Informasi Digital',
+ 'Database relasional, perintah SQL dasar CRUD, manajemen server lokal, dan keamanan data.',
+ '🗄️', 'cyan', 'amber',
+ 'https://assets10.lottiefiles.com/packages/lf20_jzzuzxus.json',
+ 16, 20);

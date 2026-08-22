@@ -1,0 +1,113 @@
+<mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+  <root>
+    <mxCell id="0"/>
+    <mxCell id="1" parent="0"/>
+
+    <!-- TITLE -->
+    <mxCell id="title" value="&lt;b&gt;ENTITY RELATIONSHIP DIAGRAM (ERD)&lt;/b&gt;&lt;br&gt;Flipbook E-Modul KKA SMAN 1 Palembang" style="text;html=1;strokeColor=#0d9488;fillColor=#ccfbf1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=16;fontStyle=1;fontColor=#0f766e;" vertex="1" parent="1">
+      <mxGeometry x="40" y="20" width="1480" height="50" as="geometry"/>
+    </mxCell>
+
+    <!-- ENTITY: BUKU -->
+    <mxCell id="ent_buku" value="&lt;b&gt;BUKU (E-Book)&lt;/b&gt;&lt;hr&gt;&lt;div align=&quot;left&quot;&gt;&lt;b&gt;PK&lt;/b&gt; id_buku : VARCHAR&lt;br&gt;judul_buku : VARCHAR&lt;br&gt;mata_pelajaran : VARCHAR&lt;br&gt;tingkat_kelas : VARCHAR&lt;br&gt;kurikulum : VARCHAR&lt;br&gt;deskripsi : TEXT&lt;br&gt;total_bab : INT&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0e7ff;strokeColor=#4f46e5;verticalAlign=top;align=center;fontStyle=0;spacing=6;" vertex="1" parent="1">
+      <mxGeometry x="40" y="100" width="260" height="190" as="geometry"/>
+    </mxCell>
+
+    <!-- ENTITY: BAB -->
+    <mxCell id="ent_bab" value="&lt;b&gt;BAB (Chapter)&lt;/b&gt;&lt;hr&gt;&lt;div align=&quot;left&quot;&gt;&lt;b&gt;PK&lt;/b&gt; id_bab : VARCHAR&lt;br&gt;&lt;b&gt;FK&lt;/b&gt; id_buku : VARCHAR&lt;br&gt;nomor_bab : INT&lt;br&gt;judul_bab : VARCHAR&lt;br&gt;deskripsi_bab : TEXT&lt;br&gt;ikon_bab : VARCHAR&lt;br&gt;warna_tema_primary : VARCHAR&lt;br&gt;warna_tema_secondary : VARCHAR&lt;br&gt;lottie_url : VARCHAR&lt;br&gt;jumlah_halaman : INT&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0e7ff;strokeColor=#4f46e5;verticalAlign=top;align=center;fontStyle=0;spacing=6;" vertex="1" parent="1">
+      <mxGeometry x="360" y="100" width="270" height="240" as="geometry"/>
+    </mxCell>
+
+    <!-- ENTITY: HALAMAN -->
+    <mxCell id="ent_halaman" value="&lt;b&gt;HALAMAN (Page)&lt;/b&gt;&lt;hr&gt;&lt;div align=&quot;left&quot;&gt;&lt;b&gt;PK&lt;/b&gt; id_halaman : VARCHAR&lt;br&gt;&lt;b&gt;FK&lt;/b&gt; id_bab : VARCHAR&lt;br&gt;nomor_halaman : INT&lt;br&gt;tipe_halaman : ENUM&lt;br&gt;is_hard_page : BOOLEAN&lt;br&gt;konten_html : TEXT&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0e7ff;strokeColor=#4f46e5;verticalAlign=top;align=center;fontStyle=0;spacing=6;" vertex="1" parent="1">
+      <mxGeometry x="690" y="100" width="250" height="170" as="geometry"/>
+    </mxCell>
+
+    <!-- ENTITY: MATERI -->
+    <mxCell id="ent_materi" value="&lt;b&gt;MATERI &amp; PETA KONSEP&lt;/b&gt;&lt;hr&gt;&lt;div align=&quot;left&quot;&gt;&lt;b&gt;PK&lt;/b&gt; id_materi : VARCHAR&lt;br&gt;&lt;b&gt;FK&lt;/b&gt; id_bab : VARCHAR&lt;br&gt;judul_materi : VARCHAR&lt;br&gt;sub_bab : VARCHAR&lt;br&gt;ringkasan_materi : TEXT&lt;br&gt;peta_konsep_url : VARCHAR&lt;br&gt;elemen_interaktif : VARCHAR&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0e7ff;strokeColor=#4f46e5;verticalAlign=top;align=center;fontStyle=0;spacing=6;" vertex="1" parent="1">
+      <mxGeometry x="980" y="100" width="260" height="190" as="geometry"/>
+    </mxCell>
+
+    <!-- ENTITY: SOAL_LATIHAN -->
+    <mxCell id="ent_latihan" value="&lt;b&gt;SOAL_LATIHAN (Formatif)&lt;/b&gt;&lt;hr&gt;&lt;div align=&quot;left&quot;&gt;&lt;b&gt;PK&lt;/b&gt; id_latihan : VARCHAR&lt;br&gt;&lt;b&gt;FK&lt;/b&gt; id_bab : VARCHAR&lt;br&gt;nomor_soal : INT&lt;br&gt;pertanyaan : TEXT&lt;br&gt;pilihan_jawaban : JSON&lt;br&gt;kunci_jawaban_index : INT&lt;br&gt;bobot_skor : INT&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;verticalAlign=top;align=center;fontStyle=0;spacing=6;" vertex="1" parent="1">
+      <mxGeometry x="40" y="400" width="260" height="190" as="geometry"/>
+    </mxCell>
+
+    <!-- ENTITY: SOAL_UJIAN -->
+    <mxCell id="ent_ujian" value="&lt;b&gt;SOAL_UJIAN (Sumatif)&lt;/b&gt;&lt;hr&gt;&lt;div align=&quot;left&quot;&gt;&lt;b&gt;PK&lt;/b&gt; id_ujian : VARCHAR&lt;br&gt;&lt;b&gt;FK&lt;/b&gt; id_bab : VARCHAR&lt;br&gt;nomor_soal : INT&lt;br&gt;pertanyaan : TEXT&lt;br&gt;pilihan_jawaban : JSON&lt;br&gt;kunci_jawaban_index : INT&lt;br&gt;bobot_skor : INT&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;verticalAlign=top;align=center;fontStyle=0;spacing=6;" vertex="1" parent="1">
+      <mxGeometry x="360" y="400" width="270" height="190" as="geometry"/>
+    </mxCell>
+
+    <!-- ENTITY: PROGRES_BAB -->
+    <mxCell id="ent_progres" value="&lt;b&gt;PROGRES_BAB&lt;/b&gt;&lt;hr&gt;&lt;div align=&quot;left&quot;&gt;&lt;b&gt;PK&lt;/b&gt; id_progres : VARCHAR&lt;br&gt;&lt;b&gt;FK&lt;/b&gt; id_user : VARCHAR&lt;br&gt;&lt;b&gt;FK&lt;/b&gt; id_bab : VARCHAR&lt;br&gt;latihan_score : INT&lt;br&gt;ujian_score : INT&lt;br&gt;latihan_selesai : BOOLEAN&lt;br&gt;ujian_selesai : BOOLEAN&lt;br&gt;halaman_terakhir : INT&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;verticalAlign=top;align=center;fontStyle=0;spacing=6;" vertex="1" parent="1">
+      <mxGeometry x="690" y="400" width="250" height="210" as="geometry"/>
+    </mxCell>
+
+    <!-- ENTITY: PENGGUNA -->
+    <mxCell id="ent_pengguna" value="&lt;b&gt;PENGGUNA (User)&lt;/b&gt;&lt;hr&gt;&lt;div align=&quot;left&quot;&gt;&lt;b&gt;PK&lt;/b&gt; id_user : VARCHAR&lt;br&gt;nama_user : VARCHAR&lt;br&gt;role : ENUM('Siswa','Guru')&lt;br&gt;kelas : VARCHAR&lt;br&gt;sekolah : VARCHAR&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fae8ff;strokeColor=#c026d3;verticalAlign=top;align=center;fontStyle=0;spacing=6;" vertex="1" parent="1">
+      <mxGeometry x="980" y="400" width="260" height="160" as="geometry"/>
+    </mxCell>
+
+    <!-- ENTITY: JAWABAN_SISWA -->
+    <mxCell id="ent_jawaban" value="&lt;b&gt;JAWABAN_SISWA&lt;/b&gt;&lt;hr&gt;&lt;div align=&quot;left&quot;&gt;&lt;b&gt;PK&lt;/b&gt; id_jawaban : VARCHAR&lt;br&gt;&lt;b&gt;FK&lt;/b&gt; id_user : VARCHAR&lt;br&gt;&lt;b&gt;FK&lt;/b&gt; id_bab : VARCHAR&lt;br&gt;tipe_soal : ENUM('latihan','ujian')&lt;br&gt;index_soal : INT&lt;br&gt;jawaban_user : INT&lt;br&gt;status_dijawab : BOOLEAN&lt;br&gt;is_correct : BOOLEAN&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;verticalAlign=top;align=center;fontStyle=0;spacing=6;" vertex="1" parent="1">
+      <mxGeometry x="500" y="670" width="270" height="210" as="geometry"/>
+    </mxCell>
+
+    <!-- ENTITY: PENGATURAN_MEDIA -->
+    <mxCell id="ent_media" value="&lt;b&gt;PENGATURAN_MEDIA&lt;/b&gt;&lt;hr&gt;&lt;div align=&quot;left&quot;&gt;&lt;b&gt;PK&lt;/b&gt; id_setting : VARCHAR&lt;br&gt;&lt;b&gt;FK&lt;/b&gt; id_user : VARCHAR&lt;br&gt;bgm_enabled : BOOLEAN&lt;br&gt;flip_sound_enabled : BOOLEAN&lt;br&gt;volume_bgm : FLOAT&lt;br&gt;theme_mode : VARCHAR&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fae8ff;strokeColor=#c026d3;verticalAlign=top;align=center;fontStyle=0;spacing=6;" vertex="1" parent="1">
+      <mxGeometry x="980" y="670" width="260" height="180" as="geometry"/>
+    </mxCell>
+
+    <!-- EDGES / RELATIONSHIPS -->
+    <!-- BUKU 1--N BAB -->
+    <mxCell id="rel_buku_bab" value="1 : N&#xa;memiliki" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#4f46e5;fontSize=11;fontStyle=1;" edge="1" parent="1" source="ent_buku" target="ent_bab">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- BAB 1--N HALAMAN -->
+    <mxCell id="rel_bab_halaman" value="1 : N&#xa;terdiri dari" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#4f46e5;fontSize=11;fontStyle=1;" edge="1" parent="1" source="ent_bab" target="ent_halaman">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- BAB 1--N MATERI -->
+    <mxCell id="rel_bab_materi" value="1 : N&#xa;memuat" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#4f46e5;fontSize=11;fontStyle=1;" edge="1" parent="1" source="ent_halaman" target="ent_materi">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- BAB 1--N SOAL_LATIHAN -->
+    <mxCell id="rel_bab_latihan" value="1 : N&#xa;memiliki" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#16a34a;fontSize=11;fontStyle=1;" edge="1" parent="1" source="ent_bab" target="ent_latihan">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- BAB 1--N SOAL_UJIAN -->
+    <mxCell id="rel_bab_ujian" value="1 : N&#xa;memiliki" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#16a34a;fontSize=11;fontStyle=1;" edge="1" parent="1" source="ent_bab" target="ent_ujian">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- BAB 1--N PROGRES_BAB -->
+    <mxCell id="rel_bab_progres" value="1 : N&#xa;dipantau" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#d97706;fontSize=11;fontStyle=1;" edge="1" parent="1" source="ent_bab" target="ent_progres">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- PENGGUNA 1--N PROGRES_BAB -->
+    <mxCell id="rel_user_progres" value="1 : N&#xa;mencatat" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#d97706;fontSize=11;fontStyle=1;" edge="1" parent="1" source="ent_pengguna" target="ent_progres">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- PENGGUNA 1--N JAWABAN_SISWA -->
+    <mxCell id="rel_user_jawaban" value="1 : N&#xa;menjawab" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#d97706;fontSize=11;fontStyle=1;" edge="1" parent="1" source="ent_pengguna" target="ent_jawaban">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- BAB 1--N JAWABAN_SISWA -->
+    <mxCell id="rel_bab_jawaban" value="1 : N&#xa;merekam" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#d97706;fontSize=11;fontStyle=1;" edge="1" parent="1" source="ent_ujian" target="ent_jawaban">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- PENGGUNA 1--1 PENGATURAN_MEDIA -->
+    <mxCell id="rel_user_media" value="1 : 1&#xa;mengatur" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#c026d3;fontSize=11;fontStyle=1;" edge="1" parent="1" source="ent_pengguna" target="ent_media">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+  </root>
+</mxGraphModel>

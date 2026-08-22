@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 
 <head>
@@ -233,14 +233,18 @@
          background: rgba(18, 18, 26, 0.7);
       }
    </style>
-  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+   <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </head>
 
 <body x-data="quizApp()" class="bg-pattern relative">
 
    <!-- Animasi Luar Kiri & Kanan (Luar Kertas) -->
-   <div id="animasi-luar-kiri" style="position: fixed; left: 1%; bottom: 2%; width: 360px; height: 400px; z-index: 5; pointer-events: none;"></div>
-   <div id="animasi-luar-kanan" style="position: fixed; right: 1%; bottom: 2%; width: 360px; height: 400px; z-index: 5; pointer-events: none; transform: scaleX(-1);"></div>
+   <div id="animasi-luar-kiri"
+      style="position: fixed; left: 1%; bottom: 2%; width: 360px; height: 400px; z-index: 5; pointer-events: none;">
+   </div>
+   <div id="animasi-luar-kanan"
+      style="position: fixed; right: 1%; bottom: 2%; width: 360px; height: 400px; z-index: 5; pointer-events: none; transform: scaleX(-1);">
+   </div>
 
    <script>
       // =====================================================
@@ -258,7 +262,7 @@
 
       let bab1LeftAnim = null;
       let bab1RightAnim = null;
-      const bab1LeftCont  = document.getElementById('animasi-luar-kiri');
+      const bab1LeftCont = document.getElementById('animasi-luar-kiri');
       const bab1RightCont = document.getElementById('animasi-luar-kanan');
 
       function stripBgLayersBab1(data) {
@@ -278,18 +282,18 @@
             return lottie.loadAnimation({
                container, renderer: 'svg', loop: true, autoplay: true, animationData: cleanData
             });
-         } catch(e) { return existingAnim; }
+         } catch (e) { return existingAnim; }
       }
 
-      window.changeBab1LottieOnFlip = async function(pageIndex) {
+      window.changeBab1LottieOnFlip = async function (pageIndex) {
          const url1 = bab1LottieUrls[pageIndex % bab1LottieUrls.length];
          const url2 = bab1LottieUrls[(pageIndex + 1) % bab1LottieUrls.length];
-         bab1LeftAnim  = await loadBab1LottieAnim(bab1LeftCont,  url1, bab1LeftAnim);
+         bab1LeftAnim = await loadBab1LottieAnim(bab1LeftCont, url1, bab1LeftAnim);
          bab1RightAnim = await loadBab1LottieAnim(bab1RightCont, url2, bab1RightAnim);
       };
 
       document.addEventListener('DOMContentLoaded', async () => {
-         bab1LeftAnim  = await loadBab1LottieAnim(bab1LeftCont,  bab1LottieUrls[0], bab1LeftAnim);
+         bab1LeftAnim = await loadBab1LottieAnim(bab1LeftCont, bab1LottieUrls[0], bab1LeftAnim);
          bab1RightAnim = await loadBab1LottieAnim(bab1RightCont, bab1LottieUrls[1], bab1RightAnim);
       });
    </script>
@@ -303,47 +307,53 @@
 
    <script>
       let bab1SoundMuted = false;
-      const bab1Btn   = document.getElementById('sound-toggle-bab1');
-      const bab1Icon  = document.getElementById('sound-icon-bab1');
+      const bab1Btn = document.getElementById('sound-toggle-bab1');
+      const bab1Icon = document.getElementById('sound-icon-bab1');
       const bab1Label = document.getElementById('sound-label-bab1');
 
       // --- BGM (looping background music) ---
       const bab1Bgm = new Audio('/assets/bgm.mp3');
-      bab1Bgm.loop    = true;
-      bab1Bgm.volume  = 0.3;
+      bab1Bgm.loop = true;
+      bab1Bgm.volume = 0.05;
       bab1Bgm.preload = 'auto';
 
       // --- SFX (page flip sound) ---
       const bab1FlipAudio = new Audio('/assets/flip-sound.mp3');
       bab1FlipAudio.preload = 'auto';
-      bab1FlipAudio.volume  = 0.6;
+      bab1FlipAudio.volume = 1.0;
 
       let bab1BgmStarted = false;
       function tryStartBab1Bgm() {
          if (bab1BgmStarted || bab1SoundMuted) return;
-         bab1Bgm.play().then(() => { bab1BgmStarted = true; }).catch(() => {});
+         bab1Bgm.play().then(() => { bab1BgmStarted = true; }).catch(() => { });
       }
       document.addEventListener('click', tryStartBab1Bgm, { once: true });
 
       function playBab1FlipSound() {
          if (bab1SoundMuted) return;
          tryStartBab1Bgm();
-         bab1FlipAudio.currentTime = 0;
-         bab1FlipAudio.play().catch(() => {});
+         try {
+            const sfx = bab1FlipAudio.cloneNode();
+            sfx.volume = 1.0;
+            sfx.play().catch(() => { });
+         } catch(e) {
+            bab1FlipAudio.currentTime = 0;
+            bab1FlipAudio.play().catch(() => { });
+         }
       }
 
       function toggleSoundBab1() {
          bab1SoundMuted = !bab1SoundMuted;
          if (bab1SoundMuted) {
             bab1Bgm.pause();
-            bab1Icon.textContent  = '🔕';
+            bab1Icon.textContent = '🔕';
             bab1Label.textContent = 'Musik Mati';
             bab1Btn.style.borderColor = 'rgba(239,68,68,0.5)';
             bab1Btn.style.color = '#f87171';
          } else {
-            bab1Bgm.play().catch(() => {});
+            bab1Bgm.play().catch(() => { });
             bab1BgmStarted = true;
-            bab1Icon.textContent  = '🔔';
+            bab1Icon.textContent = '🔔';
             bab1Label.textContent = 'Musik & Suara Aktif';
             bab1Btn.style.borderColor = 'rgba(255,255,255,0.15)';
             bab1Btn.style.color = '#cbd5e1';
@@ -362,8 +372,10 @@
          :class="isFeedbackCorrect ? 'border-teal-400 shadow-teal-500/20' : 'border-red-400 shadow-red-500/20'">
 
          <template x-if="isFeedbackCorrect">
-            <div class="w-44 h-44 mx-auto drop-shadow-xl rounded-full border-4 border-teal-400 bg-gradient-to-br from-teal-50 to-indigo-50 shadow-teal-500/15 flex items-center justify-center overflow-hidden my-3 shadow-lg">
-               <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_sk5h1kfn.json" background="transparent" speed="1" style="width: 150px; height: 150px;" loop autoplay></lottie-player>
+            <div
+               class="w-44 h-44 mx-auto drop-shadow-xl rounded-full border-4 border-teal-400 bg-gradient-to-br from-teal-50 to-indigo-50 shadow-teal-500/15 flex items-center justify-center overflow-hidden my-3 shadow-lg">
+               <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_sk5h1kfn.json" background="transparent"
+                  speed="1" style="width: 150px; height: 150px;" loop autoplay></lottie-player>
             </div>
          </template>
          <template x-if="!isFeedbackCorrect">
@@ -385,7 +397,8 @@
       class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md">
       <div @click.away="showDetailModal = false"
          class="bg-slate-50 border border-slate-200 shadow-sm border border-teal-500/50 rounded-2xl w-[90%] max-w-[500px] max-h-[80vh] flex flex-col shadow-2xl">
-         <div class="p-4 border-b border-gray-700 flex justify-between items-center bg-teal-50/60 border border-teal-200 rounded-t-2xl">
+         <div
+            class="p-4 border-b border-gray-700 flex justify-between items-center bg-teal-50/60 border border-teal-200 rounded-t-2xl">
             <h3 class="font-bold text-teal-700">Detail Soal</h3>
             <button @click="showDetailModal = false"
                class="text-slate-600 hover:text-slate-900 font-bold text-xl">&times;</button>
@@ -446,12 +459,14 @@
             <h2 class="text-xl font-sora font-bold text-slate-800 mb-4">Berpikir Komputasional</h2>
 
             <!-- Cover Image -->
-            <div class="w-44 h-44 mx-auto drop-shadow-xl rounded-full border-4 border-teal-400 bg-gradient-to-br from-teal-50 to-indigo-50 shadow-teal-500/15 flex items-center justify-center overflow-hidden my-3 shadow-lg">
-               <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_sk5h1kfn.json" background="transparent" speed="1" style="width: 150px; height: 150px;" loop autoplay></lottie-player>
+            <div
+               class="w-44 h-44 mx-auto drop-shadow-xl rounded-full border-4 border-teal-400 bg-gradient-to-br from-teal-50 to-indigo-50 shadow-teal-500/15 flex items-center justify-center overflow-hidden my-3 shadow-lg">
+               <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_sk5h1kfn.json" background="transparent"
+                  speed="1" style="width: 150px; height: 150px;" loop autoplay></lottie-player>
             </div>
 
             <!-- Animasi Robot di Cover -->
-            
+
 
             <p class="mt-2 text-[10px] font-semibold text-slate-500 animate-pulse">Geser / Klik Next untuk membuka</p>
          </div>
@@ -460,8 +475,10 @@
       <!-- HALAMAN 2: Kosong / Balik Cover -->
       <div class="page --hard">
          <div class="page-wrapper items-center justify-center">
-            <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_sk5h1kfn.json" background="transparent" speed="1" style="width: 150px; height: 150px; filter: drop-shadow(0 0 15px rgba(167,139,250,0.5));" loop autoplay></lottie-player>
-            
+            <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_sk5h1kfn.json" background="transparent"
+               speed="1" style="width: 150px; height: 150px; filter: drop-shadow(0 0 15px rgba(167,139,250,0.5));" loop
+               autoplay></lottie-player>
+
          </div>
       </div>
 
@@ -484,7 +501,7 @@
                      kehidupan sehari-hari dengan pendekatan berpikir komputasional.</p>
                </div>
             </div>
-            
+
             <div class="page-footer"><span>Bab 1 Berpikir Komputasional</span><span>1</span></div>
          </div>
       </div>
@@ -495,7 +512,8 @@
             <div class="page-content animate-content">
                <h2 class="text-lg font-sora font-bold text-teal-700 mb-2 leading-snug">A. Penerapan Berpikir
                   Komputasional dalam Keseharian</h2>
-               <p class="text-xs mb-2 text-justify text-slate-700">Berpikir komputasional penting karena dapat membantumu
+               <p class="text-xs mb-2 text-justify text-slate-700">Berpikir komputasional penting karena dapat
+                  membantumu
                   menghadapi masalah kompleks dengan cara yang lebih terstruktur. Kamu dapat memecah masalah menjadi
                   bagian kecil, mencari pola, memilah informasi penting, lalu menyusun langkah penyelesaian.</p>
                <p class="text-xs mb-2 text-justify text-slate-700">Masalah kompleks sulit diselesaikan langsung karena
@@ -507,7 +525,8 @@
                      Masalah Sederhana vs Kompleks</div>
                   <table class="w-full text-[9px] text-left">
                      <tr>
-                        <th class="p-1.5 border-b border-r border-gray-700 bg-slate-100 border border-slate-200">Sederhana</th>
+                        <th class="p-1.5 border-b border-r border-gray-700 bg-slate-100 border border-slate-200">
+                           Sederhana</th>
                         <th class="p-1.5 border-b border-gray-700 bg-slate-100 border border-slate-200">Kompleks</th>
                      </tr>
                      <tr>
@@ -526,7 +545,7 @@
                   </table>
                </div>
             </div>
-            
+
             <div class="page-footer"><span>Bab 1 Berpikir Komputasional</span><span>2</span></div>
          </div>
       </div>
@@ -536,7 +555,8 @@
          <div class="page-wrapper">
             <div class="page-content animate-content">
                <h2 class="text-lg font-sora font-bold text-purple-700 mb-2">B. Analisis Masalah</h2>
-               <p class="text-xs mb-2 text-justify text-slate-700">Berpikir kritis merupakan keterampilan abad ke-21. Ini
+               <p class="text-xs mb-2 text-justify text-slate-700">Berpikir kritis merupakan keterampilan abad ke-21.
+                  Ini
                   membuatmu memiliki kemampuan menganalisis informasi secara objektif, mengidentifikasi bias, dan
                   membuat keputusan tepat.</p>
 
@@ -555,7 +575,7 @@
                   </div>
                </div>
             </div>
-            
+
             <div class="page-footer"><span>Bab 1 Berpikir Komputasional</span><span>3</span></div>
          </div>
       </div>
@@ -565,7 +585,8 @@
          <div class="page-wrapper">
             <div class="page-content animate-content">
                <h2 class="text-lg font-sora font-bold text-teal-700 mb-2">C. Simulasi Penyelesaian Masalah</h2>
-               <p class="text-xs mb-2 text-slate-700">Mari kita terapkan pada: <strong>Rute Tercepat ke Sekolah</strong>.
+               <p class="text-xs mb-2 text-slate-700">Mari kita terapkan pada: <strong>Rute Tercepat ke
+                     Sekolah</strong>.
                </p>
 
                <div class="space-y-1.5">
@@ -595,7 +616,8 @@
                         3</div>
                      <div>
                         <h4 class="text-xs font-bold text-slate-900 mb-0.5">Abstraksi</h4>
-                        <p class="text-[9px] text-slate-600">Fokus pada bobot jarak dan waktu tempuh. Abaikan detail yang
+                        <p class="text-[9px] text-slate-600">Fokus pada bobot jarak dan waktu tempuh. Abaikan detail
+                           yang
                            tak relevan seperti warna rumah di pinggir jalan.</p>
                      </div>
                   </div>
@@ -611,7 +633,7 @@
                   </div>
                </div>
             </div>
-            
+
             <div class="page-footer"><span>Bab 1 Berpikir Komputasional</span><span>4</span></div>
          </div>
       </div>
@@ -626,14 +648,16 @@
                   untuk menghasilkan solusi efisien. Ada 4 kategori utama penerapannya:</p>
 
                <div class="space-y-2">
-                  <div class="bg-slate-50 border border-slate-200 shadow-sm p-2 rounded-lg border-l-2 border-purple-500">
+                  <div
+                     class="bg-slate-50 border border-slate-200 shadow-sm p-2 rounded-lg border-l-2 border-purple-500">
                      <h3 class="text-xs font-bold text-slate-900 mb-0.5">1. Perception (Sensory)</h3>
                      <p class="text-[9px] text-slate-600 text-justify">Pengumpulan dan pemrosesan data dari lingkungan.
                         <strong>Pendekatan KA:</strong> Menggunakan API lalu lintas (Google Maps, Waze) untuk
                         mengumpulkan data real-time kecepatan kendaraan dan kemacetan jalan.
                      </p>
                   </div>
-                  <div class="bg-slate-50 border border-slate-200 shadow-sm p-2 rounded-lg border-l-2 border-purple-500">
+                  <div
+                     class="bg-slate-50 border border-slate-200 shadow-sm p-2 rounded-lg border-l-2 border-purple-500">
                      <h3 class="text-xs font-bold text-slate-900 mb-0.5">2. Data Representation</h3>
                      <p class="text-[9px] text-slate-600 text-justify">Pengorganisasian data agar diproses efisien.
                         <strong>Pendekatan KA:</strong> Data lalu lintas direpresentasikan sebagai graf berbobot. Node
@@ -642,7 +666,7 @@
                   </div>
                </div>
             </div>
-            
+
             <div class="page-footer"><span>Bab 1 Berpikir Komputasional</span><span>5</span></div>
          </div>
       </div>
@@ -652,7 +676,8 @@
          <div class="page-wrapper">
             <div class="page-content animate-content">
                <div class="space-y-2 mb-3">
-                  <div class="bg-slate-50 border border-slate-200 shadow-sm p-2 rounded-lg border-l-2 border-purple-500">
+                  <div
+                     class="bg-slate-50 border border-slate-200 shadow-sm p-2 rounded-lg border-l-2 border-purple-500">
                      <h3 class="text-xs font-bold text-slate-900 mb-0.5">3. Reasoning</h3>
                      <p class="text-[9px] text-slate-600 text-justify">Pengambilan keputusan berdasarkan data.
                         <strong>Pendekatan KA:</strong> Menerapkan algoritma Dijkstra atau A* untuk mencari rute
@@ -660,7 +685,8 @@
                         rawan banjir.
                      </p>
                   </div>
-                  <div class="bg-slate-50 border border-slate-200 shadow-sm p-2 rounded-lg border-l-2 border-purple-500">
+                  <div
+                     class="bg-slate-50 border border-slate-200 shadow-sm p-2 rounded-lg border-l-2 border-purple-500">
                      <h3 class="text-xs font-bold text-slate-900 mb-0.5">4. Learning</h3>
                      <p class="text-[9px] text-slate-600 text-justify">Meningkatkan kinerja seiring waktu (Machine
                         Learning). <strong>Pendekatan KA:</strong> Sistem belajar bahwa rute jalan arteri selalu macet
@@ -673,7 +699,7 @@
                   kemacetan (Perception), membuat graf rute (Data Rep), menghitung A* untuk pilih jalan paling cepat
                   (Reasoning), lalu mencatat waktu tibanya untuk memperbaiki prediksi besok (Learning).</p>
             </div>
-            
+
             <div class="page-footer"><span>Bab 1 Berpikir Komputasional</span><span>6</span></div>
          </div>
       </div>
@@ -699,13 +725,17 @@
                </div>
 
                <div class="flex justify-between w-full max-w-[260px] gap-1.5 text-[8px] font-bold">
-                  <div class="flex-1 bg-slate-100 border border-slate-200 py-2 px-0.5 rounded border border-gray-600 shadow text-center">
+                  <div
+                     class="flex-1 bg-slate-100 border border-slate-200 py-2 px-0.5 rounded border border-gray-600 shadow text-center">
                      Dekomposisi</div>
-                  <div class="flex-1 bg-slate-100 border border-slate-200 py-2 px-0.5 rounded border border-gray-600 shadow text-center">
+                  <div
+                     class="flex-1 bg-slate-100 border border-slate-200 py-2 px-0.5 rounded border border-gray-600 shadow text-center">
                      Pengenalan<br>Pola</div>
-                  <div class="flex-1 bg-slate-100 border border-slate-200 py-2 px-0.5 rounded border border-gray-600 shadow text-center">
+                  <div
+                     class="flex-1 bg-slate-100 border border-slate-200 py-2 px-0.5 rounded border border-gray-600 shadow text-center">
                      Abstraksi</div>
-                  <div class="flex-1 bg-slate-100 border border-slate-200 py-2 px-0.5 rounded border border-gray-600 shadow text-center">
+                  <div
+                     class="flex-1 bg-slate-100 border border-slate-200 py-2 px-0.5 rounded border border-gray-600 shadow text-center">
                      Algoritma</div>
                </div>
 
@@ -718,7 +748,7 @@
                      Learning</span>
                </div>
             </div>
-            
+
             <div class="page-footer"><span>Bab 1 Berpikir Komputasional</span><span>7</span></div>
          </div>
       </div>
@@ -729,7 +759,8 @@
             <div class="page-content animate-content relative">
                <div class="flex justify-between items-end mb-2 border-b border-gray-700 pb-1.5">
                   <h2 class="text-lg font-sora font-bold text-purple-700">Latihan Dasar (1/2)</h2>
-                  <div class="text-[9px] font-bold px-2 py-0.5 bg-purple-50/80 border border-purple-200 rounded border border-purple-500/50">
+                  <div
+                     class="text-[9px] font-bold px-2 py-0.5 bg-purple-50/80 border border-purple-200 rounded border border-purple-500/50">
                      Skor: <span x-text="latihanScore" class="text-purple-700"></span></div>
                </div>
 
@@ -754,7 +785,7 @@
                   </template>
                </div>
             </div>
-            
+
             <div class="page-footer"><span>Bab 1 Berpikir Komputasional</span><span>8</span></div>
          </div>
       </div>
@@ -765,7 +796,8 @@
             <div class="page-content animate-content relative">
                <div class="flex justify-between items-end mb-2 border-b border-gray-700 pb-1.5">
                   <h2 class="text-lg font-sora font-bold text-purple-700">Latihan Dasar (2/2)</h2>
-                  <div class="text-[9px] font-bold px-2 py-0.5 bg-purple-50/80 border border-purple-200 rounded border border-purple-500/50">
+                  <div
+                     class="text-[9px] font-bold px-2 py-0.5 bg-purple-50/80 border border-purple-200 rounded border border-purple-500/50">
                      Skor: <span x-text="latihanScore" class="text-purple-700"></span></div>
                </div>
 
@@ -801,7 +833,7 @@
                   <p class="text-[9px] mt-3 text-slate-600">Geser ke halaman berikutnya untuk Ujian</p>
                </div>
             </div>
-            
+
             <div class="page-footer"><span>Bab 1 Berpikir Komputasional</span><span>9</span></div>
          </div>
       </div>
@@ -827,7 +859,7 @@
                      Buka halaman untuk mulai</p>
                </div>
             </div>
-            
+
             <div class="page-footer mt-auto w-full"><span>Bab 1 Berpikir Komputasional</span><span>9</span></div>
          </div>
       </div>
@@ -838,7 +870,9 @@
             <div class="page-content animate-content relative">
                <div class="flex justify-between items-end mb-2 border-b border-gray-700 pb-1.5">
                   <h2 class="text-lg font-sora font-bold text-teal-700">Ujian Analitis (1/2)</h2>
-                  <div class="text-[9px] font-bold px-2 py-0.5 bg-teal-50/80 border border-teal-200 rounded border border-teal-500/50">Skor:
+                  <div
+                     class="text-[9px] font-bold px-2 py-0.5 bg-teal-50/80 border border-teal-200 rounded border border-teal-500/50">
+                     Skor:
                      <span x-text="ujianScore" class="text-teal-700"></span>
                   </div>
                </div>
@@ -865,7 +899,7 @@
                   </template>
                </div>
             </div>
-            
+
             <div class="page-footer"><span>Bab 1 Berpikir Komputasional</span><span>10</span></div>
          </div>
       </div>
@@ -876,7 +910,9 @@
             <div class="page-content animate-content relative">
                <div class="flex justify-between items-end mb-2 border-b border-gray-700 pb-1.5">
                   <h2 class="text-lg font-sora font-bold text-teal-700">Ujian Analitis (2/2)</h2>
-                  <div class="text-[9px] font-bold px-2 py-0.5 bg-teal-50/80 border border-teal-200 rounded border border-teal-500/50">Skor:
+                  <div
+                     class="text-[9px] font-bold px-2 py-0.5 bg-teal-50/80 border border-teal-200 rounded border border-teal-500/50">
+                     Skor:
                      <span x-text="ujianScore" class="text-teal-700"></span>
                   </div>
                </div>
@@ -914,7 +950,7 @@
                   <p class="text-[9px] text-slate-600 animate-pulse">Geser ke halaman penutup</p>
                </div>
             </div>
-            
+
             <div class="page-footer"><span>Bab 1 Berpikir Komputasional</span><span>11</span></div>
          </div>
       </div>
@@ -926,39 +962,11 @@
                <circle cx="50" cy="50" r="40" fill="none" stroke="#2dd4bf" stroke-width="2" />
                <path d="M 30 50 L 70 50 M 50 30 L 50 70" stroke="#a78bfa" stroke-width="2" />
             </svg>
-            
+
          </div>
       </div>
 
-      <!-- HALAMAN 16: Penutup (Back Cover Hard) -->
-      <div class="page --hard">
-         <div class="page-wrapper items-center justify-center text-center relative">
-            <div
-               class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0icmdiYSgxNjcsIDEzOSLCAyNTAsIDAuMikiLz48L3N2Zz4=')] opacity-50">
-            </div>
 
-            <h1 class="text-2xl font-sora font-bold text-slate-700 mb-3 relative z-10">Tamat</h1>
-
-            <svg viewBox="0 0 100 100"
-               class="w-28 h-28 mx-auto mb-4 opacity-70 relative z-10 drop-shadow-[0_0_15px_rgba(45,212,191,0.4)]">
-               <path d="M 20 20 L 80 20 L 80 80 L 20 80 Z" fill="none" stroke="#a78bfa" stroke-width="3" />
-               <path d="M 40 40 L 60 40 M 40 50 L 60 50 M 40 60 L 50 60" stroke="#a78bfa" stroke-width="3"
-                  stroke-linecap="round" />
-               <circle cx="70" cy="70" r="15" fill="#2dd4bf" />
-               <path d="M 65 70 L 68 75 L 75 65" stroke="#12121a" stroke-width="3" fill="none" stroke-linecap="round" />
-            </svg>
-
-            <p class="text-xs text-slate-600 mb-4 relative z-10">Terima kasih telah membaca E-Modul ini.<br>Semoga ilmu
-               yang didapat bermanfaat!</p>
-
-            <div
-               class="text-[9px] font-bold text-teal-700 bg-teal-50/60 border border-teal-200 px-4 py-1.5 rounded-full border border-teal-500/30 relative z-10">
-               Penerbit Kemendikbudristek 2025
-            </div>
-
-            
-         </div>
-      </div>
 
    </div> <!-- End Flipbook -->
 
@@ -1021,12 +1029,12 @@
 
             Object.keys(window.animasiInstances).forEach((id) => {
                if (id.includes('animasi-luar')) return; // Jangan ubah robot luar
-               
+
                let halamanTarget = 1;
                if (id !== 'animasi-cover') {
                   halamanTarget = parseInt(id.replace('animasi-halaman', '')) || 1;
                }
-               
+
                if (window.animasiInstances[id] && halaman === halamanTarget) {
                   window.animasiInstances[id].setHalaman(halaman);
                }
@@ -1240,8 +1248,10 @@
          }))
       })
    </script>
-   
-   
+
+
+
+  <script src="/assets/skor-modal.js"></script>
 </body>
 
 </html>

@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "@lottiefiles/dotlottie-web": "^0.78.0",
+    "dotenv": "^17.4.2",
     "express": "^4.18.2",
+    "mysql2": "^3.23.4",
     "pdf-parse": "^2.4.5"
   },
   "devDependencies": {

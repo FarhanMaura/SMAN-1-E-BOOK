@@ -138,8 +138,8 @@ document.addEventListener('DOMContentLoaded', async () => {
    let combinedHtml = "";
 
    for (let i = 1; i <= totalChapters; i++) {
-      loaderText.innerText = `Memuat Bab ${i}...`;
-      loaderBar.style.width = `${(i / totalChapters) * 100}%`;
+      if (loaderText) loaderText.innerText = `Memuat Bab ${i}...`;
+      if (loaderBar) loaderBar.style.width = `${(i / totalChapters) * 100}%`;
       
       try {
          const res = await fetch(`/bab-${i}/index.html`);

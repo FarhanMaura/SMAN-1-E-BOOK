@@ -16,15 +16,7 @@
 </head>
 <body x-data="globalApp()" class="bg-pattern relative text-slate-800">
 
-  <!-- Loading Screen -->
-  <div id="loader" class="loading-overlay fixed inset-0 flex flex-col items-center justify-center transition-opacity duration-500 bg-slate-50/95 backdrop-blur-xl">
-     <div class="text-6xl animate-bounce mb-6 drop-shadow-[0_10px_20px_rgba(13,148,136,0.2)]">📚</div>
-     <h2 class="text-2xl font-sora font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-indigo-600 mb-2">Menyiapkan Buku...</h2>
-     <p class="text-sm text-slate-500 font-medium" id="loader-text">Memuat Bab 1...</p>
-     <div class="w-64 h-2.5 bg-slate-200 rounded-full mt-6 overflow-hidden p-0.5 border border-slate-300/50">
-        <div id="loader-bar" class="h-full bg-gradient-to-r from-teal-500 to-indigo-500 rounded-full w-0 transition-all duration-300"></div>
-     </div>
-  </div>
+
   
   <!-- Global Feedback Modal -->
   <div x-show="showFeedback" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-md pointer-events-none">
@@ -188,16 +180,13 @@
     // --- Background Music ---
     const bgmAudio = new Audio('/assets/bgm.mp3');
     bgmAudio.loop   = true;
-    bgmAudio.volume = 0.25;
+    bgmAudio.volume = 0.05;
     bgmAudio.preload = 'auto';
 
-    // --- Audio Samples for Flip ---
-    const flipSamples = [
-      new Audio('/assets/flip-sound.mp3'),
-      new Audio('/assets/flip-sound2.mp3')
-    ];
-    flipSamples.forEach(audio => { audio.volume = 0.6; audio.preload = 'auto'; });
-    let sampleIdx = 0;
+    // --- Audio Sample for Paper Flip ---
+    const flipAudioSample = new Audio('/assets/flip-sound.mp3');
+    flipAudioSample.volume = 1.0;
+    flipAudioSample.preload = 'auto';
 
     // --- Ultra-Realistic Procedural Paper Flip Synthesizer ---
     let audioCtx = null;
@@ -217,41 +206,49 @@
     function playPaperRustleSound() {
       if (soundMuted) return;
       initAudioContext();
+
+      // Play real paper flip MP3
+      try {
+        const sfx = flipAudioSample.cloneNode();
+        sfx.volume = 1.0;
+        sfx.play().catch(() => {});
+      } catch(e) {}
+
       if (!audioCtx) return;
 
       try {
         const now = audioCtx.currentTime;
-        const duration = 0.18; // 180ms paper flip duration
+        const duration = 0.20; // 200ms crisp paper srek duration
         const bufferSize = audioCtx.sampleRate * duration;
         const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
         const data = buffer.getChannelData(0);
 
-        // Generate textured white noise for paper surface friction
+        // Generate paper fiber friction noise for realistic "SREK"
         for (let i = 0; i < bufferSize; i++) {
           const t = i / bufferSize;
-          // Smooth bell envelope with crisp friction curve
-          const env = Math.sin(t * Math.PI) * Math.pow(1 - t, 0.4);
-          data[i] = (Math.random() * 2 - 1) * env;
+          const noiseVal = Math.random() * 2 - 1;
+          const env = Math.pow(Math.sin(t * Math.PI), 0.6) * (1 - t * 0.7);
+          data[i] = noiseVal * env;
         }
 
         const noise = audioCtx.createBufferSource();
         noise.buffer = buffer;
 
-        // Bandpass filter for authentic paper swooshing resonance (1500Hz -> 500Hz sweep)
+        // Bandpass filter for authentic paper swooshing resonance (2500Hz -> 650Hz sweep)
         const filter = audioCtx.createBiquadFilter();
         filter.type = 'bandpass';
-        filter.frequency.setValueAtTime(1500, now);
-        filter.frequency.exponentialRampToValueAtTime(500, now + duration);
-        filter.Q.setValueAtTime(1.6, now);
+        filter.frequency.setValueAtTime(2500, now);
+        filter.frequency.exponentialRampToValueAtTime(650, now + duration);
+        filter.Q.setValueAtTime(1.4, now);
 
-        // Highpass filter to strip unwanted low hums
+        // Highpass filter to eliminate boom
         const hpFilter = audioCtx.createBiquadFilter();
         hpFilter.type = 'highpass';
-        hpFilter.frequency.setValueAtTime(350, now);
+        hpFilter.frequency.setValueAtTime(450, now);
 
         const gain = audioCtx.createGain();
         gain.gain.setValueAtTime(0.01, now);
-        gain.gain.linearRampToValueAtTime(0.35, now + 0.02);
+        gain.gain.linearRampToValueAtTime(2.0, now + 0.02);
         gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
 
         noise.connect(filter);
@@ -296,7 +293,7 @@
     window.playFlipSound = function() {
       if (soundMuted) return;
       tryStartBgm();
-      // Organic paper turn sound only (no bell chime / tone overlay)
+      // Realistic paper flip "srek" sound
       playPaperRustleSound();
     };
 
