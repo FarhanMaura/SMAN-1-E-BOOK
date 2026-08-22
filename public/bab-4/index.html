@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -890,9 +890,7 @@
       pageFlip.loadFromHTML(document.querySelectorAll('.page'));
       setTimeout(() => { fb.classList.add('initialized'); }, 100);
       document.querySelectorAll('.page:not(.--hard) .page-wrapper').forEach(p => {
-         p.insertAdjacentHTML('beforeend', '<div class="mascot flex items-center justify-center overflow-hidden bg-slate-100 border-2 border-slate-300 shadow-md">
-               <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_q5pk6p1k.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player>
-            </div>');
+         p.insertAdjacentHTML('beforeend', '<div class="mascot flex items-center justify-center overflow-hidden bg-slate-100 border-2 border-slate-300 shadow-md"><lottie-player src="https://assets7.lottiefiles.com/packages/lf20_q5pk6p1k.json" background="transparent" speed="1" style="width: 50px; height: 50px;" loop autoplay></lottie-player></div>');
       });
 
       document.getElementById('btn-prev').addEventListener('click', () => pageFlip.flipPrev());
