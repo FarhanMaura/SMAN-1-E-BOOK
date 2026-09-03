@@ -36,8 +36,8 @@
     
     h1, h2, h3, .font-sora { font-family: 'Sora', sans-serif; }
     
-    .flipbook { width: 900px; height: 600px; box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08); display: none; }
-    .flipbook.initialized { display: block; animation: bookFadeIn 1s ease-out forwards; }
+    .flipbook, .digitalbook { width: 900px; height: 600px; box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08); display: none; }
+    .flipbook.initialized, .digitalbook.initialized { display: block; animation: bookFadeIn 1s ease-out forwards; }
     
     .page { background-color: var(--card-bg); border: 1px solid #e2e8f0; border-radius: 18px; overflow: hidden; position: relative; box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.02); }
     .page-wrapper { width: 100%; height: 100%; padding: 2.5rem; display: flex; flex-direction: column; position: relative; }
@@ -204,8 +204,8 @@
      </div>
   </div>
   
-  <!-- FLIPBOOK CONTAINER -->
-  <div id="flipbook" class="flipbook">
+  <!-- DIGITAL BOOK CONTAINER -->
+  <div id="digitalbook" class="digitalbook flipbook">
     
     <!-- HALAMAN 1: COVER -->
     <div class="page --hard">
@@ -1343,11 +1343,11 @@
 
 
 
-  </div> <!-- END FLIPBOOK -->
+  </div> <!-- END DIGITAL BOOK -->
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const fb = document.getElementById('flipbook');
+      const fb = document.getElementById('digitalbook') || document.getElementById('flipbook');
       const pageFlip = new St.PageFlip(fb, {
         width: 450, height: 600, size: "fixed",
         minWidth: 315, maxWidth: 1000, minHeight: 420, maxHeight: 1350,

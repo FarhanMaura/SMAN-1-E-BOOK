@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 
 <head>
@@ -39,14 +39,16 @@
          font-family: 'Sora', sans-serif;
       }
 
-      .flipbook {
+      .flipbook,
+      .digitalbook {
          width: 900px;
          height: 650px;
          box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08);
          display: none;
       }
 
-      .flipbook.initialized {
+      .flipbook.initialized,
+      .digitalbook.initialized {
          display: block;
          animation: bookFadeIn 1s ease-out forwards;
       }
@@ -444,8 +446,8 @@
       </div>
    </div>
 
-   <!-- Container Flipbook -->
-   <div id="flipbook" class="flipbook">
+   <!-- Container Digital Book -->
+   <div id="digitalbook" class="digitalbook flipbook">
 
       <!-- HALAMAN 1: Cover (Hard) -->
       <div class="page --hard">
@@ -968,7 +970,7 @@
 
 
 
-   </div> <!-- End Flipbook -->
+   </div> <!-- End Digital Book -->
 
    <!-- ============================================================ -->
    <!-- ANIMASI ROBOT - JS (File terpisah)                           -->
@@ -976,14 +978,14 @@
    <script src="/bab-1/animasi-bab1.js?v=1782784106744"></script>
 
    <!-- ============================================================ -->
-   <!-- SCRIPT INISIALISASI FLIPBOOK + SINKRONISASI                   -->
+   <!-- SCRIPT INISIALISASI DIGITAL BOOK + SINKRONISASI              -->
    <!-- ============================================================ -->
    <script>
       document.addEventListener('DOMContentLoaded', function () {
          // ============================================================
-         // 1. INISIALISASI FLIPBOOK
+         // 1. INISIALISASI DIGITAL BOOK
          // ============================================================
-         const fb = document.getElementById('flipbook');
+         const fb = document.getElementById('digitalbook') || document.getElementById('flipbook');
          const pageFlip = new St.PageFlip(fb, {
             width: 450,
             height: 650,

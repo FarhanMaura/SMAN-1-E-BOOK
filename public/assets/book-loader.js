@@ -131,7 +131,7 @@ document.addEventListener('alpine:init', () => {
 
 // Load Chapters Dynamically
 document.addEventListener('DOMContentLoaded', async () => {
-   const flipbookEl = document.getElementById('flipbook');
+   const flipbookEl = document.getElementById('digitalbook') || document.getElementById('flipbook');
    const loaderText = document.getElementById('loader-text');
    const loaderBar = document.getElementById('loader-bar');
    const totalChapters = 6;
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', async () => {
          const html = await res.text();
          
          // Extract Pages
-         const pagesMatch = html.match(/<div id="flipbook"[^>]*>([\s\S]*?)<\/div>\s*<!--\s*End Flipbook\s*-->/i);
+         const pagesMatch = html.match(/<div id="(?:digitalbook|flipbook)"[^>]*>([\s\S]*?)<\/div>\s*<!--\s*End (?:Digital Book|Flipbook)\s*-->/i);
          if (pagesMatch) {
             let pagesHtml = pagesMatch[1];
             
@@ -240,9 +240,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
    // Wait for Alpine to render the templates before initializing StPageFlip
    setTimeout(() => {
-      // Function to dynamically scale the flipbook to perfectly fit any screen
+      // Function to dynamically scale the digital book to perfectly fit any screen
       function resizeFlipbook() {
-         const wrapper = document.querySelector('.flipbook-wrapper');
+         const wrapper = document.querySelector('.digitalbook-wrapper') || document.querySelector('.flipbook-wrapper');
          if (!wrapper) return;
          
          const isMobile = window.innerWidth < 768;
