@@ -568,6 +568,7 @@
 
       try {
         const res  = await fetch('/api/bab');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
 
         if (!json.success || !json.data.length) throw new Error('Tidak ada data bab.');
@@ -603,9 +604,8 @@
         });
 
       } catch (err) {
-        console.warn('Gagal load dari DB, fallback ke konten statis:', err.message);
-        // Fallback: tampilkan pesan error ringan
-        grid.innerHTML = `<p style="text-align:center;color:#64748b;grid-column:1/-1;padding:2rem;">⚠️ Gagal memuat data bab. Pastikan server & database berjalan.</p>`;
+        console.warn('Menggunakan data bab statis (mode offline/serverless):', err.message);
+        // Fallback: biarkan kartu bab HTML statis tetap tampil normal
       }
     });
   </script>

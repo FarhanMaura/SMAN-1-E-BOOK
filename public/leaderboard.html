@@ -269,6 +269,7 @@
       document.getElementById('table-body').innerHTML = '<div class="loading">⏳ Memuat data...</div>';
       try {
         const res  = await fetch('/api/leaderboard');
+        if (!res.ok) throw new Error(`Server backend belum terhubung`);
         const json = await res.json();
         if (!json.success) throw new Error(json.error);
         allData = json.data;
@@ -276,7 +277,7 @@
         renderTable(allData, curFilter);
       } catch (err) {
         document.getElementById('table-body').innerHTML =
-          `<div class="empty-state"><div class="icon">⚠️</div><p>Gagal memuat data: ${err.message}</p></div>`;
+          `<div class="empty-state"><div class="icon">📭</div><p>Leaderboard memerlukan server database aktif.</p></div>`;
       }
     }
 
