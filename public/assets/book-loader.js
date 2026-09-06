@@ -11,6 +11,167 @@ document.addEventListener('alpine:init', () => {
       showFeedback: false,
       isFeedbackCorrect: false,
       
+      // Video Modal state for /book mode
+      showVideoModal: false,
+      videoModalUrl: '',
+      videoModalYtUrl: '',
+      videoModalTitle: '',
+      videoModalSubtitle: '',
+      videoModalNote: '',
+      currentViewingBab: 1,
+
+      openVideoModal(bab) {
+         const targetBab = bab || this.currentViewingBab || 1;
+         const videoMap = {
+            1: {
+               url: "https://www.youtube.com/embed/IkOMyk02uik?autoplay=1&rel=0",
+               ytUrl: "https://www.youtube.com/watch?v=IkOMyk02uik",
+               title: "Video Penjelasan: Informatika & Keterampilan Generik",
+               subtitle: "Informatika Fase E Kelas X • Kurikulum Merdeka",
+               note: "Pahami peran informatika, profil pelajar Pancasila, dan keterampilan generik."
+            },
+            2: {
+               url: "https://www.youtube.com/embed/QyY5cfz2390?autoplay=1&rel=0",
+               ytUrl: "https://www.youtube.com/watch?v=QyY5cfz2390",
+               title: "Video Penjelasan: Algoritma & Pemrograman Lanjut",
+               subtitle: "Informatika Fase E Kelas X • Kurikulum Merdeka",
+               note: "Pahami konsep algoritma, pseudocode, flowchart, dan logika pemrograman."
+            },
+            3: {
+               url: "https://www.youtube.com/embed/EX_Ib7wD2e4?autoplay=1&rel=0",
+               ytUrl: "https://www.youtube.com/watch?v=EX_Ib7wD2e4",
+               title: "Video Penjelasan: Literasi Digital & Etika Berinternet",
+               subtitle: "Informatika Fase E Kelas X • Kurikulum Merdeka",
+               note: "Pahami rekam jejak digital, cyberbullying, privasi data, dan netiket."
+            },
+            4: {
+               url: "https://www.youtube.com/embed/cRG4qQe_OVA?autoplay=1&rel=0",
+               ytUrl: "https://www.youtube.com/watch?v=cRG4qQe_OVA",
+               title: "Video Penjelasan: Prompt Engineering & Generative AI",
+               subtitle: "Informatika Fase E Kelas X • Kurikulum Merdeka",
+               note: "Pelajari cara menyusun instruksi / prompt efektif untuk AI secara optimal."
+            },
+            5: {
+               url: "https://www.youtube.com/embed/oIkEZLdCGuQ?autoplay=1&rel=0",
+               ytUrl: "https://www.youtube.com/watch?v=oIkEZLdCGuQ",
+               title: "Video Penjelasan: Kreativitas Konten Digital",
+               subtitle: "Informatika Fase E Kelas X • Kurikulum Merdeka",
+               note: "Pelajari produksi konten visual, infografis, dan etika hak cipta digital."
+            },
+            6: {
+               url: "https://www.youtube.com/embed/0eB4nELrrrU?autoplay=1&rel=0",
+               ytUrl: "https://www.youtube.com/watch?v=0eB4nELrrrU",
+               title: "Video Penjelasan: Pengelolaan Informasi Digital",
+               subtitle: "Informatika Fase E Kelas X • Kurikulum Merdeka",
+               note: "Pelajari konsep basis data, tabel, record & field, serta relasi data."
+            }
+         };
+         const info = videoMap[targetBab] || videoMap[1];
+         this.videoModalUrl = info.url;
+         this.videoModalYtUrl = info.ytUrl;
+         this.videoModalTitle = info.title;
+         this.videoModalSubtitle = info.subtitle;
+         this.videoModalNote = info.note;
+         this.showVideoModal = true;
+      },
+
+      closeVideoModal() {
+         this.showVideoModal = false;
+         this.videoModalUrl = '';
+      },
+
+      toggleCinemaFullscreen() {
+         const container = document.getElementById('cinema-modal-card');
+         if (!document.fullscreenElement) {
+            if (container && container.requestFullscreen) {
+               container.requestFullscreen();
+            } else if (document.documentElement.requestFullscreen) {
+               document.documentElement.requestFullscreen();
+            }
+         } else {
+            if (document.exitFullscreen) {
+               document.exitFullscreen();
+            }
+         }
+      },
+
+      // Result Modal for Completed Quiz / Exercise
+      showScoreModal: false,
+      scoreModalData: {
+         bab: 1,
+         babTitle: '',
+         tipe: 'Latihan',
+         score: 0,
+         maxScore: 100,
+         benar: 0,
+         salah: 0,
+         comment: '',
+         badgeClass: '',
+         icon: '🏆'
+      },
+
+      openScoreModal(bab, tipe) {
+         const s = this.chapters[bab];
+         const isLatihan = tipe === 'latihan';
+         const score = isLatihan ? s.latihanScore : s.ujianScore;
+         const questions = isLatihan ? s.latihan : s.ujian;
+         const total = questions && questions.length ? questions.length : 10;
+         const maxScore = total * 10;
+         const benar = Math.round(score / 10);
+         const salah = Math.max(0, total - benar);
+
+         let comment = "";
+         let icon = "🏆";
+         let badgeClass = "bg-emerald-50 text-emerald-800 border-emerald-300";
+
+         if (score >= 80) {
+            comment = "🎉 Selamat Anda berhasil! Pemahaman materi Anda sangat memuaskan.";
+            icon = "🎉";
+            badgeClass = "bg-emerald-50 text-emerald-800 border-emerald-300";
+         } else if (score >= 60) {
+            comment = "👍 Kerja bagus! Anda sudah memahami sebagian besar materi, tingkatkan lagi ya.";
+            icon = "👍";
+            badgeClass = "bg-amber-50 text-amber-800 border-amber-300";
+         } else {
+            comment = "💪 Maaf Anda belum sempurna, belajar lagi ya! Jangan berkecil hati, ayo pelajari materinya lagi.";
+            icon = "💪";
+            badgeClass = "bg-rose-50 text-rose-800 border-rose-300";
+         }
+
+         const babTitles = {
+            1: "Informatika & Keterampilan Generik",
+            2: "Algoritma & Pemrograman",
+            3: "Literasi & Etika AI",
+            4: "Prompt Engineering & AI",
+            5: "Kreativitas Konten Digital",
+            6: "Pengelolaan Informasi Digital"
+         };
+
+         this.scoreModalData = {
+            bab,
+            babTitle: babTitles[bab] || `Bab ${bab}`,
+            tipe: isLatihan ? 'Latihan Formatif' : 'Ujian Kompetensi',
+            score,
+            maxScore,
+            benar,
+            salah,
+            comment,
+            badgeClass,
+            icon
+         };
+         this.showScoreModal = true;
+      },
+
+      closeScoreModal() {
+         this.showScoreModal = false;
+      },
+
+      getScoreComment(score) {
+         if (score >= 80) return "🎉 Selamat Anda berhasil! Sangat memuaskan.";
+         if (score >= 60) return "👍 Kerja bagus! Tingkatkan lagi ya.";
+         return "💪 Maaf Anda belum sempurna, belajar lagi ya!";
+      },
+
       // We will populate this from the loader
       chapters: {
          1: { latihan: [], ujian: [], latihanScore: 0, ujianScore: 0, latihanSelesai: false, ujianSelesai: false },
@@ -96,6 +257,7 @@ document.addEventListener('alpine:init', () => {
             setTimeout(() => { 
                this.chapters[bab].latihanSelesai = true; 
                confetti({particleCount: 200, spread: 100}); 
+               this.openScoreModal(bab, 'latihan');
             }, 2200);
          }
       },
@@ -105,11 +267,13 @@ document.addEventListener('alpine:init', () => {
             setTimeout(() => { 
                this.chapters[bab].ujianSelesai = true; 
                confetti({particleCount: 300, spread: 120, origin: {y: 0.4}}); 
+               this.openScoreModal(bab, 'ujian');
             }, 2200);
          }
       },
       
       goToChapter(bab) {
+         this.currentViewingBab = bab;
          if (window.pageFlip) {
             // Find the first page of the chapter
             const targetPage = document.querySelector(`.page[data-bab="${bab}"]`);
@@ -180,6 +344,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
             pagesHtml = pagesHtml.replace(/openDetail\('latihan',\s*(.*?)\)/g, `openDetail(${i}, 'latihan', $1)`);
             pagesHtml = pagesHtml.replace(/openDetail\('ujian',\s*(.*?)\)/g, `openDetail(${i}, 'ujian', $1)`);
+            
+            // Replace Video Modal triggers with Chapter-Specific function call for /book mode
+            pagesHtml = pagesHtml.replace(/@click="showVideoModal\s*=\s*true"/g, `@click="openVideoModal(${i})"`);
+            pagesHtml = pagesHtml.replace(/x-on:click="showVideoModal\s*=\s*true"/g, `@click="openVideoModal(${i})"`);
             
             combinedHtml += pagesHtml;
          }
@@ -324,6 +492,22 @@ document.addEventListener('DOMContentLoaded', async () => {
          const pageIndex = (e.data !== undefined) ? e.data : window.pageFlip.getCurrentPageIndex();
          if (typeof window.changeLottieOnFlip === 'function') {
             window.changeLottieOnFlip(pageIndex);
+         }
+
+         // Update current active chapter
+         const allPages = document.querySelectorAll('.page');
+         if (allPages && allPages[pageIndex]) {
+            const babAttr = allPages[pageIndex].getAttribute('data-bab');
+            if (babAttr) {
+               const babNum = parseInt(babAttr);
+               const alpineRoot = document.querySelector('[x-data="globalApp()"]');
+               if (alpineRoot && window.Alpine) {
+                  try {
+                     const app = Alpine.$data(alpineRoot);
+                     if (app) app.currentViewingBab = babNum;
+                  } catch(err) {}
+               }
+            }
          }
       });
 

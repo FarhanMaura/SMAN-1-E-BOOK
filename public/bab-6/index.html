@@ -13,6 +13,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
+    [x-cloak] { display: none !important; }
     :root {
       --bg-dark: #f1f5f9;
       --card-bg: #ffffff;
@@ -192,12 +193,60 @@
      </div>
   </div>
 
+  <!-- Video Pembelajaran Modal (Cinema Mode) -->
+  <div x-show="showVideoModal" x-cloak x-transition.opacity
+     class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+     <div @click.away="showVideoModal = false"
+        class="bg-slate-900 border border-slate-700 shadow-2xl rounded-2xl w-full max-w-3xl overflow-hidden flex flex-col">
+        <div class="p-4 border-b border-slate-800 flex justify-between items-center bg-slate-950">
+           <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-full bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 text-sm">
+                 ▶
+              </div>
+              <div>
+                 <h3 class="font-bold text-slate-100 text-sm md:text-base leading-tight">Video Penjelasan: Pengelolaan Informasi Digital</h3>
+                 <p class="text-[11px] text-slate-400">Informatika / KKA Fase E Kelas X • Kurikulum Merdeka</p>
+              </div>
+           </div>
+           <button @click="showVideoModal = false"
+              class="text-slate-400 hover:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-800 transition">&times;</button>
+        </div>
+        <div class="p-4 bg-slate-950/90">
+           <div class="w-full aspect-video rounded-xl overflow-hidden shadow-2xl bg-black border border-slate-800">
+              <template x-if="showVideoModal">
+                 <iframe class="w-full h-full"
+                    src="https://www.youtube.com/embed/0eB4nELrrrU?autoplay=1&rel=0"
+                    title="Video Penjelasan Bab 6" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                    allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true">
+                 </iframe>
+              </template>
+           </div>
+           <div class="mt-3 flex items-center justify-between text-xs text-slate-400">
+              <span class="flex items-center gap-1.5 text-[11px] text-cyan-400 font-medium">
+                 <span>💡</span> Pelajari konsep basis data, tabel, record &amp; field, serta relasi data.
+              </span>
+              <a href="https://www.youtube.com/watch?v=0eB4nELrrrU" target="_blank" class="text-amber-400 hover:text-amber-300 font-semibold flex items-center gap-1 hover:underline">
+                 Buka di YouTube ↗
+              </a>
+           </div>
+        </div>
+     </div>
+  </div>
+
   <!-- NAVIGATION -->
   <div class="w-full max-w-[900px] flex justify-between items-center mb-6 px-4 z-10">
-     <a href="/" class="text-amber-400 hover:text-amber-300 transition font-semibold flex items-center gap-2 bg-amber-900/20 px-4 py-2 rounded-full border border-amber-500/30 shadow-lg">
-       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-       Beranda
-     </a>
+     <div class="flex items-center gap-2">
+        <a href="/" class="text-amber-700 hover:text-amber-800 transition font-semibold flex items-center gap-2 bg-amber-50 border border-amber-200 px-4 py-2 rounded-full text-sm shadow-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+          Beranda
+        </a>
+        <button @click="showVideoModal = true"
+           class="text-cyan-700 hover:text-cyan-800 bg-cyan-50 hover:bg-cyan-100 border border-cyan-200 px-3.5 py-2 rounded-full text-xs sm:text-sm font-bold transition flex items-center gap-1.5 shadow-sm">
+           <span class="text-cyan-600">🎬</span>
+           <span>Video Materi</span>
+        </button>
+     </div>
      <div class="flex gap-4">
        <button id="btn-prev" class="px-6 py-2.5 rounded-full bg-slate-100 border border-slate-200 shadow-sm border border-gray-600 hover:border-amber-400 hover:text-amber-400 text-slate-900 text-sm font-bold transition shadow-xl hover:shadow-amber-500/10">← Prev</button>
        <button id="btn-next" class="px-6 py-2.5 rounded-full bg-slate-100 border border-slate-200 shadow-sm border border-gray-600 hover:border-cyan-400 hover:text-cyan-400 text-slate-900 text-sm font-bold transition shadow-xl hover:shadow-cyan-500/10">Next →</button>
@@ -219,11 +268,74 @@
       </div>
     </div>
     
-    <!-- HALAMAN 2: KOSONG / MASCOT -->
+    <!-- HALAMAN 2: Video Pembelajaran (Balik Cover) -->
     <div class="page --hard">
-       <div class="page-wrapper items-center justify-center">
-          <div class="w-48 h-48 bg-cover bg-center animate-bounce opacity-80 drop-shadow-[0_0_20px_rgba(167,139,250,0.6)]" style="background-image: url('/assets/boy_sma.png');"></div>
-          <p class="text-amber-400 font-bold mt-8 tracking-widest uppercase text-xs">Siap Mengelola Data?</p>
+       <div class="page-wrapper" style="padding: 1.25rem;">
+          <div class="page-content animate-content flex flex-col">
+             <div class="text-center mb-2.5">
+                <span class="text-[9px] font-bold tracking-wider uppercase text-cyan-700 bg-cyan-100/80 border border-cyan-300 px-3 py-0.5 rounded-full inline-flex items-center gap-1">
+                   <span>📺</span> Media Pembelajaran
+                </span>
+                <h2 class="text-base font-sora font-extrabold text-slate-900 mt-1.5 leading-snug">Video Penjelasan Materi</h2>
+                <p class="text-[10px] text-slate-500 font-medium">Pengelolaan Informasi Digital • Fase E Kelas X</p>
+             </div>
+
+             <!-- Video Player Container (16:9) -->
+             <div class="w-full aspect-video rounded-xl overflow-hidden shadow-md border border-cyan-200 bg-slate-900 relative">
+                <iframe 
+                   class="w-full h-full"
+                   src="https://www.youtube.com/embed/0eB4nELrrrU?rel=0" 
+                   title="Video Penjelasan Bab 6 Pengelolaan Informasi Digital" 
+                   frameborder="0" 
+                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" 
+                   allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true">
+                </iframe>
+             </div>
+
+             <!-- Quick Actions -->
+             <div class="flex items-center justify-between gap-2 mt-2">
+                <button @click="showVideoModal = true"
+                   class="flex-1 py-1 px-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 text-white text-[10px] font-bold flex items-center justify-center gap-1.5 transition shadow-sm">
+                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+                   Layar Penuh (Cinema Mode)
+                </button>
+                <a href="https://www.youtube.com/watch?v=0eB4nELrrrU" target="_blank"
+                   class="py-1 px-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] font-semibold flex items-center gap-1 transition border border-slate-300">
+                   <span>↗</span> Buka di YT
+                </a>
+             </div>
+
+             <!-- Poin Utama Card -->
+             <div class="mt-2.5 bg-white/90 border border-cyan-100 rounded-xl p-2.5 shadow-sm">
+                <h4 class="text-[10px] font-bold text-cyan-900 mb-1.5 flex items-center gap-1">
+                   <span>🎯</span> Fokus Pembelajaran Bab 6:
+                </h4>
+                <div class="grid grid-cols-2 gap-1.5 text-[9px] text-slate-700">
+                   <div class="bg-cyan-50/70 p-1.5 rounded-lg border border-cyan-100">
+                      <strong class="text-cyan-800 block text-[9.5px]">1. Konsep Basis Data</strong>
+                      <span class="text-[8.5px] text-slate-500 leading-tight">Pengorganisasian data dalam tabel, record, &amp; field.</span>
+                   </div>
+                   <div class="bg-amber-50/70 p-1.5 rounded-lg border border-amber-100">
+                      <strong class="text-amber-800 block text-[9.5px]">2. Primary &amp; Foreign Key</strong>
+                      <span class="text-[8.5px] text-slate-500 leading-tight">Kunci unik identifikasi data dan penghubung relasi.</span>
+                   </div>
+                   <div class="bg-blue-50/70 p-1.5 rounded-lg border border-blue-100">
+                      <strong class="text-blue-800 block text-[9.5px]">3. Kardinalitas Relasi</strong>
+                      <span class="text-[8.5px] text-slate-500 leading-tight">Hubungan One-to-One, One-to-Many, Many-to-Many.</span>
+                   </div>
+                   <div class="bg-emerald-50/70 p-1.5 rounded-lg border border-emerald-100">
+                      <strong class="text-emerald-800 block text-[9.5px]">4. Sekilas Perintah SQL</strong>
+                      <span class="text-[8.5px] text-slate-500 leading-tight">Query dasar untuk mengambil dan mengelola database.</span>
+                   </div>
+                </div>
+             </div>
+
+             <p class="text-[8.5px] text-slate-400 text-center mt-2 font-medium">
+                👉 Geser halaman ke kanan untuk mulai mempelajari Apersepsi &amp; Materi Bab 6
+             </p>
+          </div>
+
+          <div class="page-footer"><span>Bab 6 Pengelolaan Informasi Digital</span><span>Video</span></div>
        </div>
     </div>
 
@@ -1238,12 +1350,16 @@
                 </template>
              </div>
              
-             <div x-show="latihanSelesai" x-transition class="absolute inset-0 bg-slate-100 border border-slate-200 shadow-sm/95 backdrop-blur flex flex-col items-center justify-center rounded-3xl border-4 border-amber-500 z-10 shadow-[0_0_100px_rgba(167,139,250,0.3)]">
-                <div class="text-7xl mb-6">🏆</div>
-                <h3 class="font-black font-sora text-amber-400 mb-2 text-3xl">Latihan Selesai!</h3>
-                <p class="text-sm text-slate-700 mb-6 uppercase tracking-widest">Skor Akhir:</p>
-                <p class="text-7xl font-black text-slate-900" x-text="latihanScore"></p>
-                <p class="text-xs mt-10 text-slate-600 animate-pulse">Geser untuk Ujian Akhir Bab</p>
+             <div x-show="latihanSelesai" x-transition class="absolute inset-0 bg-white border border-slate-200 shadow-2xl backdrop-blur-sm flex flex-col items-center justify-center rounded-3xl border-4 border-amber-500 z-10">
+                <div class="text-4xl mb-2">🏆</div>
+                <h3 class="font-black font-sora text-amber-600 mb-1 text-xl uppercase">Latihan Selesai!</h3>
+                <p class="text-xs text-slate-700">Skor Latihan Kamu:</p>
+                <p class="text-5xl font-black text-slate-900 my-1" x-text="latihanScore"></p>
+                <div class="my-2 px-3 py-1 rounded-full text-[11px] font-bold text-center border shadow-sm max-w-[260px]"
+                     :class="latihanScore >= 80 ? 'bg-emerald-50 text-emerald-800 border-emerald-300' : (latihanScore >= 60 ? 'bg-amber-50 text-amber-800 border-amber-300' : 'bg-rose-50 text-rose-800 border-rose-300')">
+                   <span x-text="latihanScore >= 80 ? '🎉 Selamat Anda berhasil!' : (latihanScore >= 60 ? '👍 Kerja bagus, tingkatkan lagi ya!' : '💪 Maaf Anda belum sempurna, belajar lagi ya!')"></span>
+                </div>
+                <p class="text-[10px] mt-4 text-slate-500">Geser untuk Ujian Akhir Bab</p>
              </div>
           </div>
           <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>39</span></div>
@@ -1329,12 +1445,16 @@
                 </template>
              </div>
              
-             <div x-show="ujianSelesai" x-transition class="absolute inset-0 bg-[#0a0a0f]/98 backdrop-blur-xl flex flex-col items-center justify-center rounded-3xl border-4 border-cyan-400 z-20 shadow-[0_0_120px_rgba(var(--primary-rgb),0.4)]">
-                <div class="text-8xl mb-8 animate-bounce">🎖️</div>
-                <h3 class="font-black font-sora text-cyan-400 mb-2 text-4xl uppercase tracking-tighter">Bab 6 Tuntas!</h3>
-                <p class="text-sm text-slate-600 mb-8 uppercase tracking-[0.4em]">Nilai Kompetensi Kamu:</p>
-                <div class="text-9xl font-black text-slate-900 drop-shadow-[0_0_30px_rgba(255,255,255,0.3)] mb-12" x-text="ujianScore"></div>
-                <p class="text-[11px] text-slate-500 animate-pulse tracking-widest font-bold">Terima kasih telah belajar bersama kami</p>
+             <div x-show="ujianSelesai" x-transition class="absolute inset-0 bg-white border border-slate-200 shadow-2xl backdrop-blur-sm flex flex-col items-center justify-center rounded-3xl border-4 border-cyan-500 z-20">
+                <div class="text-5xl mb-2">🎖️</div>
+                <h3 class="font-black font-sora text-cyan-600 mb-1 text-2xl uppercase tracking-tight">Bab 6 Tuntas!</h3>
+                <p class="text-xs text-slate-600 mb-1 uppercase tracking-widest">Nilai Kompetensi Kamu:</p>
+                <div class="text-6xl font-black text-slate-900 my-1" x-text="ujianScore"></div>
+                <div class="my-3 px-4 py-1.5 rounded-full text-xs font-bold text-center border shadow-sm max-w-[280px]"
+                     :class="ujianScore >= 80 ? 'bg-emerald-50 text-emerald-800 border-emerald-300' : (ujianScore >= 60 ? 'bg-amber-50 text-amber-800 border-amber-300' : 'bg-rose-50 text-rose-800 border-rose-300')">
+                   <span x-text="ujianScore >= 80 ? '🎉 Selamat Anda berhasil!' : (ujianScore >= 60 ? '👍 Kerja bagus, tingkatkan lagi ya!' : '💪 Maaf Anda belum sempurna, belajar lagi ya!')"></span>
+                </div>
+                <p class="text-[10px] mt-2 text-slate-500">Terima kasih telah belajar bersama kami</p>
              </div>
           </div>
           <div class="page-footer"><span>Bab 6: Pengelolaan Informasi</span><span>42</span></div>
@@ -1385,6 +1505,7 @@
 
     document.addEventListener('alpine:init', () => {
       Alpine.data('quizApp', () => ({
+        showVideoModal: false,
         showDetailModal: false,
         activeDetail: null,
         activeTipe: '',

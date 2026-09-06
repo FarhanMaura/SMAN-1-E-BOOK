@@ -1,12 +1,7 @@
 /**
  * skor-modal.js
- * Menambahkan fitur simpan skor ke MySQL secara non-invasif.
+ * Menambahkan fitur evaluasi / komentar skor dosen dan simpan skor ke MySQL secara non-invasif.
  * Di-include di akhir setiap halaman bab.
- *
- * Cara kerja:
- * - Mendeteksi overlay "Latihan Selesai" dan "Ujian Selesai" dari Alpine.js
- * - Menyisipkan form kecil (input nama + tombol kirim) ke dalamnya
- * - Mengirim skor ke POST /api/skor
  */
 
 (function () {
@@ -14,24 +9,51 @@
 
   // Ambil id_bab dari URL: /bab-1 → "BAB-1"
   const pathMatch = window.location.pathname.match(/\/bab-(\d+)/i);
-  const BAB_ID    = pathMatch ? `BAB-${pathMatch[1]}` : null;
+  const BAB_ID    = pathMatch ? `BAB-${pathMatch[1]}` : 'BAB-1';
 
-  if (!BAB_ID) return; // bukan halaman bab, skip
-
-  // ─── CSS untuk modal simpan skor ──────────────────────────────────────────
+  // ─── CSS untuk modal komentar & simpan skor ──────────────────────────────────────────
   const style = document.createElement('style');
   style.textContent = `
+    .skor-komentar-box {
+      margin: 0.5rem 0;
+      padding: 0.55rem 0.85rem;
+      border-radius: 14px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-align: center;
+      max-width: 250px;
+      line-height: 1.35;
+      animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .skor-komentar-success {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1.5px solid #6ee7b7;
+      box-shadow: 0 4px 12px rgba(16,185,129,0.15);
+    }
+    .skor-komentar-warning {
+      background: #fffbeb;
+      color: #92400e;
+      border: 1.5px solid #fcd34d;
+      box-shadow: 0 4px 12px rgba(245,158,11,0.15);
+    }
+    .skor-komentar-danger {
+      background: #fff1f2;
+      color: #9f1239;
+      border: 1.5px solid #fda4af;
+      box-shadow: 0 4px 12px rgba(244,63,94,0.15);
+    }
     .skor-save-form {
-      margin-top: 1rem;
+      margin-top: 0.4rem;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
       width: 100%;
       max-width: 240px;
     }
     .skor-save-form label {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       font-weight: 700;
       color: #475569;
       text-transform: uppercase;
@@ -39,10 +61,10 @@
     }
     .skor-save-form input {
       width: 100%;
-      padding: 0.5rem 0.9rem;
+      padding: 0.45rem 0.85rem;
       border: 1.5px solid #cbd5e1;
       border-radius: 9999px;
-      font-size: 0.85rem;
+      font-size: 0.80rem;
       font-family: 'Plus Jakarta Sans', sans-serif;
       text-align: center;
       outline: none;
@@ -53,10 +75,10 @@
     .skor-save-form input:focus { border-color: #0d9488; }
     .skor-save-btn {
       width: 100%;
-      padding: 0.5rem 1rem;
+      padding: 0.45rem 1rem;
       background: linear-gradient(135deg, #0d9488, #7c3aed);
       color: white;
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       font-weight: 800;
       border: none;
       border-radius: 9999px;
@@ -65,7 +87,7 @@
       transition: opacity 0.2s, transform 0.15s;
       box-shadow: 0 4px 14px rgba(13,148,136,0.3);
     }
-    .skor-save-btn:hover { opacity: 0.9; transform: scale(1.03); }
+    .skor-save-btn:hover { opacity: 0.9; transform: scale(1.02); }
     .skor-save-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
     .skor-saved-msg {
       font-size: 0.78rem;
@@ -78,12 +100,143 @@
       color: #dc2626;
       font-weight: 600;
     }
-    @keyframes fadeInUp {
-      from { opacity:0; transform:translateY(6px); }
-      to   { opacity:1; transform:translateY(0); }
+
+    /* Floating Score Result Popup */
+    .skor-popup-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      animation: fadeIn 0.25s ease-out;
     }
+    .skor-popup-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 24px;
+      padding: 1.75rem;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      position: relative;
+      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes popIn { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
   `;
   document.head.appendChild(style);
+
+  // ─── Fungsi ambil teks komentar berdasarkan skor ─────────────────────────
+  function getScoreData(skor) {
+    const num = Number(skor) || 0;
+    if (num >= 80) {
+      return {
+        comment: "🎉 Selamat Anda berhasil! Pemahaman materi Anda sangat memuaskan.",
+        badgeClass: "skor-komentar-success",
+        badgeBg: "bg-emerald-50 text-emerald-800 border-emerald-300",
+        icon: "🏆",
+        grade: "SANGAT BAIK"
+      };
+    } else if (num >= 60) {
+      return {
+        comment: "👍 Kerja bagus! Anda sudah memahami sebagian besar materi, tingkatkan lagi ya.",
+        badgeClass: "skor-komentar-warning",
+        badgeBg: "bg-amber-50 text-amber-800 border-amber-300",
+        icon: "👍",
+        grade: "CUKUP BAIK"
+      };
+    } else {
+      return {
+        comment: "💪 Maaf Anda belum sempurna, belajar lagi ya! Jangan berkecil hati, ayo pelajari materinya lagi.",
+        badgeClass: "skor-komentar-danger",
+        badgeBg: "bg-rose-50 text-rose-800 border-rose-300",
+        icon: "💪",
+        grade: "PERLU BELAJAR LAGI"
+      };
+    }
+  }
+
+  // ─── Buat badge komentar untuk in-page overlay ───────────────────────────
+  function buatKomentarBadge(skor) {
+    const wrap = document.createElement('div');
+    const data = getScoreData(skor);
+    wrap.className = `skor-komentar-box ${data.badgeClass}`;
+    wrap.innerHTML = `
+      <div style="font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;opacity:0.75;margin-bottom:3px;">
+        💬 Komentar Dosen:
+      </div>
+      <div>${data.comment}</div>
+    `;
+    return wrap;
+  }
+
+  // ─── Pop-up Modal Hasil Selesai ──────────────────────────────────────────
+  function tampilkanModalHasil(tipe, skor) {
+    // Cegah duplikasi popup
+    if (document.getElementById('skor-popup-modal')) return;
+
+    const data = getScoreData(skor);
+    const labelTipe = tipe === 'latihan' ? 'Latihan Formatif' : 'Ujian Kompetensi';
+    const num = Number(skor) || 0;
+
+    const backdrop = document.createElement('div');
+    backdrop.id = 'skor-popup-modal';
+    backdrop.className = 'skor-popup-backdrop';
+
+    backdrop.innerHTML = `
+      <div class="skor-popup-card">
+        <div style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.25rem 0.8rem;border-radius:9999px;font-size:0.72rem;font-weight:800;background:#f1f5f9;color:#334155;border:1px solid #e2e8f0;margin-bottom:0.75rem;">
+          ${labelTipe} • ${BAB_ID}
+        </div>
+
+        <div style="font-size:3.5rem;line-height:1;margin-bottom:0.5rem;filter:drop-shadow(0 4px 6px rgba(0,0,0,0.1));">${data.icon}</div>
+
+        <h3 style="font-size:1.4rem;font-weight:800;color:#0f172a;margin:0 0 0.25rem 0;font-family:'Sora',sans-serif;">${labelTipe} Selesai!</h3>
+        <p style="font-size:0.75rem;color:#64748b;margin:0 0 1rem 0;">Evaluasi hasil belajar Anda untuk bab ini</p>
+
+        <div style="background:linear-gradient(135deg, #f8fafc, #f1f5f9);border:1px solid #e2e8f0;border-radius:18px;padding:1rem;margin-bottom:1rem;">
+          <div style="font-size:0.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.25rem;">Skor Akhir Anda</div>
+          <div style="font-size:2.8rem;font-weight:900;color:#0f172a;line-height:1.1;font-family:'Sora',sans-serif;">${num} <span style="font-size:1.2rem;color:#94a3b8;font-weight:600;">/ 100</span></div>
+        </div>
+
+        <div class="skor-komentar-box ${data.badgeClass}" style="max-width:100%;margin:0 0 1rem 0;padding:0.75rem 1rem;font-size:0.85rem;">
+          <div style="font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;opacity:0.75;margin-bottom:3px;">
+            💬 Evaluasi / Komentar Dosen:
+          </div>
+          <div>${data.comment}</div>
+        </div>
+
+        <div id="skor-popup-form-slot"></div>
+
+        <button id="btn-tutup-skor-popup" style="width:100%;margin-top:0.75rem;padding:0.75rem 1rem;background:#1e293b;color:white;font-size:0.82rem;font-weight:800;border:none;border-radius:9999px;cursor:pointer;transition:background 0.2s;">
+          Tutup &amp; Lanjutkan Membaca
+        </button>
+      </div>
+    `;
+
+    document.body.appendChild(backdrop);
+
+    // Sisipkan form simpan skor ke dalam popup
+    const formSlot = backdrop.querySelector('#skor-popup-form-slot');
+    if (formSlot) {
+      formSlot.appendChild(buatForm(tipe, () => num));
+    }
+
+    // Event listener tutup
+    backdrop.querySelector('#btn-tutup-skor-popup').addEventListener('click', () => {
+      backdrop.remove();
+    });
+    backdrop.addEventListener('click', (e) => {
+      if (e.target === backdrop) backdrop.remove();
+    });
+  }
 
   // ─── Fungsi kirim skor ke API ──────────────────────────────────────────────
   async function kirimSkor(nama, tipe, skor) {
@@ -126,14 +279,14 @@
         input.style.display  = 'none';
         wrap.querySelector('label').style.display = 'none';
         msg.className   = 'skor-saved-msg';
-        msg.textContent = `✅ Skor berhasil disimpan! Lihat leaderboard →`;
+        msg.textContent = `✅ Skor berhasil disimpan!`;
 
         // Buat link ke leaderboard
         const link = document.createElement('a');
         link.href  = '/leaderboard';
         link.target = '_blank';
-        link.style.cssText = 'font-size:0.75rem;font-weight:700;color:#0d9488;text-decoration:none;';
-        link.textContent   = '🏆 Lihat Leaderboard';
+        link.style.cssText = 'font-size:0.75rem;font-weight:700;color:#0d9488;text-decoration:none;margin-top:4px;display:inline-block;';
+        link.textContent   = '🏆 Lihat Leaderboard →';
         wrap.appendChild(link);
 
       } catch (err) {
@@ -147,39 +300,70 @@
     return wrap;
   }
 
-  // ─── Inject form ke overlay Alpine.js saat terlihat ───────────────────────
+  // ─── Inject komentar & form ke overlay Alpine.js saat terlihat ─────────────
   function injectForms() {
-    // Cari semua overlay "Selesai" di halaman
-    // Bab-1 pakai Alpine scope — kita pantau via MutationObserver
-
     const observer = new MutationObserver(() => {
-      // Cari div yang berisi teks "Latihan Selesai" atau "Ujian Selesai"
       document.querySelectorAll('[x-show]').forEach(el => {
         const xshow = el.getAttribute('x-show') || '';
         const alreadyInjected = el.dataset.skorInjected;
         if (alreadyInjected) return;
 
+        // Cek apakah elemen sedang ditampilkan (display bukan 'none' dan tidak punya style visibility:hidden)
+        const isVisible = el.style.display !== 'none' && !el.classList.contains('hidden') && el.offsetParent !== null;
+        if (!isVisible) return;
+
         // Latihan overlay
         if (xshow.includes('latihanSelesai')) {
           el.dataset.skorInjected = '1';
-          el.appendChild(buatForm('latihan', () => {
-            // Cari elemen Alpine yang punya latihanScore
+          const getSkor = () => {
             const root = el.closest('[x-data]') || document.querySelector('[x-data]');
             try {
               return root ? (root.__x || root._x_dataStack?.[0] || {}).latihanScore ?? 0 : 0;
             } catch(e) { return 0; }
-          }));
+          };
+          const skor = getSkor();
+
+          // 1. Sisipkan badge komentar ke dalam overlay halaman jika belum ada di template
+          if (!el.querySelector('.skor-komentar-box') && !el.querySelector('[x-text*="Selamat Anda berhasil"]')) {
+            el.appendChild(buatKomentarBadge(skor));
+          }
+
+          // 2. Sisipkan form simpan skor ke dalam overlay halaman
+          if (!el.querySelector('.skor-save-form')) {
+            el.appendChild(buatForm('latihan', getSkor));
+          }
+
+          // 3. Tampilkan popup modal hasil dengan delay lembut
+          setTimeout(() => {
+            tampilkanModalHasil('latihan', getSkor());
+          }, 400);
         }
 
         // Ujian overlay
         if (xshow.includes('ujianSelesai')) {
           el.dataset.skorInjected = '1';
-          el.appendChild(buatForm('ujian', () => {
+          const getSkor = () => {
             const root = el.closest('[x-data]') || document.querySelector('[x-data]');
             try {
               return root ? (root.__x || root._x_dataStack?.[0] || {}).ujianScore ?? 0 : 0;
             } catch(e) { return 0; }
-          }));
+          };
+          const skor = getSkor();
+
+          // 1. Sisipkan badge komentar ke dalam overlay halaman jika belum ada di template
+          if (!el.querySelector('.skor-komentar-box') && !el.querySelector('[x-text*="Selamat Anda berhasil"]')) {
+            el.appendChild(buatKomentarBadge(skor));
+          }
+
+          // 2. Sisipkan form simpan skor ke dalam overlay halaman
+          if (!el.querySelector('.skor-save-form')) {
+            el.appendChild(buatForm('ujian', getSkor));
+          }
+
+          // 3. Tampilkan popup modal hasil dengan delay lembut
+          setTimeout(() => {
+            tampilkanModalHasil('ujian', getSkor());
+          }, 400);
         }
       });
     });
@@ -189,7 +373,6 @@
 
   // Tunggu Alpine.js siap
   document.addEventListener('DOMContentLoaded', () => {
-    // Delay sedikit biar Alpine init dulu
     setTimeout(injectForms, 500);
   });
 

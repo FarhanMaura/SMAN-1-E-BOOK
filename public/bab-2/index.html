@@ -13,8 +13,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
+    [x-cloak] { display: none !important; }
     :root { --primary-rgb: 59, 130, 246; }
-    body { background-color: #0a0a0f; font-family: 'Plus Jakarta Sans', sans-serif; color: #e2e8f0; overflow: hidden; margin: 0; padding: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh;}
+    body { background-color: #f1f5f9; font-family: 'Plus Jakarta Sans', sans-serif; color: #1e293b; overflow: hidden; margin: 0; padding: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh;}
     h1, h2, h3, .font-sora { font-family: 'Sora', sans-serif; }
     
     .flipbook, .digitalbook { width: 900px; height: 600px; box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08); display: none; }
@@ -113,15 +114,63 @@
      </div>
   </div>
 
+  <!-- Video Pembelajaran Modal (Cinema Mode) -->
+  <div x-show="showVideoModal" x-cloak x-transition.opacity
+     class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+     <div @click.away="showVideoModal = false"
+        class="bg-slate-900 border border-slate-700 shadow-2xl rounded-2xl w-full max-w-3xl overflow-hidden flex flex-col">
+        <div class="p-4 border-b border-slate-800 flex justify-between items-center bg-slate-950">
+           <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-full bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-blue-400 text-sm">
+                 ▶
+              </div>
+              <div>
+                 <h3 class="font-bold text-slate-100 text-sm md:text-base leading-tight">Video Penjelasan: Algoritma & Pemrograman</h3>
+                 <p class="text-[11px] text-slate-400">Informatika Fase E Kelas X • Kurikulum Merdeka</p>
+              </div>
+           </div>
+           <button @click="showVideoModal = false"
+              class="text-slate-400 hover:text-white font-bold text-2xl w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-800 transition">&times;</button>
+        </div>
+        <div class="p-4 bg-slate-950/90">
+           <div class="w-full aspect-video rounded-xl overflow-hidden shadow-2xl bg-black border border-slate-800">
+              <template x-if="showVideoModal">
+                 <iframe class="w-full h-full"
+                    src="https://www.youtube.com/embed/QyY5cfz2390?autoplay=1&rel=0"
+                    title="Video Penjelasan Bab 2" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                    allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true">
+                 </iframe>
+              </template>
+           </div>
+           <div class="mt-3 flex items-center justify-between text-xs text-slate-400">
+              <span class="flex items-center gap-1.5 text-[11px] text-blue-400 font-medium">
+                 <span>💡</span> Pahami konsep algoritma, pseudocode, flowchart, dan logika pemrograman.
+              </span>
+              <a href="https://www.youtube.com/watch?v=QyY5cfz2390" target="_blank" class="text-pink-400 hover:text-pink-300 font-semibold flex items-center gap-1 hover:underline">
+                 Buka di YouTube ↗
+              </a>
+           </div>
+        </div>
+     </div>
+  </div>
+
   <!-- Header/Controls -->
   <div class="w-full max-w-[900px] flex justify-between items-center mb-6 px-4 z-10">
-     <a href="/" class="text-blue-700 hover:text-blue-800 transition font-semibold flex items-center gap-2 bg-blue-900/20 px-4 py-2 rounded-full border border-blue-500/30">
-       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-       Kembali ke Beranda
-     </a>
+     <div class="flex items-center gap-2">
+        <a href="/" class="text-blue-700 hover:text-blue-800 transition font-semibold flex items-center gap-2 bg-blue-50 hover:bg-blue-100 border border-blue-200 px-4 py-2 rounded-full text-sm shadow-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+          Kembali ke Beranda
+        </a>
+        <button @click="showVideoModal = true"
+           class="text-pink-700 hover:text-pink-800 bg-pink-50 hover:bg-pink-100 border border-pink-200 px-3.5 py-2 rounded-full text-xs sm:text-sm font-bold transition flex items-center gap-1.5 shadow-sm">
+           <span class="text-pink-600">🎬</span>
+           <span>Video Materi</span>
+        </button>
+     </div>
      <div class="flex gap-3">
-       <button id="btn-prev" class="px-6 py-2 rounded-full bg-slate-100 border border-slate-200 shadow-sm border border-gray-600 hover:border-blue-400 hover:text-blue-700 text-slate-900 text-sm font-bold transition shadow-lg">← Prev</button>
-       <button id="btn-next" class="px-6 py-2 rounded-full bg-slate-100 border border-slate-200 shadow-sm border border-gray-600 hover:border-pink-400 hover:text-pink-700 text-slate-900 text-sm font-bold transition shadow-lg">Next →</button>
+       <button id="btn-prev" class="px-6 py-2 rounded-full bg-white border border-slate-200 hover:border-blue-400 hover:text-blue-700 text-slate-800 text-sm font-bold transition shadow-sm">← Prev</button>
+       <button id="btn-next" class="px-6 py-2 rounded-full bg-white border border-slate-200 hover:border-pink-400 hover:text-pink-700 text-slate-800 text-sm font-bold transition shadow-sm">Next →</button>
      </div>
   </div>
   
@@ -140,6 +189,77 @@
         
         <p class="mt-8 text-xs font-semibold text-slate-500 animate-pulse">Geser / Klik Next untuk membuka</p>
       </div>
+    </div>
+
+    <!-- HALAMAN 2: Video Pembelajaran (Balik Cover) -->
+    <div class="page --hard">
+       <div class="page-wrapper" style="padding: 1.25rem;">
+          <div class="page-content animate-content flex flex-col">
+             <div class="text-center mb-2.5">
+                <span class="text-[9px] font-bold tracking-wider uppercase text-blue-700 bg-blue-100/80 border border-blue-300 px-3 py-0.5 rounded-full inline-flex items-center gap-1">
+                   <span>📺</span> Media Pembelajaran
+                </span>
+                <h2 class="text-base font-sora font-extrabold text-slate-900 mt-1.5 leading-snug">Video Penjelasan Materi</h2>
+                <p class="text-[10px] text-slate-500 font-medium">Algoritma &amp; Pemrograman • Kelas X Kurikulum Merdeka</p>
+             </div>
+
+             <!-- Video Player Container (16:9) -->
+             <div class="w-full aspect-video rounded-xl overflow-hidden shadow-md border border-blue-200 bg-slate-900 relative">
+                <iframe 
+                   class="w-full h-full"
+                   src="https://www.youtube.com/embed/QyY5cfz2390?rel=0" 
+                   title="Video Penjelasan Bab 2 Algoritma dan Pemrograman" 
+                   frameborder="0" 
+                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" 
+                   allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true">
+                </iframe>
+             </div>
+
+             <!-- Quick Actions -->
+             <div class="flex items-center justify-between gap-2 mt-2">
+                <button @click="showVideoModal = true"
+                   class="flex-1 py-1 px-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-bold flex items-center justify-center gap-1.5 transition shadow-sm">
+                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+                   Layar Penuh (Cinema Mode)
+                </button>
+                <a href="https://www.youtube.com/watch?v=QyY5cfz2390" target="_blank"
+                   class="py-1 px-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] font-semibold flex items-center gap-1 transition border border-slate-300">
+                   <span>↗</span> Buka di YT
+                </a>
+             </div>
+
+             <!-- Poin Utama Card -->
+             <div class="mt-2.5 bg-white/90 border border-blue-100 rounded-xl p-2.5 shadow-sm">
+                <h4 class="text-[10px] font-bold text-blue-900 mb-1.5 flex items-center gap-1">
+                   <span>🎯</span> Fokus Pembelajaran Bab 2:
+                </h4>
+                <div class="grid grid-cols-2 gap-1.5 text-[9px] text-slate-700">
+                   <div class="bg-blue-50/70 p-1.5 rounded-lg border border-blue-100">
+                      <strong class="text-blue-800 block text-[9.5px]">1. Konsep Algoritma</strong>
+                      <span class="text-[8.5px] text-slate-500 leading-tight">Langkah sistematis dan logis menyelesaikan masalah.</span>
+                   </div>
+                   <div class="bg-pink-50/70 p-1.5 rounded-lg border border-pink-100">
+                      <strong class="text-pink-800 block text-[9.5px]">2. Pseudocode &amp; Flowchart</strong>
+                      <span class="text-[8.5px] text-slate-500 leading-tight">Representasi logika teks dan diagram alir visual.</span>
+                   </div>
+                   <div class="bg-indigo-50/70 p-1.5 rounded-lg border border-indigo-100">
+                      <strong class="text-indigo-800 block text-[9.5px]">3. Bahasa Pemrograman</strong>
+                      <span class="text-[8.5px] text-slate-500 leading-tight">Menerjemahkan ide ke kode yang dipahami komputer.</span>
+                   </div>
+                   <div class="bg-amber-50/70 p-1.5 rounded-lg border border-amber-100">
+                      <strong class="text-amber-800 block text-[9.5px]">4. Debugging &amp; Uji Coba</strong>
+                      <span class="text-[8.5px] text-slate-500 leading-tight">Mendeteksi error sintaks, runtime, maupun logika.</span>
+                   </div>
+                </div>
+             </div>
+
+             <p class="text-[8.5px] text-slate-400 text-center mt-2 font-medium">
+                👉 Geser halaman ke kanan untuk mulai mempelajari Apersepsi &amp; Materi
+             </p>
+          </div>
+
+          <div class="page-footer"><span>Bab 2 Algoritma &amp; Pemrograman</span><span>Video</span></div>
+       </div>
     </div>
     
     <!-- HALAMAN 2: Apersepsi & Tujuan -->
@@ -1187,6 +1307,19 @@ print(<span class="string">"Nilai: "</span> + 100) </div>
                    </div>
                 </template>
              </div>
+
+             <!-- Latihan Finish Overlay -->
+             <div x-show="latihanSelesai" x-transition class="absolute inset-0 bg-slate-100 border border-slate-200 shadow-sm/95 backdrop-blur-sm flex flex-col items-center justify-center rounded-lg border-2 border-blue-500 z-20 shadow-2xl">
+                <div class="text-4xl mb-2">💯</div>
+                <h3 class="font-sora font-bold text-lg text-blue-700 mb-0.5">Latihan Selesai!</h3>
+                <p class="text-xs text-slate-700">Skor Dasar Kamu:</p>
+                <div class="text-4xl font-black text-slate-900 my-1" x-text="latihanScore"></div>
+                <div class="my-2 px-3 py-1 rounded-full text-[11px] font-bold text-center border shadow-sm"
+                     :class="latihanScore >= 80 ? 'bg-emerald-50 text-emerald-800 border-emerald-300' : (latihanScore >= 60 ? 'bg-amber-50 text-amber-800 border-amber-300' : 'bg-rose-50 text-rose-800 border-rose-300')">
+                   <span x-text="latihanScore >= 80 ? '🎉 Selamat Anda berhasil!' : (latihanScore >= 60 ? '👍 Kerja bagus, tingkatkan lagi ya!' : '💪 Maaf Anda belum sempurna, belajar lagi ya!')"></span>
+                </div>
+                <p class="text-[10px] text-slate-600 animate-pulse mt-2">Geser ke halaman berikutnya untuk Ujian</p>
+             </div>
           </div>
           <div class="page-footer"><span>Bab 2 Algoritma & Pemrograman</span><span>36</span></div>
        </div>
@@ -1274,9 +1407,13 @@ print(<span class="string">"Nilai: "</span> + 100) </div>
              <div x-show="ujianSelesai" x-transition class="absolute inset-0 bg-slate-100 border border-slate-200 shadow-sm/95 backdrop-blur-sm flex flex-col items-center justify-center rounded-lg border-2 border-pink-500 z-20 shadow-2xl">
                 <div class="text-5xl mb-3">🏆</div>
                 <h3 class="font-sora font-bold text-xl text-pink-700 mb-1">Bab 2 Selesai!</h3>
-                <p class="text-xs text-slate-700 mb-4">Nilai Akhir Kompetensi Kamu</p>
-                <div class="text-5xl font-black text-slate-900 mb-6" x-text="ujianScore"></div>
-                <p class="text-[10px] text-slate-600 animate-pulse">Geser ke halaman penutup</p>
+                <p class="text-xs text-slate-700 mb-2">Nilai Akhir Kompetensi Kamu</p>
+                <div class="text-5xl font-black text-slate-900 mb-2" x-text="ujianScore"></div>
+                <div class="my-2 px-3 py-1 rounded-full text-[11px] font-bold text-center border shadow-sm max-w-[260px]"
+                     :class="ujianScore >= 80 ? 'bg-emerald-50 text-emerald-800 border-emerald-300' : (ujianScore >= 60 ? 'bg-amber-50 text-amber-800 border-amber-300' : 'bg-rose-50 text-rose-800 border-rose-300')">
+                   <span x-text="ujianScore >= 80 ? '🎉 Selamat Anda berhasil!' : (ujianScore >= 60 ? '👍 Kerja bagus, tingkatkan lagi ya!' : '💪 Maaf Anda belum sempurna, belajar lagi ya!')"></span>
+                </div>
+                <p class="text-[10px] text-slate-600 animate-pulse mt-2">Geser ke halaman penutup</p>
              </div>
           </div>
           <div class="page-footer"><span>Bab 2 Algoritma & Pemrograman</span><span>39</span></div>
@@ -1320,6 +1457,8 @@ print(<span class="string">"Nilai: "</span> + 100) </div>
 
     document.addEventListener('alpine:init', () => {
       Alpine.data('quizApp', () => ({
+        showVideoModal: false,
+        showDetailModal: false,
         showFeedback: false,
         isFeedbackCorrect: false,
         latihanScore: 0,
