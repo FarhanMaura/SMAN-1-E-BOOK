@@ -325,15 +325,17 @@
         const alreadyInjected = el.dataset.skorInjected;
         if (alreadyInjected) return;
 
-        // Cek apakah elemen sedang ditampilkan (display bukan 'none' dan tidak punya style visibility:hidden)
-        const isVisible = el.style.display !== 'none' && !el.classList.contains('hidden') && el.offsetParent !== null;
-        if (!isVisible) return;
+        const root = el.closest('[x-data]') || document.querySelector('[x-data]');
+        let alpineData = {};
+        try {
+          alpineData = root ? (root.__x || root._x_dataStack?.[0] || (window.Alpine && window.Alpine.$data ? window.Alpine.$data(root) : {})) : {};
+        } catch(e) {}
 
-        // Latihan overlay
+        // Latihan overlay - WAJIB cek bahwa latihanSelesai benar-benar bernilai true!
         if (xshow.includes('latihanSelesai')) {
+          if (!alpineData.latihanSelesai) return;
           el.dataset.skorInjected = '1';
           const getSkor = () => {
-            const root = el.closest('[x-data]') || document.querySelector('[x-data]');
             try {
               return root ? (root.__x || root._x_dataStack?.[0] || {}).latihanScore ?? 0 : 0;
             } catch(e) { return 0; }
@@ -350,17 +352,17 @@
             el.appendChild(buatForm('latihan', getSkor));
           }
 
-          // 3. Tampilkan popup modal hasil dengan delay lembut
+          // 3. Tampilkan popup modal hasil dengan delay lembut di akhir
           setTimeout(() => {
             tampilkanModalHasil('latihan', getSkor());
           }, 400);
         }
 
-        // Ujian overlay
+        // Ujian overlay - WAJIB cek bahwa ujianSelesai benar-benar bernilai true!
         if (xshow.includes('ujianSelesai')) {
+          if (!alpineData.ujianSelesai) return;
           el.dataset.skorInjected = '1';
           const getSkor = () => {
-            const root = el.closest('[x-data]') || document.querySelector('[x-data]');
             try {
               return root ? (root.__x || root._x_dataStack?.[0] || {}).ujianScore ?? 0 : 0;
             } catch(e) { return 0; }
@@ -377,7 +379,7 @@
             el.appendChild(buatForm('ujian', getSkor));
           }
 
-          // 3. Tampilkan popup modal hasil dengan delay lembut
+          // 3. Tampilkan popup modal hasil dengan delay lembut di akhir
           setTimeout(() => {
             tampilkanModalHasil('ujian', getSkor());
           }, 400);

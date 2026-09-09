@@ -1274,16 +1274,16 @@
           <div class="page-content animate-content relative">
              <div class="flex justify-between items-end mb-6 border-b border-gray-700 pb-3">
                 <h2 class="text-xl font-sora font-bold text-amber-400 uppercase tracking-widest">Latihan (1/2)</h2>
-                <div class="flex items-center gap-1.5"><div class="text-[9px] font-bold px-2 py-0.5 bg-amber-50/80 border-amber-200 rounded text-amber-400">Terjawab: <span x-text="latihan.filter(s => s.dijawab).length"></span>/10</div><button @click="testBerikutnya('latihan')" class="text-[8px] font-bold px-1.5 py-0.5 bg-white border border-slate-300 text-slate-700 rounded hover:bg-slate-50 shadow-xs transition cursor-pointer" title="Acak urutan soal untuk test berikutnya">🔀 Acak</button></div>
+                <div class="flex items-center gap-1.5"><div class="text-[9px] font-bold px-2 py-0.5 bg-amber-50/80 border-amber-200 rounded text-amber-400">Terjawab: <span x-text="latihan.filter(s => s.dijawab).length"></span>/10</div><button @click.stop="testBerikutnya('latihan')" @mousedown.stop @touchstart.stop @pointerdown.stop class="text-[8px] font-bold px-1.5 py-0.5 bg-white border border-slate-300 text-slate-700 rounded hover:bg-slate-50 shadow-xs transition cursor-pointer" title="Acak urutan soal untuk test berikutnya">🔀 Acak</button></div>
              </div>
              
              <div class="space-y-4">
                 <template x-for="(soal, index) in latihan.slice(0, 5)">
                    <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl border border-gray-700/50 hover:border-amber-500/40 transition-all">
-                      <p class="text-[11px] font-medium mb-3 leading-snug text-slate-800 cursor-pointer hover:text-amber-300 transition" @click.stop="openDetail('latihan', index)" x-html="(index+1) + '. ' + soal.q"></p>
+                      <p class="text-[11px] font-medium mb-3 leading-snug text-slate-800 cursor-pointer hover:text-amber-300 transition" @click.stop="openDetail('latihan', index)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+1) + '. ' + soal.q"></p>
                       <div class="grid grid-cols-1 gap-2">
                          <template x-for="(opt, oidx) in soal.opts">
-                            <button @click="jawabLatihan(index, oidx)" 
+                            <button @click.stop="jawabLatihan(index, oidx)" @mousedown.stop @touchstart.stop @pointerdown.stop 
                                     :class="getBtnClass(index, oidx, 'latihan')"
                                     class="text-[10px] text-left p-2.5 rounded-lg border border-gray-600 hover:border-amber-400 hover:bg-gray-700 transition"
                                     :disabled="soal.dijawab">
@@ -1306,16 +1306,16 @@
           <div class="page-content animate-content relative">
              <div class="flex justify-between items-end mb-6 border-b border-gray-700 pb-3">
                 <h2 class="text-xl font-sora font-bold text-amber-400 uppercase tracking-widest">Latihan (2/2)</h2>
-                <div class="flex items-center gap-1.5"><div class="text-[9px] font-bold px-2 py-0.5 bg-amber-50/80 border-amber-200 rounded text-amber-400">Terjawab: <span x-text="latihan.filter(s => s.dijawab).length"></span>/10</div><button @click="testBerikutnya('latihan')" class="text-[8px] font-bold px-1.5 py-0.5 bg-white border border-slate-300 text-slate-700 rounded hover:bg-slate-50 shadow-xs transition cursor-pointer" title="Acak urutan soal untuk test berikutnya">🔀 Acak</button></div>
+                <div class="flex items-center gap-1.5"><div class="text-[9px] font-bold px-2 py-0.5 bg-amber-50/80 border-amber-200 rounded text-amber-400">Terjawab: <span x-text="latihan.filter(s => s.dijawab).length"></span>/10</div><button @click.stop="testBerikutnya('latihan')" @mousedown.stop @touchstart.stop @pointerdown.stop class="text-[8px] font-bold px-1.5 py-0.5 bg-white border border-slate-300 text-slate-700 rounded hover:bg-slate-50 shadow-xs transition cursor-pointer" title="Acak urutan soal untuk test berikutnya">🔀 Acak</button></div>
              </div>
              
              <div class="space-y-4">
                 <template x-for="(soal, index) in latihan.slice(5, 10)">
                    <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl border border-gray-700/50 hover:border-amber-500/40 transition-all">
-                      <p class="text-[11px] font-medium mb-3 leading-snug text-slate-800 cursor-pointer hover:text-amber-300 transition" @click.stop="openDetail('latihan', index + 5)" x-html="(index+6) + '. ' + soal.q"></p>
+                      <p class="text-[11px] font-medium mb-3 leading-snug text-slate-800 cursor-pointer hover:text-amber-300 transition" @click.stop="openDetail('latihan', index + 5)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+6) + '. ' + soal.q"></p>
                       <div class="grid grid-cols-1 gap-2">
                          <template x-for="(opt, oidx) in soal.opts">
-                            <button @click="jawabLatihan(index + 5, oidx)" 
+                            <button @click.stop="jawabLatihan(index + 5, oidx)" @mousedown.stop @touchstart.stop @pointerdown.stop 
                                     :class="getBtnClass(index + 5, oidx, 'latihan')"
                                     class="text-[10px] text-left p-2.5 rounded-lg border border-gray-600 hover:border-amber-400 hover:bg-gray-700 transition"
                                     :disabled="soal.dijawab">
@@ -1328,7 +1328,7 @@
                 </template>
              </div>
              
-             <div x-show="latihanSelesai" x-transition class="absolute inset-0 bg-white border border-slate-200 shadow-2xl backdrop-blur-sm flex flex-col items-center justify-center rounded-3xl border-4 border-amber-500 z-10">
+             <div x-show="latihanSelesai" x-cloak x-transition class="absolute inset-0 bg-white border border-slate-200 shadow-2xl backdrop-blur-sm flex flex-col items-center justify-center rounded-3xl border-4 border-amber-500 z-10">
                 <div class="text-4xl mb-2">🏆</div>
                 <h3 class="font-black font-sora text-amber-600 mb-1 text-xl uppercase">Latihan Selesai!</h3>
                 <p class="text-xs text-slate-700">Skor Latihan Kamu:</p>
@@ -1369,16 +1369,16 @@
           <div class="page-content animate-content relative">
              <div class="flex justify-between items-end mb-6 border-b border-gray-700 pb-3">
                 <h2 class="text-xl font-sora font-bold text-cyan-400 uppercase tracking-widest">Ujian (1/2)</h2>
-                <div class="flex items-center gap-1.5"><div class="text-[9px] font-bold px-2 py-0.5 bg-cyan-50/80 border-cyan-200 rounded text-cyan-400">Terjawab: <span x-text="ujian.filter(s => s.dijawab).length"></span>/10</div><button @click="testBerikutnya('ujian')" class="text-[8px] font-bold px-1.5 py-0.5 bg-white border border-slate-300 text-slate-700 rounded hover:bg-slate-50 shadow-xs transition cursor-pointer" title="Acak urutan soal untuk test berikutnya">🔀 Acak</button></div>
+                <div class="flex items-center gap-1.5"><div class="text-[9px] font-bold px-2 py-0.5 bg-cyan-50/80 border-cyan-200 rounded text-cyan-400">Terjawab: <span x-text="ujian.filter(s => s.dijawab).length"></span>/10</div><button @click.stop="testBerikutnya('ujian')" @mousedown.stop @touchstart.stop @pointerdown.stop class="text-[8px] font-bold px-1.5 py-0.5 bg-white border border-slate-300 text-slate-700 rounded hover:bg-slate-50 shadow-xs transition cursor-pointer" title="Acak urutan soal untuk test berikutnya">🔀 Acak</button></div>
              </div>
              
              <div class="space-y-4">
                 <template x-for="(soal, index) in ujian.slice(0, 5)">
                    <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl border border-gray-700/50 hover:border-cyan-500/40 transition-all">
-                      <p class="text-[11px] font-medium mb-3 leading-snug text-slate-800 cursor-pointer hover:text-cyan-300 transition" @click.stop="openDetail('ujian', index)" x-html="(index+1) + '. ' + soal.q"></p>
+                      <p class="text-[11px] font-medium mb-3 leading-snug text-slate-800 cursor-pointer hover:text-cyan-300 transition" @click.stop="openDetail('ujian', index)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+1) + '. ' + soal.q"></p>
                       <div class="grid grid-cols-1 gap-2">
                          <template x-for="(opt, oidx) in soal.opts">
-                            <button @click="jawabUjian(index, oidx)" 
+                            <button @click.stop="jawabUjian(index, oidx)" @mousedown.stop @touchstart.stop @pointerdown.stop 
                                     :class="getBtnClass(index, oidx, 'ujian')"
                                     class="text-[10px] text-left p-2.5 rounded-lg border border-gray-600 hover:border-cyan-400 hover:bg-gray-700 transition"
                                     :disabled="soal.dijawab">
@@ -1401,16 +1401,16 @@
           <div class="page-content animate-content relative">
              <div class="flex justify-between items-end mb-6 border-b border-gray-700 pb-3">
                 <h2 class="text-xl font-sora font-bold text-cyan-400 uppercase tracking-widest">Ujian (2/2)</h2>
-                <div class="flex items-center gap-1.5"><div class="text-[9px] font-bold px-2 py-0.5 bg-cyan-50/80 border-cyan-200 rounded text-cyan-400">Terjawab: <span x-text="ujian.filter(s => s.dijawab).length"></span>/10</div><button @click="testBerikutnya('ujian')" class="text-[8px] font-bold px-1.5 py-0.5 bg-white border border-slate-300 text-slate-700 rounded hover:bg-slate-50 shadow-xs transition cursor-pointer" title="Acak urutan soal untuk test berikutnya">🔀 Acak</button></div>
+                <div class="flex items-center gap-1.5"><div class="text-[9px] font-bold px-2 py-0.5 bg-cyan-50/80 border-cyan-200 rounded text-cyan-400">Terjawab: <span x-text="ujian.filter(s => s.dijawab).length"></span>/10</div><button @click.stop="testBerikutnya('ujian')" @mousedown.stop @touchstart.stop @pointerdown.stop class="text-[8px] font-bold px-1.5 py-0.5 bg-white border border-slate-300 text-slate-700 rounded hover:bg-slate-50 shadow-xs transition cursor-pointer" title="Acak urutan soal untuk test berikutnya">🔀 Acak</button></div>
              </div>
              
              <div class="space-y-4">
                 <template x-for="(soal, index) in ujian.slice(5, 10)">
                    <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl border border-gray-700/50 hover:border-cyan-500/40 transition-all">
-                      <p class="text-[11px] font-medium mb-3 leading-snug text-slate-800 cursor-pointer hover:text-cyan-300 transition" @click.stop="openDetail('ujian', index + 5)" x-html="(index+6) + '. ' + soal.q"></p>
+                      <p class="text-[11px] font-medium mb-3 leading-snug text-slate-800 cursor-pointer hover:text-cyan-300 transition" @click.stop="openDetail('ujian', index + 5)" @mousedown.stop @touchstart.stop @pointerdown.stop x-html="(index+6) + '. ' + soal.q"></p>
                       <div class="grid grid-cols-1 gap-2">
                          <template x-for="(opt, oidx) in soal.opts">
-                            <button @click="jawabUjian(index + 5, oidx)" 
+                            <button @click.stop="jawabUjian(index + 5, oidx)" @mousedown.stop @touchstart.stop @pointerdown.stop 
                                     :class="getBtnClass(index + 5, oidx, 'ujian')"
                                     class="text-[10px] text-left p-2.5 rounded-lg border border-gray-600 hover:border-cyan-400 hover:bg-gray-700 transition"
                                     :disabled="soal.dijawab">
@@ -1423,11 +1423,11 @@
                 </template>
              </div>
              
-             <div x-show="ujianSelesai" x-transition class="absolute inset-0 bg-white border border-slate-200 shadow-2xl backdrop-blur-sm flex flex-col items-center justify-center rounded-3xl border-4 border-cyan-500 z-20">
+             <div x-show="ujianSelesai" x-cloak x-transition class="absolute inset-0 bg-white border border-slate-200 shadow-2xl backdrop-blur-sm flex flex-col items-center justify-center rounded-3xl border-4 border-cyan-500 z-20">
                 <div class="text-5xl mb-2">🎖️</div>
                 <h3 class="font-black font-sora text-cyan-600 mb-1 text-2xl uppercase tracking-tight">Bab 6 Tuntas!</h3>
-                <p class="text-xs text-slate-600 mb-1 uppercase tracking-widest">Nilai Kompetensi Kamu:</p>
-                <div class="text-6xl font-black text-slate-900 my-1" x-text="ujianScore"></div>
+                <p class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Skor Akhir Kompetensi:</p>
+                  <div class="text-4xl font-black text-slate-900 my-1"><span x-text="ujianScore"></span> <span class="text-sm font-semibold text-slate-400">/ 100</span></div>
                 <div class="my-3 px-4 py-1.5 rounded-full text-xs font-bold text-center border shadow-sm max-w-[280px]"
                      :class="ujianScore >= 80 ? 'bg-emerald-50 text-emerald-800 border-emerald-300' : (ujianScore >= 60 ? 'bg-amber-50 text-amber-800 border-amber-300' : 'bg-rose-50 text-rose-800 border-rose-300')">
                    <span x-text="ujianScore >= 80 ? '🎉 Selamat Anda berhasil!' : (ujianScore >= 60 ? '👍 Kerja bagus, tingkatkan lagi ya!' : '💪 Maaf Anda belum sempurna, belajar lagi ya!')"></span>
@@ -1589,6 +1589,7 @@
             }
             const popup = typeof document !== 'undefined' ? document.getElementById('skor-popup-modal') : null;
             if (popup) popup.remove();
+            if (typeof document !== 'undefined') { document.querySelectorAll('[data-skor-injected]').forEach(el => delete el.dataset.skorInjected); }
             if (typeof window !== 'undefined' && window.pageFlipInstance) {
                const pages = Array.from(document.querySelectorAll('.page'));
                const quizHeaderMatch = tipe === 'latihan' ? /latihan|formatif/i : /ujian/i;

@@ -38,7 +38,7 @@
                  <p class="text-base text-slate-800 font-medium mb-6 leading-relaxed" x-html="activeDetail.q"></p>
                  <div class="space-y-3">
                     <template x-for="(opt, idx) in activeDetail.opts">
-                       <button @click="jawabDariDetail(idx); playClickSound()" 
+                       <button @click.stop="jawabDariDetail(idx); playClickSound()" @mousedown.stop @touchstart.stop @pointerdown.stop
                                :class="activeDetail.dijawab ? (idx === activeDetail.userAns ? 'bg-teal-50 border-2 border-teal-500 text-teal-900 font-bold shadow-sm' : 'opacity-40 border-slate-200') : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700'"
                                class="w-full text-left p-4 rounded-2xl border transition-all duration-200 flex gap-3 items-start shadow-sm"
                                :disabled="activeDetail.dijawab">
