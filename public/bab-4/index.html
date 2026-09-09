@@ -124,35 +124,13 @@
 </head>
 <body x-data="quizApp()" class="bg-pattern relative">
   
-  <!-- FEEDBACK MODAL -->
-  <div x-show="showFeedback" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm pointer-events-none">
-     <div x-show="showFeedback" 
-          x-transition:enter="transition ease-out duration-300"
-          x-transition:enter-start="scale-50 opacity-0"
-          x-transition:enter-end="scale-100 opacity-100"
-          x-transition:leave="transition ease-in duration-200"
-          x-transition:leave-start="scale-100 opacity-100"
-          x-transition:leave-end="scale-50 opacity-0"
-          class="bg-slate-50 border border-slate-200 shadow-sm border-2 rounded-3xl p-8 text-center shadow-[0_0_60px_rgba(0,0,0,0.6)]"
-          :class="isFeedbackCorrect ? 'border-red-400 shadow-red-500/20' : 'border-red-400 shadow-red-500/20'">
-        
-        <template x-if="isFeedbackCorrect">
-           <div class="w-44 h-44 mx-auto drop-shadow-xl rounded-full border-4 border-rose-400 bg-gradient-to-br from-rose-50 to-pink-50 shadow-rose-500/15 flex items-center justify-center overflow-hidden my-3 shadow-lg">
-               <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_q5pk6p1k.json" background="transparent" speed="1" style="width: 150px; height: 150px;" loop autoplay></lottie-player>
-            </div>
-        </template>
-        <template x-if="!isFeedbackCorrect">
-           <div class="w-44 h-44 mx-auto drop-shadow-xl rounded-full border-4 border-rose-400 bg-gradient-to-br from-rose-50 to-pink-50 shadow-rose-500/15 flex items-center justify-center overflow-hidden my-3 shadow-lg">
-               <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_q5pk6p1k.json" background="transparent" speed="1" style="width: 150px; height: 150px;" loop autoplay></lottie-player>
-            </div>
-        </template>
-        
-        <h3 class="text-3xl font-sora font-black mb-2" 
-            :class="isFeedbackCorrect ? 'text-red-400' : 'text-red-400'"
-            x-text="isFeedbackCorrect ? 'LUAR BIASA! 🎉' : 'COBA LAGI YUK! 😢'"></h3>
-        <p class="text-slate-700 text-lg" x-text="isFeedbackCorrect ? 'Kamu memahami materi ini!' : 'Baca lagi materinya pelan-pelan ya!'"></p>
-     </div>
-  </div>
+  <!-- Global Feedback Toast (Neutral Notification) -->
+   <div x-show="showFeedback" x-transition.opacity
+      class="fixed top-8 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
+      <div class="bg-slate-900/90 text-white px-5 py-2.5 rounded-full shadow-2xl flex items-center gap-2 text-xs md:text-sm font-bold backdrop-blur-md border border-slate-700">
+         <span>✓</span> Jawaban tersimpan
+      </div>
+   </div>
 
   <!-- DETAIL MODAL -->
   <div x-show="showDetailModal" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md">
@@ -168,7 +146,7 @@
                  <div class="space-y-3">
                     <template x-for="(opt, idx) in activeDetail.opts">
                        <button @click="jawabDariDetail(idx)" 
-                               :class="activeDetail.dijawab ? (idx === activeDetail.ans ? 'bg-red-600 border-red-400 text-slate-900' : (idx === activeDetail.userAns ? 'bg-red-600 border-red-400 text-slate-900' : 'opacity-50 border-gray-700')) : 'bg-slate-100 border border-slate-200 hover:bg-gray-700 border-gray-600'"
+                               :class="activeDetail.dijawab ? (idx === activeDetail.userAns ? 'bg-amber-600 border-amber-400 text-white font-bold shadow-sm' : 'opacity-40 border-gray-300') : 'bg-slate-100 border border-slate-200 hover:bg-slate-200 text-slate-800'"
                                class="w-full text-left p-4 rounded-xl border transition flex gap-3 items-start"
                                :disabled="activeDetail.dijawab">
                           <span class="font-bold text-red-400 mt-0.5" x-text="['A','B','C','D','E'][idx] + '.'"></span>
@@ -914,7 +892,7 @@
           <div class="page-content animate-content relative">
              <div class="flex justify-between items-end mb-6 border-b border-gray-700 pb-3">
                 <h2 class="text-xl font-sora font-bold text-yellow-400 uppercase tracking-widest">Latihan</h2>
-                <div class="text-[11px] font-bold px-3 py-1.5 bg-yellow-900/30 rounded-full border border-yellow-500/50">Skor: <span x-text="latihanScore" class="text-yellow-400"></span></div>
+                <div class="flex items-center gap-1.5"><div class="text-[9px] font-bold px-2 py-0.5 bg-yellow-50/80 border-yellow-200 rounded text-yellow-400">Terjawab: <span x-text="latihan.filter(s => s.dijawab).length"></span>/10</div><button @click="testBerikutnya('latihan')" class="text-[8px] font-bold px-1.5 py-0.5 bg-white border border-slate-300 text-slate-700 rounded hover:bg-slate-50 shadow-xs transition cursor-pointer" title="Acak urutan soal untuk test berikutnya">🔀 Acak</button></div>
              </div>
              
              <div class="space-y-4">
@@ -958,7 +936,7 @@
           <div class="page-content animate-content relative">
              <div class="flex justify-between items-end mb-6 border-b border-gray-700 pb-3">
                 <h2 class="text-xl font-sora font-bold text-red-400 uppercase tracking-widest">Ujian Kompetensi</h2>
-                <div class="text-[11px] font-bold px-3 py-1.5 bg-red-900/30 rounded-full border border-red-500/50">Skor: <span x-text="ujianScore" class="text-red-400"></span></div>
+                <div class="flex items-center gap-1.5"><div class="text-[9px] font-bold px-2 py-0.5 bg-red-50/80 border-red-200 rounded text-red-400">Terjawab: <span x-text="ujian.filter(s => s.dijawab).length"></span>/10</div><button @click="testBerikutnya('ujian')" class="text-[8px] font-bold px-1.5 py-0.5 bg-white border border-slate-300 text-slate-700 rounded hover:bg-slate-50 shadow-xs transition cursor-pointer" title="Acak urutan soal untuk test berikutnya">🔀 Acak</button></div>
              </div>
              
              <div class="space-y-4">
@@ -1088,19 +1066,17 @@
           { q: "Proses memperbaiki solusi berdasarkan umpan balik pengguna disebut...", opts: ["Iterasi", "Instalasi", "Informasi", "Inovasi", "Ilustrasi"], ans: 0, dijawab: false, userAns: -1 }
         ],
         
-        triggerFeedback(correct) {
-           this.isFeedbackCorrect = correct;
-           this.showFeedback = true;
-           if(correct) { confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#ef4444', '#facc15', '#fcd34d'] }); }
-           setTimeout(() => { this.showFeedback = false; }, 2000);
-        },
+        triggerFeedback() {
+            this.showFeedback = true;
+            setTimeout(() => { this.showFeedback = false; }, 800);
+         },
         
         jawabLatihan(idx, optIdx) {
            this.latihan[idx].dijawab = true;
            this.latihan[idx].userAns = optIdx;
            let correct = (optIdx === this.latihan[idx].ans);
            if(correct) this.latihanScore += 10;
-           this.triggerFeedback(correct);
+           this.triggerFeedback();
            this.checkLatihan();
         },
         jawabUjian(idx, optIdx) {
@@ -1108,16 +1084,58 @@
            this.ujian[idx].userAns = optIdx;
            let correct = (optIdx === this.ujian[idx].ans);
            if(correct) this.ujianScore += 10;
-           this.triggerFeedback(correct);
+           this.triggerFeedback();
            this.checkUjian();
         },
         getBtnClass(idx, optIdx, tipe) {
-           let soal = tipe === 'latihan' ? this.latihan[idx] : this.ujian[idx];
-           if(!soal.dijawab) return '';
-           if(optIdx === soal.ans) return 'bg-red-600 border-red-400 text-slate-900 font-bold';
-           if(optIdx === soal.userAns) return 'bg-red-600/80 border-red-500 text-slate-900';
-           return 'opacity-30';
-        },
+            let soal = tipe === 'latihan' ? this.latihan[idx] : this.ujian[idx];
+            if (!soal || !soal.dijawab) return '';
+            if (optIdx === soal.userAns) {
+               return tipe === 'latihan' ? 'bg-amber-600 border-amber-400 text-white font-bold shadow-sm' : 'bg-red-600 border-red-400 text-white font-bold shadow-sm';
+            }
+            return 'opacity-40';
+         },
+         testBerikutnya(tipe) {
+            let list = tipe === 'latihan' ? this.latihan : this.ujian;
+            if (!list || !list.length) return;
+            list.forEach(s => {
+               s.dijawab = false;
+               s.userAns = -1;
+               if (s.opts && s.opts.length) {
+                  const mapped = s.opts.map((opt, i) => ({ opt, isAns: i === s.ans }));
+                  for (let i = mapped.length - 1; i > 0; i--) {
+                     const j = Math.floor(Math.random() * (i + 1));
+                     [mapped[i], mapped[j]] = [mapped[j], mapped[i]];
+                  }
+                  s.opts = mapped.map(m => m.opt);
+                  s.ans = mapped.findIndex(m => m.isAns);
+               }
+            });
+            for (let i = list.length - 1; i > 0; i--) {
+               const j = Math.floor(Math.random() * (i + 1));
+               [list[i], list[j]] = [list[j], list[i]];
+            }
+            if (tipe === 'latihan') {
+               this.latihanScore = 0;
+               this.latihanSelesai = false;
+            } else {
+               this.ujianScore = 0;
+               this.ujianSelesai = false;
+            }
+            const popup = typeof document !== 'undefined' ? document.getElementById('skor-popup-modal') : null;
+            if (popup) popup.remove();
+            if (typeof window !== 'undefined' && window.pageFlipInstance) {
+               const pages = Array.from(document.querySelectorAll('.page'));
+               const quizHeaderMatch = tipe === 'latihan' ? /latihan|formatif/i : /ujian/i;
+               const targetPageIndex = pages.findIndex(p => {
+                  const h = p.querySelector('h2');
+                  return h && quizHeaderMatch.test(h.textContent);
+               });
+               if (targetPageIndex !== -1) {
+                  window.pageFlipInstance.turnToPage(targetPageIndex);
+               }
+            }
+         },
         checkLatihan() {
            if(this.latihan.every(s => s.dijawab)) setTimeout(() => { this.latihanSelesai = true; confetti({particleCount: 200, spread: 100}); }, 2200);
         },

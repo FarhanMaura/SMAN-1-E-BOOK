@@ -18,22 +18,10 @@
 
 
   
-  <!-- Global Feedback Modal -->
-  <div x-show="showFeedback" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-md pointer-events-none">
-     <div x-show="showFeedback" 
-          x-transition:enter="transition ease-out duration-300"
-          x-transition:enter-start="scale-75 opacity-0"
-          x-transition:enter-end="scale-100 opacity-100"
-          x-transition:leave="transition ease-in duration-200"
-          x-transition:leave-start="scale-100 opacity-100"
-          x-transition:leave-end="scale-75 opacity-0"
-          class="bg-white/95 border-2 rounded-3xl p-8 text-center shadow-2xl shadow-slate-900/10 border-slate-200 max-w-md w-11/12"
-          :class="isFeedbackCorrect ? 'border-teal-400 shadow-teal-500/15' : 'border-rose-400 shadow-rose-500/15'">
-        
-        <h3 class="text-3xl font-sora font-black mb-2" 
-            :class="isFeedbackCorrect ? 'text-teal-600' : 'text-rose-600'"
-            x-text="isFeedbackCorrect ? 'LUAR BIASA! 🎉' : 'COBA LAGI YUK! 😢'"></h3>
-        <p class="text-slate-600 text-base font-medium" x-text="isFeedbackCorrect ? '+10 Poin ditambahkan!' : 'Baca lagi materinya pelan-pelan ya!'"></p>
+  <!-- Global Feedback Toast (Neutral Notification) -->
+  <div x-show="showFeedback" x-transition.opacity class="fixed top-8 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
+     <div class="bg-slate-900/90 text-white px-5 py-2.5 rounded-full shadow-2xl flex items-center gap-2 text-sm font-bold backdrop-blur-md border border-slate-700">
+        <span>✓</span> Jawaban tersimpan
      </div>
   </div>
 
@@ -51,7 +39,7 @@
                  <div class="space-y-3">
                     <template x-for="(opt, idx) in activeDetail.opts">
                        <button @click="jawabDariDetail(idx); playClickSound()" 
-                               :class="activeDetail.dijawab ? (idx === activeDetail.ans ? 'bg-teal-50 border-teal-500 text-teal-800 font-semibold' : (idx === activeDetail.userAns ? 'bg-rose-50 border-rose-400 text-rose-800 font-semibold' : 'opacity-50 border-slate-200')) : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700'"
+                               :class="activeDetail.dijawab ? (idx === activeDetail.userAns ? 'bg-teal-50 border-2 border-teal-500 text-teal-900 font-bold shadow-sm' : 'opacity-40 border-slate-200') : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700'"
                                class="w-full text-left p-4 rounded-2xl border transition-all duration-200 flex gap-3 items-start shadow-sm"
                                :disabled="activeDetail.dijawab">
                           <span class="font-bold text-teal-600 mt-0.5" x-text="['A','B','C','D','E'][idx] + '.'"></span>
@@ -106,8 +94,12 @@
         </div>
 
         <!-- Actions -->
-        <div class="flex gap-2.5">
-           <button @click="closeScoreModal()" class="flex-1 py-3 px-4 rounded-full bg-slate-800 hover:bg-slate-900 text-white text-xs sm:text-sm font-bold transition shadow-lg hover:shadow-slate-800/25">
+        <div class="flex flex-col gap-2">
+           <button @click="testBerikutnya(scoreModalData.bab, scoreModalData.tipe.toLowerCase().includes('latihan') ? 'latihan' : 'ujian')" 
+              class="w-full py-3 px-4 rounded-full bg-gradient-to-r from-teal-600 to-indigo-600 hover:opacity-95 text-white text-xs sm:text-sm font-bold transition shadow-lg flex items-center justify-center gap-1.5 cursor-pointer">
+              <span>🔄</span> Soal Berikutnya (Diacak)
+           </button>
+           <button @click="closeScoreModal()" class="w-full py-2.5 px-4 rounded-full bg-slate-800 hover:bg-slate-900 text-white text-xs sm:text-sm font-bold transition shadow-md cursor-pointer">
               Tutup &amp; Lanjutkan Membaca
            </button>
         </div>

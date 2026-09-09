@@ -215,7 +215,11 @@
 
         <div id="skor-popup-form-slot"></div>
 
-        <button id="btn-tutup-skor-popup" style="width:100%;margin-top:0.75rem;padding:0.75rem 1rem;background:#1e293b;color:white;font-size:0.82rem;font-weight:800;border:none;border-radius:9999px;cursor:pointer;transition:background 0.2s;">
+        <button id="btn-test-berikutnya-popup" style="width:100%;margin-top:0.75rem;padding:0.7rem 1rem;background:linear-gradient(135deg, #0d9488, #7c3aed);color:white;font-size:0.82rem;font-weight:800;border:none;border-radius:9999px;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 14px rgba(13,148,136,0.3);display:flex;align-items:center;justify-content:center;gap:0.4rem;">
+          <span>🔄</span> Soal Berikutnya (Diacak)
+        </button>
+
+        <button id="btn-tutup-skor-popup" style="width:100%;margin-top:0.5rem;padding:0.65rem 1rem;background:#1e293b;color:white;font-size:0.80rem;font-weight:700;border:none;border-radius:9999px;cursor:pointer;transition:background 0.2s;">
           Tutup &amp; Lanjutkan Membaca
         </button>
       </div>
@@ -227,6 +231,19 @@
     const formSlot = backdrop.querySelector('#skor-popup-form-slot');
     if (formSlot) {
       formSlot.appendChild(buatForm(tipe, () => num));
+    }
+
+    // Event listener soal berikutnya (acak)
+    const btnNext = backdrop.querySelector('#btn-test-berikutnya-popup');
+    if (btnNext) {
+      btnNext.addEventListener('click', () => {
+        backdrop.remove();
+        const root = document.querySelector('[x-data]');
+        const alpineData = root ? (root.__x || root._x_dataStack?.[0]) : null;
+        if (alpineData && typeof alpineData.testBerikutnya === 'function') {
+          alpineData.testBerikutnya(tipe);
+        }
+      });
     }
 
     // Event listener tutup

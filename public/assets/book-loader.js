@@ -213,13 +213,9 @@ document.addEventListener('alpine:init', () => {
          this.showDetailModal = false;
       },
 
-      triggerFeedback(correct) {
-         this.isFeedbackCorrect = correct;
+      triggerFeedback() {
          this.showFeedback = true;
-         if(correct) {
-            confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#2dd4bf', '#a78bfa', '#fcd34d'] });
-         }
-         setTimeout(() => { this.showFeedback = false; }, 2000);
+         setTimeout(() => { this.showFeedback = false; }, 800);
       },
 
       jawabLatihan(bab, idx, optIdx) {
@@ -229,7 +225,7 @@ document.addEventListener('alpine:init', () => {
          let correct = (optIdx === soal.ans);
          if(correct) this.chapters[bab].latihanScore += 10;
          
-         this.triggerFeedback(correct);
+         this.triggerFeedback();
          this.checkLatihan(bab);
       },
 
@@ -240,16 +236,46 @@ document.addEventListener('alpine:init', () => {
          let correct = (optIdx === soal.ans);
          if(correct) this.chapters[bab].ujianScore += 10;
          
-         this.triggerFeedback(correct);
+         this.triggerFeedback();
          this.checkUjian(bab);
       },
 
       getBtnClass(bab, idx, optIdx, tipe) {
          let soal = tipe === 'latihan' ? this.chapters[bab].latihan[idx] : this.chapters[bab].ujian[idx];
          if(!soal || !soal.dijawab) return '';
-         if(optIdx === soal.ans) return 'bg-teal-600 border-teal-600 text-white font-bold shadow-md shadow-teal-600/20';
-         if(optIdx === soal.userAns) return 'bg-rose-600 border-rose-600 text-white font-bold shadow-md shadow-rose-600/20';
+         if(optIdx === soal.userAns) return 'bg-teal-600 border-teal-600 text-white font-bold shadow-md shadow-teal-600/20';
          return 'opacity-40';
+      },
+
+      testBerikutnya(bab, tipe) {
+         const list = tipe === 'latihan' ? this.chapters[bab].latihan : this.chapters[bab].ujian;
+         if (!list || !list.length) return;
+         list.forEach(s => {
+            s.dijawab = false;
+            s.userAns = -1;
+            if (s.opts && s.opts.length) {
+               const mapped = s.opts.map((opt, i) => ({ opt, isAns: i === s.ans }));
+               for (let i = mapped.length - 1; i > 0; i--) {
+                  const j = Math.floor(Math.random() * (i + 1));
+                  [mapped[i], mapped[j]] = [mapped[j], mapped[i]];
+               }
+               s.opts = mapped.map(m => m.opt);
+               s.ans = mapped.findIndex(m => m.isAns);
+            }
+         });
+         for (let i = list.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [list[i], list[j]] = [list[j], list[i]];
+         }
+         if (tipe === 'latihan') {
+            this.chapters[bab].latihanScore = 0;
+            this.chapters[bab].latihanSelesai = false;
+         } else {
+            this.chapters[bab].ujianScore = 0;
+            this.chapters[bab].ujianSelesai = false;
+         }
+         this.showScoreModal = false;
+         this.goToChapter(bab);
       },
 
       checkLatihan(bab) {
@@ -344,6 +370,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
             pagesHtml = pagesHtml.replace(/openDetail\('latihan',\s*(.*?)\)/g, `openDetail(${i}, 'latihan', $1)`);
             pagesHtml = pagesHtml.replace(/openDetail\('ujian',\s*(.*?)\)/g, `openDetail(${i}, 'ujian', $1)`);
+            pagesHtml = pagesHtml.replace(/testBerikutnya\((.*?)\)/g, `testBerikutnya(${i}, $1)`);
             
             // Replace Video Modal triggers with Chapter-Specific function call for /book mode
             pagesHtml = pagesHtml.replace(/@click="showVideoModal\s*=\s*true"/g, `@click="openVideoModal(${i})"`);
