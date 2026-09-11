@@ -24,42 +24,42 @@ document.addEventListener('alpine:init', () => {
          const targetBab = bab || this.currentViewingBab || 1;
          const videoMap = {
             1: {
-               url: "https://www.youtube.com/embed/IkOMyk02uik?autoplay=1&rel=0",
+               url: "/bab-1/video.mp4",
                ytUrl: "https://www.youtube.com/watch?v=IkOMyk02uik",
                title: "Video Penjelasan: Informatika & Keterampilan Generik",
                subtitle: "Informatika Fase E Kelas X • Kurikulum Merdeka",
                note: "Pahami peran informatika, profil pelajar Pancasila, dan keterampilan generik."
             },
             2: {
-               url: "https://www.youtube.com/embed/QyY5cfz2390?autoplay=1&rel=0",
+               url: "/bab-2/video.mp4",
                ytUrl: "https://www.youtube.com/watch?v=QyY5cfz2390",
                title: "Video Penjelasan: Algoritma & Pemrograman Lanjut",
                subtitle: "Informatika Fase E Kelas X • Kurikulum Merdeka",
                note: "Pahami konsep algoritma, pseudocode, flowchart, dan logika pemrograman."
             },
             3: {
-               url: "https://www.youtube.com/embed/EX_Ib7wD2e4?autoplay=1&rel=0",
+               url: "/bab-3/video.mp4",
                ytUrl: "https://www.youtube.com/watch?v=EX_Ib7wD2e4",
                title: "Video Penjelasan: Literasi Digital & Etika Berinternet",
                subtitle: "Informatika Fase E Kelas X • Kurikulum Merdeka",
                note: "Pahami rekam jejak digital, cyberbullying, privasi data, dan netiket."
             },
             4: {
-               url: "https://www.youtube.com/embed/cRG4qQe_OVA?autoplay=1&rel=0",
+               url: "/bab-4/video.mp4",
                ytUrl: "https://www.youtube.com/watch?v=cRG4qQe_OVA",
                title: "Video Penjelasan: Prompt Engineering & Generative AI",
                subtitle: "Informatika Fase E Kelas X • Kurikulum Merdeka",
                note: "Pelajari cara menyusun instruksi / prompt efektif untuk AI secara optimal."
             },
             5: {
-               url: "https://www.youtube.com/embed/oIkEZLdCGuQ?autoplay=1&rel=0",
+               url: "/bab-5/video.mp4",
                ytUrl: "https://www.youtube.com/watch?v=oIkEZLdCGuQ",
                title: "Video Penjelasan: Kreativitas Konten Digital",
                subtitle: "Informatika Fase E Kelas X • Kurikulum Merdeka",
                note: "Pelajari produksi konten visual, infografis, dan etika hak cipta digital."
             },
             6: {
-               url: "https://www.youtube.com/embed/0eB4nELrrrU?autoplay=1&rel=0",
+               url: "/bab-6/video.mp4",
                ytUrl: "https://www.youtube.com/watch?v=0eB4nELrrrU",
                title: "Video Penjelasan: Pengelolaan Informasi Digital",
                subtitle: "Informatika Fase E Kelas X • Kurikulum Merdeka",
